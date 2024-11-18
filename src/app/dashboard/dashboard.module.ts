@@ -7,6 +7,8 @@ import { HeaderComponent } from './components/layouts/header/header.component';
 import { SidebarComponent } from './components/layouts/sidebar/sidebar.component';
 import { MainComponent } from './components/layouts/main/main.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
+import { ListeDesClientsComponent } from './components/liste-des-clients/liste-des-clients.component';
+import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
     HeaderComponent,
     SidebarComponent,
     MainComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    ListeDesClientsComponent,
+    ListeDesComptesClientsComponent
   ],
   imports: [
     CommonModule,

@@ -14,7 +14,6 @@ import { registerLocaleData } from '@angular/common';
 import { RequestInterceptor } from './misc/request-interceptor.misc';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
-
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -23,9 +22,10 @@ registerLocaleData(localeFr);
     NotFoundComponent,
     PasswordResetFormComponent,
     PasswordResetRequestComponent,
-    SignInComponent
+    SignInComponent,
   ],
   imports: [
+
     BrowserModule,
     AppRoutingModule,
     FormsModule,
