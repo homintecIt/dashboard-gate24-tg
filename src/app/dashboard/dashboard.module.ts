@@ -7,6 +7,7 @@ import { HeaderComponent } from './components/layouts/header/header.component';
 import { SidebarComponent } from './components/layouts/sidebar/sidebar.component';
 import { MainComponent } from './components/layouts/main/main.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
+import { RechargesListComponent } from './components/recharges-list/recharges-list.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
     HeaderComponent,
     SidebarComponent,
     MainComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    RechargesListComponent
   ],
   imports: [
     CommonModule,
