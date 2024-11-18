@@ -1,5 +1,4 @@
 <div class="auth-page-wrapper pt-5">
-  <!-- auth page bg -->
   <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
     <div class="bg-overlay"></div>
 
@@ -11,7 +10,6 @@
     </div>
   </div>
 
-  <!-- auth page content -->
   <div class="auth-page-content">
     <div class="container">
       <div class="row">
@@ -19,13 +17,12 @@
           <div class="text-center mt-sm-5 mb-4 text-white-50">
             <div>
               <a href="index.html" class="d-inline-block auth-logo">
-                <img src="assets/logo/icon-96x96.png" alt="logo gate24" height="100">
+                <img src="assets/logo/icon-96x96.png" alt="logo gate24" height="80">
               </a>
             </div>
           </div>
         </div>
       </div>
-      <!-- end row -->
 
       <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6 col-xl-5">
@@ -37,47 +34,52 @@
                 <p class="text-muted">Connectez-vous pour continuer</p>
               </div>
               <div class="p-2 mt-4">
-                <form action="https://themesbrand.com/velzon/html/default/index.html">
+                <form novalidate [formGroup]="loginForm" (ngSubmit)="onSignin()">
 
                   <div class="mb-3">
                     <label for="username" class="form-label">Nom d'utilisateur</label>
-                    <input type="text" class="form-control" id="username"
+                    <input type="text" class="form-control" id="username" formControlName="email" [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
                       placeholder="Entez votre nom d'utilisateur ou adresse email">
+                      <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
+                        <div *ngIf="form['email'].errors['required']"> L'email est obligatoire </div>
+                        <div *ngIf="form['email'].errors['email']"> L'email n'est pas valide </div>
+                      </div>
                   </div>
 
                   <div class="mb-3">
                     <div class="float-end">
-                      <a href="auth-pass-reset-basic.html" class="text-muted">Mot de passe oublié?</a>
+                      <a routerLink="/auth/forgot-password" class="text-muted">Mot de passe oublié?</a>
                     </div>
                     <label class="form-label" for="password-input">Mot de passe</label>
                     <div class="position-relative auth-pass-inputgroup mb-3">
-                      <input type="password" class="form-control pe-5 password-input"
-                        placeholder="Entrez votre mot de passe" id="password-input">
+                      <input #password type="password" class="form-control pe-5 password-input"
+                        placeholder="Entrez votre mot de passe" id="password-input"  formControlName="password" [ngClass]="{ 'is-invalid': submitted && form['password'].errors }">
                       <button
-                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" (click)="togglePassword(password)"
                         type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                        <div *ngIf="submitted && form['password'].errors" class="invalid-feedback">
+                          <div *ngIf="form['password'].errors['required']"> Le mot de passe est obligatoire </div>
+                        </div>
                     </div>
                   </div>
 
                   <div class="mt-4">
-                    <button class="btn btn-success w-100" type="submit">Se connecter</button>
+                    <button class="btn btn-success w-100" type="submit">
+                      {{loading? 'Veuillez patienter ' : 'Se connecter' }}
+                      <span class="{{ loading? 'spinner-border spinner-border-sm ms-2' : '' }}" role="status"> </span>
+                    </button>
                   </div>
                 </form>
               </div>
             </div>
             <!-- end card body -->
           </div>
-          <!-- end card -->
 
         </div>
       </div>
-      <!-- end row -->
     </div>
-    <!-- end container -->
   </div>
-  <!-- end auth page content -->
 
-  <!-- footer -->
   <footer class="footer">
     <div class="container">
       <div class="row">
@@ -91,6 +93,4 @@
       </div>
     </div>
   </footer>
-  <!-- end Footer -->
 </div>
-<!-- end auth-page-wrapper -->
