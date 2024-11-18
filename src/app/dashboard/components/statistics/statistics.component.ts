@@ -9,7 +9,7 @@ import { StatisticService } from '../services/statistic.service';
 })
 export class StatisticsComponent implements OnInit {
 
-  statistics: Statistic[] = [];
+  statistics!: Statistic;
   constructor(
     private statisticService: StatisticService
   ) { }
@@ -20,7 +20,7 @@ export class StatisticsComponent implements OnInit {
 
   getStatitics() {
     this.statisticService.getStatistics().subscribe({
-      next: (data) => {
+      next: (data: any) => {
         this.statistics = data;
       }
     })
