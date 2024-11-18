@@ -1,1 +1,62 @@
-<p>recharges-list works!</p>
+<!-- recharges-list.component.html -->
+<div class="card">
+  <div class="card-header">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <div class="search-box">
+          <input
+            type="text"
+            class="form-control search"
+            placeholder="Rechercher..."
+
+          >
+          <i class="ri-search-line search-icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive table-card">
+      <table class="table table-nowrap table-striped-columns mb-0">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Montant</th>
+            <th scope="col">Avant Recharge</th>
+            <th scope="col">Après Recharge</th>
+            <th scope="col">Site</th>
+            <th scope="col">Percepteur</th>
+            <th scope="col">Date</th>
+            <th scope="col">Compte</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let recharge of recharges">
+            <td>{{ recharge.id }}</td>
+            <td>{{ recharge.montant | currency }}</td>
+            <td>{{ recharge.montant_avant_recharge | currency }}</td>
+            <td>{{ recharge.montant_apres_recharge | currency }}</td>
+            <td>{{ recharge.site }}</td>
+            <td>{{ recharge.percepteur }}</td>
+            <td>{{ recharge.created_at | date:'short' }}</td>
+            <td>{{ recharge.compte.accountNumber }}</td>
+            <td>
+              <button class="btn btn-sm btn-light">Détails</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-end mt-3">
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="text-center">
+  Chargement en cours...
+</div>

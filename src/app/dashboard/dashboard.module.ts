@@ -8,6 +8,7 @@ import { SidebarComponent } from './components/layouts/sidebar/sidebar.component
 import { MainComponent } from './components/layouts/main/main.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { RechargesListComponent } from './components/recharges-list/recharges-list.component';
+import { SubscribeListComponent } from './components/subscribe-list/subscribe-list.component';
 
 
 @NgModule({
@@ -17,11 +18,12 @@ import { RechargesListComponent } from './components/recharges-list/recharges-li
     SidebarComponent,
     MainComponent,
     StatisticsComponent,
-    RechargesListComponent
+    RechargesListComponent,
+    SubscribeListComponent
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
   ]
 })
 export class DashboardModule { }
