@@ -10,3 +10,13 @@ export class ListeClientService {
   adresse?:string
   cin?: string;
 }
+
+export class AccountList {
+  id?: number;
+  created_at?: string;
+  updated_at?: string;
+  uuid?: string;
+  accountNumber?: string;
+  solde?: number;
+  client?: ListeClientService;
+}
