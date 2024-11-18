@@ -24,6 +24,9 @@ const apiEndpoints = {
   subscriptionUrl: `${apiUrlBase}/subscription`,
   searchUrl: `${apiUrlBase}/search`,
   statisticsUrl: `${apiUrlBase}/statistique`,
+  listesClientsUrl : `${apiUrlBase}/clients/all`
+  // listesComptesUrl : `${apiUrlBase}/clients/all`
+
 
 }
 
