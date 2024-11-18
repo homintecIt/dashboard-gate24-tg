@@ -1,4 +1,3 @@
-import { UserRoleName } from '../misc/utilities.misc';
 
 export class User {
   id?: number;

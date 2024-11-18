@@ -19,7 +19,8 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantAnnuelsGlobalsPrecedent | currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                     RECETTE ANNÉE PRÉCÉDENTE</p>
@@ -39,7 +40,8 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantMensuelsGlobals| currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                     RECETTE MENSUELLE</p>
@@ -59,7 +61,8 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantAnnuelsGlobals| currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                     RECETTE ANNUELLE</p>
@@ -79,7 +82,8 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantRecharges| currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                     RECETTE DES RECHARGES</p>
@@ -99,10 +103,11 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantJournalierGlobals| currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                    RECETTE DES RECHARGES</p>
+                    RECETTE JOURNALIÈRE GLOBALE</p>
                 </div>
                 <div class="avatar-sm flex-shrink-0">
                   <span class="avatar-title bg-primary-subtle rounded fs-3">
@@ -120,10 +125,11 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantJournalierAKEP| currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                    RECETTE ANNUELLE</p>
+                    RECETTE JOURNALIÈRE AKEP</p>
                 </div>
                 <div class="avatar-sm flex-shrink-0">
                   <span class="avatar-title bg-warning-subtle rounded fs-3">
@@ -140,10 +146,11 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantJournalierAKEPDO| currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                    RECETTE MENSUELLE</p>
+                    RECETTE JOURNALIÈRE EKEPDO</p>
                 </div>
                 <div class="avatar-sm flex-shrink-0">
                   <span class="avatar-title bg-info-subtle rounded fs-3">
@@ -160,14 +167,99 @@
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4"> XXXX
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantJournalierDavier| currency: 'XOF') ?? 'XXXX' }}
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                    RECETTE ANNÉE PRÉCÉDENTE</p>
+                    RECETTE JOURNALIÈRE DAVIER</p>
                 </div>
                 <div class="avatar-sm flex-shrink-0">
                   <span class="avatar-title bg-success-subtle rounded fs-3">
                     <i class="bx bx-dollar-circle text-success"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-animate">
+            <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.montantJournalierVodougbe| currency: 'XOF') ?? 'XXXX' }}
+                  </h4>
+                  <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                    RECETTE JOURNALIÈRE VODOUGBE</p>
+                </div>
+                <div class="avatar-sm flex-shrink-0">
+                  <span class="avatar-title bg-success-subtle rounded fs-3">
+                    <i class="bx bx-dollar-circle text-success"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-animate">
+            <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.nombresClient| currency: 'XOF') ?? 'XXXX' }}
+                  </h4>
+                  <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                    NOMBRE CLIENT</p>
+                </div>
+                <div class="avatar-sm flex-shrink-0">
+                  <span class="avatar-title bg-info-subtle rounded fs-3">
+                    <i class="bx bx-dollar-circle text-info"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-animate">
+            <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.nombresRecharges| currency: 'XOF') ?? 'XXXX' }}
+                  </h4>
+                  <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                    NOMBRE DE RECHARGES</p>
+                </div>
+                <div class="avatar-sm flex-shrink-0">
+                  <span class="avatar-title bg-warning-subtle rounded fs-3">
+                    <i class="bx bx-dollar-circle text-warning"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-animate">
+            <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    {{ (statistics?.nbreAbonners| currency: 'XOF') ?? 'XXXX' }}
+                  </h4>
+                  <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                    NOMBRE D'ABONNERS</p>
+                </div>
+                <div class="avatar-sm flex-shrink-0">
+                  <span class="avatar-title bg-primary-subtle rounded fs-3">
+                    <i class="bx bx-dollar-circle text-primary"></i>
                   </span>
                 </div>
               </div>
