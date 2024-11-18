@@ -23,6 +23,7 @@ const apiEndpoints = {
   rechargesUrl: `${apiUrlBase}/recharges`,
   subscriptionUrl: `${apiUrlBase}/subscription`,
   searchUrl: `${apiUrlBase}/search`,
+  statisticsUrl: `${apiUrlBase}/statistique`,
 
 }
 
