@@ -9,6 +9,7 @@ import { MainComponent } from './components/layouts/main/main.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { RechargesListComponent } from './components/recharges-list/recharges-list.component';
 import { SubscribeListComponent } from './components/subscribe-list/subscribe-list.component';
+import { RechargeService } from './components/services/recharges.service';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { SubscribeListComponent } from './components/subscribe-list/subscribe-li
   imports: [
     CommonModule,
     DashboardRoutingModule,
-  ]
+  ],
+  providers:[RechargeService]
 })
 export class DashboardModule { }

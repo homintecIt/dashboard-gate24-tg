@@ -1,0 +1,31 @@
+/* recharges-list.component.css */
+.search-box {
+  width: 300px;
+}
+
+.search-box .position-relative {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+.page-link {
+  cursor: pointer;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* Pour les montants */
+.table td:nth-child(3),
+.table td:nth-child(4),
+.table td:nth-child(5) {
+  text-align: right;
+}
