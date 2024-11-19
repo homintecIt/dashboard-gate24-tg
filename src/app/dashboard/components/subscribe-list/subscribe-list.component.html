@@ -98,14 +98,9 @@
             <td>{{ sub.compte.solde | currency:'XOF' }}</td>
             <td>{{ sub.created_at | date:'short' }}</td>
             <td>
-              <div class="dropdown">
-                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="ri-more-fill"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="javascript:void(0);">Détails</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);">Éditer</a></li>
-                </ul>
+              <div class="d-flex">
+                 <a class="dropdown-item" href="javascript:void(0);"><i class="ri-pencil-line fs-4 tex-info"></i></a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="ri-information-line fs-4 tex-secondary"></i></a>
               </div>
             </td>
           </tr>
