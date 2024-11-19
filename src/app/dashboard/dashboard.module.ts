@@ -9,6 +9,9 @@ import { MainComponent } from './components/layouts/main/main.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { ListeDesClientsComponent } from './components/liste-des-clients/liste-des-clients.component';
 import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
+import { SubscribeListComponent } from './components/subscribe-list/subscribe-list.component';
+import { RechargeService } from './components/services/recharges.service';
+import { RechargesListComponent } from './components/recharges-list/recharges-list.component';
 
 
 @NgModule({
@@ -19,11 +22,14 @@ import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-
     MainComponent,
     StatisticsComponent,
     ListeDesClientsComponent,
-    ListeDesComptesClientsComponent
+    ListeDesComptesClientsComponent,
+    RechargesListComponent,
+    SubscribeListComponent
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
-  ]
+    DashboardRoutingModule,
+  ],
+  providers:[RechargeService]
 })
 export class DashboardModule { }
