@@ -44,50 +44,38 @@ export interface SubscriptionResponse {
 @Injectable({
   providedIn: 'root'
 })
+
 export class SubscriptionService {
   private apiUrl = environment.apiTestUrl;
 
+  // Gestion de l'état
   private subscriptionSubject = new BehaviorSubject<Subscription[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
-  private lastLoadTime: number = 0;
-  private cacheTimeout = 5 * 60 * 1000;
 
+  // Observables publics
   subscription$ = this.subscriptionSubject.asObservable();
   loading$ = this.loadingSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
-  loadSubscriptions(forceRefresh: boolean = false): Observable<SubscriptionResponse> {
-    const currentTime = Date.now();
-    const shouldRefresh = forceRefresh ||
-                         this.subscriptionSubject.value.length === 0 ||
-                         (currentTime - this.lastLoadTime) > this.cacheTimeout;
+  // Chargement des données avec pagination
+  loadSubscriptions(page: number = 1, limit: number = 10): Observable<SubscriptionResponse> {
+    this.loadingSubject.next(true);
 
-    if (shouldRefresh) {
-      this.loadingSubject.next(true);
-
-      return this.http.post<SubscriptionResponse>(`${this.apiUrl}/subscription/all`, {}).pipe(
-        tap(response => {
-          this.subscriptionSubject.next(response.items);
-          this.lastLoadTime = currentTime;
-          this.loadingSubject.next(false);
-        }),
-        shareReplay(1)
-      );
-    }
-
-    return new Observable(subscriber => {
-      subscriber.next({ items: this.subscriptionSubject.value } as SubscriptionResponse);
-      subscriber.complete();
-    });
+    return this.http.post<SubscriptionResponse>(`${this.apiUrl}/subscription/all`, {
+      page,
+      limit
+    }).pipe(
+      tap(response => {
+        this.subscriptionSubject.next(response.items);
+        this.loadingSubject.next(false);
+      }),
+      shareReplay(1)
+    );
   }
 
-  refreshSubscriptions(): Observable<SubscriptionResponse> {
-    return this.loadSubscriptions(true);
-  }
-
-  clearCache(): void {
-    this.subscriptionSubject.next([]);
-    this.lastLoadTime = 0;
+  // Méthode de rafraîchissement
+  refreshSubscriptions(page: number = 1, limit: number = 10): Observable<SubscriptionResponse> {
+    return this.loadSubscriptions(page, limit);
   }
 }
