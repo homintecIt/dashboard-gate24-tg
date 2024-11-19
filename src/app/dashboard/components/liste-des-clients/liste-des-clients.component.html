@@ -1,32 +1,26 @@
-
-<!-- <div *ngIf="isLoading" class="spinner-overlay">
-  <div class="spinner"></div>
-</div> -->
-
-
 <div class="row">
   <div class="col-12">
     <div
-    class="page-title-box d-sm-flex align-items-center justify-content-between"
+      class="page-title-box d-sm-flex align-items-center justify-content-between"
     >
-    <h4 class="mb-sm-0">Liste des clients</h4>
+      <h4 class="mb-sm-0">Liste des clients</h4>
 
-    <div class="page-title-right">
-      <ol class="breadcrumb m-0">
-        <li class="breadcrumb-item">
-          <a routerLink="/dashboard">Accueil</a>
-        </li>
-        <li class="breadcrumb-item active">Liste des clients</li>
-      </ol>
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item active">Liste des clients</li>
+        </ol>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 <div class="row">
   <div class="col">
     <div class="card">
-      <div class="card-header d-flex ">
+      <div class="card-header d-flex">
         <h5 class="card-title mb-0">Liste des clients</h5>
         <div class="row">
           <div class="col-md-12 col-12 text-md-end text-sm-start">
@@ -35,27 +29,12 @@
               class="form-control"
               placeholder="Rechercher un client..."
               (input)="onSearchChange($event)"
-              />
-            </div>
+            />
           </div>
+        </div>
       </div>
 
-      <!-- <div class="row mb-3">
-        <div class="col-md-6 col-12 ml-6 ">
-          <h5 class="card-title mb-0">Liste des clients</h5>
-        </div>
-
-        <div class="col-md-4 col-6 text-md-end text-sm-end">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Rechercher un client..."
-            (input)="onSearchChange($event)"
-          />
-        </div>
-      </div> -->
-
-      <div  class="card-body">
+      <div class="card-body">
         <div class="row">
           <div class="table-responsive">
             <table class="table table-striped table-bordered">
@@ -69,6 +48,7 @@
                   <th>Adresse</th>
                   <th>CIN</th>
                   <th>Date de création</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,6 +61,14 @@
                   <td>{{ item.adresse }}</td>
                   <td>{{ item.cin }}</td>
                   <td>{{ item.created_at | date : "short" }}</td>
+                  <td class="d-flex justify-content-between">
+                    <a href="" class=""
+                      ><i class="fs-3 ri-eye-line text-primary"></i
+                    ></a>
+                    <a href="" class=""
+                      ><i class="mt-2 las la-eye-dropper text-success fs-4"></i
+                    ></a>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -100,19 +88,23 @@
                 *ngFor="let page of getPageNumbers(); let idx = index"
                 [class.active]="currentPage === page"
                 (click)="onPageChange(page)"
-                >
+              >
                 <span class="page-link">{{ page }}</span>
               </li>
               <li
-              class="page-item"
-              [class.disabled]="currentPage === Math.ceil(totalItems / itemsPerPage)"
-              (click)="currentPage < Math.ceil(totalItems / itemsPerPage) && onPageChange(currentPage + 1)"
+                class="page-item"
+                [class.disabled]="
+                  currentPage === Math.ceil(totalItems / itemsPerPage)
+                "
+                (click)="
+                  currentPage < Math.ceil(totalItems / itemsPerPage) &&
+                    onPageChange(currentPage + 1)
+                "
               >
-              <span class="page-link">Suivant</span>
+                <span class="page-link">Suivant</span>
               </li>
             </ul>
           </nav>
-
         </div>
       </div>
     </div>

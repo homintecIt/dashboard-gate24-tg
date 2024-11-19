@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListesClientService } from 'src/app/services/liste-client.service';
-import {
-  AccountList,
-  ListeClientService,
-} from 'src/app/models/listeClient.model';
+import { AccountList } from 'src/app/models/listeClient.model';
 
 @Component({
   selector: 'app-liste-des-comptes-clients',
@@ -17,14 +14,15 @@ export class ListeDesComptesClientsComponent implements OnInit {
   itemsPerPage: number = 10;
   searchQuery: string = '';
   isLoading: boolean = false;
-  Math = Math;
+  Math=Math;
 
-  constructor(private Accounts: ListesClientService) {}
+  constructor(private accountsService: ListesClientService) {}
 
   ngOnInit(): void {
     this.fetchAccount();
   }
 
+  // recuperation des donness
   fetchAccount(): void {
     this.isLoading = true;
     const params = {
@@ -33,31 +31,38 @@ export class ListeDesComptesClientsComponent implements OnInit {
       search: this.searchQuery.trim() || undefined,
     };
 
-    this.Accounts.getAccounts(params).subscribe({
+    this.accountsService.getAccounts(params).subscribe({
       next: (response) => {
-        console.log(response);
+        console.log('Données reçues :', response);
         this.data = response.items;
         this.totalItems = response.meta.totalItems;
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Erreur lors du chargement des données:', err);
+        console.error('Erreur lors du chargement des comptes clients :', err);
+        this.isLoading = false;
       },
     });
   }
 
-
+// recherche input
   onSearchChange(event: any): void {
     this.searchQuery = event.target.value;
     this.currentPage = 1;
     this.fetchAccount();
   }
 
+  /**
+   * Handle pagination page change.
+   */
   onPageChange(newPage: number): void {
     this.currentPage = newPage;
     this.fetchAccount();
   }
 
+  /**
+   * pagination.
+   */
   getPageNumbers(): number[] {
     const totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
     const maxPagesToShow = 2;
@@ -70,6 +75,4 @@ export class ListeDesComptesClientsComponent implements OnInit {
     }
     return pageNumbers;
   }
-
-
 }

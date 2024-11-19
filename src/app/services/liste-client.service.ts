@@ -25,4 +25,6 @@ export class ListesClientService {
 
     return this.httpClient.post<{items: AccountList[],meta: { totalItems: number }}>(`${apiEndpoints.listesComptesUrl}`,{}, { params: httpParams });
   }
+
+
 }
