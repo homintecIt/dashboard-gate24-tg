@@ -17,6 +17,8 @@ export class BootstrapModalService {
       },
       class: modalClass ? `${modalClass}` : 'modal-lg'
     };
+    console.log(config);
+
 
     this.modalRef = this.modalService.show(component, config);
   }

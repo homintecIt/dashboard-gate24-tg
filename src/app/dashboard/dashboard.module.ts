@@ -13,6 +13,8 @@ import { SubscribeListComponent } from './components/subscribe-list/subscribe-li
 import { RechargesService } from './components/services/recharges.service';
 import { SubscriptionService } from './components/services/subscribe-list.service';
 import { SubscriptionEditModalComponent } from './components/subscribe-list/subscription-edit-modal/subscription-edit-modal.component';
+import { SubscriptionStatusSwitchComponent } from './components/subscribe-list/subscription-status-switch/subscription-status-switch.component';
+import { SubscriptionDetailsModalComponent } from './components/subscribe-list/subscription-details-modal/subscription-details-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { SubscriptionEditModalComponent } from './components/subscribe-list/subs
     RechargesListComponent,
     SubscribeListComponent,
     SubscriptionEditModalComponent,
+    SubscriptionStatusSwitchComponent,
+    SubscriptionDetailsModalComponent,
   ],
   imports: [
     CommonModule,

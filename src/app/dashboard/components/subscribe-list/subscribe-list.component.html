@@ -1,10 +1,14 @@
 <div class="row">
   <div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+    <div
+      class="page-title-box d-sm-flex align-items-center justify-content-between"
+    >
       <h4 class="mb-sm-0">Liste des Abonnements</h4>
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item"><a routerLink="/dashboard">Accueil</a></li>
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
           <li class="breadcrumb-item active">Liste des Abonnements</li>
         </ol>
       </div>
@@ -34,7 +38,7 @@
                 class="form-control"
                 placeholder="Rechercher..."
                 (input)="onSearch($event)"
-              >
+              />
             </div>
           </div>
         </div>
@@ -57,112 +61,134 @@
         <div class="table-responsive" *ngIf="!loading && !error">
           <table class="table table-striped table-bordered">
             <thead>
-          <tr>
-            <th>#</th>
-            <th scope="col">Code Targ</th>
-            <th scope="col">Type Targ</th>
-            <th scope="col">Statut</th>
-            <th scope="col">Numéro de Compte</th>
-            <th scope="col">Solde</th>
-            <th scope="col">Date Création</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sub of filteredSubscriptions; let i = index">
-            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-            <td>{{ sub.targCode }}</td>
-            <td>
-              <span
-                class="badge bg-secondary-subtle text-secondary"
-                [ngClass]="{
-                  'bg-success-subtle text-success text-uppercase': sub.typeTarg === 'CARTE',
-                  'bg-info-subtle text-info text-uppercase': sub.typeTarg !== 'UHF'
-                }"
+              <tr>
+                <th>#</th>
+                <th scope="col">Code Targ</th>
+                <th scope="col">Type Targ</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Numéro de Compte</th>
+                <th scope="col">Solde</th>
+                <th scope="col">Date Création</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sub of filteredSubscriptions; let i = index">
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td>{{ sub.targCode }}</td>
+                <td>
+                  <span
+                    class="badge bg-secondary-subtle text-secondary"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        sub.typeTarg === 'CARTE',
+                      'bg-info-subtle text-info text-uppercase':
+                        sub.typeTarg !== 'UHF'
+                    }"
+                  >
+                    {{ sub.typeTarg }}
+                  </span>
+                </td>
+                <td>
+                  <span
+                    class="badge badge-outline"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        sub.statutTarg === 'actived',
+                      'bg-danger-subtle text-danger text-uppercase':
+                        sub.statutTarg !== 'actived'
+                    }"
+                  >
+                    {{ sub.statutTarg == "actived" ? "Activé" : "Désactivé" }}
+                  </span>
+                </td>
+                <td>{{ sub.compte.accountNumber }}</td>
+                <td>{{ sub.compte.solde | currency : "XOF" }}</td>
+                <td>{{ sub.created_at | date : "short" }}</td>
+                <td>
+                  <div class="d-flex">
+                    <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      [checked]="sub.statutTarg === 'actived'"
+                      (change)="onStatusToggle(sub)"
+                    />
+                  </div>
+                    <a class="dropdown-item" (click)="openDetailsModal(sub)">
+                      <i class="ri-eye-line fs-4 text-secondary"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>
+            Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
+            {{
+              currentPage * itemsPerPage > totalItems
+                ? totalItems
+                : currentPage * itemsPerPage
+            }}
+            sur {{ totalItems }} entrées
+          </div>
+          <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
+            <ul class="pagination justify-content-center">
+              <!-- Bouton précédent -->
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a
+                  class="page-link"
+                  (click)="goToPage(currentPage - 1)"
+                  role="button"
+                >
+                  Précédent
+                </a>
+              </li>
+
+              <!-- Pages -->
+              <ng-container *ngFor="let page of getPagesArray()">
+                <li *ngIf="page === -1" class="page-item disabled">
+                  <span class="page-link">...</span>
+                </li>
+                <li
+                  *ngIf="page !== -1"
+                  class="page-item"
+                  [class.active]="page === currentPage"
+                >
+                  <a class="page-link" (click)="goToPage(page)" role="button">
+                    {{ page }}
+                  </a>
+                </li>
+              </ng-container>
+
+              <!-- Bouton suivant -->
+              <li
+                class="page-item"
+                [class.disabled]="currentPage === totalPages"
               >
-                {{ sub.typeTarg }}
-              </span>
-            </td>
-            <td>
-              <span
-              class="badge badge-outline"
-              [ngClass]="{
-                'bg-success-subtle text-success text-uppercase': sub.statutTarg === 'actived',
-                'bg-danger-subtle text-danger text-uppercase': sub.statutTarg !== 'actived'
-              }"
-            >
-            {{ sub.statutTarg== 'actived'? 'Activé': 'Désactivé' }}
-            </span>
-              </td>
-            <td>{{ sub.compte.accountNumber }}</td>
-            <td>{{ sub.compte.solde | currency:'XOF' }}</td>
-            <td>{{ sub.created_at | date:'short' }}</td>
-            <td>
-              <div class="d-flex">
-                <a class="dropdown-item" (click)="addTag(sub.id)">
-                  <i class="ri-edit-box-line fs-4 text-info"></i>
+                <a
+                  class="page-link"
+                  (click)="goToPage(currentPage + 1)"
+                  role="button"
+                >
+                  Suivant
                 </a>
-                <a class="dropdown-item" >
-                  <i class="ri-eye-line fs-4 text-secondary"></i>
-                </a>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
-<!-- Pagination -->
-<div class="d-flex justify-content-between align-items-center mt-3">
-  <div>
-    Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
-    {{
-      currentPage * itemsPerPage > totalItems
-        ? totalItems
-        : currentPage * itemsPerPage
-    }}
-    sur {{ totalItems }} entrées
-  </div>
- <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
-  <ul class="pagination justify-content-center">
-    <!-- Bouton précédent -->
-    <li class="page-item" [class.disabled]="currentPage === 1">
-      <a class="page-link" (click)="goToPage(currentPage - 1)" role="button">
-        Précédent
-      </a>
-    </li>
 
-    <!-- Pages -->
-    <ng-container *ngFor="let page of getPagesArray()">
-      <li *ngIf="page === -1" class="page-item disabled">
-        <span class="page-link">...</span>
-      </li>
-      <li *ngIf="page !== -1"
-          class="page-item"
-          [class.active]="page === currentPage">
-        <a class="page-link" (click)="goToPage(page)" role="button">
-          {{ page }}
-        </a>
-      </li>
-    </ng-container>
-
-    <!-- Bouton suivant -->
-    <li class="page-item" [class.disabled]="currentPage === totalPages">
-      <a class="page-link" (click)="goToPage(currentPage + 1)" role="button">
-        Suivant
-      </a>
-    </li>
-  </ul>
-</nav>
- </div>
+    <!-- Loading et Erreur -->
+    <div *ngIf="loading" class="text-center">Chargement en cours...</div>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
   </div>
 </div>
-
-<!-- Loading et Erreur -->
-<div *ngIf="loading" class="text-center">
-  Chargement en cours...
-</div>
-<div *ngIf="error" class="alert alert-danger">
-  {{ error }}
-</div>
-
 

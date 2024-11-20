@@ -1,9 +1,10 @@
 // src/app/dashboard/components/subscribe-list/subscribe-list.component.ts
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
-import { Subscription, SubscriptionService } from '../services/subscribe-list.service';
+import { StatusUpdatePayload, Subscription, SubscriptionService } from '../services/subscribe-list.service';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 import { SubscriptionEditModalComponent } from './subscription-edit-modal/subscription-edit-modal.component';
+import { SubscriptionDetailsModalComponent } from './subscription-details-modal/subscription-details-modal.component';
 
 @Component({
   selector: 'app-subscribe-list',
@@ -13,6 +14,11 @@ import { SubscriptionEditModalComponent } from './subscription-edit-modal/subscr
 
 export class SubscribeListComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+
+
+  selectedSubscription?: Subscription;
+  isEditModalOpen = false;
+  isDetailsModalOpen = false;
 
   // Données
   subscrption: Subscription[] = [];
@@ -36,6 +42,38 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
     private modalService: BootstrapModalService,  ) {}
 
 
+ // Nouvelle méthode pour gérer le changement de statut
+ onStatusToggle(subscription: Subscription): void {
+  // Déterminer le nouveau statut
+  const newStatus = subscription.statutTarg === 'actived' ? false : true;
+
+  // Préparer la payload
+  const payload: StatusUpdatePayload = {
+    targId: subscription.targId,
+    isActive: newStatus
+  };
+
+  // Appeler le service pour mettre à jour le statut
+  this.subscrptionService.updateSubscriptionStatus(payload)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: () => {
+        // Mise à jour réussie
+        // Optionnel : rafraîchir les données
+        this.refreshData();
+
+        // Notification de succès
+
+      },
+      error: (error) => {
+        // Gestion des erreurs
+        console.error('Erreur lors du changement de statut', error);
+
+
+      }
+    });
+}
+
     addTag(compteId: number) {
       this.modalService.openModal(SubscriptionEditModalComponent, compteId, 'modal-lg',);
 
@@ -44,6 +82,22 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
         this.refreshData(); // Rafraîchir la liste après fermeture du modal
       });
     }
+
+    openDetailsModal(subscription: Subscription): void {
+      console.log('Ouverture des détails:', subscription);
+
+      this.modalService.openModal(
+        SubscriptionDetailsModalComponent,
+        subscription,
+        'modal-lg'
+      );
+
+      // Souscrire aux événements du modal si nécessaire
+      this.modalService.modalRef.onHidden?.subscribe(() => {
+        // this.refreshData(); // Rafraîchir la liste après fermeture du modal
+      });
+    }
+
 
   ngOnInit(): void {
     // Écoute des subscrption
@@ -145,6 +199,19 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
       if (page < 1 || page > this.totalPages) return;
 
       this.currentPage = page;
+      this.subscrptionService.loadSubscriptions( this.currentPage, this.itemsPerPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.totalItems = response.meta.totalItems;
+          this.totalPages = response.meta.totalPages;
+          this.currentPage = response.meta.currentPage;
+        },
+        error: (err) => {
+          console.error('Erreur de chargement', err);
+          this.error = 'Impossible de charger les subscrption';
+        }
+      });
       this.filterSubscriptions();
     }
 
