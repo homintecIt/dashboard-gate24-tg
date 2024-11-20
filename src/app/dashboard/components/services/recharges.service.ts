@@ -22,7 +22,7 @@ export class RechargesService {
   constructor(private http: HttpClient) {}
 
   // Chargement des données avec pagination
-  loadRecharges(page: number = 1, limit: number = 10): Observable<RechargeResponse> {
+  loadRecharges(page: number = 1, limit: number = 0): Observable<RechargeResponse> {
     this.loadingSubject.next(true);
 
     return this.http.post<RechargeResponse>(`${this.apiUrl}/recharges/all`, {

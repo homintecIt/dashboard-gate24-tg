@@ -2,6 +2,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { Subscription, SubscriptionService } from '../services/subscribe-list.service';
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
+import { SubscriptionEditModalComponent } from './subscription-edit-modal/subscription-edit-modal.component';
 
 @Component({
   selector: 'app-subscribe-list',
@@ -29,7 +31,19 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
   loading = false;
   error: string | null = null;
 
-  constructor(private subscrptionService: SubscriptionService  ) {}
+  constructor(
+    private subscrptionService: SubscriptionService,
+    private modalService: BootstrapModalService,  ) {}
+
+
+    addTag(compteId: number) {
+      this.modalService.openModal(SubscriptionEditModalComponent, compteId, 'modal-lg',);
+
+      // Souscrire aux événements du modal si nécessaire
+      this.modalService.modalRef.onHidden?.subscribe(() => {
+        this.refreshData(); // Rafraîchir la liste après fermeture du modal
+      });
+    }
 
   ngOnInit(): void {
     // Écoute des subscrption

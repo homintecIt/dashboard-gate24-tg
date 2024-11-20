@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms'; // Ajoutez cette importation
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { FooterComponent } from './components/layouts/footer/footer.component';
@@ -11,7 +12,7 @@ import { RechargesListComponent } from './components/recharges-list/recharges-li
 import { SubscribeListComponent } from './components/subscribe-list/subscribe-list.component';
 import { RechargesService } from './components/services/recharges.service';
 import { SubscriptionService } from './components/services/subscribe-list.service';
-
+import { SubscriptionEditModalComponent } from './components/subscribe-list/subscription-edit-modal/subscription-edit-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +22,14 @@ import { SubscriptionService } from './components/services/subscribe-list.servic
     MainComponent,
     StatisticsComponent,
     RechargesListComponent,
-    SubscribeListComponent
+    SubscribeListComponent,
+    SubscriptionEditModalComponent,
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    ReactiveFormsModule  // Ajoutez ce module
   ],
-  providers:[RechargesService, SubscriptionService]
+  providers: [RechargesService, SubscriptionService]
 })
 export class DashboardModule { }
