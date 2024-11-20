@@ -2,29 +2,56 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import apiEndpoints from '../misc/api-endpoints.misc';
 import { Observable } from 'rxjs';
-import { ListeClientService,AccountList } from '../models/listeClient.model';
+import { tap } from 'rxjs/operators';
+import { ListeClientService, AccountList } from '../models/listeClient.model';
+
+export interface ApiResponse<T> {
+  items: T[];
+  meta: {
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+  };
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ListesClientService {
+  private allClients: ListeClientService[] = [];
 
   constructor(private httpClient: HttpClient) {}
 
-  getAllClients(params: { page?: number; limit?: number; search?: string }): Observable<{items: ListeClientService[], meta: { totalItems: number }}> {
+  // recuperer les clients
+  getAllClients(): Observable<ApiResponse<ListeClientService>> {
+    return this.httpClient
+      .post<ApiResponse<ListeClientService>>(`${apiEndpoints.listesClientsUrl}`, {})
+      .pipe(
+        tap((response) => {
+          this.allClients = response.items;
+          console.log('Données reçues:', response);
+        })
+      );
+  }
 
-    const httpParams = new HttpParams({ fromObject: params as any });
+  getPaginatedClients(page: number, limit: number): Observable<ApiResponse<ListeClientService>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
 
-    return this.httpClient.post<{items: ListeClientService[], meta: { totalItems: number }}>(`${apiEndpoints.listesClientsUrl}`, {}, { params: httpParams });
+    return this.httpClient.post<ApiResponse<ListeClientService>>(`${apiEndpoints.listesClientsUrl}`, {}, { params });
   }
 
 
-
-  getAccounts(params: { page?: number; limit?: number; search?: string }): Observable<{items: AccountList[],meta: { totalItems: number }}> {
-    const httpParams = new HttpParams({ fromObject: params as any });
-
-    return this.httpClient.post<{items: AccountList[],meta: { totalItems: number }}>(`${apiEndpoints.listesComptesUrl}`,{}, { params: httpParams });
+  // Obtenir les données en mémoire
+  getLocalClients(): ListeClientService[] {
+    return this.allClients;
   }
 
+  // Récupérer les comptes 
+  getAccounts(params: { page?: number; limit?: number; search?: string }): Observable<ApiResponse<AccountList>> {
+    const httpParams = new HttpParams({ fromObject: params as any });
 
+    return this.httpClient.post<ApiResponse<AccountList>>(`${apiEndpoints.listesComptesUrl}`, {}, { params: httpParams });
+  }
 }
