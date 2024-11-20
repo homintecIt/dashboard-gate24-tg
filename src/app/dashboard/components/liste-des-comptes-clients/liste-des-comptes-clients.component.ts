@@ -8,71 +8,83 @@ import { AccountList } from 'src/app/models/listeClient.model';
   styleUrls: ['./liste-des-comptes-clients.component.css'],
 })
 export class ListeDesComptesClientsComponent implements OnInit {
-  data: AccountList[] = [];
+  allAccounts: AccountList[] = [];
+  filteredAccounts: AccountList[] = [];
+  paginatedAccount:AccountList[] = [];
+  totalPages: number = 0;
   totalItems: number = 0;
   currentPage: number = 1;
   itemsPerPage: number = 10;
   searchQuery: string = '';
-  isLoading: boolean = false;
-  Math=Math;
+  isSearchActive: boolean = false;
 
   constructor(private accountsService: ListesClientService) {}
 
   ngOnInit(): void {
-    this.fetchAccount();
-  }
-
-  // recuperation des donness
-  fetchAccount(): void {
-    this.isLoading = true;
-    const params = {
-      page: this.currentPage,
-      limit: this.itemsPerPage,
-      search: this.searchQuery.trim() || undefined,
-    };
-
-    this.accountsService.getAccounts(params).subscribe({
+    this.accountsService.getAccounts().subscribe({
       next: (response) => {
-        console.log('Données reçues :', response);
-        this.data = response.items;
-        this.totalItems = response.meta.totalItems;
-        this.isLoading = false;
+        this.allAccounts = response.items;
+        this.filteredAccounts = [...this.allAccounts];
+        this.totalItems = this.filteredAccounts.length;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+        this.loadPage(this.currentPage); // Charger la première page
       },
       error: (err) => {
-        console.error('Erreur lors du chargement des comptes clients :', err);
-        this.isLoading = false;
+        console.error('Erreur lors du chargement des clients:', err);
       },
     });
   }
 
-// recherche input
-  onSearchChange(event: any): void {
-    this.searchQuery = event.target.value;
-    this.currentPage = 1;
-    this.fetchAccount();
-  }
-
-  /**
-   * Handle pagination page change.
-   */
-  onPageChange(newPage: number): void {
-    this.currentPage = newPage;
-    this.fetchAccount();
-  }
-
-  /**
-   * pagination.
-   */
-  getPageNumbers(): number[] {
-    const totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-    const maxPagesToShow = 2;
-    const startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
-    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-
-    const pageNumbers: number[] = [];
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
+    // Gestion des pages
+  loadPage(page: number): void {
+    if (this.isSearchActive) {
+      this.paginateAccounts(page);
+    } else {
+      this.paginateAccounts(page); // Données déjà en mémoire
     }
-    return pageNumbers;
+  }
+
+  // Pagination côté client
+  paginateAccounts(page: number): void {
+    this.currentPage = page;
+    const startIndex = (page - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedAccount = this.filteredAccounts.slice(startIndex, endIndex);
+  }
+
+  onSearchChange(event: any): void {
+    this.searchQuery = event.target.value.toLowerCase().trim();
+    this.isSearchActive = this.searchQuery.length > 0;
+
+    this.filteredAccounts = this.allAccounts.filter((client) =>
+      Object.values(client).some((value) =>
+        String(value).toLowerCase().includes(this.searchQuery)
+      )
+    );
+
+    this.totalItems = this.filteredAccounts.length;
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.loadPage(1); // Revenir à la première page des résultats
+  }
+
+
+ // Changement de page
+ onPageChange(newPage: number): void {
+  if (newPage > 0 && newPage <= this.totalPages) {
+    this.loadPage(newPage);
+  }
+}
+
+  // Numéros des pages à afficher
+  getPageNumbers(): number[] {
+    const maxPagesToShow = 3;
+    let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    if (endPage - startPage + 1 < maxPagesToShow) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   }
 }

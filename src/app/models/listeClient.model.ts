@@ -9,6 +9,7 @@ export class ListeClientService {
   tel?: number;
   adresse?:string
   cin?: string;
+  uuid: any;
 }
 
 export class AccountList {

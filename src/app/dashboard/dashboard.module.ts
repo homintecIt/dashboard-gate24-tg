@@ -19,7 +19,7 @@ import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-
     MainComponent,
     StatisticsComponent,
     ListeDesClientsComponent,
-    ListeDesComptesClientsComponent
+    ListeDesComptesClientsComponent,
   ],
   imports: [
     CommonModule,

@@ -26,7 +26,8 @@ const apiEndpoints = {
   statisticsUrl: `${apiUrlBase}/statistique`,
   listesClientsUrl : `${apiUrlBase}/clients/all`,
   listesComptesUrl : `${apiUrlBase}/comptes/all`,
-  getClientUrl:`${apiUrlBase}/clients/{uuid}`
+  getClientUrl:`${apiUrlBase}/clients/:uuid`,
+  updateClientUrl:`${apiUrlBase}/clients/update/:uuid`
 
 }
 
