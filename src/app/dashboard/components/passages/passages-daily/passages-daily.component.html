@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <div *ngIf="loading" class="text-center">
+    <p>Chargement en cours...</p>
+  </div>
+
+  <div *ngIf="!loading && !records.length" class="text-center">
+    <p class="text-muted">Aucune donnée disponible</p>
+  </div>
+
+  <div *ngIf="!loading && records.length">
+    <h4 class="mb-3">Rapport journalier pour {{ site }}</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Passages</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of records; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.passages }}</td>
+            <td>{{ record.total }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms'; // Ajoutez cette importation
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Ajoutez cette importation
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { FooterComponent } from './components/layouts/footer/footer.component';
@@ -15,6 +15,9 @@ import { SubscriptionService } from './components/services/subscribe-list.servic
 import { SubscriptionEditModalComponent } from './components/subscribe-list/subscription-edit-modal/subscription-edit-modal.component';
 import { SubscriptionStatusSwitchComponent } from './components/subscribe-list/subscription-status-switch/subscription-status-switch.component';
 import { SubscriptionDetailsModalComponent } from './components/subscribe-list/subscription-details-modal/subscription-details-modal.component';
+import { PassagesDropdownSiteComponent } from './components/passages/passages-dropdown-site/passages-dropdown-site.component';
+import { PassagesComponent } from './components/passages/passages.component';
+import { PassageDailyComponent } from './components/passages/passages-daily/passages-daily.component';
 
 @NgModule({
   declarations: [
@@ -28,11 +31,15 @@ import { SubscriptionDetailsModalComponent } from './components/subscribe-list/s
     SubscriptionEditModalComponent,
     SubscriptionStatusSwitchComponent,
     SubscriptionDetailsModalComponent,
+    PassagesDropdownSiteComponent,
+    PassagesComponent,
+    PassageDailyComponent,
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    ReactiveFormsModule  // Ajoutez ce module
+    ReactiveFormsModule ,
+    FormsModule,
   ],
   providers: [RechargesService, SubscriptionService]
 })

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
+import { PassagesDropdownSiteComponent } from '../../passages/passages-dropdown-site/passages-dropdown-site.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class SidebarComponent {
 
+  constructor(
+    private modalService: BootstrapModalService,  ) {}
+
+
+    openPassagesModal(): void {
+      this.modalService.openModal(PassagesDropdownSiteComponent,"",'modal-md');
+    }
 }
