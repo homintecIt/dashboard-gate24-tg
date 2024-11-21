@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import apiEndpoints from '../misc/api-endpoints.misc';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ListeClientService, AccountList } from '../models/listeClient.model';
+import { Client, Account } from '../models/listeClient.model';
 
 
 export interface ApiResponse<T> {
@@ -19,13 +19,13 @@ export interface ApiResponse<T> {
   providedIn: 'root',
 })
 export class ListesClientService {
-  private allClients: ListeClientService[] = [];
-  private allAccounts: AccountList[] = [];
+  private allClients: Client[] = [];
+  private allAccounts: Account[] = [];
   constructor(private httpClient: HttpClient) {}
   private dataLoaded: boolean = false;
   private dataAccountsLoaded: boolean = false;
 
-  getAllClients(): Observable<ApiResponse<ListeClientService>> {
+  getAllClients(): Observable<ApiResponse<Client>> {
     if (this.dataLoaded) {
       return of({
         items: this.allClients,
@@ -39,7 +39,7 @@ export class ListesClientService {
 
     const body = { page: 0, limit: 0 };
     return this.httpClient
-      .post<ApiResponse<ListeClientService>>(apiEndpoints.listesClientsUrl, body)
+      .post<ApiResponse<Client>>(apiEndpoints.listesClientsUrl, body)
       .pipe(
         tap((response) => {
           this.allClients = response.items;
@@ -53,7 +53,7 @@ export class ListesClientService {
     page: number,
     limit: number,
     search?: string
-  ): Observable<ApiResponse<ListeClientService>> {
+  ): Observable<ApiResponse<Client>> {
     const body = {
       page,
       limit,
@@ -61,7 +61,7 @@ export class ListesClientService {
     };
 
     return this.httpClient
-      .post<ApiResponse<ListeClientService>>(
+      .post<ApiResponse<Client>>(
         `${apiEndpoints.listesClientsUrl}`,
         body
       )
@@ -76,12 +76,12 @@ export class ListesClientService {
   }
 
   // Obtenir les données en mémoire
-  getLocalClients(): ListeClientService[] {
+  getLocalClients(): Client[] {
     return this.allClients;
   }
 
   // Récupérer les comptes
-  getAccounts(): Observable<ApiResponse<AccountList>> {
+  getAccounts(): Observable<ApiResponse<Account>> {
     if (this.dataAccountsLoaded) {
       return of({
         items: this.allAccounts,
@@ -95,7 +95,7 @@ export class ListesClientService {
 
     const body = { page: 0, limit: 0 };
 
-    return this.httpClient.post<ApiResponse<AccountList>>(
+    return this.httpClient.post<ApiResponse<Account>>(
       apiEndpoints.listesComptesUrl,body).pipe(tap((response)=>{
         this.allAccounts=response.items;
         this.dataAccountsLoaded=true;
@@ -106,7 +106,7 @@ export class ListesClientService {
     page: number,
     limit: number,
     search?: string
-  ): Observable<ApiResponse<AccountList>> {
+  ): Observable<ApiResponse<Account>> {
     const body = {
       page,
       limit,
@@ -114,7 +114,7 @@ export class ListesClientService {
     };
 
     return this.httpClient
-      .post<ApiResponse<AccountList>>(
+      .post<ApiResponse<Account>>(
         `${apiEndpoints.listesComptesUrl}`,
         body
       )
@@ -128,20 +128,20 @@ export class ListesClientService {
       );
   }
 
-  getLocalAccount(): AccountList[] {
+  getLocalAccount(): Account[] {
     return this.allAccounts;
   }
 
-  getClient(uuid: string): Observable<ListeClientService> {
+  getClient(uuid: string): Observable<Client> {
     const clientUrl = apiEndpoints.getClientUrl.replace(':uuid', uuid);
     console.log(clientUrl)
-    return this.httpClient.get<ListeClientService>(clientUrl);
+    return this.httpClient.get<Client>(clientUrl);
   }
 
 
-  updateClient(uuid: string, client: Partial<ListeClientService>): Observable<ListeClientService> {
+  updateClient(uuid: string, client: Partial<Client>): Observable<Client> {
     const updateClientUrl = apiEndpoints.updateClientUrl.replace(':uuid', uuid);
-    return this.httpClient.put<ListeClientService>(updateClientUrl, client);
+    return this.httpClient.put<Client>(updateClientUrl, client);
   }
 
 

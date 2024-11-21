@@ -84,6 +84,7 @@ export class EditClientModalComponent implements OnInit {
     this.isSubmitting = true;
 
     this.clientService.updateClient(clientData.uuid, clientData).subscribe({
+
       next: (updatedClient) => {
         console.log('Client mis à jour avec succès', updatedClient);
         this.onUpdate.emit(updatedClient);
@@ -91,7 +92,7 @@ export class EditClientModalComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour du client', error);
-        this.isSubmitting = false; // Assurez-vous que cette ligne est présente
+        this.isSubmitting = false;
       },
       complete: () => {
         this.isSubmitting = false; // Remis à false après la requête
@@ -99,6 +100,6 @@ export class EditClientModalComponent implements OnInit {
     });
   }
 
-  
+
 
 }

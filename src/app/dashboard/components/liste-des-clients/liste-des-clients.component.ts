@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListesClientService } from 'src/app/services/liste-client.service';
-import { ListeClientService } from 'src/app/models/listeClient.model';
+import { Client } from 'src/app/models/listeClient.model';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 import { EditClientModalComponent } from './edit-client-modal/edit-client-modal.component';
 @Component({
@@ -11,9 +11,9 @@ import { EditClientModalComponent } from './edit-client-modal/edit-client-modal.
 
 export class ListeDesClientsComponent implements OnInit {
 
-  allClients: ListeClientService[] = [];
-  filteredClients: ListeClientService[] = [];
-  paginatedClients: ListeClientService[] = [];
+  allClients: Client[] = [];
+  filteredClients: Client[] = [];
+  paginatedClients: Client[] = [];
   totalPages: number = 0;
   totalItems: number = 0;
   currentPage: number = 1;
@@ -26,7 +26,7 @@ export class ListeDesClientsComponent implements OnInit {
 
   ) {}
 
-  openEditModal(client: ListeClientService) {
+  openEditModal(client: Client) {
     console.log('VerifieClient', client)
     this.modalService.openModal(EditClientModalComponent, client,'modal-lg');
   }
@@ -47,6 +47,8 @@ export class ListeDesClientsComponent implements OnInit {
     const index = this.allClients.findIndex(client => client.uuid === updatedClient.uuid);
     if (index !== -1) {
       this.allClients[index] = updatedClient;
+      this.filteredClients = [...this.allClients];
+    this.loadPage(this.currentPage);
     } else {
       this.refreshClients();
     }

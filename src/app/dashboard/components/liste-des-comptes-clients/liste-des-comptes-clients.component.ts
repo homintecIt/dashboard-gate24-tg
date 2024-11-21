@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListesClientService } from 'src/app/services/liste-client.service';
-import { AccountList } from 'src/app/models/listeClient.model';
+import { Account } from 'src/app/models/listeClient.model';
 
 @Component({
   selector: 'app-liste-des-comptes-clients',
@@ -8,9 +8,9 @@ import { AccountList } from 'src/app/models/listeClient.model';
   styleUrls: ['./liste-des-comptes-clients.component.css'],
 })
 export class ListeDesComptesClientsComponent implements OnInit {
-  allAccounts: AccountList[] = [];
-  filteredAccounts: AccountList[] = [];
-  paginatedAccount:AccountList[] = [];
+  allAccounts: Account[] = [];
+  filteredAccounts: Account[] = [];
+  paginatedAccount:Account[] = [];
   totalPages: number = 0;
   totalItems: number = 0;
   currentPage: number = 1;
