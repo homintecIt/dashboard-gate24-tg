@@ -1,84 +1,27 @@
 // src/app/dashboard/components/subscribe-list/subscribe-list.component.ts
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
-import { Subscription, SubscriptionService } from '../services/subscribe-list.service';
+import { StatusUpdatePayload, Subscription, SubscriptionService } from '../services/subscribe-list.service';
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
+import { SubscriptionEditModalComponent } from './subscription-edit-modal/subscription-edit-modal.component';
+import { SubscriptionDetailsModalComponent } from './subscription-details-modal/subscription-details-modal.component';
 
 @Component({
   selector: 'app-subscribe-list',
   templateUrl: './subscribe-list.component.html',
   styleUrls: ['./subscribe-list.component.css']
 })
-// export class SubscribeListComponent implements OnInit {
-//   subscriptions: Subscription[] = [];
-//   loading = false;
-//   error: string | null = null;
-
-//   // Paramètres de pagination
-//   currentPage = 1;
-//   itemsPerPage = 10;
-//   totalItems = 0;
-
-//   // Paramètres de recherche
-//   searchTerm = '';
-
-//   constructor(private apiService: ApiService) {}
-
-//   ngOnInit() {
-//     this.fetchSubscriptions();
-//   }
-
-//   fetchSubscriptions() {
-//     this.loading = true;
-
-//     const payload = {
-//       draw: this.currentPage,
-//       start: (this.currentPage - 1) * this.itemsPerPage,
-//       length: this.itemsPerPage,
-//       search: {
-//         value: this.searchTerm,
-//         regex: false
-//       },
-//       order: [{ column: 0, dir: 'desc' }],
-//       columns: [
-//         { data: 'targCode', searchable: true, orderable: true },
-//         { data: 'typeTarg', searchable: true, orderable: true },
-//         { data: 'statutTarg', searchable: true, orderable: true }
-//       ]
-//     };
-
-//     this.apiService.post<SubscriptionResponse>('/subscription/all', payload)
-//       .subscribe({
-//         next: (response) => {
-//           this.subscriptions = response.items;
-//           this.totalItems = response.meta.totalItems;
-//           this.loading = false;
-//         },
-//         error: (err) => {
-//           console.error('Erreur de chargement', err);
-//           this.error = 'Impossible de charger les abonnements';
-//           this.loading = false;
-//         }
-//       });
-//   }
-
-//   // Méthode de recherche
-//   onSearch() {
-//     this.currentPage = 1; // Réinitialiser à la première page
-//     this.fetchSubscriptions();
-//   }
-
-//   // Méthode de pagination
-//   onPageChange(page: number) {
-//     this.currentPage = page;
-//     this.fetchSubscriptions();
-//   }
-// }
-
 
 export class SubscribeListComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  subscription: Subscription[] = [];
+
+  selectedSubscription?: Subscription;
+  isEditModalOpen = false;
+  isDetailsModalOpen = false;
+
+  // Données
+  subscrption: Subscription[] = [];
   filteredSubscriptions: Subscription[] = [];
 
   // Pagination
@@ -89,36 +32,90 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
 
   // Recherche
   searchTerm = '';
-  private searchSubject = new Subject<string>();
 
+  // États
   loading = false;
   error: string | null = null;
 
-  constructor(private subscriptionService: SubscriptionService) {
-    this.searchSubject.pipe(
-      debounceTime(400),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe(term => {
-      this.searchTerm = term;
-      this.filterAndPaginate();
+  constructor(
+    private subscrptionService: SubscriptionService,
+    private modalService: BootstrapModalService,  ) {}
+
+
+ // Nouvelle méthode pour gérer le changement de statut
+ onStatusToggle(subscription: Subscription): void {
+  // Déterminer le nouveau statut
+  const newStatus = subscription.statutTarg === 'actived' ? false : true;
+
+  // Préparer la payload
+  const payload: StatusUpdatePayload = {
+    targId: subscription.targId,
+    isActive: newStatus
+  };
+
+  // Appeler le service pour mettre à jour le statut
+  this.subscrptionService.updateSubscriptionStatus(payload)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: () => {
+        // Mise à jour réussie
+        // Optionnel : rafraîchir les données
+        this.refreshData();
+
+        // Notification de succès
+
+      },
+      error: (error) => {
+        // Gestion des erreurs
+        console.error('Erreur lors du changement de statut', error);
+
+
+      }
     });
-  }
+}
+
+    addTag(compteId: number) {
+      this.modalService.openModal(SubscriptionEditModalComponent, compteId, 'modal-lg',);
+
+      // Souscrire aux événements du modal si nécessaire
+      this.modalService.modalRef.onHidden?.subscribe(() => {
+        this.refreshData(); // Rafraîchir la liste après fermeture du modal
+      });
+    }
+
+    openDetailsModal(subscription: Subscription): void {
+      console.log('Ouverture des détails:', subscription);
+
+      this.modalService.openModal(
+        SubscriptionDetailsModalComponent,
+        subscription,
+        'modal-lg'
+      );
+
+      // Souscrire aux événements du modal si nécessaire
+      this.modalService.modalRef.onHidden?.subscribe(() => {
+        // this.refreshData(); // Rafraîchir la liste après fermeture du modal
+      });
+    }
+
 
   ngOnInit(): void {
-    this.subscriptionService.subscription$
+    // Écoute des subscrption
+    this.subscrptionService.subscription$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(subscription => {
-        this.subscription = subscription;
-        this.filterAndPaginate();
+      .subscribe(subscrption => {
+        this.subscrption = subscrption;
+        this.filterSubscriptions();
       });
 
-    this.subscriptionService.loading$
+    // Écoute du chargement
+    this.subscrptionService.loading$
       .pipe(takeUntil(this.destroy$))
       .subscribe(loading => {
         this.loading = loading;
       });
 
+    // Chargement initial
     this.loadSubscriptions();
   }
 
@@ -127,52 +124,99 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  loadSubscriptions(): void {
-    this.subscriptionService.loadSubscriptions().subscribe({
-      error: (err) => {
-        console.error('Erreur de chargement', err);
-        this.error = 'Impossible de charger les subscription';
+  // Chargement des subscrption
+  loadSubscriptions(page: number = 1): void {
+    this.subscrptionService.loadSubscriptions(page, this.itemsPerPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.totalItems = response.meta.totalItems;
+          this.totalPages = response.meta.totalPages;
+          this.currentPage = response.meta.currentPage;
+        },
+        error: (err) => {
+          console.error('Erreur de chargement', err);
+          this.error = 'Impossible de charger les subscrption';
+        }
+      });
+  }
+
+  // Filtrage des subscrption
+  filterSubscriptions(): void {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredSubscriptions = this.subscrption.filter(subscription =>
+      subscription.compte.accountNumber.toLowerCase().includes(term) ||
+      subscription.targId.toLowerCase().includes(term) ||
+      subscription.targCode.toLowerCase().includes(term) ||
+      subscription.plaque?.toLowerCase().includes(term)
+    );
+  }
+
+  // Recherche
+  onSearch(event: any): void {
+    this.searchTerm = event.target.value;
+    this.filterSubscriptions();
+  }
+
+  // Génération des pages
+  getPagesArray(): number[] {
+    const delta = 1;
+    const left = this.currentPage - delta;
+    const right = this.currentPage + delta;
+    const range: number[] = [];
+    const rangeWithDots: number[] = [];
+
+    // Générer la plage complète
+    for (let i = 1; i <= this.totalPages; i++) {
+      if (i === 1 || i === this.totalPages || (i >= left && i <= right)) {
+        range.push(i);
       }
-    });
-  }
-
-  refreshData(): void {
-    this.subscriptionService.refreshSubscriptions().subscribe();
-  }
-
-  onSearch(event: Event): void {
-    const term = (event.target as HTMLInputElement).value;
-    this.searchSubject.next(term);
-  }
-
-  filterAndPaginate(): void {
-    let filtered = [...this.subscription];
-
-    if (this.searchTerm) {
-      const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(item =>
-        item.compte.accountNumber.toLowerCase().includes(term)/*  ||
-        item.montant.toString().includes(term) ||
-        item.refer?.toLowerCase().includes(term) ||
-        item.site.toLowerCase().includes(term) */
-      );
     }
 
-    this.totalItems = filtered.length;
-    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    // Ajouter des points si nécessaire
+    for (let i = 0; i < range.length; i++) {
+      if (i > 0) {
+        if (range[i] - range[i - 1] > 1) {
+          rangeWithDots.push(-1); // Représente les points de suspension
+        }
+      }
+      rangeWithDots.push(range[i]);
+    }
 
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.filteredSubscriptions = filtered.slice(startIndex, startIndex + this.itemsPerPage);
+    return rangeWithDots;
   }
 
+  // Changement de page
   onPageChange(page: number): void {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+    if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.filterAndPaginate();
+      this.loadSubscriptions(page);
     }
   }
 
-  getPageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    // Navigation entre pages
+    goToPage(page: number): void {
+      if (page < 1 || page > this.totalPages) return;
+
+      this.currentPage = page;
+      this.subscrptionService.loadSubscriptions( this.currentPage, this.itemsPerPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.totalItems = response.meta.totalItems;
+          this.totalPages = response.meta.totalPages;
+          this.currentPage = response.meta.currentPage;
+        },
+        error: (err) => {
+          console.error('Erreur de chargement', err);
+          this.error = 'Impossible de charger les subscrption';
+        }
+      });
+      this.filterSubscriptions();
+    }
+
+  // Rafraîchissement
+  refreshData(): void {
+    this.loadSubscriptions(this.currentPage);
   }
 }

@@ -1,10 +1,9 @@
-
-
+// recharges-list.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Recharge } from '../../interfaces/recharges';
-import { RechargeService } from '../services/recharges.service';
+import { RechargesService } from '../services/recharges.service';
 
 @Component({
   selector: 'app-recharges-list',
@@ -14,6 +13,7 @@ import { RechargeService } from '../services/recharges.service';
 export class RechargesListComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
+  // Données
   recharges: Recharge[] = [];
   filteredRecharges: Recharge[] = [];
 
@@ -25,36 +25,30 @@ export class RechargesListComponent implements OnInit, OnDestroy {
 
   // Recherche
   searchTerm = '';
-  private searchSubject = new Subject<string>();
 
+  // États
   loading = false;
   error: string | null = null;
 
-  constructor(private rechargeService: RechargeService) {
-    this.searchSubject.pipe(
-      debounceTime(400),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe(term => {
-      this.searchTerm = term;
-      this.filterAndPaginate();
-    });
-  }
+  constructor(private rechargesService: RechargesService  ) {}
 
   ngOnInit(): void {
-    this.rechargeService.recharges$
+    // Écoute des recharges
+    this.rechargesService.recharges$
       .pipe(takeUntil(this.destroy$))
       .subscribe(recharges => {
         this.recharges = recharges;
-        this.filterAndPaginate();
+        this.filterRecharges();
       });
 
-    this.rechargeService.loading$
+    // Écoute du chargement
+    this.rechargesService.loading$
       .pipe(takeUntil(this.destroy$))
       .subscribe(loading => {
         this.loading = loading;
       });
 
+    // Chargement initial
     this.loadRecharges();
   }
 
@@ -63,52 +57,86 @@ export class RechargesListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  loadRecharges(): void {
-    this.rechargeService.loadRecharges().subscribe({
-      error: (err) => {
-        console.error('Erreur de chargement', err);
-        this.error = 'Impossible de charger les recharges';
+  // Chargement des recharges
+  loadRecharges(page: number = 1): void {
+    this.rechargesService.loadRecharges(page, this.itemsPerPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.totalItems = response.meta.totalItems;
+          this.totalPages = response.meta.totalPages;
+          this.currentPage = response.meta.currentPage;
+        },
+        error: (err) => {
+          console.error('Erreur de chargement', err);
+          this.error = 'Impossible de charger les recharges';
+        }
+      });
+  }
+
+  // Filtrage des recharges
+  filterRecharges(): void {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredRecharges = this.recharges.filter(recharge =>
+      recharge.compte.accountNumber.toLowerCase().includes(term) ||
+      recharge.site.toLowerCase().includes(term) ||
+      recharge.percepteur.toLowerCase().includes(term) ||
+      recharge.montant.toLowerCase().includes(term)
+    );
+  }
+
+  // Recherche
+  onSearch(event: any): void {
+    this.searchTerm = event.target.value;
+    this.filterRecharges();
+  }
+
+  // Génération des pages
+  getPagesArray(): number[] {
+    const delta = 1;
+    const left = this.currentPage - delta;
+    const right = this.currentPage + delta;
+    const range: number[] = [];
+    const rangeWithDots: number[] = [];
+
+    // Générer la plage complète
+    for (let i = 1; i <= this.totalPages; i++) {
+      if (i === 1 || i === this.totalPages || (i >= left && i <= right)) {
+        range.push(i);
       }
-    });
-  }
-
-  refreshData(): void {
-    this.rechargeService.refreshRecharges().subscribe();
-  }
-
-  onSearch(event: Event): void {
-    const term = (event.target as HTMLInputElement).value;
-    this.searchSubject.next(term);
-  }
-
-  filterAndPaginate(): void {
-    let filtered = [...this.recharges];
-
-    if (this.searchTerm) {
-      const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(item =>
-        item.compte.accountNumber.toLowerCase().includes(term) ||
-        item.montant.toString().includes(term) ||
-        item.refer?.toLowerCase().includes(term) ||
-        item.site.toLowerCase().includes(term)
-      );
     }
 
-    this.totalItems = filtered.length;
-    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    // Ajouter des points si nécessaire
+    for (let i = 0; i < range.length; i++) {
+      if (i > 0) {
+        if (range[i] - range[i - 1] > 1) {
+          rangeWithDots.push(-1); // Représente les points de suspension
+        }
+      }
+      rangeWithDots.push(range[i]);
+    }
 
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.filteredRecharges = filtered.slice(startIndex, startIndex + this.itemsPerPage);
+    return rangeWithDots;
   }
 
+  // Changement de page
   onPageChange(page: number): void {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+    if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.filterAndPaginate();
+      this.loadRecharges(page);
     }
   }
 
-  getPageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    // Navigation entre pages
+    goToPage(page: number): void {
+      if (page < 1 || page > this.totalPages) return;
+
+      this.currentPage = page;
+      this.filterRecharges();
+    }
+
+  // Rafraîchissement
+  refreshData(): void {
+    this.loadRecharges(this.currentPage);
   }
 }
