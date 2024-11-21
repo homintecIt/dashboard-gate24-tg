@@ -27,8 +27,9 @@ const apiEndpoints = {
   listesClientsUrl : `${apiUrlBase}/clients/all`,
   listesComptesUrl : `${apiUrlBase}/comptes/all`,
   getClientUrl:`${apiUrlBase}/clients/:uuid`,
-  updateClientUrl:`${apiUrlBase}/clients/update/:uuid`
-
+  updateClientUrl:`${apiUrlBase}/clients/update/:uuid`,
+  monthlyReportUrl:`${apiUrlBase}/passage/get-passages-mensuels`,
+  sitePassageUrl:`${apiUrlBase}/passage/get/sites/peages`
 }
 
 export default apiEndpoints;

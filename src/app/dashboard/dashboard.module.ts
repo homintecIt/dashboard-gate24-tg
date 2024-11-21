@@ -9,6 +9,8 @@ import { MainComponent } from './components/layouts/main/main.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { ListeDesClientsComponent } from './components/liste-des-clients/liste-des-clients.component';
 import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
+import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
+
 
 
 @NgModule({
@@ -20,7 +22,7 @@ import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-
     StatisticsComponent,
     ListeDesClientsComponent,
     ListeDesComptesClientsComponent,
-  ],
+    MonthlyReportComponent  ],
   imports: [
     CommonModule,
     DashboardRoutingModule

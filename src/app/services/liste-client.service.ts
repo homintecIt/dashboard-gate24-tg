@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import apiEndpoints from '../misc/api-endpoints.misc';
 import { Observable, of } from 'rxjs';
@@ -140,6 +140,8 @@ export class ListesClientService {
 
 
   updateClient(uuid: string, client: Partial<Client>): Observable<Client> {
+    
+
     const updateClientUrl = apiEndpoints.updateClientUrl.replace(':uuid', uuid);
     return this.httpClient.put<Client>(updateClientUrl, client);
   }

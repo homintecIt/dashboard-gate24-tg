@@ -17,6 +17,7 @@ import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { EditClientModalComponent } from './dashboard/components/liste-des-clients/edit-client-modal/edit-client-modal.component';
+import { MonthlyReportModalComponent } from './dashboard/components/monthly-report/monthly-report-modal/monthly-report-modal.component';
 
 
 registerLocaleData(localeFr);
@@ -28,7 +29,8 @@ registerLocaleData(localeFr);
     PasswordResetFormComponent,
     PasswordResetRequestComponent,
     SignInComponent,
-    EditClientModalComponent
+    EditClientModalComponent,
+    MonthlyReportModalComponent
   ],
   imports: [
 
