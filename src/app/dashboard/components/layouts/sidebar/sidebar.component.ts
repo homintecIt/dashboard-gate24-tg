@@ -14,6 +14,6 @@ export class SidebarComponent {
 
 
     openPassagesModal(): void {
-      this.modalService.openModal(PassagesDropdownSiteComponent,"",'modal-md');
+      this.modalService.openModal(PassagesDropdownSiteComponent,"",'modal-md modal-dialog-centered');
     }
 }
