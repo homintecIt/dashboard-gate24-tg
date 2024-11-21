@@ -10,6 +10,7 @@ export class ListeClientService {
   adresse?:string
   cin?: string;
   uuid: any;
+  type: any;
 }
 
 export class AccountList {

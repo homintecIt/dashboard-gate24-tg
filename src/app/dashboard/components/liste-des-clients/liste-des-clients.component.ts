@@ -31,6 +31,28 @@ export class ListeDesClientsComponent implements OnInit {
     this.modalService.openModal(EditClientModalComponent, client,'modal-lg');
   }
 
+  refreshClients(): void {
+    this.listesClientService.getAllClients().subscribe({
+      next: (response) => {
+        this.allClients = response.items; // Mets à jour la liste affichée
+        console.log('Liste des clients actualisée', this.allClients);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des clients', error);
+      }
+    });
+  }
+
+  handleClientUpdate(updatedClient: any): void {
+    const index = this.allClients.findIndex(client => client.uuid === updatedClient.uuid);
+    if (index !== -1) {
+      this.allClients[index] = updatedClient;
+    } else {
+      this.refreshClients();
+    }
+  }
+
+
   ngOnInit(): void {
     // Charger tous les clients une seule fois
     this.listesClientService.getAllClients().subscribe({
@@ -45,6 +67,7 @@ export class ListeDesClientsComponent implements OnInit {
         console.error('Erreur lors du chargement des clients:', err);
       },
     });
+    this.refreshClients();
   }
 
   // Gestion des pages

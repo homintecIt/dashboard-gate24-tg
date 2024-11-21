@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ListesClientService } from 'src/app/services/liste-client.service';
@@ -9,6 +9,7 @@ import { ListesClientService } from 'src/app/services/liste-client.service';
   styleUrls: ['./edit-client-modal.component.css']
 })
 export class EditClientModalComponent implements OnInit {
+  @Output() onUpdate: EventEmitter<any> = new EventEmitter();
   @Input() data!: any;
   clientForm: FormGroup;
   isSubmitting: boolean = false;
@@ -28,7 +29,8 @@ export class EditClientModalComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       tel: [null, Validators.required],
       adresse: [''],
-      cin: ['']
+      cin: [''],
+      type: ['', Validators.required]
     });
   }
 
@@ -49,7 +51,8 @@ export class EditClientModalComponent implements OnInit {
             tel: clientDetail.tel || null,
             adresse: clientDetail.adresse || '',
             cin: clientDetail.cin || '',
-            uuid: clientDetail.uuid
+            uuid: clientDetail.uuid,
+            type: clientDetail.type || 'defaultType'
           });
           console.log('Form value',this.clientForm.value)
         },
@@ -83,6 +86,7 @@ export class EditClientModalComponent implements OnInit {
     this.clientService.updateClient(clientData.uuid, clientData).subscribe({
       next: (updatedClient) => {
         console.log('Client mis à jour avec succès', updatedClient);
+        this.onUpdate.emit(updatedClient);
         this.bsModalRef.hide();
       },
       error: (error) => {
@@ -94,5 +98,7 @@ export class EditClientModalComponent implements OnInit {
       }
     });
   }
+
+  
 
 }

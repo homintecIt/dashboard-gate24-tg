@@ -46,6 +46,13 @@
       <label for="cin" class="form-label">CIN</label>
       <input id="cin" formControlName="cin" class="form-control" />
     </div>
+    <div class="mb-3">
+      <label for="type" class="form-label">Type</label>
+      <input id="type" formControlName="type" class="form-control" />
+      <div *ngIf="clientForm.get('type')?.invalid && clientForm.get('type')?.touched" class="text-danger">
+        Le type est requis.
+      </div>
+    </div>
 
     <button type="submit" class="btn btn-primary" [disabled]="clientForm.invalid || isSubmitting">
       {{ isSubmitting ? 'Enregistrement...' : 'Enregistrer' }}
