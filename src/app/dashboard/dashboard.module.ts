@@ -10,6 +10,8 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
 import { ListeDesClientsComponent } from './components/liste-des-clients/liste-des-clients.component';
 import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
 import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
+import { PeriodReportComponent } from './components/period-report/period-report.component';
+
 
 
 
@@ -22,7 +24,9 @@ import { MonthlyReportComponent } from './components/monthly-report/monthly-repo
     StatisticsComponent,
     ListeDesClientsComponent,
     ListeDesComptesClientsComponent,
-    MonthlyReportComponent  ],
+    MonthlyReportComponent,
+    PeriodReportComponent,
+     ],
   imports: [
     CommonModule,
     DashboardRoutingModule

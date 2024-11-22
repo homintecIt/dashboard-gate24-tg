@@ -1,17 +1,20 @@
 import { Router } from '@angular/router';
-import { MonthlyReportService } from './../../services/monthly-report.service';
 import { Component, Input } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-@Component({
-  selector: 'app-monthly-report-modal',
-  templateUrl: './monthly-report-modal.component.html',
-  styleUrls: ['./monthly-report-modal.component.css']
-})
-export class MonthlyReportModalComponent {
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
+import { PeriodReportService } from '../../services/period-report.service';
 
-  constructor(private MonthlyService:MonthlyReportService,
+@Component({
+  selector: 'app-period-report-modal',
+  templateUrl: './period-report-modal.component.html',
+  styleUrls: ['./period-report-modal.component.css']
+})
+export class PeriodReportModalComponent {
+
+  constructor(private PeriodService:PeriodReportService,
     public bsModalRef: BsModalRef,
     public router:Router,
+    private modalService: BootstrapModalService
   ){}
 
 
@@ -25,7 +28,7 @@ export class MonthlyReportModalComponent {
   }
 
   loadDropdownOptions() {
-    this.MonthlyService.getDropdownOptions().subscribe((options) => {
+    this.PeriodService.getDropdownOptions().subscribe((options) => {
       this.dropdownOptions = options;
       console.log(options)
     });
@@ -52,7 +55,7 @@ export class MonthlyReportModalComponent {
     console.log(site)
 
     if (site) {
-      this.router.navigate(['/dashboard/passage-monthly'], { queryParams: { site } });
+      this.router.navigate(['/dashboard/passage-period'], { queryParams: { site } });
       this.bsModalRef.hide(); // Fermer le modal
     } else {
       console.error('Site non sélectionné.');
@@ -60,4 +63,3 @@ export class MonthlyReportModalComponent {
   }
 
 }
-

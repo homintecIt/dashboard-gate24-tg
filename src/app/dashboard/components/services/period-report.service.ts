@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MonthlyReportService {
+export class PeriodReportService {
+
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +21,4 @@ export class MonthlyReportService {
   getReports(option: any): Observable<any> {
     return this.http.post<any>(`${apiEndpoints.sitePassageUrl}`,option);
   }
-
-
 }
