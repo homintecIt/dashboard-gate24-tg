@@ -13,6 +13,7 @@ export class SidebarComponent {
     private modalService: BootstrapModalService
 
   ) {}
+  
 
   openMonthlyReport() {
     this.modalService.openModal(MonthlyReportModalComponent,'modal-md modal-dialog-centered');

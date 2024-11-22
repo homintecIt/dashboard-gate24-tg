@@ -29,6 +29,8 @@ export class MonthlyReportModalComponent {
       this.dropdownOptions = options;
       console.log(options)
     });
+
+
   }
 
   // Lorsqu'un site est sélectionné
@@ -51,12 +53,10 @@ export class MonthlyReportModalComponent {
     };
     console.log(site)
 
-    if (site) {
+
       this.router.navigate(['/dashboard/passage-monthly'], { queryParams: { site } });
       this.bsModalRef.hide(); // Fermer le modal
-    } else {
-      console.error('Site non sélectionné.');
-    }
+
   }
 
 }

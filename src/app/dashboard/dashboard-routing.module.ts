@@ -11,7 +11,6 @@ const routes: Routes = [
     path: "", component: MainComponent,
     children: [
       { path: "statistics", component: StatisticsComponent },
-      { path: "statistics", component: StatisticsComponent },
       { path: "listesClients", component: ListeDesClientsComponent },
       { path: "listesComptesClient", component: ListeDesComptesClientsComponent },
       { path: "passage-monthly", component: MonthlyReportComponent },

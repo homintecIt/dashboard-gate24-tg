@@ -14,7 +14,7 @@
                   <div data-mdb-input-init class="form-outline mb-4">
                       <select  [(ngModel)]="selectedOption" (change)="onSiteSelected(selectedOption)" class="form-control" name="" id="">
                         <option value=""  disabled>Selectionnez un site</option>
-                        <option *ngFor="let option of dropdownOptions" [value]="option">
+                        <option *ngFor="let option of dropdownOptions" [value]="option.passages_site">
                           {{ option.passages_site }}
                       </option>
                       </select>

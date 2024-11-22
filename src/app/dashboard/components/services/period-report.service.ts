@@ -19,6 +19,6 @@ export class PeriodReportService {
   }
 
   getReports(option: any): Observable<any> {
-    return this.http.post<any>(`${apiEndpoints.sitePassageUrl}`,option);
+    return this.http.post<any>(`${apiEndpoints.periodReportUrl}`,option);
   }
 }

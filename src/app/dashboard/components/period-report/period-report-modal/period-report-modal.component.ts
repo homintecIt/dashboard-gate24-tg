@@ -54,12 +54,8 @@ export class PeriodReportModalComponent {
     };
     console.log(site)
 
-    if (site) {
       this.router.navigate(['/dashboard/passage-period'], { queryParams: { site } });
       this.bsModalRef.hide(); // Fermer le modal
-    } else {
-      console.error('Site non sélectionné.');
-    }
   }
 
 }
