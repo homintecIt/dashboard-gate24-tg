@@ -14,6 +14,12 @@ import { registerLocaleData } from '@angular/common';
 import { RequestInterceptor } from './misc/request-interceptor.misc';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { EditClientModalComponent } from './dashboard/components/liste-des-clients/edit-client-modal/edit-client-modal.component';
+import { MonthlyReportModalComponent } from './dashboard/components/monthly-report/monthly-report-modal/monthly-report-modal.component';
+import { PeriodReportModalComponent } from './dashboard/components/period-report/period-report-modal/period-report-modal.component';
+
 
 registerLocaleData(localeFr);
 
@@ -23,11 +29,17 @@ registerLocaleData(localeFr);
     NotFoundComponent,
     PasswordResetFormComponent,
     PasswordResetRequestComponent,
-    SignInComponent
+    SignInComponent,
+    EditClientModalComponent,
+    MonthlyReportModalComponent,
+    PeriodReportModalComponent
   ],
   imports: [
+
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,

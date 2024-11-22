@@ -36,8 +36,18 @@
             <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Liste des abonnements</span>
           </a>
         </li>
+        <li>
+          <a class="nav-link menu-link" routerLink="/dashboard/listesClients">
+            <i class=" ri-user-star-line"></i> <span data-key="t-widgets">Listes des clients</span>
+          </a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link menu-link" (click)="openPassagesModal()">
+          <a class="nav-link menu-link" routerLink="/dashboard/listesComptesClient">
+            <i class="ri-group-line"></i> <span data-key="t-widgets">Listes des comptes clients</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link menu-link cursor-pointer" (click)="openPassagesModal()">
             <i class="ri-dashboard-2-line"></i>
             <span data-key="t-widgets">Rapport journalier</span>
           </a>
@@ -48,6 +58,18 @@
             <span data-key="t-widgets">Rapport par abonné</span>
           </a>
         </li>
+
+        <li (click)="openMonthlyReport()" class="nav-item">
+          <a class="nav-link menu-link"  href="Javascript:void(0);" >
+            <i class="ri-rhythm-line"></i> <span data-key="t-widgets">Rapport Mensuels</span>
+          </a>
+        </li>
+        <li (click)="openPeriodReport()" class="nav-item">
+          <a class="nav-link menu-link"  href="Javascript:void(0);" >
+            <i class="ri-rhythm-line"></i> <span data-key="t-widgets">Rapport par periode</span>
+          </a>
+        </li>
+
       </ul>
     </div>
     <!-- Sidebar -->

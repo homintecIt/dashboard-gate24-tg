@@ -20,7 +20,6 @@ export class BootstrapModalService {
     console.log(config);
 
 
-    this.modalRef = this.modalService.show(component, config);
+   return this.modalRef = this.modalService.show(component, config);
   }
-
 }

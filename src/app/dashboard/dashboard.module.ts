@@ -19,6 +19,14 @@ import { PassagesDropdownSiteComponent } from './components/passages/passages-dr
 import { PassagesComponent } from './components/passages/passages.component';
 import { PassageDailyComponent } from './components/passages/passages-daily/passages-daily.component';
 import { PassageBySubscriberComponent } from './components/passages/passage-by-subscriber/passage-by-subscriber.component';
+import { ListeDesClientsComponent } from './components/liste-des-clients/liste-des-clients.component';
+import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
+import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
+import { PeriodReportComponent } from './components/period-report/period-report.component';
+import { FinancialDataComponent } from './components/financial-data/financial-data.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -36,7 +44,13 @@ import { PassageBySubscriberComponent } from './components/passages/passage-by-s
     PassagesComponent,
     PassageDailyComponent,
     PassageBySubscriberComponent,
-  ],
+    ListeDesClientsComponent,
+    ListeDesComptesClientsComponent,
+    MonthlyReportComponent,
+    PeriodReportComponent,
+    FinancialDataComponent,
+
+     ],
   imports: [
     CommonModule,
     DashboardRoutingModule,

@@ -24,7 +24,14 @@ const apiEndpoints = {
   subscriptionUrl: `${apiUrlBase}/subscription`,
   searchUrl: `${apiUrlBase}/search`,
   statisticsUrl: `${apiUrlBase}/statistique`,
-
+  listesClientsUrl : `${apiUrlBase}/clients/all`,
+  listesComptesUrl : `${apiUrlBase}/comptes/all`,
+  getClientUrl:`${apiUrlBase}/clients/:uuid`,
+  updateClientUrl:`${apiUrlBase}/clients/update/:uuid`,
+  monthlyReportUrl:`${apiUrlBase}/passage/get-passages-mensuels`,
+  sitePassageUrl:`${apiUrlBase}/passage/get/sites/peages`,
+  periodReportUrl:`${apiUrlBase}/passage/get-passages-byInterval`,
+  getFinancialDataUrl:`${apiUrlBase}/financier/get-data-financier`,
 }
 
 export default apiEndpoints;
