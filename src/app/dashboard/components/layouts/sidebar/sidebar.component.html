@@ -2,74 +2,128 @@
   <div class="navbar-brand-box">
     <a href="index.html" class="logo logo-light.png">
       <span class="logo-sm">
-        <img src="assets/logo/icon-152x152.png" alt="" height="22">
+        <img src="assets/logo/icon-152x152.png" alt="" height="22" />
       </span>
       <span class="logo-lg">
-        <img src="assets/logo/icon-152x152.png" alt="" height="50">
+        <img src="assets/logo/icon-152x152.png" alt="" height="50" />
       </span>
     </a>
-    <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
-      id="vertical-hover">
+    <button
+      type="button"
+      class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+      id="vertical-hover"
+    >
       <i class="ri-record-circle-line"></i>
     </button>
   </div>
 
   <div id="scrollbar">
     <div class="container-fluid">
-
-      <div id="two-column-menu">
-      </div>
+      <div id="two-column-menu"></div>
       <ul class="navbar-nav" id="navbar-nav">
         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
         <li class="nav-item">
           <a class="nav-link menu-link" routerLink="/dashboard/statistics">
-            <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Accueil</span>
+            <i class="ri-dashboard-2-line"></i>
+            <span data-key="t-widgets">Accueil</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link menu-link" routerLink="/dashboard/recharges-list">
-            <i class="ri-exchange-dollar-line"></i> <span data-key="t-widgets">Liste des recharges</span>
+            <i class="ri-exchange-dollar-line"></i>
+            <span data-key="t-widgets">Liste des recharges</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link menu-link" routerLink="/dashboard/subscribe-list">
-            <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Liste des abonnements</span>
+            <i class="ri-dashboard-2-line"></i>
+            <span data-key="t-widgets">Liste des abonnements</span>
           </a>
         </li>
         <li>
           <a class="nav-link menu-link" routerLink="/dashboard/listesClients">
-            <i class=" ri-user-star-line"></i> <span data-key="t-widgets">Listes des clients</span>
+            <i class="ri-user-star-line"></i>
+            <span data-key="t-widgets">Listes des clients</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link menu-link" routerLink="/dashboard/listesComptesClient">
-            <i class="ri-group-line"></i> <span data-key="t-widgets">Listes des comptes clients</span>
+          <a
+            class="nav-link menu-link"
+            routerLink="/dashboard/listesComptesClient"
+          >
+            <i class="ri-group-line"></i>
+            <span data-key="t-widgets">Listes des comptes clients</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link menu-link cursor-pointer" (click)="openPassagesModal()">
+          <a
+            class="nav-link menu-link cursor-pointer"
+            (click)="openPassagesModal()"
+          >
             <i class="ri-dashboard-2-line"></i>
             <span data-key="t-widgets">Rapport journalier</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link menu-link" routerLink="/dashboard/passage-by-subscriber" >
+          <a
+            class="nav-link menu-link"
+            routerLink="/dashboard/passage-by-subscriber"
+          >
             <i class="ri-dashboard-2-line"></i>
             <span data-key="t-widgets">Rapport par abonné</span>
           </a>
         </li>
 
         <li (click)="openMonthlyReport()" class="nav-item">
-          <a class="nav-link menu-link"  href="Javascript:void(0);" >
-            <i class="ri-rhythm-line"></i> <span data-key="t-widgets">Rapport Mensuels</span>
+          <a class="nav-link menu-link" href="Javascript:void(0);">
+            <i class="ri-rhythm-line"></i>
+            <span data-key="t-widgets">Rapport Mensuels</span>
           </a>
         </li>
         <li (click)="openPeriodReport()" class="nav-item">
-          <a class="nav-link menu-link"  href="Javascript:void(0);" >
-            <i class="ri-rhythm-line"></i> <span data-key="t-widgets">Rapport par periode</span>
+          <a class="nav-link menu-link" href="Javascript:void(0);">
+            <i class="ri-rhythm-line"></i>
+            <span data-key="t-widgets">Rapport par periode</span>
           </a>
         </li>
 
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            href="#sidebarUI"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="sidebarUI"
+          >
+            <i class="ri-settings-2-line"></i>
+            <span data-key="t-base-ui">Parametres</span>
+          </a>
+          <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarUI">
+            <div class="row">
+              <div class="col-lg-4">
+                <ul class="nav nav-sm flex-column">
+                  <li class="nav-item">
+                    <a
+                      href="ui-ribbons.html"
+                      class="nav-link"
+                      data-key="t-ribbons"
+                      >Liste des serveurs</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      href="ui-utilities.html"
+                      class="nav-link"
+                      data-key="t-utilities"
+                      >Liste des synchro</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
     <!-- Sidebar -->
