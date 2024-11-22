@@ -32,6 +32,10 @@ const apiEndpoints = {
   sitePassageUrl:`${apiUrlBase}/passage/get/sites/peages`,
   periodReportUrl:`${apiUrlBase}/passage/get-passages-byInterval`,
   getFinancialDataUrl:`${apiUrlBase}/financier/get-data-financier`,
+  getServerUrl:`${apiUrlBase}/get/servers`,
+  UpdateServerUrl:`${apiUrlBase}/update/status/server/synchro`,
+
+
 }
 
 export default apiEndpoints;
