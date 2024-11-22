@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import apiEndpoints from 'src/app/misc/api-endpoints.misc';
 import { Observable } from 'rxjs';
+
 interface SiteOption {
   passages_site: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +23,5 @@ export class MonthlyReportService {
   getReports(payload: any): Observable<any> {
     return this.http.post<any>(`${apiEndpoints.monthlyReportUrl}`,payload);
   }
-
 
 }
