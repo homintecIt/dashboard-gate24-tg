@@ -24,6 +24,7 @@ import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-
 import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
 import { PeriodReportComponent } from './components/period-report/period-report.component';
 import { FinancialDataComponent } from './components/financial-data/financial-data.component';
+import { TypeSynchroComponent } from './components/type-synchro/type-synchro.component';
 
 
 
@@ -49,6 +50,7 @@ import { FinancialDataComponent } from './components/financial-data/financial-da
     MonthlyReportComponent,
     PeriodReportComponent,
     FinancialDataComponent,
+    TypeSynchroComponent
 
      ],
   imports: [
