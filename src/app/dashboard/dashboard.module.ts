@@ -18,6 +18,7 @@ import { SubscriptionDetailsModalComponent } from './components/subscribe-list/s
 import { PassagesDropdownSiteComponent } from './components/passages/passages-dropdown-site/passages-dropdown-site.component';
 import { PassagesComponent } from './components/passages/passages.component';
 import { PassageDailyComponent } from './components/passages/passages-daily/passages-daily.component';
+import { PassageBySubscriberComponent } from './components/passages/passage-by-subscriber/passage-by-subscriber.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { PassageDailyComponent } from './components/passages/passages-daily/pass
     PassagesDropdownSiteComponent,
     PassagesComponent,
     PassageDailyComponent,
+    PassageBySubscriberComponent,
   ],
   imports: [
     CommonModule,

@@ -11,7 +11,7 @@ import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service'
 export class PassagesDropdownSiteComponent implements OnInit {
   @Input() data: any; // Données injectées dans le modal
   sites: string[] = []; // Liste des sites
-  selectedSite: string = ''; 
+  selectedSite: string = '';
   constructor(
     private passageService: PassageService,
     private router: Router,

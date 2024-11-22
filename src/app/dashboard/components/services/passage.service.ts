@@ -18,4 +18,19 @@ export class PassageService {
   getPassagesDaily(payload: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/passage/get-passages-day`, payload);
   }
+
+  getPassagesBySubscribers(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/passage/get-passages-by-abonnes`, {
+      draw: 0,
+      start: 0,
+      length: 0,
+      order: [''],
+      columns: [''],
+      search: {},
+      dateStart: '',
+      dateEnd: '',
+      targCode: ''
+    });
+  }
+
 }
