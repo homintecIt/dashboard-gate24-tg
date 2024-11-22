@@ -17,7 +17,7 @@ export class MonthlyReportModalComponent {
 
   @Input() data: any
   dropdownOptions: any[] = [];
-  selectedOption: string = '';
+  selectedOption: any = '';
   reports: any[] = [];
 
   ngOnInit(): void {
@@ -34,9 +34,9 @@ export class MonthlyReportModalComponent {
   }
 
   // Lorsqu'un site est sélectionné
-  onSiteSelected(site: string): void {
+  onSiteSelected(site: any): void {
     this.selectedOption = site;
-    console.log(site)
+    console.log(this.selectedOption)
 
     // Construire le payload
     const payload = {
@@ -54,7 +54,7 @@ export class MonthlyReportModalComponent {
     console.log(site)
 
 
-      this.router.navigate(['/dashboard/passage-monthly'], { queryParams: { site } });
+      this.router.navigate(['/dashboard/passage-monthly'], { queryParams: { site:this.selectedOption } });
       this.bsModalRef.hide(); // Fermer le modal
 
   }

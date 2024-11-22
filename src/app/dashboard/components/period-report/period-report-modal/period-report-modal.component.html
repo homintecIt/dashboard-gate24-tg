@@ -9,19 +9,17 @@
   </div>
 
   <div class="modal-body p-4">
-      <form>
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
-              <select  [(ngModel)]="selectedOption" (change)="onSiteSelected(selectedOption)" class="form-control" name="" id="">
+              <select  [(ngModel)]="selectedOption" (change)="onSiteSelected(selectedOption)" class="form-select">
                 <option value=""  disabled>Selectionnez un site</option>
-                <option *ngFor="let option of dropdownOptions" [value]="option">
+                <option *ngFor="let option of dropdownOptions" [value]="option.passages_site">
                   {{ option.passages_site }}
               </option>
               </select>
               <label class="form-label" >Selectionner</label>
           </div>
           <!-- <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block">Login</button> -->
-      </form>
   </div>
 </div>
 <!-- Modal -->

@@ -19,7 +19,7 @@ export class MonthlyReportService {
   }
 
   getReports(payload: any): Observable<any> {
-    return this.http.post<any>(`${apiEndpoints.sitePassageUrl}`,payload);
+    return this.http.post<any>(`${apiEndpoints.monthlyReportUrl}`,payload);
   }
 
 
