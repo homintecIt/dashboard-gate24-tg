@@ -26,6 +26,7 @@ import { PeriodReportComponent } from './components/period-report/period-report.
 import { TypeSynchroComponent } from './components/type-synchro/type-synchro.component';
 import { DateModalComponent } from './components/financial-data/date-modal/date-modal.component';
 import { FinancialDataComponent } from './components/financial-data/financial-data.component';
+import { ServersComponent } from './components/servers/servers.component';
 
 
 
@@ -52,7 +53,8 @@ import { FinancialDataComponent } from './components/financial-data/financial-da
     PeriodReportComponent,
     FinancialDataComponent,
     TypeSynchroComponent,
-    DateModalComponent
+    DateModalComponent,
+    ServersComponent,
 
      ],
   imports: [

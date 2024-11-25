@@ -60,7 +60,7 @@
             class="nav-link menu-link cursor-pointer"
             (click)="openPassagesModal()"
           >
-            <i class="ri-dashboard-2-line"></i>
+            <i class=" ri-donut-chart-line"></i>
             <span data-key="t-widgets">Rapport journalier</span>
           </a>
         </li>
@@ -69,7 +69,7 @@
             class="nav-link menu-link"
             routerLink="/dashboard/passage-by-subscriber"
           >
-            <i class="ri-dashboard-2-line"></i>
+            <i class="ri-git-repository-line"></i>
             <span data-key="t-widgets">Rapport par abonné</span>
           </a>
         </li>
@@ -110,18 +110,18 @@
                 <ul class="nav nav-sm flex-column">
                   <li class="nav-item">
                     <a
-                      href="/dashboard/settings/type-synchro"
+                      routerLink="/dashboard/listeServer"
                       class="nav-link"
                       data-key="t-ribbons"
-                      >Liste des synchro</a
+                      >Liste des serveurs</a
                     >
                   </li>
                   <li class="nav-item">
                     <a
-                      href="ui-utilities.html"
+                      href="/dashboard/settings/type-synchro"
                       class="nav-link"
                       data-key="t-utilities"
-                      >Liste des serveurs</a
+                      >Liste des synchro</a
                     >
                   </li>
                 </ul>

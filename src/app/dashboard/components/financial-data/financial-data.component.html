@@ -74,6 +74,10 @@
               <span class="visually-hidden">Chargement...</span>
             </div>
           </div>
+        <!-- Message d'erreur -->
+        <div *ngIf="error" class="alert alert-danger">
+          {{ error }}
+        </div>
 
 </div>
   </div>

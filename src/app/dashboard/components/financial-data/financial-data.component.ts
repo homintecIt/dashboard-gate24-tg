@@ -17,6 +17,7 @@ export class FinancialDataComponent implements OnInit {
   selectedDate: string = '';
   loading = false;
   searchTerm = '';
+  error: string | null = null;
   constructor(
     private route: ActivatedRoute,
     private financialService: FinancialService
@@ -50,23 +51,26 @@ export class FinancialDataComponent implements OnInit {
   }
 
   fetchFinancialData(payload:any): void {
-
+    this.financialData=[]
     this.loading = true;
     this.financialService.getFinancialData(payload).subscribe({
       next: (response) => {
+
         this.financialData = response.data || [];
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Erreur lors du chargement des données', err);
+      error: (error) => {
+        console.error('Erreur lors du chargement des données', error);
         this.loading = false;
+
+        this.error="Erreur lors du chargement des données"
       }
     });
   }
 
   // Filtrer par targCode
   onSearch(event: any): void {
-    if ( event.target.value.length >=3 ) {
+
       this.searchTerm = event.target.value;
       const payload = {
         "draw": 1,
@@ -88,7 +92,6 @@ export class FinancialDataComponent implements OnInit {
     };
       this.fetchFinancialData(payload);
 
-    }
   }
 
 

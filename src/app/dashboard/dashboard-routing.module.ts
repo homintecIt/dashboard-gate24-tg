@@ -6,13 +6,13 @@ import { RechargesListComponent } from './components/recharges-list/recharges-li
 import { SubscribeListComponent } from './components/subscribe-list/subscribe-list.component';
 import { PassageDailyComponent } from './components/passages/passages-daily/passages-daily.component';
 import { PassageBySubscriberComponent } from './components/passages/passage-by-subscriber/passage-by-subscriber.component';
-
 import { ListeDesClientsComponent } from './components/liste-des-clients/liste-des-clients.component';
 import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
 import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
 import { PeriodReportComponent } from './components/period-report/period-report.component';
 import { TypeSynchroComponent } from './components/type-synchro/type-synchro.component';
 import { FinancialDataComponent } from './components/financial-data/financial-data.component';
+import { ServersComponent } from './components/servers/servers.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -28,6 +28,8 @@ const routes: Routes = [
       { path: "passage-period", component: PeriodReportComponent },
       { path: "settings/type-synchro", component: TypeSynchroComponent },
       { path: 'financial-data', component: FinancialDataComponent },
+      { path: "listeServer", component: ServersComponent },
+
 
 
       { path: "", redirectTo: "statistics", pathMatch: "full" }
