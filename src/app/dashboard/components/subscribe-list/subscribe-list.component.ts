@@ -5,7 +5,12 @@ import { StatusUpdatePayload, Subscription, SubscriptionService } from '../servi
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 import { SubscriptionEditModalComponent } from './subscription-edit-modal/subscription-edit-modal.component';
 import { SubscriptionDetailsModalComponent } from './subscription-details-modal/subscription-details-modal.component';
+import Swal from 'sweetalert2';
+import { swalAnimation } from 'src/app/misc/utilities.misc';
 
+const swalWithBootstrapButtons = Swal.mixin({
+  buttonsStyling: true,
+});
 @Component({
   selector: 'app-subscribe-list',
   templateUrl: './subscribe-list.component.html',
@@ -44,32 +49,51 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
 
  // Nouvelle méthode pour gérer le changement de statut
  onStatusToggle(subscription: Subscription): void {
-  // Déterminer le nouveau statut
-  const newStatus = subscription.statutTarg === 'actived' ? false : true;
 
-  // Préparer la payload
-  const payload: StatusUpdatePayload = {
-    targId: subscription.targId,
-    isActive: newStatus
-  };
+  swalWithBootstrapButtons.fire({
+    title: 'Êtes-vous sûr ?',
+    text: `Voulez-vous vraiment ${subscription.statutTarg === 'actived' ? 'désactiver' : 'activer'} le type "${subscription.targCode}" ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui',
+    cancelButtonText: 'Annuler',
+    confirmButtonColor: ' #405189',
+        cancelButtonColor: '#6c757d',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        reverseButtons: false,
+        ...swalAnimation,
+  }).then((result) => {
+    if (result.isConfirmed) {
+// Déterminer le nouveau statut
+const newStatus = subscription.statutTarg === 'actived' ? false : true;
 
-  // Appeler le service pour mettre à jour le statut
-  this.subscrptionService.updateSubscriptionStatus(payload)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: () => {
-        // Mise à jour réussie
-        // Optionnel : rafraîchir les données
-        this.refreshData();
+// Préparer la payload
+const payload: StatusUpdatePayload = {
+  targId: subscription.targId,
+  isActive: newStatus
+};
 
-      },
-      error: (error) => {
-        // Gestion des erreurs
-        console.error('Erreur lors du changement de statut', error);
+// Appeler le service pour mettre à jour le statut
+this.subscrptionService.updateSubscriptionStatus(payload)
+  .pipe(takeUntil(this.destroy$))
+  .subscribe({
+    next: () => {
+      // Mise à jour réussie
+      // Optionnel : rafraîchir les données
+      this.refreshData();
+
+    },
+    error: (error) => {
+      // Gestion des erreurs
+      console.error('Erreur lors du changement de statut', error);
 
 
-      }
-    });
+    }
+  });
+    }
+  });
+
 }
 
     addTag(compteId: number) {
