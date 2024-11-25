@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FinancialDataService } from '../services/financial-data.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { FormControl } from '@angular/forms';
+import { FinancialService } from '../services/financial.service';
+import { DateModalComponent } from './date-modal/date-modal.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-financial-data',
@@ -8,37 +12,84 @@ import { FinancialDataService } from '../services/financial-data.service';
 })
 export class FinancialDataComponent implements OnInit {
   financialData: any[] = [];
-  loading: boolean = false;
-
-  constructor(private financialDataService: FinancialDataService) {}
+  searchControl = new FormControl('');
+  data: any[] = [];
+  selectedDate: string = '';
+  loading = false;
+  searchTerm = '';
+  constructor(
+    private route: ActivatedRoute,
+    private financialService: FinancialService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchData();
-  }
-
-  fetchData(): void {
-    const requestBody = {
-      draw: 1,
-      columns: [],
-      order: [{ column: 0, dir: 'asc' }],
-      start: 3,
-      length: 10,
-      search: { value: '', regex: false },
-      date: '2020-10-23',
-      targCode: '',
-    };
-
-    this.loading = true;
-    this.financialDataService.getFinancialData(requestBody).subscribe({
-      next: (response) => {
-        this.financialData = response.data; // Adapté à la structure de ma réponse apres avoir eu l'url
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Erreur lors de la récupération des données :', error);
-        this.loading = false;
-      },
+    this.route.queryParams.subscribe((params) => {
+      this.selectedDate = params['date'] || '';
+      if (this.selectedDate) {
+        const payload = {
+          "draw": 1,
+          "columns": [],
+          "order": [
+              {
+                  "column": 0,
+                  "dir": "asc"
+              }
+          ],
+          "start": 3,
+          "length": 10,
+          "search": {
+              "value": "",
+              "regex": false
+          },
+          "date":this.selectedDate,
+          "targCode": ""
+      };
+        this.fetchFinancialData(payload);
+      }
     });
   }
+
+  fetchFinancialData(payload:any): void {
+
+    this.loading = true;
+    this.financialService.getFinancialData(payload).subscribe({
+      next: (response) => {
+        this.financialData = response.data || [];
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des données', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  // Filtrer par targCode
+  onSearch(event: any): void {
+    if ( event.target.value.length >=3 ) {
+      this.searchTerm = event.target.value;
+      const payload = {
+        "draw": 1,
+        "columns": [],
+        "order": [
+            {
+                "column": 0,
+                "dir": "asc"
+            }
+        ],
+        "start": 3,
+        "length": 10,
+        "search": {
+            "value": this.searchTerm,
+            "regex": false
+        },
+        "date":this.selectedDate,
+        "targCode": ""
+    };
+      this.fetchFinancialData(payload);
+
+    }
+  }
+
 
 }

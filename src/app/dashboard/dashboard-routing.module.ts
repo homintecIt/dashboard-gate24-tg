@@ -12,6 +12,7 @@ import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-
 import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
 import { PeriodReportComponent } from './components/period-report/period-report.component';
 import { TypeSynchroComponent } from './components/type-synchro/type-synchro.component';
+import { FinancialDataComponent } from './components/financial-data/financial-data.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -26,7 +27,7 @@ const routes: Routes = [
       { path: "passage-monthly", component: MonthlyReportComponent },
       { path: "passage-period", component: PeriodReportComponent },
       { path: "settings/type-synchro", component: TypeSynchroComponent },
-
+      { path: 'financial-data', component: FinancialDataComponent },
 
 
       { path: "", redirectTo: "statistics", pathMatch: "full" }

@@ -86,7 +86,12 @@
             <span data-key="t-widgets">Rapport par periode</span>
           </a>
         </li>
-
+        <li (click)="openFinancialData()" class="nav-item">
+          <a class="nav-link menu-link" href="Javascript:void(0);">
+            <i class=" ri-file-list-line"></i>
+            <span data-key="t-widgets">Données financières</span>
+          </a>
+        </li>
         <li class="nav-item">
           <a
             class="nav-link menu-link"
@@ -108,7 +113,7 @@
                       href="/dashboard/settings/type-synchro"
                       class="nav-link"
                       data-key="t-ribbons"
-                      >Liste des serveurs</a
+                      >Liste des synchro</a
                     >
                   </li>
                   <li class="nav-item">
@@ -116,7 +121,7 @@
                       href="ui-utilities.html"
                       class="nav-link"
                       data-key="t-utilities"
-                      >Liste des synchro</a
+                      >Liste des serveurs</a
                     >
                   </li>
                 </ul>

@@ -4,6 +4,7 @@ import { PassagesDropdownSiteComponent } from '../../passages/passages-dropdown-
 
 import { MonthlyReportModalComponent } from '../../monthly-report/monthly-report-modal/monthly-report-modal.component';
 import { PeriodReportModalComponent } from '../../period-report/period-report-modal/period-report-modal.component';
+import { DateModalComponent } from '../../financial-data/date-modal/date-modal.component';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -26,6 +27,10 @@ export class SidebarComponent {
 
   openPeriodReport() {
     this.modalService.openModal(PeriodReportModalComponent,'modal-md modal-dialog-centered');
+  }
+
+  openFinancialData() {
+    this.modalService.openModal(DateModalComponent,'modal-md modal-dialog-centered');
   }
 
 

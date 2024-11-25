@@ -1,16 +1,16 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import apiEndpoints from 'src/app/misc/api-endpoints.misc';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FinancialDataService {
+  private baseUrl = '/financier/get-data-financier'; // Endpoint POST
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getFinancialData(requestBody: any): Observable<any> {
-    return this.http.post<any>(`${apiEndpoints.getFinancialDataUrl}`, requestBody);
+  getFinancialData(payload: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl, payload);
   }
 }
