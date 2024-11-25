@@ -77,20 +77,16 @@ const payload: StatusUpdatePayload = {
 // Appeler le service pour mettre à jour le statut
 this.subscrptionService.updateSubscriptionStatus(payload)
   .pipe(takeUntil(this.destroy$))
-  .subscribe({
-    next: () => {
-      // Mise à jour réussie
-      // Optionnel : rafraîchir les données
-      this.refreshData();
-
+  .subscribe(
+    () => {
+      subscription.statutTarg = newStatus ? 'actived' : 'desactived';
+      Swal.fire('Succès', `Le statut a été mis à jour.`, 'success');
     },
-    error: (error) => {
-      // Gestion des erreurs
-      console.error('Erreur lors du changement de statut', error);
-
-
+    (error) => {
+      console.error('Erreur lors de la mise à jour du statut', error);
+      Swal.fire('Erreur', 'La mise à jour a échoué.', 'error');
     }
-  });
+  );
     }
   });
 
