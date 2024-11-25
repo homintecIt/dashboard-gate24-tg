@@ -7,10 +7,12 @@ import { PeriodReportService } from '../services/period-report.service';
   styleUrls: ['./period-report.component.css']
 })
 export class PeriodReportComponent implements OnInit {
-
+  dateStart: string = '';
+  dateEnd: string = '';
   site: string = '';
   records: any[] = [];
   loading = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -20,6 +22,9 @@ export class PeriodReportComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.site = params['site'] || '';
+      this.dateStart = params['dateStart'] || '2024-01-01'; // Valeur par défaut
+      this.dateEnd = params['dateEnd'] || '2024-12-31';
+      console.log('Mes dates :',this.dateEnd,this.dateStart)
       if (this.site) {
         this.fetchData();
       }
@@ -34,8 +39,8 @@ export class PeriodReportComponent implements OnInit {
       order: ['date'],
       columns: ['date', 'passages', 'total'],
       search: {},
-      dateStart: '2024-01-01',
-      dateEnd: '2024-12-31',
+      dateStart: this.dateStart,
+      dateEnd: this.dateEnd,
       site: this.site,
       targCode: ''
     };

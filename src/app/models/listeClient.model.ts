@@ -11,6 +11,7 @@ export class Client {
   cin?: string;
   uuid: any;
   type: any;
+  typeClient:any;
 }
 
 export class Account {

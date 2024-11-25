@@ -22,6 +22,8 @@ export class PeriodReportModalComponent {
   dropdownOptions: any[] = [];
   selectedOption: string = '';
   reports: any[] = [];
+  dateStart: string = '';
+  dateEnd: string = '';
 
   ngOnInit(): void {
     this.loadDropdownOptions();
@@ -47,14 +49,15 @@ export class PeriodReportModalComponent {
       order: [''],
       columns: [''],
       search: {},
-      dateStart: '',
-      dateEnd: '',
+      dateStart: this.dateStart,
+      dateEnd: this.dateEnd,
       site: site, // Site sélectionné
       targCode: ''
     };
     console.log(site)
 
-      this.router.navigate(['/dashboard/passage-period'], { queryParams: { site } });
+      this.router.navigate(['/dashboard/passage-period'], { queryParams: { site,dateStart: this.dateStart,
+        dateEnd: this.dateEnd, } });
       this.bsModalRef.hide(); // Fermer le modal
   }
 

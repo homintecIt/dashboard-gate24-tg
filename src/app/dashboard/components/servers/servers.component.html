@@ -44,20 +44,25 @@
                 <td>{{ server.url }}</td>
                 <td>{{ server.etat === 'actif' ? "Actif" : "Inactif" }}</td>
                 <td>
-                  <div class="form-check form-switch d-flex gap-3">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      [checked]="server.etat === 'actif'"
-                      (change)="toggleStatus(server)"
-                    />
-                    <label
-                      class="form-check-label"
-                      [for]="'subscriptionStatusSwitch' + server.site"
-                    >
-                      {{ server.etat === 'actif' ? "Activé" : "Désactivé" }}
-                    </label>
-                  </div>
-                </td>
+                  <div class="d-flex gap-2 align-items-center">
+                    <div class="form-check form-switch d-flex gap-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        [checked]="server.etat === 'actif'"
+                        (change)="toggleStatus(server)"
+                      />
+                      <!-- <label
+                        class="form-check-label"
+                        [for]="'subscriptionStatusSwitch' + server.site"
+                      >
+                        {{ server.etat === 'actif' ? "Activé" : "Désactivé" }}
+                      </label> -->
+                    </div>
+                  <a href="" class="fs-3 mb-1 "> <i class="ri-add-circle-fill "></i></a>
+                </div>
+              </td>
+
+
 

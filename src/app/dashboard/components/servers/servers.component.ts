@@ -34,7 +34,7 @@ toggleStatus(server: any): void {
   const newEtat = server.etat === 'actif' ? 'inactif' : 'actif';
   swalWithBootstrapButtons.fire({
     title: 'Êtes-vous sûr ?',
-    text: `Voulez-vous vraiment ${server.status ? 'désactiver' : 'activer'} le server du site "${server.site}" ?`,
+    text: `Voulez-vous vraiment ${server.status ? 'désactiver' : 'activer'} le server du site ${server.site} ?`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Oui',
