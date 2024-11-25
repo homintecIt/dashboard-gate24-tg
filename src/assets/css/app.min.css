@@ -546,8 +546,8 @@
 .navbar-menu {
   width: var(--vz-vertical-menu-width);
   z-index: 1002;
-  background: var(--vz-vertical-menu-bg);
-  border-right: 1px solid var(--vz-vertical-menu-border);
+  background: #fff;
+  border-right: 1px solid #e9ebec;
   bottom: 0;
   margin-top: 0;
   position: fixed;
@@ -556,7 +556,8 @@
   box-shadow: var(--vz-vertical-menu-box-shadow);
   padding: 0 0 calc(70px + 25px) 0;
   -webkit-transition: all .1s ease-out;
-  transition: all .1s ease-out
+  transition: all .1s ease-out;
+  overflow: auto;
 }
 
 .navbar-menu .navbar-nav .nav-link {
@@ -567,17 +568,17 @@
   -ms-flex-align: center;
   align-items: center;
   padding: .625rem 1.5rem;
-  color: var(--vz-vertical-menu-item-color);
+  color: #212529;
   font-size: .9375rem;
   font-family: hkgrotesk, sans-serif
 }
 
 .navbar-menu .navbar-nav .nav-link.active {
-  color: var(--vz-vertical-menu-item-active-color)
+  color: #364574
 }
 
 .navbar-menu .navbar-nav .nav-link:hover {
-  color: var(--vz-vertical-menu-item-hover-color)
+  color: #000
 }
 
 .navbar-menu .navbar-nav .nav-link i {
@@ -600,7 +601,7 @@
 }
 
 .navbar-menu .navbar-nav .nav-link:hover {
-  color: var(--vz-vertical-menu-item-hover-color)
+  color: #000
 }
 
 .navbar-menu .navbar-nav .nav-link:hover .icon-dual {
@@ -624,11 +625,11 @@
 }
 
 .navbar-menu .navbar-nav .nav-link[data-bs-toggle=collapse][aria-expanded=true] {
-  color: var(--vz-vertical-menu-item-active-color)
+  color: #000;
 }
 
 .navbar-menu .navbar-nav .nav-link[data-bs-toggle=collapse][aria-expanded=true] .icon-dual {
-  color: var(--vz-vertical-menu-item-hover-color);
+  color: #000;
   fill: rgba(64, 81, 137, .16)
 }
 
@@ -654,7 +655,7 @@
 
 .navbar-menu .navbar-nav .nav-sm .nav-link {
   padding: .55rem 1.5rem !important;
-  color: var(--vz-vertical-menu-sub-item-color);
+  color: #000;
   white-space: none;
   position: relative;
   font-size: .813rem;
@@ -675,11 +676,11 @@
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover {
-  color: var(--vz-vertical-menu-sub-item-hover-color)
+  color: #364574
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover:before {
-  background-color: var(--vz-vertical-menu-sub-item-hover-color) !important;
+  background-color: #364574 !important;
   opacity: 1
 }
 
