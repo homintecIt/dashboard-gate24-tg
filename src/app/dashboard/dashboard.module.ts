@@ -23,7 +23,6 @@ import { ListeDesClientsComponent } from './components/liste-des-clients/liste-d
 import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
 import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
 import { PeriodReportComponent } from './components/period-report/period-report.component';
-import { FinancialDataComponent } from './components/financial-data/financial-data.component';
 import { ServersComponent } from './components/servers/servers.component';
 
 
@@ -49,7 +48,6 @@ import { ServersComponent } from './components/servers/servers.component';
     ListeDesComptesClientsComponent,
     MonthlyReportComponent,
     PeriodReportComponent,
-    FinancialDataComponent,
     ServersComponent,
 
      ],
