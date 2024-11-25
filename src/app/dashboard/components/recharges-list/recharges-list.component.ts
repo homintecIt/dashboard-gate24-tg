@@ -19,7 +19,7 @@ export class RechargesListComponent implements OnInit, OnDestroy {
 
   // Pagination
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 10 ;
   totalItems = 0;
   totalPages = 0;
 
@@ -132,6 +132,19 @@ export class RechargesListComponent implements OnInit, OnDestroy {
       if (page < 1 || page > this.totalPages) return;
 
       this.currentPage = page;
+      this.rechargesService.loadRecharges( this.currentPage, this.itemsPerPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.totalItems = response.meta.totalItems;
+          this.totalPages = response.meta.totalPages;
+          this.currentPage = response.meta.currentPage;
+        },
+        error: (err) => {
+          console.error('Erreur de chargement', err);
+          this.error = 'Impossible de charger les subscrption';
+        }
+      });
       this.filterRecharges();
     }
 

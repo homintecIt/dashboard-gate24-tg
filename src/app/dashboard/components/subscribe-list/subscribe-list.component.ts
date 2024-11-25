@@ -62,8 +62,6 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
         // Optionnel : rafraîchir les données
         this.refreshData();
 
-        // Notification de succès
-
       },
       error: (error) => {
         // Gestion des erreurs
@@ -195,25 +193,25 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
   }
 
     // Navigation entre pages
-    goToPage(page: number): void {
-      if (page < 1 || page > this.totalPages) return;
+      goToPage(page: number): void {
+        if (page < 1 || page > this.totalPages) return;
 
-      this.currentPage = page;
-      this.subscrptionService.loadSubscriptions( this.currentPage, this.itemsPerPage)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          this.totalItems = response.meta.totalItems;
-          this.totalPages = response.meta.totalPages;
-          this.currentPage = response.meta.currentPage;
-        },
-        error: (err) => {
-          console.error('Erreur de chargement', err);
-          this.error = 'Impossible de charger les subscrption';
-        }
-      });
-      this.filterSubscriptions();
-    }
+        this.currentPage = page;
+        this.subscrptionService.loadSubscriptions( this.currentPage, this.itemsPerPage)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.totalItems = response.meta.totalItems;
+            this.totalPages = response.meta.totalPages;
+            this.currentPage = response.meta.currentPage;
+          },
+          error: (err) => {
+            console.error('Erreur de chargement', err);
+            this.error = 'Impossible de charger les subscrption';
+          }
+        });
+        this.filterSubscriptions();
+      }
 
   // Rafraîchissement
   refreshData(): void {
