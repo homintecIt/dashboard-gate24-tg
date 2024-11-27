@@ -33,8 +33,6 @@ import { UsersDeleteModalComponent } from './components/users/users-delete-modal
 import { UsersAffectRouteModalComponent } from './components/users/users-affect-route-modal/users-affect-route-modal.component';
 
 
-
-
 @NgModule({
   declarations: [
     FooterComponent,
