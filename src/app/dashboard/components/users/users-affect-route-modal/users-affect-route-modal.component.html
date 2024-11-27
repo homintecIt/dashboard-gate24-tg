@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h4 class="modal-title">Modifier l'abonnement</h4>
+  <button type="button" class="btn-close" (click)="bsModalRef.hide()"></button>
+</div>
+<div class="modal-body">
+  <div *ngIf="loading" class="text-center p-4">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <form *ngIf="!loading" [formGroup]="editForm">
+    <div class="container mt-4">
+      <h5>Choisir des Routes</h5>
+      <ng-select
+        [items]="routers"
+        bindLabel="titre"
+        bindValue="id"
+        [multiple]="true"
+        [(ngModel)]="selectedRoutes"
+        [searchable]="true"
+        class="form-control custom">
+      </ng-select>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Annuler</button>
+  <!-- <button type="button" class="btn btn-primary"
+          (click)="onSubmit()"
+          [disabled]="editForm.invalid || isSubmitting">
+    <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1"></span>
+    Enregistrer
+  </button> -->
+</div>
+
+
