@@ -1,0 +1,33 @@
+/* Styles pour le ng-select */
+.ng-select.custom {
+  width: 100%; /* Ajuste la largeur selon ton design */
+  min-height: 40px;
+}
+
+.ng-select .ng-select-container {
+  background-color: #fff;  /* Fond blanc */
+  border: 1px solid #ced4da; /* Bordure standard Bootstrap */
+  border-radius: 0.25rem;
+}
+
+.ng-select .ng-dropdown-panel {
+  background-color: #fff; /* Fond de la liste */
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  z-index: 1050; /* S'assure que la liste reste au-dessus des autres éléments */
+}
+
+.ng-select .ng-option {
+  padding: 8px 12px; /* Espacement pour chaque option */
+}
+
+.ng-select .ng-option.selected {
+  background-color: #007bff; /* Fond bleu pour les options sélectionnées */
+  color: #fff; /* Texte blanc */
+}
+.ng-select .ng-dropdown-panel {
+  background-color: white !important; /* Assure un fond opaque */
+}
+.ng-select .ng-dropdown-panel {
+  background-color: white !important; /* Assure un fond opaque */
+}

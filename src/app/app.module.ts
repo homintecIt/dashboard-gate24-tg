@@ -19,7 +19,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { EditClientModalComponent } from './dashboard/components/liste-des-clients/edit-client-modal/edit-client-modal.component';
 import { MonthlyReportModalComponent } from './dashboard/components/monthly-report/monthly-report-modal/monthly-report-modal.component';
 import { PeriodReportModalComponent } from './dashboard/components/period-report/period-report-modal/period-report-modal.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 registerLocaleData(localeFr);
 
@@ -43,6 +43,7 @@ registerLocaleData(localeFr);
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgSelectModule,
     ModalModule.forRoot(),
   ],
   providers: [

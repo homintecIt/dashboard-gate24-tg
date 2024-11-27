@@ -31,6 +31,7 @@ import { UsersComponent } from './components/users/users.component';
 import { UsersEditModalComponent } from './components/users/users-edit-modal/users-edit-modal.component';
 import { UsersDeleteModalComponent } from './components/users/users-delete-modal/users-delete-modal.component';
 import { UsersAffectRouteModalComponent } from './components/users/users-affect-route-modal/users-affect-route-modal.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -70,6 +71,7 @@ import { UsersAffectRouteModalComponent } from './components/users/users-affect-
     DashboardRoutingModule,
     ReactiveFormsModule ,
     FormsModule,
+    NgSelectModule
   ],
   providers: [RechargesService, SubscriptionService]
 })
