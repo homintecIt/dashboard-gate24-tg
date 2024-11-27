@@ -34,8 +34,6 @@ import { UsersAffectRouteModalComponent } from './components/users/users-affect-
 import { NgSelectModule } from '@ng-select/ng-select';
 
 
-
-
 @NgModule({
   declarations: [
     FooterComponent,
