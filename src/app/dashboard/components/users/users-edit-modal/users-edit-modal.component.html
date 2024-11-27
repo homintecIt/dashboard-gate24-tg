@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h5 class="modal-title">Modifier l'utilisateur</h5>
-  <button type="button" class="btn-close" aria-label="Close" ></button>
+  <button type="button" class="btn-close"  (click)="bsModalRef.hide()" ></button>
 </div>
 <div class="modal-body">
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
@@ -14,13 +14,14 @@
     </div>
     <div class="mb-3">
       <label for="role" class="form-label">Rôle</label>
-      <select id="role" class="form-select" formControlName="role">
-        <option value="ADMIN">ADMIN</option>
-        <option value="USER">USER</option>
+      <select id="role" class="form-control" formControlName="role">
+        <option value="ADMIN">Admin</option>
+        <option value="USER">Utilisateur</option>
+        <option value="SIRAT">Sirat</option>
       </select>
     </div>
-    <div class="text-end">
-      <button type="button" class="btn btn-secondary" >Annuler</button>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Annuler</button>
       <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Enregistrer</button>
     </div>
   </form>

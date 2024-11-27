@@ -1,71 +1,59 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User, UserService } from '../../services/users-service.service';
+import { User } from 'src/app/models/user.model';
+import { UserService } from '../../services/users-service.service';
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-users-edit-modal',
-  // templateUrl: './users-edit-modal.component.html'
-  template: `
-  <div class="modal-header">
-  <h5 class="modal-title">Modifier l'utilisateur</h5>
-  <button type="button" class="btn-close" aria-label="Close" ></button>
-</div>
-<div class="modal-body">
-  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label for="name" class="form-label">Nom</label>
-      <input type="text" id="name" class="form-control" formControlName="name">
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" id="email" class="form-control" formControlName="email">
-    </div>
-    <div class="mb-3">
-      <label for="role" class="form-label">Rôle</label>
-      <select id="role" class="form-select" formControlName="role">
-        <option value="ADMIN">ADMIN</option>
-        <option value="USER">USER</option>
-      </select>
-    </div>
-    <div class="text-end">
-      <button type="button" class="btn btn-secondary" >Annuler</button>
-      <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Enregistrer</button>
-    </div>
-  </form>
-</div>
-
-  `
+  templateUrl: './users-edit-modal.component.html'
 })
 export class UsersEditModalComponent implements OnInit {
-  editForm: FormGroup;
-
-  @Input() user: User;
-
+  @Input() data!: User;
+  editForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private modalService: BootstrapModalService,
+    public bsModalRef: BsModalRef,
   ) {}
 
   ngOnInit(): void {
-    console.log("USER INIT",this.user);
-    if (!this.user) {
-      throw new Error('User data is required');
-    }
     this.editForm = this.fb.group({
-      name: [this.user.name, Validators.required],
-      email: [this.user.email, [Validators.required, Validators.email]],
-      role: [this.user.role, Validators.required]
+      name: [this.data.name, Validators.required],
+      email: [this.data.email, [Validators.required, Validators.email]],
+      role: [this.data.role, Validators.required],
+      id: [this.data.id],
+      created_at: [this.data.created_at],
+      updated_at: [this.data.updated_at],
+      phone: [this.data.phone],
+      password: [this.data.password],
+      image_profil: [this.data.image_profil],
+      email_verified_at: [this.data.email_verified_at],
+      api_token: [this.data.api_token],
+      remember_token: [this.data.remember_token],
+      account_number: [this.data.account_number],
+      is_active: [this.data.is_active],
     });
   }
 
   onSubmit(): void {
+    console.log(this.data);
+
     if (this.editForm.valid) {
       this.userService.updateUser( this.editForm.value).subscribe({
         next: () => {
-          // this.activeModal.close('success');
+          console.log("ok");
+
+          this.bsModalRef.hide();
         },
-        error: (err) => console.error('Erreur de mise à jour', err)
+        error: (err) => {
+          console.error('Erreur de mise à jour', err);
+          this.bsModalRef.hide();
+
+        }
       });
     }
   }

@@ -111,6 +111,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   openEditModal(user: User): void {
     this.selectedUser = user;
     this.modalService.openModal(UsersEditModalComponent,user , 'modal-lg',);
+
+    this.modalService.modalRef.onHidden?.subscribe(() => {
+      this.refreshData(); // Rafraîchir la liste après fermeture du modal
+    });
   }
 
   // Sauvegarde des modifications
@@ -162,5 +166,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   // Fermeture des modaux
   closeModals(): void {
     this.selectedUser = undefined;
+  }
+  refreshData(): void {
+    this.loadUsers();
   }
 }
