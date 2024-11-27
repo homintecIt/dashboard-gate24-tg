@@ -80,6 +80,24 @@ export class UserService {
     );
   }
 
+
+
+    // Activation ou desactivation d'un utilisateur
+    updateStatusUser(updateDto: {user_id:number, status:number}){
+      return this.http.post(`${this.apiUrl}/users/update/user/status`, updateDto).pipe(
+        tap(reponse => {
+          console.log("response",reponse);
+
+        }),
+        catchError(error => {
+          console.error('Erreur de mise à jour de l\'utilisateur', error);
+          console.log("serveur error",error);
+
+          return throwError(() => error);
+        })
+      );
+    }
+
   // Suppression d'un utilisateur (si l'API le permet)
   deleteUser(userId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/users/delete/${userId}`).pipe(

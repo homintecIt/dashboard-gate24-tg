@@ -6,6 +6,13 @@ import { User, UserService, UserUpdateDto } from '../services/users-service.serv
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 import { UsersEditModalComponent } from './users-edit-modal/users-edit-modal.component';
 import { UsersDeleteModalComponent } from './users-delete-modal/users-delete-modal.component';
+import { swalAnimation } from 'src/app/misc/utilities.misc';
+import Swal from 'sweetalert2';
+import { UsersAffectRouteModalComponent } from './users-affect-route-modal/users-affect-route-modal.component';
+
+const swalWithBootstrapButtons = Swal.mixin({
+  buttonsStyling: true,
+});
 
 @Component({
   selector: 'app-users',
@@ -92,19 +99,52 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   // Changement de statut
   onStatusToggle(user: User): void {
-    const updateDto: UserUpdateDto = {
-      id: user.id,
-      is_active: !user.is_active
-    };
 
-    this.userService.updateUser(updateDto)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        error: (err) => {
-          console.error('Erreur de mise à jour du statut', err);
-          // Optionnel : notification d'erreur
-        }
-      });
+
+    swalWithBootstrapButtons.fire({
+      title: 'Êtes-vous sûr ?',
+      text: `Voulez-vous vraiment ${user.is_active ? 'désactiver' : 'activer'} l'utilisateur "${user.name}" ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: ' #405189',
+          cancelButtonColor: '#6c757d',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          reverseButtons: false,
+          ...swalAnimation,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updateDto = {
+          user_id: user.id,
+          status: user.is_active ? 0 : 1
+        };
+
+        this.userService.updateStatusUser(updateDto).subscribe(
+          () => {
+
+            Swal.fire('Succès', `Le statut a été mis à jour.`, 'success');
+            this.refreshData();
+          },
+          (error) => {
+            console.error('Erreur lors de la mise à jour du statut', error);
+            Swal.fire('Erreur', 'La mise à jour a échoué.', 'error');
+          }
+        );
+      }
+    });
+
+
+
+    // this.userService.updateStatusUser(updateDto)
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe({
+    //     error: (err) => {
+    //       console.error('Erreur de mise à jour du statut', err);
+    //       // Optionnel : notification d'erreur
+    //     }
+    //   });
   }
 
   // Ouverture du modal d'édition
@@ -162,6 +202,18 @@ export class UsersComponent implements OnInit, OnDestroy {
         });
     }
   }
+
+
+
+    // Ouverture du modal d'édition
+    openAffectModal(user: User): void {
+      this.selectedUser = user;
+      this.modalService.openModal(UsersAffectRouteModalComponent,user , 'modal-lg',);
+
+      this.modalService.modalRef.onHidden?.subscribe(() => {
+        this.refreshData(); // Rafraîchir la liste après fermeture du modal
+      });
+    }
 
   // Fermeture des modaux
   closeModals(): void {

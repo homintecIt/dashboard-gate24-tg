@@ -30,6 +30,7 @@ import { ServersComponent } from './components/servers/servers.component';
 import { UsersComponent } from './components/users/users.component';
 import { UsersEditModalComponent } from './components/users/users-edit-modal/users-edit-modal.component';
 import { UsersDeleteModalComponent } from './components/users/users-delete-modal/users-delete-modal.component';
+import { UsersAffectRouteModalComponent } from './components/users/users-affect-route-modal/users-affect-route-modal.component';
 
 
 
@@ -61,6 +62,7 @@ import { UsersDeleteModalComponent } from './components/users/users-delete-modal
     UsersComponent,
     UsersEditModalComponent,
     UsersDeleteModalComponent,
+    UsersAffectRouteModalComponent,
 
      ],
   imports: [
