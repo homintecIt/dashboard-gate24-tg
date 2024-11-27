@@ -27,6 +27,9 @@ import { TypeSynchroComponent } from './components/type-synchro/type-synchro.com
 import { DateModalComponent } from './components/financial-data/date-modal/date-modal.component';
 import { FinancialDataComponent } from './components/financial-data/financial-data.component';
 import { ServersComponent } from './components/servers/servers.component';
+import { UsersComponent } from './components/users/users.component';
+import { UsersEditModalComponent } from './components/users/users-edit-modal/users-edit-modal.component';
+import { UsersDeleteModalComponent } from './components/users/users-delete-modal/users-delete-modal.component';
 
 
 
@@ -55,6 +58,9 @@ import { ServersComponent } from './components/servers/servers.component';
     TypeSynchroComponent,
     DateModalComponent,
     ServersComponent,
+    UsersComponent,
+    UsersEditModalComponent,
+    UsersDeleteModalComponent,
 
      ],
   imports: [

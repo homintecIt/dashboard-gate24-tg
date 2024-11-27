@@ -1,4 +1,3 @@
-// src/app/dashboard/components/subscribe-list/subscribe-list.component.ts
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { StatusUpdatePayload, Subscription, SubscriptionService } from '../services/subscribe-list.service';
@@ -153,6 +152,7 @@ this.subscrptionService.updateSubscriptionStatus(payload)
           this.currentPage = response.meta.currentPage;
         },
         error: (err) => {
+          this.loading = !this.loading
           console.error('Erreur de chargement', err);
           this.error = 'Impossible de charger les subscrption';
         }

@@ -13,6 +13,7 @@ import { PeriodReportComponent } from './components/period-report/period-report.
 import { TypeSynchroComponent } from './components/type-synchro/type-synchro.component';
 import { FinancialDataComponent } from './components/financial-data/financial-data.component';
 import { ServersComponent } from './components/servers/servers.component';
+import { UsersComponent } from './components/users/users.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -29,6 +30,7 @@ const routes: Routes = [
       { path: "settings/type-synchro", component: TypeSynchroComponent },
       { path: 'financial-data', component: FinancialDataComponent },
       { path: "listeServer", component: ServersComponent },
+      { path: "users", component: UsersComponent },
 
 
 

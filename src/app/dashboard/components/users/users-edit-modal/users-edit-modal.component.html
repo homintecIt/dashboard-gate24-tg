@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h5 class="modal-title">Modifier l'utilisateur</h5>
+  <button type="button" class="btn-close" aria-label="Close" ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nom</label>
+      <input type="text" id="name" class="form-control" formControlName="name">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" id="email" class="form-control" formControlName="email">
+    </div>
+    <div class="mb-3">
+      <label for="role" class="form-label">Rôle</label>
+      <select id="role" class="form-select" formControlName="role">
+        <option value="ADMIN">ADMIN</option>
+        <option value="USER">USER</option>
+      </select>
+    </div>
+    <div class="text-end">
+      <button type="button" class="btn btn-secondary" >Annuler</button>
+      <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Enregistrer</button>
+    </div>
+  </form>
+</div>
