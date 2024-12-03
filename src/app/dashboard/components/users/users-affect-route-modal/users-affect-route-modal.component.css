@@ -1,33 +1,60 @@
-/* Styles pour le ng-select */
-.ng-select.custom {
-  width: 100%; /* Ajuste la largeur selon ton design */
-  min-height: 40px;
+/* Styles pour le conteneur ng-select */
+.ng-select {
+  width: 100%;
+  min-width: 250px;
 }
 
+/* Style du conteneur principal */
 .ng-select .ng-select-container {
-  background-color: #fff;  /* Fond blanc */
-  border: 1px solid #ced4da; /* Bordure standard Bootstrap */
-  border-radius: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 8px;
+  transition: border-color 0.3s ease;
 }
 
-.ng-select .ng-dropdown-panel {
-  background-color: #fff; /* Fond de la liste */
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  z-index: 1050; /* S'assure que la liste reste au-dessus des autres éléments */
+/* Style du conteneur lorsqu'il est focus */
+.ng-select .ng-select-container.ng-has-value {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
 }
 
-.ng-select .ng-option {
-  padding: 8px 12px; /* Espacement pour chaque option */
+/* Style de la liste déroulante */
+.ng-select .ng-dropdown-panel {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
 }
 
-.ng-select .ng-option.selected {
-  background-color: #007bff; /* Fond bleu pour les options sélectionnées */
-  color: #fff; /* Texte blanc */
+/* Style des éléments de la liste */
+.ng-select .ng-dropdown-panel .ng-option {
+  padding: 10px;
+  transition: background-color 0.2s ease;
 }
-.ng-select .ng-dropdown-panel {
-  background-color: white !important; /* Assure un fond opaque */
+
+/* Style de l'élément survolé */
+.ng-select .ng-dropdown-panel .ng-option:hover {
+  background-color: #f0f0f0;
 }
-.ng-select .ng-dropdown-panel {
-  background-color: white !important; /* Assure un fond opaque */
+
+/* Style de l'élément sélectionné */
+.ng-select .ng-dropdown-panel .ng-option.ng-option-selected {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Style de la zone de recherche */
+.ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option-disabled.ng-option-filter {
+  background-color: white;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option-disabled.ng-option-filter input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

@@ -215,6 +215,15 @@ export class UsersComponent implements OnInit, OnDestroy {
       });
     }
 
+    openAffectModale(): void {
+
+      this.modalService.openModal(UsersAffectRouteModalComponent , 'modal-lg',);
+
+      this.modalService.modalRef.onHidden?.subscribe(() => {
+        this.refreshData(); // Rafraîchir la liste après fermeture du modal
+      });
+    }
+
   // Fermeture des modaux
   closeModals(): void {
     this.selectedUser = undefined;

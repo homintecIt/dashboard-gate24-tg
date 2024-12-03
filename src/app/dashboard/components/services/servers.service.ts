@@ -1,20 +1,48 @@
-import { HttpClient } from '@angular/common/http';
+// src/app/services/server.service.ts
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import apiEndpoints from 'src/app/misc/api-endpoints.misc';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ServersService {
+export class ServerService {
+  private apiUrl = environment.apiTestUrl;
 
-  constructor(private http: HttpClient) { }
+  // BehaviorSubject pour stocker les serveurs
+  private serveursSubject = new BehaviorSubject<any>([]);
+  serveurs$ = this.serveursSubject.asObservable();
 
-  getServer(): Observable<any[]> {
-    return this.http.get<any[]>(`${apiEndpoints.getServerUrl}`);
+  constructor(private http: HttpClient) {}
+
+  // Charger les serveurs
+  loadServeurs(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get/servers`).pipe(
+      tap(response => {
+        const data =  response;
+        this.serveursSubject.next(data);
+      })
+    );
   }
+
+  // Ajouter un nouveau serveur
+  createServeur(serveur: { site: string, url: string, etat: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/save/serve/synchro`, serveur).pipe(
+      tap(response => {
+        const currentServeurs = this.serveursSubject.value;
+        const newServeur =  response;
+        this.serveursSubject.next([...currentServeurs, newServeur]);
+      })
+    );
+  }
+
 
   updateServer(url:string , etat: string): Observable<any> {
-    return this.http.post(`${apiEndpoints.UpdateServerUrl}`, {url,etat});
+    return this.http.post(`${this.apiUrl}/update/status/server/synchro`, {url,etat});
   }
 }
+
+
+

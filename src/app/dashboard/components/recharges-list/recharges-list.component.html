@@ -45,7 +45,6 @@
                 <tr>
                   <th class="text-center" >N°</th>
                   <th class="text-center" >N° Compte</th>
-
                   <th class="text-center" >Montant</th>
                   <th class="text-center" >Avant Recharge</th>
                   <th class="text-center" >Après Recharge</th>
@@ -56,7 +55,6 @@
                 <tr *ngFor="let recharge of filteredRecharges; let i = index">
                   <td class="text-center" >{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                   <td class="text-center" >{{ recharge.compte.accountNumber }}</td>
-
                   <td class="text-center" >{{ recharge.montant }}</td>
                   <td class="text-center" >{{ recharge.montant_avant_recharge }}</td>
                   <td class="text-center" >{{ recharge.montant_apres_recharge }}</td>

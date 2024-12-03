@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, shareReplay, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, shareReplay, tap, throwError, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface RoutingInterface {
@@ -12,6 +12,11 @@ export interface RoutingInterface {
   link: string;
   frontend_icon?: string;
   frontend_route?: string;
+}
+
+export interface AffectRouteInterface {
+  id: string
+  menuId:number[]
 }
 @Injectable({
   providedIn: 'root',
@@ -40,6 +45,28 @@ export class RoutingService {
           this.loadingSubject.next(false);
           console.error('Erreur de chargement des routes', error);
           return throwError(() => error);
+        }),
+        shareReplay(1)
+      );
+    }
+
+    affectRoutes(prePayload: AffectRouteInterface)/* : Observable<AffectRouteInterface> */ {
+      this.loadingSubject.next(true);
+      const menu :any[]=[]
+      prePayload.menuId.map((i: any)=>{
+        menu.push(i.id)
+      })
+      const payload= {
+        id: prePayload.id,
+        manuId: menu
+      }
+      console.log(menu);
+
+      return this.http.post<AffectRouteInterface>(`${this.apiUrl}/users/add-menus`, payload).pipe(
+        tap(response => {
+          console.log(response);
+
+          this.loadingSubject.next(false);
         }),
         shareReplay(1)
       );

@@ -34,7 +34,7 @@ const apiEndpoints = {
   getFinancialDataUrl:`${apiUrlBase}/financier/get-data-financier`,
   getServerUrl:`${apiUrlBase}/get/servers`,
   UpdateServerUrl:`${apiUrlBase}/update/status/server/synchro`,
-
+  saveServerUrl:`${apiUrlBase}/save/serve/synchro`,
 
 }
 

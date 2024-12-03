@@ -1,0 +1,79 @@
+<!-- server-modal.component.html -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="addServerModalLabel">Ajouter un Serveur</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()" ></button>
+      </div>
+      <form [formGroup]="serverForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <!-- Gestion des erreurs générales -->
+          <div *ngIf="submitError" class="alert alert-danger mb-3">
+            {{ submitError }}
+          </div>
+
+          <!-- Gestion du succès -->
+          <div *ngIf="submitSuccess" class="alert alert-success mb-3">
+            Serveur ajouté avec succès !
+          </div>
+
+          <!-- Champ Site -->
+          <div class="mb-3">
+            <label for="site" class="form-label">Site</label>
+            <input
+              type="text"
+              class="form-control"
+              id="site"
+              formControlName="site"
+              [class.is-invalid]="isFieldInvalid('site')"
+            >
+            <div *ngIf="isFieldInvalid('site')" class="invalid-feedback">
+              Le site est requis et doit contenir au moins 2 caractères.
+            </div>
+          </div>
+
+          <!-- Champ URL -->
+          <div class="mb-3">
+            <label for="url" class="form-label">URL</label>
+            <input
+              type="text"
+              class="form-control"
+              id="url"
+              formControlName="url"
+              [class.is-invalid]="isFieldInvalid('url')"
+            >
+            <div *ngIf="isFieldInvalid('url')" class="invalid-feedback">
+              Veuillez entrer une URL valide.
+            </div>
+          </div>
+
+          <!-- Champ État -->
+          <div class="mb-3">
+            <label for="etat" class="form-label">État</label>
+            <select
+              class="form-select"
+              id="etat"
+              formControlName="etat"
+            >
+              <option value="actif">Actif</option>
+              <option value="inactif">Inactif</option>
+              <option value="en_panne">En panne</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isSubmitting"
+            (click)="modalRef.hide()"
+          >
+            <span
+              *ngIf="isSubmitting"
+              class="spinner-border spinner-border-sm me-1"
+            ></span>
+            Ajouter
+          </button>
+        </div>
+      </form>
+

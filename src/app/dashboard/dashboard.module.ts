@@ -32,6 +32,8 @@ import { UsersEditModalComponent } from './components/users/users-edit-modal/use
 import { UsersDeleteModalComponent } from './components/users/users-delete-modal/users-delete-modal.component';
 import { UsersAffectRouteModalComponent } from './components/users/users-affect-route-modal/users-affect-route-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MultiSelectModule } from '../components/generic-multi-select/generic-multi-select.module';
+import { ServersCreateModalComponent } from './components/servers/servers-create-modal/servers-create-modal.component';
 
 
 @NgModule({
@@ -62,14 +64,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
     UsersEditModalComponent,
     UsersDeleteModalComponent,
     UsersAffectRouteModalComponent,
-
+    ServersCreateModalComponent
      ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     ReactiveFormsModule ,
     FormsModule,
-    NgSelectModule
+    MultiSelectModule
   ],
   providers: [RechargesService, SubscriptionService]
 })

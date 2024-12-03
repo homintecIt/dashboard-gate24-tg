@@ -3,7 +3,7 @@
     <div
       class="page-title-box d-sm-flex align-items-center justify-content-between"
     >
-      <h4 class="mb-sm-0">Gestion des types de serveurs</h4>
+      <h4 class="mb-sm-0">Gestion des serveurs de synchronisation</h4>
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
           <li class="breadcrumb-item">
@@ -22,6 +22,13 @@
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
           <h5 class="card-title mb-0">Gestion des types de serveurs</h5>
+          <!-- Base Buttons -->
+          <button
+          class="btn btn-primary"
+          (click)="openAddServeurModal()"
+        >
+          Créer un serveur
+          </button>
         </div>
       </div>
 
@@ -38,11 +45,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let server of servers">
+              <tr *ngFor="let server of serveurs">
                 <td>{{ server.id }}</td>
                 <td>{{ server.site }}</td>
                 <td>{{ server.url }}</td>
-                <td>{{ server.etat === 'actif' ? "Actif" : "Inactif" }}</td>
+                <td>{{ server.etat === "actif" ? "Actif" : "Inactif" }}</td>
                 <td>
                   <div class="d-flex gap-2 align-items-center">
                     <div class="form-check form-switch d-flex gap-3">
@@ -60,9 +67,14 @@
                         {{ server.etat === 'actif' ? "Activé" : "Désactivé" }}
                       </label> -->
                     </div>
-                  <a href="" class="fs-3 mb-1 "> <i class="ri-add-circle-fill "></i></a>
-                </div>
-              </td>
-
-
-
+                    <div></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

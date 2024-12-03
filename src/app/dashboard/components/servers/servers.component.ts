@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ServersService } from '../services/servers.service';
 import Swal from 'sweetalert2';
 import { swalAnimation } from 'src/app/misc/utilities.misc';
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
+import { ServersCreateModalComponent } from './servers-create-modal/servers-create-modal.component';
+import { ServerService } from '../services/servers.service';
+import { Subject, takeUntil } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -13,20 +17,50 @@ const swalWithBootstrapButtons = Swal.mixin({
 })
 
 export class ServersComponent implements OnInit {
-  servers: any[] = [];
-  types: { type: string; status: boolean }[] = [];
+  serveurs: any[] = [];
+  private destroy$ = new Subject<void>();
 
+  constructor(
+    private serverService: ServerService,
+    private modalService: NgbModal
+  ) {}
 
-  constructor(private serverService: ServersService) {}
+  ngOnInit() {
+    // Charger les serveurs
+    this.serverService.loadServeurs().subscribe();
 
-  ngOnInit(): void {
-    this.loadServers();
+    // S'abonner aux changements de la liste des serveurs
+    this.serverService.serveurs$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(serveurs => {
+        this.serveurs = serveurs;
+      });
   }
 
-  loadServers() {
-    this.serverService.getServer().subscribe((data) => {
-      this.servers = data;
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  openAddServeurModal() {
+    const modalRef = this.modalService.open(ServersCreateModalComponent, {
+      size: 'lg',
+      backdrop: 'static'
     });
+
+    modalRef.result.then(
+      (result) => {
+        // Gérer le résultat après fermeture du modal
+        if (result) {
+          // Optionnel : afficher un toast de succès
+          console.log(result);
+        }
+      },
+      (reason) => {
+        // Gérer le rejet du modal
+        console.log('Modal dismissé');
+      }
+    );
   }
 
 
@@ -50,7 +84,7 @@ toggleStatus(server: any): void {
       this.serverService.updateServer(server.url, newEtat).subscribe(
         () => {
           server.etat = newEtat;
-          this.loadServers();
+          this.serverService.loadServeurs().subscribe();
           Swal.fire('Succès', `Le statut a été mis à jour.`, 'success');
         },
         (error) => {
@@ -61,5 +95,4 @@ toggleStatus(server: any): void {
     }
   });
 }
-
 }

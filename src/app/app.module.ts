@@ -20,6 +20,9 @@ import { EditClientModalComponent } from './dashboard/components/liste-des-clien
 import { MonthlyReportModalComponent } from './dashboard/components/monthly-report/monthly-report-modal/monthly-report-modal.component';
 import { PeriodReportModalComponent } from './dashboard/components/period-report/period-report-modal/period-report-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { GenericMultiSelectComponent } from './components/generic-multi-select/generic-multi-select.component';
+import { MultiSelectModule } from './components/generic-multi-select/generic-multi-select.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 registerLocaleData(localeFr);
 
@@ -32,7 +35,7 @@ registerLocaleData(localeFr);
     SignInComponent,
     EditClientModalComponent,
     MonthlyReportModalComponent,
-    PeriodReportModalComponent
+    PeriodReportModalComponent,
   ],
   imports: [
 
@@ -45,7 +48,12 @@ registerLocaleData(localeFr);
     ReactiveFormsModule,
     NgSelectModule,
     ModalModule.forRoot(),
+    MultiSelectModule,
+    NgbModule
+
   ],
+
+
   providers: [
     { provide: LOCALE_ID, useValue: "fr-FR", },
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },

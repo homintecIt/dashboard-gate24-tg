@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { User, UserService } from '../../services/users-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
@@ -15,44 +15,35 @@ export class UsersAffectRouteModalComponent {
   editForm!: FormGroup;
   loading = false;
   routers: any
+  isSubmitting = false;
 
+  // routes = [
+  //   { id: 1, name: 'Route A' },
+  //   { id: 2, name: 'Route B' },
+  //   { id: 3, name: 'Route C' },
+  //   { id: 4, name: 'Route D' },
+  //   { id: 5, name: 'Route E' }
+  // ];
 
-  routes = [
-    { id: 1, name: 'Route A' },
-    { id: 2, name: 'Route B' },
-    { id: 3, name: 'Route C' },
-    { id: 4, name: 'Route D' },
-    { id: 5, name: 'Route E' }
-  ];
-
-  selectedRoutes: any[] = [];  // Pour stocker les routes sélectionnées
-
+  menuId: any[] = [];
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
-    private modalService: BootstrapModalService,
     public bsModalRef: BsModalRef,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+
   ) {}
 
   ngOnInit(): void {
+    if (!this.menuId) {
+      this.menuId = [];  // Assurez-vous que ce tableau n'est pas undefined.
+    }
     if (this.data) {
       this.loading = true;
       // Ajoutez cette méthode dans votre SubscriptionService
       this.routingService.loadRoutes().subscribe({
         next: (routers) => {
           this.routers = routers;
-          // this.editForm.patchValue({
-          //   nom: routers.id || '',
-          //   prenom: routers.created_at || '',
-          //   tel: routers.updated_at || null,
-          //   idBadge: routers.titre || '',
-          //   codeClient: routers.icon || '',
-          //   solde: routers.link || '',
-          //   iduhf: routers.frontend_icon || '',
-          //   codeUhf: routers.frontend_route || '',
 
-          // });
           console.log(this.routers);
 
           this.loading = false;
@@ -66,8 +57,34 @@ export class UsersAffectRouteModalComponent {
     }
     this.editForm = this.fb.group({
       id: [this.data.id],
+      menuId: [this.menuId || []]
     });
   }
 
+
+  onSubmit(): void {
+
+    console.log('Routes sélectionnées :', this.editForm);
+    this.routingService.affectRoutes(this.editForm.value).subscribe({
+      next: (routers) => {
+        this.loading = false;
+        this.bsModalRef.hide();
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des données:', error);
+        this.loading = false;
+        this.bsModalRef.hide();
+
+        // Gérer l'erreur (afficher un message, etc.)
+      }
+    });
+  }
+
+  onRoutesChange(newRoutes: any[]): void {
+    console.log(newRoutes);
+
+    console.log('Nouvelles routes sélectionnées:', newRoutes); // Vérifie si cette fonction est appelée
+    this.menuId = [...newRoutes];  // Copie les valeurs reçues
+  }
 
 }
