@@ -54,7 +54,7 @@
               <tbody>
                 <tr *ngFor="let recharge of filteredRecharges; let i = index">
                   <td class="text-center" >{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                  <td class="text-center" >{{ recharge.compte.accountNumber }}</td>
+                  <td class="text-center" >{{ recharge.compte?.accountNumber ?? "Identifiant bientot disponible" }}</td>
                   <td class="text-center" >{{ recharge.montant }}</td>
                   <td class="text-center" >{{ recharge.montant_avant_recharge }}</td>
                   <td class="text-center" >{{ recharge.montant_apres_recharge }}</td>

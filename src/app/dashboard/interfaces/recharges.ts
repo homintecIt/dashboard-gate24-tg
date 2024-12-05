@@ -15,7 +15,7 @@ export interface Recharge {
   percepteur: string;
   refer: string | null;
   traiter: number;
-  compte: Compte;
+  compte: Compte| null;
 }
 
 export interface RechargeResponse {
