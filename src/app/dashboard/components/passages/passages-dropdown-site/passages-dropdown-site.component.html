@@ -4,9 +4,17 @@
   </div>
   <div class="modal-body">
     <p>Sélectionnez un site parmi les options disponibles ci-dessous :</p>
-    <select class="form-select" [(ngModel)]="selectedSite" (change)="onSiteSelected(selectedSite)">
+    <select class="form-select mb-2" [(ngModel)]="selectedSite">
       <option value="" disabled>-- Choisir un site --</option>
       <option *ngFor="let site of sites" [value]="site">{{ site }}</option>
     </select>
+
+    <button
+      type="button"
+      class="btn btn-primary waves-effect waves-light"
+      (click)="onSiteSelected(selectedSite)"
+    >
+      Valider
+    </button>
   </div>
 </div>

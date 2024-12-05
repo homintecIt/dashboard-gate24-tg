@@ -34,9 +34,9 @@
     </div>
     <!-- Email input -->
     <div data-mdb-input-init class="form-outline mb-4">
+      <label class="form-label">Selectionner</label>
       <select
         [(ngModel)]="selectedOption"
-        (change)="onSiteSelected(selectedOption)"
         class="form-select"
       >
         <option value="" disabled>Selectionnez un site</option>
@@ -47,9 +47,14 @@
           {{ option.passages_site }}
         </option>
       </select>
-      <label class="form-label">Selectionner</label>
     </div>
-    <!-- <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block">Login</button> -->
+
+    <button
+      type="button"
+      class="btn btn-primary waves-effect waves-light"
+      (click)="onSiteSelected(selectedOption)"
+    >
+      Valider
+    </button>
   </div>
 </div>
-<!-- Modal -->

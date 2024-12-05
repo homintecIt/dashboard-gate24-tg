@@ -9,31 +9,37 @@
               <h4 class="fs-16 mb-1">Tableau de bord</h4>
               <p class="text-muted mb-0">Quelques statistiques importantes</p>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col-xl-3 col-md-6">
-          <div class="card card-animate">
-            <div class="card-body">
-              <div class="d-flex align-items-end justify-content-between mt-4">
-                <div>
-                  <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                    {{ (statistics?.montantAnnuelsGlobalsPrecedent | currency: 'XOF') ?? 'XXXX' }}
-                  </h4>
-                  <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                    RECETTE ANNÉE PRÉCÉDENTE</p>
-                </div>
-                <div class="avatar-sm flex-shrink-0">
-                  <span class="avatar-title bg-success-subtle rounded fs-3">
-                    <i class="bx bx-dollar-circle text-success"></i>
-                  </span>
-                </div>
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-3">
+
+                <span>Filtre: </span>
+                <input type="text" class="form-control" placeholder="Année" maxlength="4" (input)="onSearch($event)" inputmode="numeric" id="cleave-date-format">
+                <!-- <button
+                  class="btn btn-outline-primary"
+
+                  [disabled]="loading"
+                >
+              <i class="fas fa-sync" [class.fa-spin]="loading">Rechercher</i>
+            </button> -->
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+              <!-- État de chargement -->
+              <div *ngIf="loading" class="text-center p-4">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Chargement...</span>
+                </div>
+              </div>
+                      <!-- Message d'erreur -->
+        <div *ngIf="error" class="alert alert-danger">
+          {{ error }}
+        </div>
+
+      <div class="row" *ngIf="!loading && !error">
 
         <div class="col-xl-3 col-md-6">
           <div class="card card-animate">
@@ -98,7 +104,7 @@
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf=" d.getFullYear() === year">
           <div class="card card-animate">
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
@@ -120,7 +126,7 @@
         </div>
 
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf="year === d.getFullYear()">
           <div class="card card-animate">
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
@@ -141,7 +147,7 @@
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf="year === d.getFullYear()">
           <div class="card card-animate">
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
@@ -162,7 +168,7 @@
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf="year === d.getFullYear()">
           <div class="card card-animate">
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
@@ -183,7 +189,7 @@
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf="year === d.getFullYear()">
           <div class="card card-animate">
             <div class="card-body">
               <div class="d-flex align-items-end justify-content-between mt-4">
@@ -210,7 +216,7 @@
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
                   <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                    {{ (statistics?.nombresClient| currency: 'XOF') ?? 'XXXX' }}
+                    {{ statistics?.nombresClient?? 'XXXX' }} Client(s)
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                     NOMBRE CLIENT</p>
@@ -252,7 +258,7 @@
               <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
                   <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                    {{ (statistics?.nbreAbonners| currency: 'XOF') ?? 'XXXX' }}
+                    {{ statistics?.nbreAbonners ?? 'XXXX' }} Ab.(s)
                   </h4>
                   <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                     NOMBRE D'ABONNERS</p>

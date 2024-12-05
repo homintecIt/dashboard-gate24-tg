@@ -17,9 +17,11 @@ export class StatisticService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getStatistics(): Observable<Statistic[]> {
+  getStatistics(year:number): Observable<Statistic[]> {
+    console.log("contact");
+
     if (this.statisticsSubject.getValue().length === 0) {
-      return this.httpClient.get<Statistic[]>(`${apiEndpoints.statisticsUrl}/get`).pipe(
+      return this.httpClient.get<Statistic[]>(`${apiEndpoints.statisticsUrl}/get/`+year).pipe(
         tap(statistics => this.statisticsSubject.next(statistics))
       );
     } else {
@@ -27,9 +29,17 @@ export class StatisticService {
     }
   }
 
+
+  getStatisticByYear(year:number): Observable<Statistic[]> {
+    return this.httpClient.get<Statistic[]>(`${apiEndpoints.statisticsUrl}/get/`+year).pipe(
+      tap(statistics => this.statisticsSubject.next(statistics))
+    );
+  }
+
   getStatistic(id: any): Observable<Statistic> {
     return this.httpClient.get<Statistic>(`${apiEndpoints.statisticsUrl}/${id}`);
   }
+
 
   saveStatistic(data: any): Observable<Statistic> {
     return this.httpClient.post<Statistic>(`${apiEndpoints.statisticsUrl}`, data).pipe(

@@ -22,13 +22,22 @@
           <div class="d-flex gap-3">
             <button
               class="btn btn-outline-primary"
+              
+              [disabled]="loading"
+            >
+              <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
+              Créer Utilisateur
+            </button>
+
+            <button
+              class="btn btn-outline-primary"
               (click)="loadUsers()"
               [disabled]="loading"
             >
               <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
               Rafraîchir
             </button>
-            
+
             <div class="search-box">
               <input
                 type="text"
@@ -87,7 +96,7 @@
                 <td>
                   <div class="d-flex gap-2 form-switch">
                     <input
-                      class="form-check-input"
+                      class="form-check-input cursor-pointer"
                       type="checkbox"
                       role="switch"
                       [checked]="user.is_active"
@@ -97,7 +106,7 @@
                   </div>
                 </td>
                 <td>
-                  <div class="  dropdown">
+                  <div class="cursor-pointer dropdown">
                     <i class=" ri-arrow-down-s-line" data-bs-toggle="dropdown">
 
                     </i>
