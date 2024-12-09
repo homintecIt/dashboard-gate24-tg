@@ -34,6 +34,7 @@ import { UsersAffectRouteModalComponent } from './components/users/users-affect-
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MultiSelectModule } from '../components/generic-multi-select/generic-multi-select.module';
 import { ServersCreateModalComponent } from './components/servers/servers-create-modal/servers-create-modal.component';
+import { TransactionsComponent } from './components/transactions/transactions.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { ServersCreateModalComponent } from './components/servers/servers-create
     UsersEditModalComponent,
     UsersDeleteModalComponent,
     UsersAffectRouteModalComponent,
-    ServersCreateModalComponent
+    ServersCreateModalComponent,
+    TransactionsComponent
      ],
   imports: [
     CommonModule,

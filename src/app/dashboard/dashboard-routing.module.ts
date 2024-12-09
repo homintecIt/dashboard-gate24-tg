@@ -14,6 +14,7 @@ import { TypeSynchroComponent } from './components/type-synchro/type-synchro.com
 import { FinancialDataComponent } from './components/financial-data/financial-data.component';
 import { ServersComponent } from './components/servers/servers.component';
 import { UsersComponent } from './components/users/users.component';
+import { TransactionsComponent } from './components/transactions/transactions.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'financial-data', component: FinancialDataComponent },
       { path: "listeServer", component: ServersComponent },
       { path: "users", component: UsersComponent },
+      { path: "transactions", component: TransactionsComponent },
 
 
 
