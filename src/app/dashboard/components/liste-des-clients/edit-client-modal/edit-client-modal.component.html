@@ -1,61 +1,123 @@
-<div class="modal-header">
-  <h5 class="modal-title">Modifier un client</h5>
-  <button type="button" class="btn-close" (click)="bsModalRef.hide()"></button>
+<div class="row">
+  <div class="col-12">
+    <div
+      class="page-title-box d-sm-flex align-items-center justify-content-between"
+    >
+      <h4 class="mb-sm-0">Infomation client</h4>
+
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard/listesClients">Liste des clients</a>
+          </li>
+          <li class="breadcrumb-item active">Infomation d'un client</li>
+        </ol>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="modal-body">
-  <form [formGroup]="clientForm"  (ngSubmit)="saveChanges()" >
-    <div class="mb-3">
-      <label for="nom" class="form-label">Nom</label>
-      <input id="nom" formControlName="nom" class="form-control" />
-      <div *ngIf="clientForm.get('nom')?.invalid && clientForm.get('nom')?.touched" class="text-danger">
-        Le nom est requis.
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          Information du client
+          <!-- <button class="btn btn-primary float-end">Modifier</button> -->
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <p><strong>Nom:</strong> {{ client.nom }}</p>
+              <p><strong>Prénom:</strong> {{ client.prenom }}</p>
+              <p><strong>Email:</strong> {{ client.email }}</p>
+              <p><strong>CNI:</strong> {{ client.cin }}</p>
+            </div>
+            <div class="col-6">
+              <p><strong>Téléphone:</strong> {{ client.tel }}</p>
+              <p><strong>Adresse:</strong> {{ client.adresse }}</p>
+              <p><strong>Type de Client:</strong> {{ client.typeClient }}</p>
+              <p><strong>Date de création:</strong> {{ client.created_at | date }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="mb-3">
-      <label for="prenom" class="form-label">Prénom</label>
-      <input id="prenom" formControlName="prenom" class="form-control" />
-      <div *ngIf="clientForm.get('prenom')?.invalid && clientForm.get('prenom')?.touched" class="text-danger">
-        Le prénom est requis.
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">Comptes</div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Numéro</th>
+                <th>Solde</th>
+                <th>Date de création</th>
+                <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let compte of client?.compte; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ compte.accountNumber }}</td>
+                <td>{{ compte.solde }} F CFA</td>
+                <td>{{ compte.created_at | date }}</td>
+                <!-- <td>
+                  <button class="btn btn-primary btn-sm">Recharger</button>
+                  <button class="btn btn-primary btn-sm">Ajouter un tag</button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input id="email" formControlName="email" class="form-control" />
-      <div *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-danger">
-        Veuillez saisir un email valide.
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">Abonnements</div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TagCode</th>
+                <th>Plaque</th>
+                <th>Type</th>
+                <th>Exonéré</th>
+                <th>Date de création</th>
+                <th>Statut</th>
+                <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let abonnement of client.abonnements; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ abonnement.targCode }}</td>
+                <td>{{ abonnement.plaque }}</td>
+                <td>{{ abonnement.type_targ }}</td>
+                <td>{{ abonnement.isExo ? 'Oui' : 'Non' }}</td>
+                <td>{{ abonnement.created_at | date }}</td>
+                <td>{{ abonnement.statutTarg }}</td>
+                <!-- <td>
+                  <button class="btn btn-primary btn-sm">Activer</button>
+                  <button class="btn btn-primary btn-sm">Exonérer</button>
+                  <button class="btn btn-danger btn-sm">Retirer</button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-
-    <div class="mb-3">
-      <label for="tel" class="form-label">Téléphone</label>
-      <input id="tel" formControlName="tel" class="form-control" />
-      <div *ngIf="clientForm.get('tel')?.invalid && clientForm.get('tel')?.touched" class="text-danger">
-        Le numéro de téléphone est requis.
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="adresse" class="form-label">Adresse</label>
-      <input id="adresse" formControlName="adresse" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-      <label for="cin" class="form-label">CIN</label>
-      <input id="cin" formControlName="cin" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="type" class="form-label">Type</label>
-      <input id="type" formControlName="type" class="form-control" />
-      <div *ngIf="clientForm.get('type')?.invalid && clientForm.get('type')?.touched" class="text-danger">
-        Le type est requis.
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="clientForm.invalid || isSubmitting">
-      {{ isSubmitting ? 'Enregistrement...' : 'Enregistrer' }}
-    </button>
-  </form>
+  </div>
 </div>

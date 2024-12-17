@@ -3,13 +3,13 @@
     <div
       class="page-title-box d-sm-flex align-items-center justify-content-between"
     >
-      <h4 class="mb-sm-0">Liste des Abonnements</h4>
+      <h4 class="mb-sm-0">Liste des tags</h4>
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">Accueil</a>
           </li>
-          <li class="breadcrumb-item active">Liste des Abonnements</li>
+          <li class="breadcrumb-item active">Liste des tags</li>
         </ol>
       </div>
     </div>
@@ -21,7 +21,7 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title mb-0">Liste des Abonnements</h5>
+          <h5 class="card-title mb-0">Liste des tags</h5>
           <div class="d-flex gap-3">
             <button
               class="btn btn-outline-primary"
@@ -61,6 +61,7 @@
                 <th scope="col">Code Targ</th>
                 <th scope="col">Type Targ</th>
                 <th scope="col">Statut</th>
+                <th scope="col">Exonéré</th>
                 <th scope="col">Numéro de Compte</th>
                 <th scope="col">Solde</th>
                 <th scope="col">Date Création</th>
@@ -84,7 +85,7 @@
                     {{ sub.typeTarg }}
                   </span>
                 </td>
-                <td>
+            <td>
                   <span
                     class="badge badge-outline"
                     [ngClass]="{
@@ -97,6 +98,20 @@
                     {{ sub.statutTarg == "actived" ? "Activé" : "Désactivé" }}
                   </span>
                 </td>
+
+                <td>
+                  <span
+                    class="badge badge-outline"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        sub.isExo,
+                      'bg-danger-subtle text-danger text-uppercase':
+                        !sub.isExo
+                    }"
+                  >
+                    {{ sub.isExo ? "Oui" : "non" }}
+                  </span>
+                </td>    
                 <td>{{ sub.compte.accountNumber }}</td>
                 <td>{{ sub.compte.solde | currency : "XOF" }}</td>
                 <td>{{ sub.created_at | date : "short" }}</td>

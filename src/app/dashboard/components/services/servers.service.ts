@@ -32,15 +32,29 @@ export class ServerService {
     return this.http.post(`${this.apiUrl}/save/serve/synchro`, serveur).pipe(
       tap(response => {
         const currentServeurs = this.serveursSubject.value;
-        const newServeur =  response;
+        const newServeur: {
+          [key: string]: any
+      } =  response;
+        console.log(currentServeurs);
+        newServeur['id'] =currentServeurs.length +1
+
         this.serveursSubject.next([...currentServeurs, newServeur]);
       })
     );
   }
 
+  refreshServeurs(
 
-  updateServer(url:string , etat: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/update/status/server/synchro`, {url,etat});
+  ): Observable<any> {
+    return this.loadServeurs();
+  }
+
+  updateServer(server: object): Observable<any> {
+    return this.http.post(`${this.apiUrl}/update/status/server/synchro`, server);
+  }
+
+  updateServerData(server:object): Observable<any> {
+    return this.http.post(`${this.apiUrl}/update/status/server/synchro`, server);
   }
 }
 

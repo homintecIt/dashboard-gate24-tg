@@ -21,6 +21,7 @@ const swalWithBootstrapButtons = Swal.mixin({
 })
 export class SubscribeListComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  private searchSubject = new Subject<string>();
 
   selectedSubscription?: Subscription;
   isEditModalOpen = false;
@@ -36,7 +37,7 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
   itemsPerPage = 10;
   totalItems = 0;
   totalPages = 0;
-  
+
 
   // Recherche
   searchTerm = '';
@@ -168,35 +169,52 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
 
     // Chargement initial
     this.loadSubscriptions();
+
+    // Nouvelle configuration pour la recherche dynamique
+    this.searchSubject.pipe(
+      debounceTime(300), // Attendre 300ms après la dernière frappe
+      distinctUntilChanged(), // Ignorer si la valeur est identique à la précédente
+      takeUntil(this.destroy$)
+    ).subscribe(searchTerm => {
+      // Réinitialiser à la page 1 lors d'une nouvelle recherche
+      this.currentPage = 1;
+
+      // Charger les abonnements avec le terme de recherche
+      this.loadSubscriptions(this.currentPage, searchTerm);
+    });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.searchSubject.complete();
   }
 
-  // Chargement des subscrption
-  loadSubscriptions(page: number = 1): void {
+  // Chargement desloadSubscriptions pour accepter un terme de recherche
+  loadSubscriptions(page: number = 1, searchTerm?: string): void {
     this.subscrptionService
-      .loadSubscriptions(page, this.itemsPerPage)
+      .loadSubscriptions(page, this.itemsPerPage, searchTerm)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           this.totalItems = response.meta.totalItems;
           this.totalPages = response.meta.totalPages;
           this.currentPage = response.meta.currentPage;
+
+          // Supprimer le filtrage local
+          // this.filteredSubscriptions = response.items;
         },
         error: (err) => {
           this.loading = !this.loading;
           console.error('Erreur de chargement', err);
-          this.error = 'Impossible de charger les subscrption';
+          this.error = 'Impossible de charger les abonnements';
         },
       });
   }
-
   // Filtrage des subscrption
   filterSubscriptions(): void {
     const term = this.searchTerm.toLowerCase();
+
     this.filteredSubscriptions = this.subscrption.filter(
       (subscription) =>
         subscription.compte.accountNumber.toLowerCase().includes(term) ||
@@ -206,10 +224,10 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Recherche
+  //  la méthode onSearch
   onSearch(event: any): void {
-    this.searchTerm = event.target.value;
-    this.filterSubscriptions();
+    const searchTerm = event.target.value;
+    this.searchSubject.next(searchTerm);
   }
 
   // Génération des pages

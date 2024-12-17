@@ -15,6 +15,7 @@ import { FinancialDataComponent } from './components/financial-data/financial-da
 import { ServersComponent } from './components/servers/servers.component';
 import { UsersComponent } from './components/users/users.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
+import { EditClientModalComponent } from './components/liste-des-clients/edit-client-modal/edit-client-modal.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -33,7 +34,7 @@ const routes: Routes = [
       { path: "listeServer", component: ServersComponent },
       { path: "users", component: UsersComponent },
       { path: "transactions", component: TransactionsComponent },
-
+      { path: 'clients/details/:tel', component: EditClientModalComponent },
 
 
       { path: "", redirectTo: "statistics", pathMatch: "full" }

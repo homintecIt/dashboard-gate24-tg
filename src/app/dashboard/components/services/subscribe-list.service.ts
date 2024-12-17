@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { tap, shareReplay, catchError } from 'rxjs/operators';
+import { tap, shareReplay, catchError, filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 export interface StatusUpdatePayload {
@@ -44,7 +44,7 @@ export interface Subscription {
   iduhf?: string;
   codeUhf?: string;
   user_id?: number;
-
+  isExo:boolean
   compte: {
     uuid: string;
     accountNumber: string;
@@ -83,7 +83,8 @@ export class SubscriptionService {
   // Chargement des données avec pagination
   loadSubscriptions(
     page: number = 1,
-    limit: number = 0
+    limit: number = 0,
+    filter?: string
   ): Observable<SubscriptionResponse> {
     this.loadingSubject.next(true);
 
@@ -91,6 +92,7 @@ export class SubscriptionService {
       .post<SubscriptionResponse>(`${this.apiUrl}/subscription/all`, {
         page,
         limit,
+        filter // Le terme de recherche sera passé ici
       })
       .pipe(
         tap((response) => {
