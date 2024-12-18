@@ -164,6 +164,10 @@ getClientByTel(tel: string): Observable<Client> {
   return this.http.post<Client>(`${this.apiUrl}/clients/get/byTel`, { tel });
 }
 
+getAccountbyAccountNumber(accountNumber: string): Observable<any> {
+  return this.http.post<Client>(`${this.apiUrl}/comptes/get/accountNumber`, { accountNumber });
+}
+
 }
 // private allClients: Client[] = [];
 // private allAccounts: Account[] = [];

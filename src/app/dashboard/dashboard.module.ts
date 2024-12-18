@@ -36,6 +36,8 @@ import { MultiSelectModule } from '../components/generic-multi-select/generic-mu
 import { ServersCreateModalComponent } from './components/servers/servers-create-modal/servers-create-modal.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { ServerEditModalComponent } from './components/servers/server-edit-modal/server-edit-modal.component';
+import { DetailCompteClientComponent } from './components/liste-des-comptes-clients/detail-compte-client/detail-compte-client.component';
+import { TypeSynchroEditComponent } from './components/type-synchro/type-synchro-edit/type-synchro-edit.component';
 
 
 @NgModule({
@@ -68,7 +70,9 @@ import { ServerEditModalComponent } from './components/servers/server-edit-modal
     UsersAffectRouteModalComponent,
     ServersCreateModalComponent,
     TransactionsComponent,
-    ServerEditModalComponent
+    ServerEditModalComponent,
+    DetailCompteClientComponent,
+    TypeSynchroEditComponent
      ],
   imports: [
     CommonModule,

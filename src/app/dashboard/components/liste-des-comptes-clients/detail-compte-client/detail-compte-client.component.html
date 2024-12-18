@@ -1,0 +1,77 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Détails du Compte</h5>
+  </div>
+  <div class="card-body">
+    <!-- Informations du Compte -->
+    <div class="row">
+      <div class="col-md-6 border-end">
+        <h6>Informations du Compte</h6>
+        <ul class="list-unstyled">
+          <li class="d-flex gap-2 justify-content-between"><strong>Numéro de Compte :</strong><span> {{ account.compte.accountNumber }}</span></li>
+          <li class="d-flex gap-2 justify-content-between"><strong>Solde :</strong><span> {{ account.compte.solde | currency:'XOF' }}</span></li>
+          <li class="d-flex gap-2 justify-content-between"><strong>Créé le :</strong><span> {{ account.compte.created_at | date:'medium' }}</span></li>
+          <li class="d-flex gap-2 justify-content-between"><strong>Dernière mise à jour :</strong><span> {{ account.compte.updated_at | date:'medium' }}</span></li>
+        </ul>
+      </div>
+
+      <!-- Informations du Client -->
+      <div class="col-md-6">
+        <h6>Informations du Client</h6>
+        <ul class="list-unstyled">
+          <li class="gap-2 d-flex justify-content-between"><strong>Nom :</strong><span> {{ account.compte.client.nom }} {{ account.compte.client.prenom }}</span></li>
+          <li class="gap-2 d-flex justify-content-between"><strong>Email :</strong><span> {{ account.compte.client.email }}</span></li>
+          <li class="gap-2 d-flex justify-content-between"><strong>Téléphone :</strong><span> {{ account.compte.client.tel }}</span></li>
+          <li class="gap-2 d-flex justify-content-between"><strong>Type de Client :</strong><span> {{ account.compte.client.typeClient }}</span></li>
+          <li class="gap-2 d-flex justify-content-between"><strong>CIN :</strong><span> {{ account.compte.client.cin }}</span></li>
+          <li class="gap-2 d-flex justify-content-between"><strong>Adresse :</strong><span> {{ account.compte.client.adresse }}</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Abonnements -->
+    <div class="mt-4">
+      <h6>Abonnements</h6>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Plaque</th>
+              <th>Type de Tag</th>
+              <th>Statut</th>
+              <th>Exonération</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let abonnement of account.abonnements">
+              <td>{{ abonnement.plaque ?? "-"  }}</td>
+              <td>{{ abonnement.type_targ }}</td>
+              <td>
+                <span *ngIf="abonnement.statutTarg === 'actived'"
+                  class="badge bg-success">
+                  {{ abonnement.statutTarg === 'actived' ? "activé" : "desactivé" }}
+                </span>
+                <span *ngIf="abonnement.statutTarg !== 'actived'" class="badge bg-warning">
+                 desactivé
+              </span>
+              </td>
+              <td>
+                <span
+                  [ngClass]="{
+                    'badge bg-success': abonnement.isExo,
+                    'badge bg-danger': !abonnement.isExo
+                  }">
+                  {{ abonnement.isExo ? 'Oui' : 'Non' }}
+                </span>
+              </td>
+              <td>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

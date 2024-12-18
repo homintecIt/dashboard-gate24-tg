@@ -1,0 +1,62 @@
+<div class="modal-header">
+  <h4 class="modal-title">Ajouter un Serveur</h4>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="synchroForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+      <label class="form-label">Type</label>
+      <select
+        class="form-select"
+        formControlName="type"
+      >
+
+      <option *ngFor="let type of types" [value]="type.type">{{ type.type }}</option>
+      </select>
+      <div
+        *ngIf="synchroForm.get('type')?.invalid && (synchroForm.get('type')?.dirty || synchroForm.get('type')?.touched)"
+        class="text-danger"
+      >
+        Le type est requis
+      </div>
+    </div>
+
+
+
+    <div class="mb-3">
+      <label class="form-label">État</label>
+      <select
+        class="form-select"
+        formControlName="status"
+      >
+
+        <option value=true>Activé</option>
+        <option value=false>desactivé</option>
+      </select>
+      <div
+        *ngIf="synchroForm.get('status')?.invalid && (synchroForm.get('status')?.dirty || synchroForm.get('status')?.touched)"
+        class="text-danger"
+      >
+        L'état est requis
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="activeModal.dismiss()"
+      >
+        Annuler
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="synchroForm.invalid"
+      >
+        Ajouter
+      </button>
+    </div>
+  </form>
+</div>

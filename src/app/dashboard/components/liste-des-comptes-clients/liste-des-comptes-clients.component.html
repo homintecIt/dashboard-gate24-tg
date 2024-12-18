@@ -80,12 +80,12 @@
                 <td>{{ item.client?.tel }}</td>
                 <td>{{item.client?.typeClient}}</td>
                 <td class="d-flex justify-content-between">
-                  <a href="" class=""
+                  <a [routerLink]="['/dashboard/listesComptesClient/details/', item.accountNumber]"  class=""
                     ><i class="fs-3 ri-eye-line text-primary"></i
                   ></a>
-                  <a href="" class=""
+                  <!-- <a href="" class=""
                     ><i class="mt-2 las la-eye-dropper text-success fs-4"></i
-                  ></a>
+                  ></a> -->
                 </td>
               </tr>
             </tbody>

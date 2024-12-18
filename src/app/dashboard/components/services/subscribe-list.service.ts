@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap, shareReplay, catchError, filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Client } from 'src/app/models/listeClient.model';
 
 export interface StatusUpdatePayload {
   targId: string;
@@ -50,6 +51,7 @@ export interface Subscription {
     accountNumber: string;
     solde: number;
   };
+  client?:Client
 }
 
 
@@ -73,9 +75,11 @@ export class SubscriptionService {
   // Gestion de l'état
   private subscriptionSubject = new BehaviorSubject<Subscription[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
+  private subscriptionDetailSubject = new BehaviorSubject<Subscription[]>([]);
 
   // Observables publics
   subscription$ = this.subscriptionSubject.asObservable();
+  subscriptionDetail$ = this.subscriptionDetailSubject.asObservable();
   loading$ = this.loadingSubject.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -100,6 +104,22 @@ export class SubscriptionService {
           this.loadingSubject.next(false);
         }),
         shareReplay(1)
+      );
+  }
+
+
+  // Méthode pour récupérer un abonnement par son ID
+  getSubscriptionByTagCode(tagCode: string): Observable<Subscription> {
+    return this.http
+      .get<Subscription>(`${this.apiUrl}/subscription/targCode/${tagCode}`)
+      .pipe(
+        catchError((error) => {
+          console.error(
+            "Erreur lors de la récupération de l'abonnement:",
+            error
+          );
+          return throwError(() => error);
+        })
       );
   }
 

@@ -22,12 +22,13 @@ export class RechargesService {
   constructor(private http: HttpClient) {}
 
   // Chargement des données avec pagination
-  loadRecharges(page: number = 1, limit: number = 0): Observable<RechargeResponse> {
+  loadRecharges(page: number = 1, limit: number = 0,filter?: string): Observable<RechargeResponse> {
     this.loadingSubject.next(true);
 
     return this.http.post<RechargeResponse>(`${this.apiUrl}/recharges/all`, {
       page,
-      limit
+      limit,
+      filter
     }).pipe(
       tap(response => {
         this.rechargesSubject.next(response.items);

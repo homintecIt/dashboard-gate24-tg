@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Subscription } from '../../services/subscribe-list.service';
+import { Subscription, SubscriptionService } from '../../services/subscribe-list.service';
 
 
 @Component({
   selector: 'app-subscription-details-modal',
   template: `
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Détails de l'abonnement</h4>
+      <h4 class="modal-title pull-left">Détails d'un tag</h4>
       <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
       </button>
     </div>
+    <div *ngIf="loading" class="text-center p-4">
+    <div class="spinner-border text-primary"></div>
+  </div>
     <div class="modal-body">
-      <div class="row">
+      <div class="row" *ngIf="!loading">
         <div class="col-md-6">
           <div class="mb-3">
             <strong>Code Targ:</strong>
@@ -58,20 +61,32 @@ import { Subscription } from '../../services/subscribe-list.service';
 
       <div class="row mt-3">
         <div class="col-12">
-          <h5>Informations supplémentaires</h5>
+          <h5>Informations supplémentaires (client et compte associé)</h5>
           <table class="table table-bordered">
-            <tbody>
-              <tr *ngIf="subscription?.plaque">
-                <th>Plaque</th>
-                <td>{{ subscription?.plaque }}</td>
+            <tbody *ngIf="subscription?.client">
+              <tr >
+                <th>Numero de compte </th>
+                <td>{{ subscription?.compte?.accountNumber }}</td>
               </tr>
-              <tr *ngIf="subscription?.nom">
-                <th>Nom</th>
-                <td>{{ subscription?.nom }}</td>
+              <tr >
+                <th>Nom client</th>
+                <td>{{ subscription?.client?.nom }}</td>
               </tr>
-              <tr *ngIf="subscription?.prenom">
-                <th>Prénom</th>
-                <td>{{ subscription?.prenom }}</td>
+              <tr >
+                <th>Prénom client</th>
+                <td>{{ subscription?.client?.prenom }}</td>
+              </tr>
+              <tr >
+                <th>Type de client</th>
+                <td>{{ subscription?.client?.typeClient }}</td>
+              </tr>
+              <tr >
+                <th>Adresse client</th>
+                <td>{{ subscription?.client?.adresse }}</td>
+              </tr>
+              <tr >
+                <th>Telephone client</th>
+                <td>{{ subscription?.client?.tel }}</td>
               </tr>
             </tbody>
           </table>
@@ -86,14 +101,31 @@ import { Subscription } from '../../services/subscribe-list.service';
 export class SubscriptionDetailsModalComponent implements OnInit {
   subscription?: Subscription;
   data: any;
+ // États
+ loading = false;
+ error: string | null = null;
+  constructor(public modalRef: BsModalRef,
+    private subscrptionService: SubscriptionService,
 
-  constructor(public modalRef: BsModalRef) {}
+  ) {}
 
   ngOnInit(): void {
     // Utilisez `data` qui est passé via initialState dans le service modal
     if (this.data) {
-      this.subscription = this.data;
-      console.log('Détails de l\'abonnement:', this.subscription);
+      this.loading = true;
+      // Ajoutez cette méthode dans votre SubscriptionService
+      this.subscrptionService.getSubscriptionByTagCode(this.data.targCode).subscribe({
+        next: (subscription) => {
+          this.subscription = subscription;
+
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement des données:', error);
+          this.loading = false;
+          // Gérer l'erreur (afficher un message, etc.)
+        }
+      });
     }
-  }
+}
 }

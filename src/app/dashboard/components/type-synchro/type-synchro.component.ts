@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TypeSynchroServiceService } from '../services/type-synchro-service.service';
 import Swal from 'sweetalert2';
 import { swalAnimation } from 'src/app/misc/utilities.misc';
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
+import { TypeSynchroEditComponent } from './type-synchro-edit/type-synchro-edit.component';
+import { Subject } from 'rxjs';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -13,18 +16,27 @@ const swalWithBootstrapButtons = Swal.mixin({
   styleUrls: ['./type-synchro.component.css']
 })
 export class TypeSynchroComponent implements OnInit {
-  types: { type: string; status: boolean }[] = [];
+  private destroy$ = new Subject<void>();
 
-  constructor(private typeSynchroService: TypeSynchroServiceService) {}
+  types: {id:number; type: string; status: boolean }[] = [];
+
+  constructor(private typeSynchroService: TypeSynchroServiceService,
+    private modalServices: BootstrapModalService
+
+  ) {}
 
   ngOnInit(): void {
     this.fetchSynchroTypes();
   }
-
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
   fetchSynchroTypes(): void {
     this.typeSynchroService.getSynchroTypes().subscribe(
       (response: any) => {
         this.types = response.map((item: any) => ({
+          id: item.id,
           type: item.type,
           status: item.status
         }));
@@ -36,7 +48,9 @@ export class TypeSynchroComponent implements OnInit {
   }
 
 
-toggleStatus(item: any): void {
+toggleStatus(item: any,event: Event): void {
+  // Empêcher le changement d'état par défaut
+  event.preventDefault();
   swalWithBootstrapButtons.fire({
     title: 'Êtes-vous sûr ?',
     text: `Voulez-vous vraiment ${item.status ? 'désactiver' : 'activer'} le type "${item.type}" ?`,
@@ -65,5 +79,34 @@ toggleStatus(item: any): void {
       );
     }
   });
+}
+
+
+
+openDetailsModal(server: any): void {
+  console.log('Ouverture des détails:', server  );
+  this.modalServices.openModal(
+    TypeSynchroEditComponent,
+    server,
+    'modal-lg'
+  );
+  // const modalRef = this.modalService.open(ServerEditModalComponent, {
+  //   size: 'lg',
+  //   backdrop: 'static'
+  // });
+
+  // modalRef.result.then(
+  //   (result) => {
+  //     // Gérer le résultat après fermeture du modal
+  //     if (result) {
+  //       // Optionnel : afficher un toast de succès
+  //       console.log(result);
+  //     }
+  //   },
+  //   (reason) => {
+  //     // Gérer le rejet du modal
+  //     console.log('Modal dismissé');
+  //   }
+  // );
 }
 }

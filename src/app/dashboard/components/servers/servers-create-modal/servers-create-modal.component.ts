@@ -60,7 +60,7 @@ import { ServerService } from '../../services/servers.service';
           <div
             *ngIf="serveurForm.get('etat')?.invalid && (serveurForm.get('etat')?.dirty || serveurForm.get('etat')?.touched)"
             class="text-danger"
-          > 
+          >
             L'état est requis
           </div>
         </div>

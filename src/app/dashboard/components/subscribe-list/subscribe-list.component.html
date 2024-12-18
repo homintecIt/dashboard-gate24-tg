@@ -111,13 +111,13 @@
                   >
                     {{ sub.isExo ? "Oui" : "non" }}
                   </span>
-                </td>    
+                </td>
                 <td>{{ sub.compte.accountNumber }}</td>
                 <td>{{ sub.compte.solde | currency : "XOF" }}</td>
                 <td>{{ sub.created_at | date : "short" }}</td>
                 <td>
                   <div class="d-flex gap-3">
-                    <div class="form-check form-switch">
+                    <!-- <div class="form-check form-switch">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -126,7 +126,7 @@
                         (change)="onStatusToggle(sub)"
                         [disabled]="isStatusChanging"
                       />
-                    </div>
+                    </div> -->
                     <a class="dropdown-item" (click)="openDetailsModal(sub)">
                       <i class="ri-eye-line fs-4 text-secondary"></i>
                     </a>

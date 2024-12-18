@@ -160,11 +160,15 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
 
   // Navigation entre pages
   goToPage(page: number): void {
+    console.log(this.searchTerm);
     if (page < 1 || page > this.totalPages) return;
 
+
     this.currentPage = page;
+    console.log(this.currentPage);
+
     this.accountService
-      .loadAccounts(this.currentPage, this.itemsPerPage)
+      .loadAccounts(this.currentPage, this.itemsPerPage,this.searchTerm)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {

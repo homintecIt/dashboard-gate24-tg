@@ -16,6 +16,7 @@ import { ServersComponent } from './components/servers/servers.component';
 import { UsersComponent } from './components/users/users.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { EditClientModalComponent } from './components/liste-des-clients/edit-client-modal/edit-client-modal.component';
+import { DetailCompteClientComponent } from './components/liste-des-comptes-clients/detail-compte-client/detail-compte-client.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: "users", component: UsersComponent },
       { path: "transactions", component: TransactionsComponent },
       { path: 'clients/details/:tel', component: EditClientModalComponent },
+      { path: 'listesComptesClient/details/:accountNumber', component: DetailCompteClientComponent },
 
 
       { path: "", redirectTo: "statistics", pathMatch: "full" }
