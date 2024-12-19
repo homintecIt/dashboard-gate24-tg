@@ -38,6 +38,7 @@ import { TransactionsComponent } from './components/transactions/transactions.co
 import { ServerEditModalComponent } from './components/servers/server-edit-modal/server-edit-modal.component';
 import { DetailCompteClientComponent } from './components/liste-des-comptes-clients/detail-compte-client/detail-compte-client.component';
 import { TypeSynchroEditComponent } from './components/type-synchro/type-synchro-edit/type-synchro-edit.component';
+import { CronSelectComponent } from './components/type-synchro/cron-select/cron-select.component';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { TypeSynchroEditComponent } from './components/type-synchro/type-synchro
     TransactionsComponent,
     ServerEditModalComponent,
     DetailCompteClientComponent,
-    TypeSynchroEditComponent
+    TypeSynchroEditComponent,
+    CronSelectComponent
      ],
   imports: [
     CommonModule,

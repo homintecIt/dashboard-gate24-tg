@@ -1,0 +1,13 @@
+<div class="form-group">
+  <select
+    class="form-control"
+    (change)="onCronSelect($event)"
+    [value]="selectedValue">
+    <option value="">Sélectionnez une fréquence</option>
+    <ng-container *ngFor="let option of cronOptions">
+      <option [value]="option.value" [selected]="option.value === selectedValue">
+        {{ option.label }}
+      </option>
+    </ng-container>
+  </select>
+</div>

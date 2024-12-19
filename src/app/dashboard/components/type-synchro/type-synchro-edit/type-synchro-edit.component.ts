@@ -39,6 +39,11 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
       </div>
     </div>
 
+    <app-cron-select
+    formControlName="time"
+      [selectedValue]="currentCronValue"
+      (cronSelected)="onCronValueSelected($event)">
+    </app-cron-select>
 
 
     <div class="modal-footer">
@@ -64,6 +69,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class TypeSynchroEditComponent implements OnInit{
   editForm!: FormGroup;
+  currentCronValue: string = '';
   data: any;
   types:any ;
   loading = false;
@@ -79,17 +85,29 @@ ngOnInit():void{
   console.log("ok");
 
   if (this.data) {
+    this.currentCronValue= this.data.time
     this.editForm = this.fb.group({
       type: [this.data.type, Validators.required],
       status: [this.data.status, Validators.required],
-      id: [this.data.id, Validators.required]
+      id: [this.data.id, Validators.required],
+      time:[this.data.time, ]
     });
+    console.log(this.editForm.value.time);
+
   }
 }
-
+onCronValueSelected(cronValue: string) {
+  this.currentCronValue = cronValue;
+  //ajouter au formulaire
+  this.editForm.value.time= this.currentCronValue
+  console.log('Expression CRON sélectionnée:', cronValue);
+  // Faites quelque chose avec la valeur CRON...
+}
 
   onSubmit() : void{
     if (this.editForm.valid && !this.isSubmitting) {
+      console.log(this.editForm.value.time);
+
       this.isSubmitting = true;
       this.typeSynchroService.updateSynchroStatus(this.editForm.value.type,this.editForm.value.status,this.editForm.value.id).subscribe({
         next: () => {
