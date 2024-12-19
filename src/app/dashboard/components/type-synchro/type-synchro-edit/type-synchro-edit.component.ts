@@ -110,11 +110,11 @@ onCronValueSelected(cronValue: string) {
 
       this.isSubmitting = true;
       this.typeSynchroService.updateSynchroStatus(this.editForm.value.type,this.editForm.value.status,this.editForm.value.id,this.editForm.value.time).subscribe({
-        next: () => {
+        next: (response:any) => {
           this.isSubmitting = false;
           this.bsModalRef.hide();
           // Émettre un événement pour rafraîchir la liste
-          this.typeSynchroService.refreshSynchro().subscribe();
+          this.typeSynchroService.onSuccess(response);
         },
         error: (err) => {
           console.error('Erreur lors de mise a jour de la synchro', err);

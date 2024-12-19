@@ -29,11 +29,19 @@ time: string;id:number; type: string; status: boolean
 
   ngOnInit(): void {
     this.fetchSynchroTypes();
+    this.loadData()
   }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+loadData(){
+this.typeSynchroService.succesEvent.subscribe((data)=>{
+  this.fetchSynchroTypes()
+})
+}
+
   fetchSynchroTypes(): void {
     this.typeSynchroService.getSynchroTypes().subscribe(
       (response: any) => {

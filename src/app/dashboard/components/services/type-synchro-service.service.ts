@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -7,6 +7,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class TypeSynchroServiceService {
+
+  @Output() succesEvent = new EventEmitter<any>()
+  @Output() failedEvent = new EventEmitter<any>()
   private apiUrl = environment.apiTestUrl;
   constructor(private http: HttpClient) {}
 
@@ -21,5 +24,13 @@ export class TypeSynchroServiceService {
 
   ): Observable<any> {
     return this.getSynchroTypes();
+  }
+
+  onSuccess(data:any){
+    this.succesEvent.emit(data)
+  }
+
+  onFailure(data:any){
+    this.failedEvent.emit(data)
   }
 }
