@@ -1,6 +1,6 @@
+
 export const environment = {
-  production: true,
-  apiUrl: 'http://peage.safer.tg:3000/api/v2/homintec',
-  // apiTestUrl: 'http://185.158.107.22:3000/api/v2/homintec'
-  apiTestUrl: 'http://185.158.107.22:3000/api/v2/homintec'
+  production: false,
+  apiUrl: 'http://10.13.40.42:3000/api/v2/homintec',
+  apiTestUrl: 'http://10.13.40.42:3000/api/v2/homintec'
 };
