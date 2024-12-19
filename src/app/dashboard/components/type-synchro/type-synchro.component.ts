@@ -40,7 +40,8 @@ time: string;id:number; type: string; status: boolean
         this.types = response.map((item: any) => ({
           id: item.id,
           type: item.type,
-          status: item.status
+          status: item.status,
+          time: item.time
         }));
       },
       (error) => {
