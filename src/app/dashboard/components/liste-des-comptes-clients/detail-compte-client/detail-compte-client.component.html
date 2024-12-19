@@ -36,6 +36,8 @@
         <table class="table table-striped">
           <thead>
             <tr>
+              <th>#</th>
+              <th>TargCode</th>
               <th>Plaque</th>
               <th>Type de Tag</th>
               <th>Statut</th>
@@ -44,7 +46,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let abonnement of account.abonnements">
+            <tr *ngFor="let abonnement of account.abonnements; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ abonnement.targCode ?? "-"  }}</td>
               <td>{{ abonnement.plaque ?? "-"  }}</td>
               <td>{{ abonnement.type_targ }}</td>
               <td>

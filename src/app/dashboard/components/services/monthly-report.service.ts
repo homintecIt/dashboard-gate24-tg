@@ -74,7 +74,7 @@ export class MonthlyReportService {
       targCode: targCode || ''
     };
 
-    return this.http.post<MonthlyReportResponse>(`${apiEndpoints.monthlyReportUrl}`, payload).pipe(
+    return this.http.post<MonthlyReportResponse>(`${apiEndpoints.periodReportUrl}`, payload).pipe(
       tap(response => {
         this.monthlyReportsSubject.next(response.items);
         this.loadingSubject.next(false);
