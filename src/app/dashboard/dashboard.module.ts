@@ -39,6 +39,7 @@ import { ServerEditModalComponent } from './components/servers/server-edit-modal
 import { DetailCompteClientComponent } from './components/liste-des-comptes-clients/detail-compte-client/detail-compte-client.component';
 import { TypeSynchroEditComponent } from './components/type-synchro/type-synchro-edit/type-synchro-edit.component';
 import { CronSelectComponent } from './components/type-synchro/cron-select/cron-select.component';
+import { CronTranslatorPipe } from './pipes/cron-translator.pipe';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { CronSelectComponent } from './components/type-synchro/cron-select/cron-
     ServerEditModalComponent,
     DetailCompteClientComponent,
     TypeSynchroEditComponent,
-    CronSelectComponent
+    CronSelectComponent,
+    CronTranslatorPipe
      ],
   imports: [
     CommonModule,

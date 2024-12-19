@@ -109,7 +109,7 @@ onCronValueSelected(cronValue: string) {
       console.log(this.editForm.value.time);
 
       this.isSubmitting = true;
-      this.typeSynchroService.updateSynchroStatus(this.editForm.value.type,this.editForm.value.status,this.editForm.value.id).subscribe({
+      this.typeSynchroService.updateSynchroStatus(this.editForm.value.type,this.editForm.value.status,this.editForm.value.id,this.editForm.value.time).subscribe({
         next: () => {
           this.isSubmitting = false;
           this.bsModalRef.hide();

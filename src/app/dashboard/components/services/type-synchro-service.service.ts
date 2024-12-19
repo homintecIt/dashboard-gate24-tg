@@ -14,8 +14,8 @@ export class TypeSynchroServiceService {
     return this.http.get(`${this.apiUrl}/get/type/synchro`);
   }
 
-  updateSynchroStatus(type: string, status: boolean,id?:number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/update/status/synchro`, { type, status,id });
+  updateSynchroStatus(type: string, status: boolean,id?:number,time?:string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/update/status/synchro`, { type, status,id,time });
   }
   refreshSynchro(
 

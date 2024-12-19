@@ -18,7 +18,9 @@ const swalWithBootstrapButtons = Swal.mixin({
 export class TypeSynchroComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
-  types: {id:number; type: string; status: boolean }[] = [];
+  types: {
+time: string;id:number; type: string; status: boolean
+}[] = [];
 
   constructor(private typeSynchroService: TypeSynchroServiceService,
     private modalServices: BootstrapModalService
