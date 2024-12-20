@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: "passage-by-subscriber", component: PassageBySubscriberComponent },
       { path: "listesClients", component: ListeDesClientsComponent },
       { path: "listesComptesClient", component: ListeDesComptesClientsComponent },
-      { path: "passage-monthly", component: MonthlyReportComponent },
+      { path: "all-reports", component: MonthlyReportComponent },
       { path: "passage-period", component: PeriodReportComponent },
       { path: "settings/type-synchro", component: TypeSynchroComponent },
       { path: 'financial-data', component: FinancialDataComponent },

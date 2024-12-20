@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MonthlyReportService, MonthlyReport } from '../services/monthly-report.service';
 import { Subject } from 'rxjs';
-import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { MonthlyReportService } from '../services/monthly-report.service';
 
 @Component({
   selector: 'app-monthly-report',
@@ -13,9 +12,15 @@ export class MonthlyReportComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
-  site: string = '';
-  montlyReports: MonthlyReport[] = [];
-  filteredReports: MonthlyReport[] = [];
+  // Données
+  reports: any[] = [];
+  sites: any[] = [];
+  
+  // Filtres
+  selectedSite: string = '';
+  startDate: string = '';
+  endDate: string = '';
+  targCode: string = '';
 
   // Pagination
   currentPage = 1;
@@ -23,53 +28,40 @@ export class MonthlyReportComponent implements OnInit, OnDestroy {
   totalItems = 0;
   totalPages = 0;
 
-  // Recherche et filtres
-  searchTerm = '';
-  dateStart: string = '';
-  dateEnd: string = '';
-  targCode: string = '';
-
   // États
   loading = false;
   error: string | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private monthlyReportService: MonthlyReportService
-  ) {}
+  constructor(private reportService: MonthlyReportService) {}
 
   ngOnInit(): void {
-    // Récupérer le site des paramètres de route
-    this.route.queryParams.subscribe((params) => {
-      this.site = params['site'] || '';
-
-      // Chargement initial
-      this.loadReports();
-    });
+    // Chargement des sites
+    this.reportService.getDropdownOptions()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(sites => this.sites = sites);
 
     // Écoute des rapports
-    this.monthlyReportService.monthlyReports$
+    this.reportService.reports$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((reports) => {
-        this.montlyReports = reports;
-        this.filteredReports = reports;
+      .subscribe(reports => {
+        this.reports = reports;
       });
 
     // Écoute du chargement
-    this.monthlyReportService.loading$
+    this.reportService.loading$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((loading) => {
+      .subscribe(loading => {
         this.loading = loading;
       });
-
-    // Configuration de la recherche dynamique
+      this.loadReports();
+    // Configuration de la recherche par targCode
     this.searchSubject.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       takeUntil(this.destroy$)
-    ).subscribe(searchTerm => {
+    ).subscribe(targCode => {
       this.currentPage = 1;
-      this.loadReports(this.currentPage);
+      this.loadReports();
     });
   }
 
@@ -78,10 +70,19 @@ export class MonthlyReportComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // Chargement des rapports
-  loadReports(page: number = 1): void {
-    this.monthlyReportService
-      .loadReports(page, this.itemsPerPage, this.dateStart, this.dateEnd, this.site, this.targCode)
+  loadReports(): void {
+    const payload = {
+      page: this.currentPage,
+      limit: this.itemsPerPage,
+      order: ["string"],
+      search: {},
+      dateStart: this.startDate || '',
+      dateEnd: this.endDate || '',
+      site: this.selectedSite,
+      targCode: this.targCode
+    };
+
+    this.reportService.getReports(payload)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -96,25 +97,17 @@ export class MonthlyReportComponent implements OnInit, OnDestroy {
       });
   }
 
-  // Recherche
   onSearch(event: any): void {
-    const searchTerm = event.target.value;
-    this.searchTerm = searchTerm;
-    this.searchSubject.next(searchTerm);
+    this.targCode = event.target.value;
+    this.searchSubject.next(this.targCode);
   }
 
-  // Activation de la date de fin
   onDateStartChange(): void {
-    // Activer le champ de date de fin
+    if (this.startDate) {
+      this.endDate = '';  // Reset end date when start date changes
+    }
   }
 
-  // Recherche avec filtres
-  searchWithFilters(): void {
-    this.currentPage = 1;
-    this.loadReports();
-  }
-
-  // Génération des pages
   getPagesArray(): number[] {
     const delta = 1;
     const left = this.currentPage - delta;
@@ -140,16 +133,14 @@ export class MonthlyReportComponent implements OnInit, OnDestroy {
     return rangeWithDots;
   }
 
-  // Changement de page
-  onPageChange(page: number): void {
+  goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.loadReports(page);
+      this.loadReports();
     }
   }
 
-  // Rafraîchissement des données
   refreshData(): void {
-    this.loadReports(this.currentPage);
+    this.loadReports();
   }
 }

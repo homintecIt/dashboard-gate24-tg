@@ -5,9 +5,7 @@
         <h4 class="mb-sm-0">Rapport Mensuel</h4>
         <div class="page-title-right">
           <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item">
-              <a routerLink="/dashboard">Accueil</a>
-            </li>
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Accueil</a></li>
             <li class="breadcrumb-item active">Rapport Mensuel</li>
           </ol>
         </div>
@@ -19,48 +17,48 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <div class="row">
+          <h5 class="card-title mb-3">Filtres</h5>
+          <div class="row g-3">
             <div class="col-md-3">
-              <label>Date de début</label>
-              <input
-                type="date"
-                class="form-control"
-                [(ngModel)]="dateStart"
-                (change)="onDateStartChange()"
+              <select class="form-select" [(ngModel)]="selectedSite">
+                <option value="">Sélectionner un site</option>
+                <option *ngFor="let site of sites" [value]="site.passages_site">
+                  {{site.passages_site}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <input 
+                type="date" 
+                class="form-control" 
+                [(ngModel)]="startDate"
+                (ngModelChange)="onDateStartChange()"
+                placeholder="Date de début"
               >
             </div>
             <div class="col-md-3">
-              <label>Date de fin</label>
-              <input
-                type="date"
-                class="form-control"
-                [(ngModel)]="dateEnd"
-                [disabled]="!dateStart"
+              <input 
+                type="date" 
+                class="form-control" 
+                [(ngModel)]="endDate"
+                [disabled]="!startDate"
+                placeholder="Date de fin"
               >
             </div>
             <div class="col-md-3">
-              <label>Code Targ</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="targCode"
-                placeholder="Rechercher par code Targ"
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Rechercher par targCode..." 
+                (input)="onSearch($event)"
               >
             </div>
-            <div class="col-md-3 gap-md-2 d-flex align-items-end">
-              <button
-                class="btn btn-primary"
-                (click)="searchWithFilters()"
-              >
+            <div class="col-12 text-end">
+              <button class="btn btn-primary me-2" (click)="loadReports()">
                 Rechercher
               </button>
-              <button
-                class="btn btn-outline-primary ml-2"
-                (click)="refreshData()"
-                [disabled]="loading"
-              >
-                Actualiser
-                <i class="fas fa-sync" [class.fa-spin]="loading"></i>
+              <button class="btn btn-outline-primary" (click)="refreshData()" [disabled]="loading">
+                <i class="fas fa-sync" [class.fa-spin]="loading"></i> Rafraîchir
               </button>
             </div>
           </div>
@@ -72,21 +70,25 @@
               <thead>
                 <tr>
                   <th>N°</th>
+                  <th>Code Tag</th>
+                  <th>Plaque</th>
                   <th>Site</th>
-                  <th>Code Targ</th>
+                  <th>Voie</th>
                   <th>Montant</th>
-                  <th>Date</th>
                   <th>Type Passage</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let report of filteredReports; let i = index">
+                <tr *ngFor="let report of reports; let i = index">
                   <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                  <td>{{ report.abonnement?.targCode }}</td>
+                  <td>{{ report.abonnement?.plaque ?? "-" }}</td>
                   <td>{{ report.site }}</td>
-                  <td>{{ report.abonnement?.targCode ?? "-" }}</td>
+                  <td>{{ report.voie }}</td>
                   <td>{{ report.montant }}</td>
-                  <td>{{ report.created_at | date: 'short' }}</td>
                   <td>{{ report.type_passage }}</td>
+                  <td>{{ report.created_at | date:'short' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -101,32 +103,25 @@
             </div>
             <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
               <ul class="pagination justify-content-center">
-                <!-- Bouton précédent -->
                 <li class="page-item" [class.disabled]="currentPage === 1">
-                  <a class="page-link" (click)="onPageChange(currentPage - 1)" role="button">
+                  <a class="page-link" (click)="goToPage(currentPage - 1)" role="button">
                     Précédent
                   </a>
                 </li>
 
-                <!-- Pages -->
                 <ng-container *ngFor="let page of getPagesArray()">
                   <li *ngIf="page === -1" class="page-item disabled">
                     <span class="page-link">...</span>
                   </li>
-                  <li
-                    *ngIf="page !== -1"
-                    class="page-item"
-                    [class.active]="page === currentPage"
-                  >
-                    <a class="page-link" (click)="onPageChange(page)" role="button">
+                  <li *ngIf="page !== -1" class="page-item" [class.active]="page === currentPage">
+                    <a class="page-link" (click)="goToPage(page)" role="button">
                       {{ page }}
                     </a>
                   </li>
                 </ng-container>
 
-                <!-- Bouton suivant -->
                 <li class="page-item" [class.disabled]="currentPage === totalPages">
-                  <a class="page-link" (click)="onPageChange(currentPage + 1)" role="button">
+                  <a class="page-link" (click)="goToPage(currentPage + 1)" role="button">
                     Suivant
                   </a>
                 </li>
@@ -138,5 +133,3 @@
     </div>
   </div>
 </div>
-
-
