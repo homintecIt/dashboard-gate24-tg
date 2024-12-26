@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Modifier l'abonnement</h4>
+  <h4 class="modal-title">Affecter des fonctionnalités</h4>
   <button type="button" class="btn-close" (click)="bsModalRef.hide()"></button>
 </div>
 <div class="modal-body">
@@ -9,7 +9,7 @@
 
   <form *ngIf="!loading" [formGroup]="editForm">
     <div class="container mt-4">
-      <h5>Choisir des Routes</h5>
+      <h5>Choisir des fonctionnalités</h5>
       <app-generic-multi-select
       [items]="routers"
       displayKey="titre"

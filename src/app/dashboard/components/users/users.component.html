@@ -22,7 +22,7 @@
           <div class="d-flex gap-3">
             <button
               class="btn btn-outline-primary"
-              
+
               [disabled]="loading"
             >
               <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
@@ -119,6 +119,11 @@
                       <li>
                         <a class="dropdown-item text-info" href="javascript:void(0);" (click)="openAffectModal(user)">
                           <i class="ri-add-line me-1"></i> Affecter des routes
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item text-primary-emphasis" [routerLink]="['/dashboard/users', user.id]">
+                          <i class="ri-eye-line me-1"></i> Details
                         </a>
                       </li>
                       <li>

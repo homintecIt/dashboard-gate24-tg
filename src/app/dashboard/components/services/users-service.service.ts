@@ -113,4 +113,26 @@ export class UserService {
       })
     );
   }
+
+
+
+  getUserById(userId: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/get-user/${userId}`);
+  }
+
+  getUserMenus(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/users/get-menus/for/user/${userId}`);
+  }
+
+  getAllMenus(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/users/get-menus`);
+  }
+
+  // Méthode mise à jour pour affecter les menus
+  addUserMenus(userId: number, menuIds: string[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/add-menus`, {
+      userId: userId,
+      menuId: menuIds
+    });
+  }
 }

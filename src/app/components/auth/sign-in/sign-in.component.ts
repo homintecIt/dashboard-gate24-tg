@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { storageHelper } from 'src/app/misc/storage.misc';
-import { jwtTokenIdentifier, userIdentifier } from 'src/app/misc/utilities.misc';
+import { jwtTokenIdentifier, MenuUserIdentifier, userIdentifier } from 'src/app/misc/utilities.misc';
 import { AuthService } from 'src/app/services/auth.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 
@@ -46,8 +46,10 @@ export class SignInComponent implements OnInit {
 
         var userAccessToken = data.access_token;
         var userData = data.user;
+        var nemuUserData = data.access_menu;
         storageHelper.local.store(`${jwtTokenIdentifier}`, userAccessToken);
         storageHelper.local.store(`${userIdentifier}`, userData);
+        storageHelper.local.store(`${MenuUserIdentifier}`, nemuUserData);
         this.router.navigateByUrl("/dashboard");
       }
     );

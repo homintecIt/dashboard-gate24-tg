@@ -52,6 +52,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.filterUsers();
       });
 
+      console.log("users",this.users);
     // Écoute du chargement
     this.userService.loading$
       .pipe(takeUntil(this.destroy$))
@@ -61,6 +62,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     // Chargement initial
     this.loadUsers();
+
   }
 
   ngOnDestroy(): void {
@@ -207,6 +209,8 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     // Ouverture du modal d'édition
     openAffectModal(user: User): void {
+      console.log(user);
+
       this.selectedUser = user;
       this.modalService.openModal(UsersAffectRouteModalComponent,user , 'modal-lg',);
 

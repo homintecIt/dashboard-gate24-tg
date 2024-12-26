@@ -57,8 +57,8 @@ export class RoutingService {
         menu.push(i.id)
       })
       const payload= {
-        id: prePayload.id,
-        manuId: menu
+        userId: prePayload.id,
+        menuId: menu
       }
       console.log(menu);
 
