@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h4 class="modal-title">Modifier la Voie</h4>
+  <button type="button" class="btn-close" (click)="bsModalRef.hide()"></button>
+</div>
+<div class="modal-body">
+  <div *ngIf="loading" class="text-center p-4">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <form *ngIf="!loading" [formGroup]="editForm">
+    <div class="row">
+      <div class="mb-3">
+        <label class="form-label">Nom de la Voie</label>
+        <input type="text" class="form-control" formControlName="nom">
+      </div>
+    </div>
+    <div class="row">
+      <div class="mb-3">
+        <label class="form-label">Adresse IP</label>
+        <input type="text" class="form-control" formControlName="ip">
+      </div>
+    </div>
+    <div class="row">
+      <div class="mb-3">
+        <label class="form-label">Site</label>
+        <select class="form-control" formControlName="site_id">
+          <option
+            *ngFor="let site of sites"
+            [value]="site.id"
+          >
+            {{ site.nom }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Annuler</button>
+  <button type="button" class="btn btn-primary"
+          (click)="onSubmit()"
+          [disabled]="editForm.invalid || isSubmitting">
+    <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1"></span>
+    Enregistrer
+  </button>
+</div>

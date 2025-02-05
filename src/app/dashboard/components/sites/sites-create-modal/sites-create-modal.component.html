@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h4 class="modal-title">Ajouter un Site</h4>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="siteForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Nom du Site</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="nom"
+        placeholder="Nom du site"
+      >
+      <div
+        *ngIf="siteForm.get('nom')?.invalid && (siteForm.get('nom')?.dirty || siteForm.get('nom')?.touched)"
+        class="text-danger"
+      >
+        Le nom est requis
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Tarif</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="tarif"
+        placeholder="Tarif du site"
+      >
+      <div
+        *ngIf="siteForm.get('tarif')?.invalid && (siteForm.get('tarif')?.dirty || siteForm.get('tarif')?.touched)"
+        class="text-danger"
+      >
+        Le tarif est requis
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="activeModal.dismiss()"
+      >
+        Annuler
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="siteForm.invalid"
+      >
+        Ajouter
+      </button>
+    </div>
+  </form>
+</div>

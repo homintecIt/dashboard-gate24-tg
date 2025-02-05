@@ -41,6 +41,12 @@ import { TypeSynchroEditComponent } from './components/type-synchro/type-synchro
 import { CronSelectComponent } from './components/type-synchro/cron-select/cron-select.component';
 import { CronTranslatorPipe } from './pipes/cron-translator.pipe';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { SitesComponent } from './components/sites/sites.component';
+import { SitesEditModalComponent } from './components/sites/sites-edit-modal/sites-edit-modal.component';
+import { SitesCreateModalComponent } from './components/sites/sites-create-modal/sites-create-modal.component';
+import { VoiesComponent } from './components/voies/voies.component';
+import { VoiesCreasteModalComponent } from './components/voies/voies-creaste-modal/voies-creaste-modal.component';
+import { VoiesEditModalComponent } from './components/voies/voies-edit-modal/voies-edit-modal.component';
 
 
 @NgModule({
@@ -78,7 +84,13 @@ import { UserDetailsComponent } from './components/users/user-details/user-detai
     TypeSynchroEditComponent,
     CronSelectComponent,
     CronTranslatorPipe,
-    UserDetailsComponent
+    UserDetailsComponent,
+    SitesComponent,
+    SitesEditModalComponent,
+    SitesCreateModalComponent,
+    VoiesComponent,
+    VoiesCreasteModalComponent,
+    VoiesEditModalComponent
      ],
   imports: [
     CommonModule,

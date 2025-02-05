@@ -1,0 +1,78 @@
+<div class="modal-header">
+  <h4 class="modal-title">Ajouter une Voie</h4>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="voieForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Nom de la Voie</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="nom"
+        placeholder="Nom de la voie"
+      >
+      <div
+        *ngIf="voieForm.get('nom')?.invalid && (voieForm.get('nom')?.dirty || voieForm.get('nom')?.touched)"
+        class="text-danger"
+      >
+        Le nom est requis
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Adresse IP</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="ip"
+        placeholder="Adresse IP"
+      >
+      <div
+        *ngIf="voieForm.get('ip')?.invalid && (voieForm.get('ip')?.dirty || voieForm.get('ip')?.touched)"
+        class="text-danger"
+      >
+        L'adresse IP est requise
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Site</label>
+      <select
+        class="form-control"
+        formControlName="site_id"
+      >
+        <option value="">Sélectionnez un site</option>
+        <option
+          *ngFor="let site of sites"
+          [value]="site.id"
+        >
+          {{ site.nom }}
+        </option>
+      </select>
+      <div
+        *ngIf="voieForm.get('site_id')?.invalid && (voieForm.get('site_id')?.dirty || voieForm.get('site_id')?.touched)"
+        class="text-danger"
+      >
+        Un site doit être sélectionné
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="activeModal.dismiss()"
+      >
+        Annuler
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="voieForm.invalid"
+      >
+        Ajouter
+      </button>
+    </div>
+  </form>
+</div>

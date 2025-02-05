@@ -18,6 +18,8 @@ import { TransactionsComponent } from './components/transactions/transactions.co
 import { EditClientModalComponent } from './components/liste-des-clients/edit-client-modal/edit-client-modal.component';
 import { DetailCompteClientComponent } from './components/liste-des-comptes-clients/detail-compte-client/detail-compte-client.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { SitesComponent } from './components/sites/sites.component';
+import { VoiesComponent } from './components/voies/voies.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -36,6 +38,8 @@ const routes: Routes = [
       { path: "listeServer", component: ServersComponent },
       { path: "users", component: UsersComponent },
       { path: "transactions", component: TransactionsComponent },
+      { path: "sites", component: SitesComponent },
+      { path: "voies", component: VoiesComponent },
       { path: 'clients/details/:tel', component: EditClientModalComponent },
       { path: 'listesComptesClient/details/:accountNumber', component: DetailCompteClientComponent },
       { path: 'users/:id', component: UserDetailsComponent },
