@@ -78,7 +78,7 @@ toggleStatus(item: any,event: Event): void {
   }).then((result) => {
     if (result.isConfirmed) {
       const newStatus = !item.status;
-      this.typeSynchroService.updateSynchroStatus(item.type, newStatus).subscribe(
+      this.typeSynchroService.updateSynchroStatus(item.type, newStatus, item.id, item.time).subscribe(
         () => {
           item.status = newStatus;
           Swal.fire('Succès', `Le statut a été mis à jour.`, 'success');
