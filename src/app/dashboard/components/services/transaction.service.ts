@@ -23,24 +23,21 @@ export class TransactionService {
 
   // Chargement des données avec pagination, recherche et filtres
   loadTransactions(
-    page: number = 0, // Maintenant en 0-based pour correspondre au backend
+    page: number = 1,
     limit: number = 10,
     accountNumber: string = '',
     type: string = ''
   ): Observable<TransactionResponse> {
     this.loadingSubject.next(true);
 
-    // S'assurer que la page est au moins à 0
-    const pageNumber = Math.max(0, page);
-    
     const payload: any = {
-      page: pageNumber, // Déjà en 0-based
+      page: page , // L'API attend une page 0-based
       limit: limit
     };
 
     // Ajout des filtres si présents
-    if (accountNumber && accountNumber.trim()) {
-      payload.filter = accountNumber.trim();
+    if (accountNumber) {
+      payload.filter = accountNumber;
     }
 
     if (type) {
@@ -74,6 +71,11 @@ export class TransactionService {
   // Méthode de rafraîchissement
   refreshTransaction(page: number = 1, limit: number = 10): Observable<TransactionResponse> {
     return this.loadTransactions(page, limit);
+  }
+
+  // Méthode pour obtenir les transactions par numéro de compte
+  getTransactionsByAccount(accountNumber: string, page: number = 1, limit: number = 10): Observable<TransactionResponse> {
+    return this.loadTransactions(page, limit, accountNumber);
   }
 }
 

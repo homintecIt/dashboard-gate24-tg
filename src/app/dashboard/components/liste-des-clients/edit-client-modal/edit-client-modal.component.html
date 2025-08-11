@@ -61,7 +61,7 @@
                 <th>Solde</th>
                 <th>Statut</th>
                 <th>Date de création</th>
-                <!-- <th>Action</th> -->
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -79,10 +79,15 @@
                   </span>
                 </td>
                 <td>{{ compte.created_at | date }}</td>
-                <!-- <td>
-                  <button class="btn btn-primary btn-sm">Recharger</button>
-                  <button class="btn btn-primary btn-sm">Ajouter un tag</button>
-                </td> -->
+                <td>
+                  <a 
+                    [routerLink]="['/dashboard/transactions']" 
+                    [queryParams]="{ accountNumber: compte.accountNumber }"
+                    class="btn btn-sm btn-outline-primary"
+                    title="Voir les transactions">
+                    <i class="ri-eye-line"></i>
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>

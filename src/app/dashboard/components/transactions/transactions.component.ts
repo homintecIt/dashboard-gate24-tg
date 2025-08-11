@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
 import { Transaction, TransactionResponse } from '../../interfaces/transaction';
 import { Subject } from 'rxjs';
@@ -40,11 +41,18 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(TransactionService) private transactionService: TransactionService,
-    private modalService: BootstrapModalService
+    private modalService: BootstrapModalService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadTransactions();
+    this.route.queryParams.subscribe(params => {
+      if (params['accountNumber']) {
+        this.searchTerm = params['accountNumber'];
+      }
+      this.loadTransactions();
+    });
   }
 
   ngOnDestroy(): void {
