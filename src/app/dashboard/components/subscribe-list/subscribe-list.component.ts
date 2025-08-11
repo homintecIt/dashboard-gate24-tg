@@ -63,7 +63,7 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
         title: 'Êtes-vous sûr ?',
         text: `Voulez-vous vraiment ${
           subscription.statutTarg === 'actived' ? 'désactiver' : 'activer'
-        } le type "${subscription.targCode}" ?`,
+        } le type "${subscription.tagCode}" ?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Oui',
@@ -219,7 +219,7 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
       (subscription) =>
         subscription.compte.accountNumber.toLowerCase().includes(term) ||
         subscription.targId.toLowerCase().includes(term) ||
-        subscription.targCode.toLowerCase().includes(term) ||
+        subscription.tagCode.toLowerCase().includes(term) ||
         subscription.plaque?.toLowerCase().includes(term)
     );
   }

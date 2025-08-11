@@ -59,6 +59,7 @@
                 <th>#</th>
                 <th>Numéro</th>
                 <th>Solde</th>
+                <th>Statut</th>
                 <th>Date de création</th>
                 <!-- <th>Action</th> -->
               </tr>
@@ -68,6 +69,15 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ compte.accountNumber }}</td>
                 <td>{{ compte.solde }} F CFA</td>
+                <td>
+                  <span class="badge"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase': compte.statut === 'actived',
+                      'bg-danger-subtle text-danger text-uppercase': compte.statut === 'disabled'
+                    }">
+                    {{ compte.statut === 'actived' ? 'Activé' : 'Désactivé' }}
+                  </span>
+                </td>
                 <td>{{ compte.created_at | date }}</td>
                 <!-- <td>
                   <button class="btn btn-primary btn-sm">Recharger</button>
@@ -92,6 +102,7 @@
                 <th>#</th>
                 <th>TagCode</th>
                 <th>Plaque</th>
+                <th>Numéro de Compte</th>
                 <th>Type</th>
                 <th>Exonéré</th>
                 <th>Date de création</th>
@@ -102,12 +113,25 @@
             <tbody>
               <tr *ngFor="let abonnement of client.abonnements; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td>{{ abonnement.targCode }}</td>
+                <td>{{ abonnement.tagCode }}</td>
                 <td>{{ abonnement.plaque }}</td>
+                <td>{{ abonnement.compte.accountNumber }}</td>
                 <td>{{ abonnement.type_targ }}</td>
                 <td>{{ abonnement.isExo ? 'Oui' : 'Non' }}</td>
                 <td>{{ abonnement.created_at | date }}</td>
-                <td>{{ abonnement.statutTarg }}</td>
+                <td>
+                  <span
+                    class="badge badge-outline"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        abonnement.statutTarg === 'actived',
+                      'bg-danger-subtle text-danger text-uppercase':
+                        abonnement.statutTarg !== 'actived'
+                    }"
+                  >
+                    {{ abonnement.statutTarg == "actived" ? "Activé" : "Désactivé" }}
+                  </span>
+                </td>
                 <!-- <td>
                   <button class="btn btn-primary btn-sm">Activer</button>
                   <button class="btn btn-primary btn-sm">Exonérer</button>

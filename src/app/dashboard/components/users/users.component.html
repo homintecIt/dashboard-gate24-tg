@@ -22,7 +22,7 @@
           <div class="d-flex gap-3">
             <button
               class="btn btn-outline-primary"
-              
+
               [disabled]="loading"
             >
               <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
@@ -87,7 +87,9 @@
                     [ngClass]="{
                       'bg-primary': user.role === 'ADMIN',
                       'bg-success': user.role === 'USER',
-                      'bg-warning': user.role === 'SIRAT'
+                      'bg-warning': user.role === 'SIRAT',
+                      'bg-info': user.role === 'PARTENAIRE',
+                      'bg-danger': user.role === 'SUBSCRIBER',
                     }">
                     {{ user.role }}
                   </span>

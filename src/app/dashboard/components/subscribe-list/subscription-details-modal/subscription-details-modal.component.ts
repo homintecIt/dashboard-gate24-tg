@@ -20,7 +20,7 @@ import { Subscription, SubscriptionService } from '../../services/subscribe-list
         <div class="col-md-6">
           <div class="mb-3">
             <strong>Code Targ:</strong>
-            <p>{{ subscription?.targCode }}</p>
+            <p>{{ subscription?.tagCode }}</p>
           </div>
           <div class="mb-3">
             <strong>Type Targ:</strong>
@@ -114,7 +114,7 @@ export class SubscriptionDetailsModalComponent implements OnInit {
     if (this.data) {
       this.loading = true;
       // Ajoutez cette méthode dans votre SubscriptionService
-      this.subscrptionService.getSubscriptionByTagCode(this.data.targCode).subscribe({
+      this.subscrptionService.getSubscriptionByTagCode(this.data.tagCode).subscribe({
         next: (subscription) => {
           this.subscription = subscription;
 

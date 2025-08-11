@@ -19,7 +19,7 @@ export interface MonthlyReport {
   traiterTransaction: boolean;
   abonnement: {
     id: number;
-    targCode: string;
+    tagCode: string | null;
     plaque: string;
     statutTarg: string;
   };
@@ -71,7 +71,7 @@ export class MonthlyReportService {
       dateStart,
       dateEnd,
       site: site || '',
-      targCode: targCode || ''
+      tagCode: targCode || ''
     };
 
     return this.http.post<MonthlyReportResponse>(`${apiEndpoints.periodReportUrl}`, payload).pipe(

@@ -16,126 +16,199 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title mb-0">Liste des Transactions</h5>
-          <div class="d-flex gap-3">
-            <button
-              class="btn btn-outline-primary"
-              (click)="refreshData()"
-              [disabled]="loading"
-            >
-              <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
-              Rafraîchir
-            </button>
-
-            <div class="search-box">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Rechercher..."
-                (input)="onSearch($event)"
-              />
+<div class="container-fluid">
+  <!-- Filtres de recherche -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Filtres de recherche</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Numéro de compte</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Rechercher par numéro de compte"
+                    [(ngModel)]="searchTerm"
+                    (keyup.enter)="onSearch()"
+                  />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+                      Rechercher
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Type de transaction</label>
+                <select class="form-control" [(ngModel)]="selectedType" (change)="onSearch()">
+                  <option *ngFor="let type of typeOptions" [value]="type.value">
+                    {{ type.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+              <button class="btn btn-outline-secondary" (click)="resetFilters()" [disabled]="loading">
+                <i class="fas fa-filter-circle-xmark me-1"></i> Rénitialiser les filtres
+              </button>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="card-body">
-
-
-        <!-- Message d'erreur -->
-        <!-- <div *ngIf="error" class="alert alert-danger">
-          {{ error }}
-        </div> -->
-
-        <!-- Tableau des données -->
-        <div class="table-responsive" >
-          <table class="table table-striped table-bordered">
+  <!-- Tableau des transactions -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Liste des transactions</h3>
+          <div class="card-tools">
+            <button class="btn btn-sm btn-outline-primary" (click)="loadTransactions()" [disabled]="loading">
+              <i class="fas fa-sync-alt me-1" [class.fa-spin]="loading"></i>
+              {{ loading ? 'Chargement...' : 'Rafraîchir' }}
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover text-nowrap">
             <thead>
               <tr>
-                <th>#</th>
-                <th scope="col" class="text-center">solde</th>
-                <th scope="col" class="text-center">Montant</th>
-                <th scope="col" class="text-center">type de transaction</th>
-                <th scope="col" class="text-center">client</th>
-
+                <th>ID</th>
+                <th>Compte</th>
+                <th>Montant</th>
+                <th>Type</th>
+                <th>Solde</th>
+                <th>Date</th>
+                <th>Statut</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let transaction of filteredTransactions; let i = index">
-                <td class="text-center" >{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                <td class="text-center" >{{ transaction.solde }}</td>
-                <td class="text-center" >{{ transaction.montant }}</td>
-                <td class="text-center" >{{ transaction.type_transaction }}</td>
-                <td class="text-center" >{{ transaction.compte?.accountNumber }}</td>
-
+              <tr *ngFor="let transaction of transactions">
+                <td>{{ transaction.id }}</td>
+                <td>
+                  <span class="badge bg-primary">
+                    {{ transaction.compte?.accountNumber }}
+                  </span>
+                </td>
+                <td [class.text-success]="transaction.type_transaction === 'credit'"
+                    [class.text-danger]="transaction.type_transaction === 'debit'">
+                  {{ transaction.type_transaction === 'credit' ? '+' : '-' }}
+                  {{ transaction.montant | currency:'XOF':'symbol':'1.2-2' }}
+                </td>
+                <td>
+                  <span class="badge"
+                        [ngClass]="{
+                          'bg-success': transaction.type_transaction === 'credit',
+                          'bg-danger': transaction.type_transaction === 'debit'
+                        }">
+                    {{ getTypeLabel(transaction.type_transaction) }}
+                  </span>
+                </td>
+                <td>{{ transaction.solde | currency:'XOF':'symbol':'1.2-2' }}</td>
+                <td>{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                    'bg-success': transaction.compte?.status === 'actived',
+                    'bg-danger': transaction.compte?.status !== 'actived'
+                  }">
+                    {{ transaction.compte?.status === 'actived' ? 'Actif' : 'Inactif' }}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="transactions.length === 0 && !loading">
+                <td colspan="7" class="text-center">Aucune transaction trouvée</td>
+              </tr>
+              <tr *ngIf="loading">
+                <td colspan="7" class="text-center py-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement...</span>
+                  </div>
+                  <p class="mt-2 mb-0">Chargement des transactions...</p>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <!-- Pagination -->
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>
-            Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
-            {{
-              currentPage * itemsPerPage > totalItems
-                ? totalItems
-                : currentPage * itemsPerPage
-            }}
-            sur {{ totalItems }} entrées
-          </div>
-          <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
-            <ul class="pagination justify-content-center">
-              <!-- Bouton précédent -->
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage - 1)"
-                  role="button"
-                >
-                  Précédent
-                </a>
-              </li>
 
-              <!-- Pages -->
-              <ng-container *ngFor="let page of getPagesArray()">
-                <li *ngIf="page === -1" class="page-item disabled">
-                  <span class="page-link">...</span>
-                </li>
-                <li
-                  *ngIf="page !== -1"
-                  class="page-item"
-                  [class.active]="page === currentPage"
-                >
-                  <a class="page-link" (click)="goToPage(page)" role="button">
-                    {{ page }}
+
+        <!-- Pagination -->
+        <div class="card-footer clearfix" *ngIf="totalPages > 1">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted">
+              Affichage de <b>{{ (currentPage - 1) * itemsPerPage + 1 }}</b> à
+              <b>{{ Math.min(currentPage * itemsPerPage, totalItems) }}</b> sur
+              <b>{{ totalItems }}</b> transactions
+            </div>
+
+            <div class="pagination-container">
+              <ul class="pagination pagination-sm mb-0">
+                <!-- Bouton Précédent -->
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link"
+                     href="javascript:void(0)"
+                     (click)="currentPage > 1 && onPageChange(currentPage - 1)"
+                     [class.disabled]="currentPage === 1">
+                    Précédent
                   </a>
                 </li>
-              </ng-container>
 
-              <!-- Bouton suivant -->
-              <li
-                class="page-item"
-                [class.disabled]="currentPage === totalPages"
-              >
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage + 1)"
-                  role="button"
-                >
-                  Suivant
-                </a>
-              </li>
-            </ul>
-          </nav>
+                <!-- Première page -->
+                <li class="page-item" [class.active]="currentPage === 1">
+                  <a class="page-link" href="javascript:void(0)" (click)="onPageChange(1)">1</a>
+                </li>
+
+                <!-- Points de suspension après la première page si nécessaire -->
+                <li class="page-item disabled" *ngIf="currentPage > 3">
+                  <span class="page-link">...</span>
+                </li>
+
+                <!-- Pages autour de la page courante -->
+                <ng-container *ngIf="totalPages > 2">
+                  <ng-container *ngFor="let page of getPagesAroundCurrent()">
+                    <li class="page-item" [class.active]="page === currentPage">
+                      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(page)">{{ page }}</a>
+                    </li>
+                  </ng-container>
+                </ng-container>
+
+                <!-- Points de suspension avant la dernière page si nécessaire -->
+                <li class="page-item disabled" *ngIf="currentPage < totalPages - 2">
+                  <span class="page-link">...</span>
+                </li>
+
+                <!-- Dernière page -->
+                <li class="page-item"
+                    [class.active]="currentPage === totalPages"
+                    *ngIf="totalPages > 1">
+                  <a class="page-link" href="javascript:void(0)" (click)="onPageChange(totalPages)">
+                    {{ totalPages }}
+                  </a>
+                </li>
+
+                <!-- Bouton Suivant -->
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                  <a class="page-link"
+                     href="javascript:void(0)"
+                     (click)="currentPage < totalPages && onPageChange(currentPage + 1)"
+                     [class.disabled]="currentPage === totalPages">
+                    Suivant
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
-

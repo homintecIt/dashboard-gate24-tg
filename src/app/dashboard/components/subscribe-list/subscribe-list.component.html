@@ -71,7 +71,7 @@
             <tbody>
               <tr *ngFor="let sub of filteredSubscriptions; let i = index">
                 <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                <td>{{ sub.targCode }}</td>
+                <td>{{ sub.tagCode }}</td>
                 <td>
                   <span
                     class="badge bg-secondary-subtle text-secondary"
@@ -92,10 +92,12 @@
                       'bg-success-subtle text-success text-uppercase':
                         sub.statutTarg === 'actived',
                       'bg-danger-subtle text-danger text-uppercase':
-                        sub.statutTarg !== 'actived'
+                        sub.statutTarg !== 'actived',
+                      'bg-info-subtle text-info text-uppercase':
+                        sub.statutTarg === 'deleted'
                     }"
                   >
-                    {{ sub.statutTarg == "actived" ? "Activé" : "Désactivé" }}
+                    {{ sub.statutTarg == "actived" ? "Activé" : sub.statutTarg == "deleted" ? "Supprimé" : "Désactivé" }}
                   </span>
                 </td>
 

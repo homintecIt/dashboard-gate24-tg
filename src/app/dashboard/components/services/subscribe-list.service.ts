@@ -28,7 +28,7 @@ export interface SubscriptionUpdateDto {
 export interface Subscription {
   id: number;
   targId: string;
-  targCode: string;
+  tagCode: string;
   typeTarg: string;
   statutTarg: string;
   plaque: string | null;
@@ -111,7 +111,7 @@ export class SubscriptionService {
   // Méthode pour récupérer un abonnement par son ID
   getSubscriptionByTagCode(tagCode: string): Observable<Subscription> {
     return this.http
-      .get<Subscription>(`${this.apiUrl}/subscription/targCode/${tagCode}`)
+      .get<Subscription>(`${this.apiUrl}/subscription/tagCode/${tagCode}`)
       .pipe(
         catchError((error) => {
           console.error(

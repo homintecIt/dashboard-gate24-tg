@@ -83,7 +83,7 @@
                 <tr *ngFor="let report of filteredReports; let i = index">
                   <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                   <td>{{ report.site }}</td>
-                  <td>{{ report.abonnement?.targCode ?? "-" }}</td>
+                  <td>{{ report.abonnement?.tagCode ?? "-" }}</td>
                   <td>{{ report.montant }}</td>
                   <td>{{ report.created_at | date: 'short' }}</td>
                   <td>{{ report.type_passage }}</td>

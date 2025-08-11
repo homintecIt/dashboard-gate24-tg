@@ -3,6 +3,14 @@ export interface Compte {
   uuid: string;
   accountNumber: string;
   solde: number;
+  status?: string;
+  client?: {
+    id?: number;
+    nom?: string;
+    prenom?: string;
+    email?: string;
+    tel?: string;
+  };
 }
 
 export interface Transaction {

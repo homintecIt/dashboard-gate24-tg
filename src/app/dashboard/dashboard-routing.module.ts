@@ -17,6 +17,7 @@ import { UsersComponent } from './components/users/users.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { EditClientModalComponent } from './components/liste-des-clients/edit-client-modal/edit-client-modal.component';
 import { DetailCompteClientComponent } from './components/liste-des-comptes-clients/detail-compte-client/detail-compte-client.component';
+import { SyncStatusComponent } from './components/sync-status/sync-status.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: "transactions", component: TransactionsComponent },
       { path: 'clients/details/:tel', component: EditClientModalComponent },
       { path: 'listesComptesClient/details/:accountNumber', component: DetailCompteClientComponent },
+      { path: 'sync-status', component: SyncStatusComponent },
 
 
       { path: "", redirectTo: "statistics", pathMatch: "full" }

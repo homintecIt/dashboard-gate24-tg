@@ -40,6 +40,7 @@ import { DetailCompteClientComponent } from './components/liste-des-comptes-clie
 import { TypeSynchroEditComponent } from './components/type-synchro/type-synchro-edit/type-synchro-edit.component';
 import { CronSelectComponent } from './components/type-synchro/cron-select/cron-select.component';
 import { CronTranslatorPipe } from './pipes/cron-translator.pipe';
+import { SyncStatusComponent } from './components/sync-status/sync-status.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { CronTranslatorPipe } from './pipes/cron-translator.pipe';
     DetailCompteClientComponent,
     TypeSynchroEditComponent,
     CronSelectComponent,
-    CronTranslatorPipe
+    CronTranslatorPipe,
+    SyncStatusComponent
      ],
   imports: [
     CommonModule,
