@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h5 class="modal-title"> {{ modalTitle }} </h5>
+  <button type="button" class="btn-close" (click)="closeModal()"></button>
+</div>
+
+<div class="modal-body">
+  <form novalidate [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3 fs-20">
+      <input
+        type="text"
+        class="form-control fs-20"
+        [placeholder]="placeholder"
+        formControlName="searchTerm"
+        (change)="transformInput($event)"
+        autofocus
+         [ngClass]="{ 'is-invalid': submitted && form['searchTerm'].errors }"
+      />
+      <div *ngIf="submitted && form['searchTerm'].errors" class="invalid-feedback">
+        <div *ngIf="form['searchTerm'].errors['required']">Le champ est obligatoire</div>
+        <div *ngIf="form['searchTerm'].errors['minlength']">Taille minimale réquise 4</div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'Rechercher' }}
+      <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+    </button>
+
+    <pre>  </pre>
+  </form>
+</div>

@@ -39,6 +39,7 @@
   --vz-light: #f3f6f9;
   --vz-dark: #212529;
   --vz-primary-rgb: 64, 81, 137;
+  --vz-primary-t:  #073489;
   --vz-secondary-rgb: 53, 119, 241;
   --vz-success-rgb: 10, 179, 156;
   --vz-info-rgb: 41, 156, 219;
@@ -3869,7 +3870,7 @@ fieldset:disabled .btn {
 
 .btn-primary {
   --vz-btn-color: #fff;
-  --vz-btn-bg: #405189;
+  --vz-btn-bg:  #073489;
   --vz-btn-border-color: #405189;
   --vz-btn-hover-color: #fff;
   --vz-btn-hover-bg: #364574;
@@ -10733,7 +10734,7 @@ fieldset:disabled .btn {
 
 .bg-primary {
   --vz-bg-opacity: 1;
-  background-color: rgba(var(--vz-primary-rgb), var(--vz-bg-opacity)) !important
+  background-color: var(--vz-primary-t) !important
 }
 
 .bg-secondary {

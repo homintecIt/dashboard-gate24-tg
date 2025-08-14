@@ -1,6 +1,6 @@
 <div class="card">
-  <div class="card-header">
-    <h5 class="card-title">Détails du Compte</h5>
+  <div class="card-header bg-primary">
+    <h5 class="card-title text-light">Détails du Compte</h5>
   </div>
   <div class="card-body">
     <!-- Informations du Compte -->
@@ -30,6 +30,8 @@
     </div>
 
     <!-- Abonnements -->
+      <hr>
+
     <div class="mt-4">
       <h6>Abonnements</h6>
       <div class="table-responsive">
@@ -48,7 +50,7 @@
           <tbody>
             <tr *ngFor="let abonnement of account.abonnements; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ abonnement.targCode ?? "-"  }}</td>
+              <td>{{ abonnement.tagCode ?? "-"  }}</td>
               <td>{{ abonnement.plaque ?? "-"  }}</td>
               <td>{{ abonnement.type_targ }}</td>
               <td>
@@ -61,13 +63,19 @@
               </span>
               </td>
               <td>
-                <span
-                  [ngClass]="{
-                    'badge bg-success': abonnement.isExo,
-                    'badge bg-danger': !abonnement.isExo
-                  }">
-                  {{ abonnement.isExo ? 'Oui' : 'Non' }}
-                </span>
+
+
+                    <span
+                    class="badge badge-outline"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        abonnement.isExo,
+                      'bg-danger-subtle text-danger text-uppercase':
+                        !abonnement.isExo
+                    }"
+                  >
+                    {{ abonnement.isExo ? "Oui" : "non" }}
+                  </span>
               </td>
               <td>
 

@@ -1,8 +1,8 @@
 
 export interface Subscription {
   id: number;
-  targId: string;
-  targCode: string;
+  tagId: string;
+  tagCode: string;
   typeTarg: string;
   statutTarg: string;
   plaque: string | null;

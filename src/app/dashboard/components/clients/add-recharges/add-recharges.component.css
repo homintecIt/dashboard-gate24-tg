@@ -1,0 +1,13 @@
+@media print {
+  .modal-footer {
+    display: none;
+  }
+  
+  .modal-content {
+    display: none;
+  }
+
+  .modal-header {
+    display: none;
+  }
+}

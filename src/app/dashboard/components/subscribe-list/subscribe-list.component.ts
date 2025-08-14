@@ -10,6 +10,7 @@ import { SubscriptionEditModalComponent } from './subscription-edit-modal/subscr
 import { SubscriptionDetailsModalComponent } from './subscription-details-modal/subscription-details-modal.component';
 import Swal from 'sweetalert2';
 import { swalAnimation } from 'src/app/misc/utilities.misc';
+import { GeneralService } from 'src/app/services/general.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -48,8 +49,100 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
 
   constructor(
     private subscrptionService: SubscriptionService,
-    private modalService: BootstrapModalService
+    private modalService: BootstrapModalService,
+        private generalService: GeneralService,
+
   ) {}
+
+
+  ngOnInit(): void {
+
+  this.generalService.successEvent.subscribe((data: any) => {
+      this.loadSubscriptions(this.currentPage, "",data.accountNumber);
+
+    });
+
+    // Écoute des subscrption
+    this.subscrptionService.subscription$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((subscrption) => {
+        this.subscrption = subscrption;
+        this.filterSubscriptions();
+      });
+
+    // Écoute du chargement
+    this.subscrptionService.loading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((loading) => {
+        this.loading = loading;
+      });
+
+    // Chargement initial
+    this.loadSubscriptions();
+
+    // Nouvelle configuration pour la recherche dynamique
+    this.searchSubject.pipe(
+      debounceTime(300), // Attendre 300ms après la dernière frappe
+      distinctUntilChanged(), // Ignorer si la valeur est identique à la précédente
+      takeUntil(this.destroy$)
+    ).subscribe(searchTerm => {
+      // Réinitialiser à la page 1 lors d'une nouvelle recherche
+      this.currentPage = 1;
+
+      // Charger les abonnements avec le terme de recherche
+      this.loadSubscriptions(this.currentPage, searchTerm);
+    });
+
+
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.searchSubject.complete();
+  }
+
+
+
+  // Chargement desloadSubscriptions pour accepter un terme de recherche
+  loadSubscriptions(page: number = 1, searchTerm?: string,accountNumber?:string): void {
+    this.subscrptionService
+      .loadSubscriptions(page, this.itemsPerPage, searchTerm,accountNumber)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.totalItems = response.meta.totalItems;
+          this.totalPages = response.meta.totalPages;
+          this.currentPage = response.meta.currentPage;
+
+          // Supprimer le filtrage local
+          // this.filteredSubscriptions = response.items;
+        },
+        error: (err) => {
+          this.loading = !this.loading;
+          console.error('Erreur de chargement', err);
+          this.error = 'Impossible de charger les abonnements';
+        },
+      });
+  }
+  // Filtrage des subscrption
+  filterSubscriptions(): void {
+    const term = this.searchTerm.toLowerCase();
+
+    this.filteredSubscriptions = this.subscrption.filter(
+      (subscription) =>
+        subscription.compte.accountNumber.toLowerCase().includes(term) ||
+        subscription.tagId.toLowerCase().includes(term) ||
+        subscription.tagCode.toLowerCase().includes(term) ||
+        subscription.plaque?.toLowerCase().includes(term)
+    );
+  }
+
+  //  la méthode onSearch
+  onSearch(event: any): void {
+    const searchTerm = event.target.value;
+    this.searchSubject.next(searchTerm);
+  }
 
   onStatusToggle(subscription: Subscription): void {
   // Stocker le statut initial
@@ -90,7 +183,7 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
 
           // Préparer la payload
           const payload: StatusUpdatePayload = {
-            targId: subscription.targId,
+            targId: subscription.tagId,
             isActive: newStatus,
           };
 
@@ -150,86 +243,6 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
       // this.refreshData(); // Rafraîchir la liste après fermeture du modal
     });
   }
-
-  ngOnInit(): void {
-    // Écoute des subscrption
-    this.subscrptionService.subscription$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((subscrption) => {
-        this.subscrption = subscrption;
-        this.filterSubscriptions();
-      });
-
-    // Écoute du chargement
-    this.subscrptionService.loading$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
-
-    // Chargement initial
-    this.loadSubscriptions();
-
-    // Nouvelle configuration pour la recherche dynamique
-    this.searchSubject.pipe(
-      debounceTime(300), // Attendre 300ms après la dernière frappe
-      distinctUntilChanged(), // Ignorer si la valeur est identique à la précédente
-      takeUntil(this.destroy$)
-    ).subscribe(searchTerm => {
-      // Réinitialiser à la page 1 lors d'une nouvelle recherche
-      this.currentPage = 1;
-
-      // Charger les abonnements avec le terme de recherche
-      this.loadSubscriptions(this.currentPage, searchTerm);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-    this.searchSubject.complete();
-  }
-
-  // Chargement desloadSubscriptions pour accepter un terme de recherche
-  loadSubscriptions(page: number = 1, searchTerm?: string): void {
-    this.subscrptionService
-      .loadSubscriptions(page, this.itemsPerPage, searchTerm)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          this.totalItems = response.meta.totalItems;
-          this.totalPages = response.meta.totalPages;
-          this.currentPage = response.meta.currentPage;
-
-          // Supprimer le filtrage local
-          // this.filteredSubscriptions = response.items;
-        },
-        error: (err) => {
-          this.loading = !this.loading;
-          console.error('Erreur de chargement', err);
-          this.error = 'Impossible de charger les abonnements';
-        },
-      });
-  }
-  // Filtrage des subscrption
-  filterSubscriptions(): void {
-    const term = this.searchTerm.toLowerCase();
-
-    this.filteredSubscriptions = this.subscrption.filter(
-      (subscription) =>
-        subscription.compte.accountNumber.toLowerCase().includes(term) ||
-        subscription.targId.toLowerCase().includes(term) ||
-        subscription.tagCode.toLowerCase().includes(term) ||
-        subscription.plaque?.toLowerCase().includes(term)
-    );
-  }
-
-  //  la méthode onSearch
-  onSearch(event: any): void {
-    const searchTerm = event.target.value;
-    this.searchSubject.next(searchTerm);
-  }
-
   // Génération des pages
   getPagesArray(): number[] {
     const delta = 1;

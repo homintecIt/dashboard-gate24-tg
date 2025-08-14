@@ -1,0 +1,205 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Infomation client</h4>
+
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard/listesClients">Liste des clients</a>
+          </li>
+          <li class="breadcrumb-item active">Infomation d'un client</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="p-2">
+
+      <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
+        <i class="ri-arrow-left-s-fill"></i>
+        Retour</a>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+   <div class="row justify-content-center">
+
+    <ng-container *ngIf="detail?.compte.client ">
+      <div class="col-lg-6 mb_30">
+        <div class="card">
+          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+            <h4 class="card-title text-white">Information du client</h4>
+            <button class="btn btn-info btn-sm " (click)="editClient(detail?.compte.client || detail)"> Modifier </button>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Nom:</strong>
+                <span>{{ detail?.compte?.client?.nom || detail?.nom || detail?.client?.nom }} </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Prénoms:</strong>
+                <span>{{ detail?.compte?.client?.prenom || detail?.prenom || detail?.client?.prenom }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Email:</strong>
+                <span>{{ detail?.compte?.client?.email || detail?.email || detail?.client?.email }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>CNI:</strong>
+                <span>{{ detail?.compte?.client?.cin || detail?.cin || detail?.client?.cin }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Téléphone: </strong>
+                <span>{{ detail?.compte?.client?.tel || detail?.tel || detail?.client?.tel }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Adresse:</strong>
+                <span>{{ detail?.compte?.client?.adresse || detail?.adresse || detail?.client?.adresse }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Type de Client:</strong>
+                <span *ngIf="detail?.compte?.client?.typeClient">
+                  {{detail?.compte?.client?.typeClient== 'MORALE' ? 'Entreprise' : 'Particulier'}}
+                </span>
+
+                <span *ngIf="detail?.typeClient">
+                  {{detail?.typeClient =='PHYSICAL' ? 'Particulier' : 'Entreprise'}}
+                </span>
+                <span *ngIf="detail?.client?.typeClient">
+                  {{(detail?.client?.typeClient === 'MORALE' ? 'Entreprise' : 'Particulier') }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Date de création:</strong>
+                <span>{{ (detail?.compte?.client?.created_at | date) || (detail?.created_at | date) || (detail?.client?.created_at | date) }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb_30" *ngIf="detail?.compte?.client">
+        <div class="card">
+          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+            <h4 class="card-title text-white">Détail Compte</h4>
+            <button class="btn btn-info btn-sm " (click)="createClient(detail?.compte?.client.id)"> Créer un compte
+            </button>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Numéro du compte:</strong>
+                <span>{{ detail?.compte?.accountNumber }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Solde:</strong>
+                <span class="text-primary fw-bold">{{ detail?.compte?.solde | currency : 'XOF' }}</span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Date de création:</strong>
+                <span>{{ detail?.compte?.created_at | date }}</span>
+              </li>
+              <li class="text-end mt-3">
+                <button class="btn btn-primary me-2" (click)="rechargeAccount(detail?.compte?.accountNumber, 'compte')">
+                  Recharger </button>
+                  <button class="btn btn-info  " (click)="addTag(detail?.compte?.id)"> Ajouter un tag </button>
+                <!-- <button class="btn btn-danger " (click)="dialogModalStatus(detail?.compte)"> Désactiver </button> -->
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+
+    <ng-container *ngIf="detail?.abonnements">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+            <h4 class="card-title text-white">Abonnements</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive m-b-30">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Plaque</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">N° de compte</th>
+                    <th scope="col">Exonéré</th>
+                    <th scope="col">Date création</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col" class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of detail?.abonnements, index as i">
+                    <th scope="row"> {{ i + 1 }} </th>
+                    <td> {{ item.tagCode }} </td>
+                    <td> {{ item.plaque }} </td>
+                    <td> {{ item.type_targ | titlecase }} </td>
+                    <td> {{ item.compte.accountNumber }} </td>
+                    <td>
+                      <span class="badge" [ngClass]="[(item.isExo === true) ? 'bg-primary' : 'bg-warning']"> {{ item.isExo === true ?
+                        'Oui' : 'Non' }} </span>
+                    </td>
+                    <td> {{ item.created_at | date: 'dd/MM/yyyy HH:mm' }} </td>
+                    <td>
+                      <span class="badge" *ngIf="item.statutTarg == 'actived'" ngClass="{{ 'bg-success'}}"> {{ 'Activé'}} </span>
+
+                      <span class="badge"  *ngIf="item.statutTarg == 'disabled'" ngClass="{{ 'bg-warning' }}"> {{
+                        'Désactivé' }} </span>
+
+                      <span class="badge" *ngIf="item.statutTarg == 'deleted'" ngClass="{{ 'bg-danger' }}"> {{
+                        'Supprimé' }} </span>
+                    </td>
+                    <td>
+
+
+                      <span *ngIf="item.statutTarg != 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+                        <span class="btn btn-outline-primary btn-sm" (click)="dialogModalStatus(item)"
+                          title="{{ item.statutTarg == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
+                          <i ngClass="{{ item.statutTarg == 'actived' ? 'fa fa-lock-open' : 'fa fa-lock' }}"> {{
+                            item.statutTarg == 'actived' ? 'Désactiver' : 'Activer' }} </i>
+                        </span>
+
+                        <span class="btn btn-outline-info btn-sm" (click)="dialogModalChangeModePassage(item)"
+                          title="Passage mode">
+                          <i class="fas fa-walking" > {{ item.isExo ===  true ? 'Non Exonerer': 'Exonerer'}} </i>
+                        </span>
+
+                        <span class="btn btn-outline-danger btn-sm" (click)="dialogModalDelete(item)"
+                          title="Supprimer ce tag">
+                          <i class="fa fa-trash"> Retirer </i>
+                        </span>
+
+                         <span class="btn btn-warning btn-sm" (click)="transferClient(item)"
+                          title="Supprimer ce tag">
+                          <i class="fas fa-exchange-alt">Transfert</i>
+                        </span>
+                      </span>
+
+                      <span  *ngIf="item.statutTarg == 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+                        <span class="btn btn-primary-info btn-sm" (click)="dialogModalRestaureStatus(item)"  ngClass="{{ 'bg-warning' }}"> {{
+                        'Restorer' }} </span>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

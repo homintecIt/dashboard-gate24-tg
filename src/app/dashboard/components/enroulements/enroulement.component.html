@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="col">
+
+    <div class="h-100">
+      <!-- État de chargement -->
+      <div *ngIf="loading" class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+      <!-- Message d'erreur -->
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <div class="row" *ngIf="!loading && !error">
+
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-animate bg-primary">
+            <div class="card-body">
+                <a  routerLink="/dashboard/add-client">
+
+  <div class="d-flex align-items-end justify-content-between mt-4" >
+                <div>
+                  <h4 class="fs-22 fw-semibold text-light mb-4">
+                    <i class="bx bx-user text-danger"></i>
+                    NOUVEAU CLIENT
+
+                  </h4>
+
+                </div>
+
+              </div>
+                </a>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-animate bg-primary">
+            <a  type="button" (click)="searchChoice()">
+  <div class="card-body" >
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold text-light mb-4">
+                    <i class="bx bx-card text-warning"></i>
+
+                    NOUVEAU ABONNNEMT
+                  </h4>
+                </div>
+
+              </div>
+            </div>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-animate bg-primary" >
+            <a  type="button" (click)="showCompte()">
+            <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold text-light mb-4">
+                    <i class="bx bx-dollar-circle text-danger"></i>
+
+                    CONSULTER UN COMPTE
+                  </h4>
+                </div>
+
+              </div>
+            </div>
+            </a>
+
+          </div>
+        </div>
+
+
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-animate bg-primary">
+            <a type="button" (click)="showTag()">
+
+ <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold text-light mb-4">
+                    <i class="bx bx-card text-info"></i>
+
+                    CONSULTER UN ABONNEMENT
+                  </h4>
+
+                </div>
+
+              </div>
+            </div>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-animate bg-primary">
+
+            <a type="button" (click)="rechargeCompte()">
+ <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mt-4">
+                <div>
+                  <h4 class="fs-22 fw-semibold text-light mb-4">
+                    <i class="bx bx-dollar-circle text-warning"></i>
+
+                    RECHARGE DE COMPTE
+                  </h4>
+
+                </div>
+
+              </div>
+            </div>
+
+            </a>
+
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

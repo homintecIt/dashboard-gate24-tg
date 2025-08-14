@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ListesClientService } from 'src/app/services/liste-client.service';
 import { Client } from 'src/app/models/listeClient.model';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
-import { EditClientModalComponent } from './edit-client-modal/edit-client-modal.component';
+import { EditClientModalComponent } from '../edit-client-modal/edit-client-modal.component';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 interface FilterPayload {
   nom?: string;

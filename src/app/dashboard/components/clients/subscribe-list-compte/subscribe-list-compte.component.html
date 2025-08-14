@@ -1,0 +1,244 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Liste des abonnements</h4>
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item active">Liste des abonnements</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+      <div class="p-2">
+
+    <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
+<i class="ri-arrow-left-s-fill"></i>
+    Retour</a>
+    <br>
+   </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-header bg-primary">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title text-light mb-0">Liste des abonnements du compte : {{accountNumber}}</h5>
+          <div class="d-flex gap-3">
+
+            <div class="search-box">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Rechercher..."
+                (input)="onSearch($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+
+
+        <!-- Message d'erreur -->
+        <div *ngIf="error" class="alert alert-danger">
+          {{ error }}
+        </div>
+
+        <!-- Tableau des données -->
+        <div class="table-responsive" *ngIf="!loading && !error">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th scope="col">Code Targ</th>
+                <th scope="col">Type Targ</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Exonéré</th>
+                <th scope="col">Numéro de Compte</th>
+                <th scope="col">Solde</th>
+                <th scope="col">Date Création</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sub of filteredSubscriptions; let i = index">
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td>{{ sub.tagCode }}</td>
+                <td>
+                  <span
+                    class="badge bg-secondary-subtle text-secondary"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        sub.typeTarg === 'CARTE',
+                      'bg-info-subtle text-info text-uppercase':
+                        sub.typeTarg !== 'UHF'
+                    }"
+                  >
+                    {{ sub.typeTarg }}
+                  </span>
+                </td>
+            <td>
+                  <span
+                    class="badge badge-outline"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        sub.statutTarg === 'actived',
+                      'bg-danger-subtle text-danger text-uppercase':
+                        sub.statutTarg !== 'actived',
+                      'bg-info-subtle text-info text-uppercase':
+                        sub.statutTarg === 'deleted'
+                    }"
+                  >
+                    {{ sub.statutTarg == "actived" ? "Activé" : sub.statutTarg == "deleted" ? "Supprimé" : "Désactivé" }}
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    class="badge badge-outline"
+                    [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        sub.isExo,
+                      'bg-danger-subtle text-danger text-uppercase':
+                        !sub.isExo
+                    }"
+                  >
+                    {{ sub.isExo ? "Oui" : "non" }}
+                  </span>
+                </td>
+                <td>{{ sub.compte.accountNumber }}</td>
+                <td>{{ sub.compte.solde | currency : "XOF" }}</td>
+                <td>{{ sub.created_at | date : "short" }}</td>
+                <td>
+                  <div class="d-flex gap-3">
+                    <!-- <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        [checked]="sub.statutTarg === 'actived'"
+                        (change)="onStatusToggle(sub)"
+                        [disabled]="isStatusChanging"
+                      />
+                    </div> -->
+
+                      <span *ngIf="sub.statutTarg != 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+                        <span class="btn btn-outline-primary btn-sm" (click)="dialogModalStatus(sub)"
+                          title="{{ sub.statutTarg == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
+                          <i ngClass="{{ sub.statutTarg == 'actived' ? 'fa fa-lock-open' : 'fa fa-lock' }}"> {{
+                            sub.statutTarg == 'actived' ? 'Désactiver' : 'Activer' }} </i>
+                        </span>
+
+                        <span class="btn btn-outline-info btn-sm" (click)="dialogModalChangeModePassage(sub)"
+                          title="Passage mode">
+                          <i class="fas fa-walking" > {{ sub.isExo ===  true ? 'Non Exonerer': 'Exonerer'}} </i>
+                        </span>
+
+                        <span class="btn btn-outline-danger btn-sm" (click)="dialogModalDelete(sub)"
+                          title="Supprimer ce tag">
+                          <i class="fa fa-trash"> Retirer </i>
+                        </span>
+
+                         <span class="btn btn-warning btn-sm" (click)="transferClient(sub)"
+                          title="Supprimer ce tag">
+                          <i class="fas fa-exchange-alt">Transfert</i>
+                        </span>
+                      </span>
+
+
+
+
+                      <span  *ngIf="sub.statutTarg == 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+                        <span class="btn btn-primary-info btn-sm" (click)="dialogModalRestaureStatus(sub)"  ngClass="{{ 'bg-warning' }}"> {{
+                        'Restorer' }} </span>
+                      </span>
+
+                    <span class="btn btn-outline-primary btn-sm"
+                        (click)="addTag(sub.compte.id)">
+                          <i class="fa fa-rotate-right">Ajouter un tag </i>
+                        </span>
+
+                            <span class="btn btn-secondary btn-sm text-black-100"
+                                  [routerLink]="['/dashboard/transaction/byTag']"
+                          [queryParams]="{ tag: sub.tagId }"
+
+                          title="Voir les Transaction de passage ">
+                          <i class="fas fa-exchange-alt">Transaction</i>
+
+                        </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>
+            Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
+            {{
+              currentPage * itemsPerPage > totalItems
+                ? totalItems
+                : currentPage * itemsPerPage
+            }}
+            sur {{ totalItems }} entrées
+          </div>
+          <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
+            <ul class="pagination justify-content-center">
+              <!-- Bouton précédent -->
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a
+                  class="page-link"
+                  (click)="goToPage(currentPage - 1)"
+                  role="button"
+                >
+                  Précédent
+                </a>
+              </li>
+
+              <!-- Pages -->
+              <ng-container *ngFor="let page of getPagesArray()">
+                <li *ngIf="page === -1" class="page-item disabled">
+                  <span class="page-link">...</span>
+                </li>
+                <li
+                  *ngIf="page !== -1"
+                  class="page-item"
+                  [class.active]="page === currentPage"
+                >
+                  <a class="page-link" (click)="goToPage(page)" role="button">
+                    {{ page }}
+                  </a>
+                </li>
+              </ng-container>
+
+              <!-- Bouton suivant -->
+              <li
+                class="page-item"
+                [class.disabled]="currentPage === totalPages"
+              >
+                <a
+                  class="page-link"
+                  (click)="goToPage(currentPage + 1)"
+                  role="button"
+                >
+                  Suivant
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

@@ -27,7 +27,7 @@ export interface SubscriptionUpdateDto {
 // Mettez à jour l'interface Subscription dans votre service
 export interface Subscription {
   id: number;
-  targId: string;
+  tagId: string;
   tagCode: string;
   typeTarg: string;
   statutTarg: string;
@@ -47,6 +47,7 @@ export interface Subscription {
   user_id?: number;
   isExo:boolean
   compte: {
+    id:number,
     uuid: string;
     accountNumber: string;
     solde: number;
@@ -88,7 +89,9 @@ export class SubscriptionService {
   loadSubscriptions(
     page: number = 1,
     limit: number = 0,
-    filter?: string
+    filter?: string,
+    accountNumber?: string
+
   ): Observable<SubscriptionResponse> {
     this.loadingSubject.next(true);
 
@@ -96,7 +99,8 @@ export class SubscriptionService {
       .post<SubscriptionResponse>(`${this.apiUrl}/subscription/all`, {
         page,
         limit,
-        filter // Le terme de recherche sera passé ici
+        filter, // Le terme de recherche sera passé ici
+        accountNumber
       })
       .pipe(
         tap((response) => {

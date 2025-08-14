@@ -1,0 +1,84 @@
+
+
+
+<div class="modal-content">
+  <form novalidate [formGroup]="tagForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5 text-center w-100">ASSOCIER UN TAG A UN COMPTE</h1>
+      <button type="button" class="btn-close" (click)="resetFormClose()"></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="d-flex align-items-center justify-content-around mb-3">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="tagCard" value="CARTE" formControlName="typeTag"
+            [checked]="tagForm.get('typeTag')?.value === 'CARTE'" />
+          <label class="form-check-label" for="tagCard">Carte</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="tagThumbnall" value="UHF" formControlName="typeTag"
+            [checked]="tagForm.get('typeTag')?.value === 'UHF'" />
+          <label class="form-check-label" for="tagThumbnall">Vignette</label>
+        </div>
+      </div>
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="isExo" formControlName="isExo" (change)="onIsExoChange($event)" />
+        <label class="form-check-label" for="isExo">Exonéré</label>
+      </div>
+
+      <div class="mb-3">
+        <label for="tagId">ID du Tag (Badget simplement) </label>
+        <input type="text" id="tagId"
+        formControlName="tagId" class="form-control"
+        (input)="transformInput($event)"
+          [ngClass]="{ 'is-invalid': submitted && form['tagId'].errors }" placeholder="***********"/>
+        <div *ngIf="submitted && form['tagId'].errors" class="invalid-feedback" >
+          <div *ngIf="form['tagId'].errors['required']">L'identifiant du tag est obligatoire</div>
+          <div *ngIf="form['tagId'].errors['minlength']">L'identifiant doit avoir au moins 8 caractères</div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="isCompteAssocie">
+        <div class="alert alert-primary" role="alert">
+          Ce tag est déja associé à un compte. Veuillez utiliser un autre tag pour l'associer au compte.
+        </div>
+
+      </ng-container>
+      <ng-container >
+        <!-- <div class="alert alert-primary" role="alert">
+          Ce tag n'existe pas. Veuillez renseigner les champs ci-dessous pour l'associer au compte.
+        </div>
+ -->
+        <div class="mb-3">
+          <label for="plaque">Plaque</label>
+          <input type="text" id="plaque" formControlName="plaque" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && form['plaque'].errors }" placeholder="AB0123" />
+          <div *ngIf="submitted && form['plaque'].errors" class="invalid-feedback">
+            <div *ngIf="form['plaque'].errors['required']">La plaque est obligatoire</div>
+            <div *ngIf="form['plaque'].errors['minlength']">La plaque doit avoir au moins 4 caractères</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="tagCode">Code du Tag </label>
+          <input type="text" id="tagCode" formControlName="tagCode" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && form['tagCode'].errors }" placeholder="1234567"/>
+          <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback">
+            <div *ngIf="form['tagCode'].errors['required']">Le code du tag est obligatoire</div>
+            <div *ngIf="form['tagCode'].errors['minlength']">Le code doit avoir au moins 6 caractères</div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary"
+        (click)="resetFormClose()">ANNULER</button>
+      <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'ASSOCIER' }}
+        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+      </button>
+    </div>
+    <!-- <pre>{{ tagForm.value | json }}</pre> -->
+  </form>
+
+</div>

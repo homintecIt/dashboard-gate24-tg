@@ -35,6 +35,7 @@ const apiEndpoints = {
   getServerUrl:`${apiUrlBase}/get/servers`,
   UpdateServerUrl:`${apiUrlBase}/update/status/server/synchro`,
   saveServerUrl:`${apiUrlBase}/save/serve/synchro`,
+  transactionUrl : `${apiUrlBase}/transactions`,
 
 }
 

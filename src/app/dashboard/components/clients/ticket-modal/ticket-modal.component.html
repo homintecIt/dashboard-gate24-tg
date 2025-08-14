@@ -1,0 +1,21 @@
+<div class="modal-body" id="receiptContent">
+  <div class="d-flex flex-column align-items-center justify-content-between mb-4">
+    <img src="assets/img/logo.png" alt="logo">
+    <h5>Reçu de paiement</h5>
+    <p>Date : {{ data?.date | date: 'dd/MM/yyyy' }}</p>
+  </div>
+
+  <div class="mb-3">
+    <p><strong>Client :</strong> {{ data?.clientName }}</p>
+    <p><strong>Numéro de compte :</strong> {{ data?.accountNumber }}</p>
+    <p><strong>Code du Tag :</strong> {{ data?.tagCode }}</p>
+    <p><strong>Montant :</strong> {{ data?.amount | currency: 'XOF' }}</p>
+    <p><strong>Solde total :</strong> {{ data?.amount | currency: 'XOF' }}</p>
+    <p><strong>Type de Tag :</strong> {{ data?.typeTag }}</p>
+  </div>
+
+  <div class="text-end">
+    <p>Merci pour votre paiement!</p>
+    <p><em>Safer</em></p>
+  </div>
+</div>

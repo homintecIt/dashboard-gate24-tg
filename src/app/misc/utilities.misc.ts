@@ -1,6 +1,8 @@
 import { format } from "date-fns";
 import { fr, enUS } from "date-fns/locale";
 
+export const searchType = "tgms-e08335fb-e304-4f73-abbb-df84be175789-74df3262-b0a5-4606-a210-8b89a-537f03b-2e5a2c1a-4d3c-4b5c-9d2a-9d2a9d2a9d2a9d2a"
+
 export enum UserRoleName {
   USER = 'USER',
   ADMIN='ADMIN',

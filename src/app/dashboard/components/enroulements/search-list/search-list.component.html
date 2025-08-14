@@ -1,0 +1,22 @@
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <a class="dropdown-item"  href="javascript:void(0);">Par Nom & Prénoms
+    <i class="fas fa-arrow-right"></i> </a>
+  <a class="dropdown-item" (click)="openSearchModal('accountNumber')" href="javascript:void(0);">Par
+     <i class="fas fa-arrow-right"></i> </a>
+  <a class="dropdown-item" (click)="openSearchModal('tagCode')" href="javascript:void(0);">Par Code Tag
+    <i class="fas fa-arrow-right"></i> </a>
+  <a class="dropdown-item" (click)="openSearchModal('phoneNumber')" href="javascript:void(0);">Par Numéro
+    de Téléphone <i class="fas fa-arrow-right"></i> </a>
+</div>
+<div class="modal-header">
+  <h5 class="modal-title fw-bold"> RECHERCHE PAR </h5>
+  <button type="button" class="btn-close" (click)="closeModal()"></button>
+</div>
+
+<div class="modal-body">
+  <div class="d-grid gap-2">
+    <button class="btn btn-primary fs-20" (click)="openSearchModal('name')" type="button">Nom & Prénoms</button>
+    <button class="btn btn-primary fs-20" (click)="openSearchModal('phoneNumber')" type="button">Numéro de téléphone</button>
+    <button class="btn btn-outline-primary fs-20" (click)="openSearchModal('accountNumber')" type="button">Numéro de compte</button>
+    </div>
+</div>

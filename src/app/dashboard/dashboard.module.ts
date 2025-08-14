@@ -19,7 +19,7 @@ import { PassagesDropdownSiteComponent } from './components/passages/passages-dr
 import { PassagesComponent } from './components/passages/passages.component';
 import { PassageDailyComponent } from './components/passages/passages-daily/passages-daily.component';
 import { PassageBySubscriberComponent } from './components/passages/passage-by-subscriber/passage-by-subscriber.component';
-import { ListeDesClientsComponent } from './components/liste-des-clients/liste-des-clients.component';
+import { ListeDesClientsComponent } from './components/clients/liste-des-clients/liste-des-clients.component';
 import { ListeDesComptesClientsComponent } from './components/liste-des-comptes-clients/liste-des-comptes-clients.component';
 import { MonthlyReportComponent } from './components/monthly-report/monthly-report.component';
 import { PeriodReportComponent } from './components/period-report/period-report.component';
@@ -41,6 +41,21 @@ import { TypeSynchroEditComponent } from './components/type-synchro/type-synchro
 import { CronSelectComponent } from './components/type-synchro/cron-select/cron-select.component';
 import { CronTranslatorPipe } from './pipes/cron-translator.pipe';
 import { SyncStatusComponent } from './components/sync-status/sync-status.component';
+import { AddClientComponent } from './components/clients/add-client/add-client.component';
+import { SaveTagComponent } from './components/clients/save-tag/save-tag.component';
+import { TransfertTagComponent } from './components/clients/transfert-tag/transfert-tag.component';
+import { TransfertSoldeComponent } from './components/clients/transfert-solde/transfert-solde.component';
+import { SaveCompteComponent } from './components/clients/save-compte/save-compte.component';
+import { AddTagCompteComponent } from './components/clients/add-tag-compte/add-tag-compte.component';
+import { AddRechargesComponent } from './components/clients/add-recharges/add-recharges.component';
+import { SubscribeListCompteComponent } from './components/clients/subscribe-list-compte/subscribe-list-compte.component';
+import { TransactionListSubscribeComponent } from './components/clients/transaction-list-subscribe/transaction-list-subscribe.component';
+import { EnroulementComponent } from './components/enroulements/enroulement.component';
+import { RechercheModalComponent } from './components/enroulements/recherche-modal/recherche-modal.component';
+import { SearchListComponent } from './components/enroulements/search-list/search-list.component';
+import { ShowCompteComponent } from './components/clients/show-compte/show-compte.component';
+import { EditClientComponent } from './components/clients/edit-client/edit-client.component';
+import { ShowtagComponent } from './components/clients/show-tag/show-tag.component';
 
 
 @NgModule({
@@ -78,7 +93,22 @@ import { SyncStatusComponent } from './components/sync-status/sync-status.compon
     TypeSynchroEditComponent,
     CronSelectComponent,
     CronTranslatorPipe,
-    SyncStatusComponent
+    SyncStatusComponent,
+    AddClientComponent,
+    SaveTagComponent,
+    TransfertTagComponent,
+    TransfertSoldeComponent,
+    SaveCompteComponent,
+    AddTagCompteComponent,
+    AddRechargesComponent,
+    SubscribeListCompteComponent,
+    TransactionListSubscribeComponent,
+    EnroulementComponent,
+    RechercheModalComponent,
+    SearchListComponent,
+    ShowCompteComponent,
+    EditClientComponent,
+    ShowtagComponent
      ],
   imports: [
     CommonModule,

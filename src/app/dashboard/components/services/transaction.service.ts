@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap, shareReplay, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Transaction, TransactionResponse } from '../../interfaces/transaction';
+import apiEndpoints from 'src/app/misc/api-endpoints.misc';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +78,16 @@ export class TransactionService {
   getTransactionsByAccount(accountNumber: string, page: number = 1, limit: number = 10): Observable<TransactionResponse> {
     return this.loadTransactions(page, limit, accountNumber);
   }
+
+
+
+ transactionByTag(body: any): Observable<TransactionResponse> {
+  let params = new HttpParams()
+    .set('page', body.page)
+    .set('limit', body.limit);
+  return this.http.get<TransactionResponse>(`${apiEndpoints.transactionUrl}/tag/${body.tagId}`, { params });
+}
+
 }
 
 

@@ -1,0 +1,86 @@
+<div class="modal-content">
+  <form novalidate [formGroup]="rechargeForm" (keydown.enter)="$event.preventDefault()"  (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5 text-center w-100" id="deleteModalLabel">
+        FORMULAIRE DE RECHARGE
+      </h1>
+      <button type="button" class="btn-close" (click)="resetFormClose()"></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="d-flex align-items-center justify-content-around mb-3">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="rechargeType" id="rechargeCompte" value="compte"
+                 (change)="onRechargeTypeChange('compte')" [checked]="rechargeType === 'compte'" [disabled]="rechargeType === 'tag' && deactivated">
+          <label class="form-check-label" for="rechargeCompte">Recharger un compte</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="rechargeType" id="rechargeTag" value="tag"
+                 (change)="onRechargeTypeChange('tag')" [checked]="rechargeType === 'tag'" [disabled]="rechargeType === 'compte' && deactivated">
+          <label class="form-check-label" for="rechargeTag">Recharger un tag</label>
+        </div>
+      </div>
+
+      <div *ngIf="rechargeType === 'compte'" class="mb-3">
+        <label for="accountNumber" class="form-label">Numéro de compte</label>
+        <input type="text" class="form-control" id="accountNumber" placeholder="12345678901234" formControlName="accountNumber"
+               [ngClass]="{ 'is-invalid': submitted && form['accountNumber'].errors }" [readonly]="deactivated" >
+        <div *ngIf="submitted && form['accountNumber'].errors" class="invalid-feedback">
+          <div *ngIf="form['accountNumber'].errors['required']">Le numéro de compte est obligatoire</div>
+          <div *ngIf="form['accountNumber'].errors['minlength']">Le numéro de compte doit avoir au moins 14 caractères</div>
+        </div>
+      </div>
+
+      <div *ngIf="rechargeType === 'tag'" class="mb-3">
+        <label for="tagCode" class="form-label">Code de tag</label>
+        <input type="text" class="form-control" id="tagCode" placeholder="12345678" formControlName="tagCode"
+               [ngClass]="{ 'is-invalid': submitted && form['tagCode'].errors }" [readonly]="deactivated">
+        <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback">
+          <div *ngIf="form['tagCode'].errors['required']">Le code tag est obligatoire</div>
+          <div *ngIf="form['tagCode'].errors['minlength']">Le code tag doit avoir au moins 8 caractères</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="montant" class="form-label">Montant</label>
+        <input type="number" class="form-control" id="montant" placeholder="2000" formControlName="montant"
+               [ngClass]="{ 'is-invalid': submitted && form['montant'].errors }">
+        <div *ngIf="submitted && form['montant'].errors" class="invalid-feedback">
+          <div *ngIf="form['montant'].errors['required']">Le montant est obligatoire</div>
+          <div *ngIf="form['montant'].errors['min']">Le montant doit être supérieur à 99</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="resetFormClose()">ANNULER</button>
+      <button type="submit" class="btn btn-primary">
+        {{loading ? 'Veuillez patienter ' : 'RECHARGER'}}
+        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+      </button>
+    </div>
+    <!-- <pre>{{ rechargeForm.value | json }}</pre> -->
+  </form>
+</div>
+
+<div id="receiptContent" hidden >
+  <div class="d-flex flex-column align-items-center justify-content-between mb-4">
+    <img src="assets/img/logo.png" alt="logo">
+    <h5>Reçu de paiement</h5>
+    <p>Date : {{ ticketData?.date | date: 'dd/MM/yyyy' }}</p>
+  </div>
+
+  <div class="mb-3">
+    <p><strong>Client :</strong> {{ ticketData?.clientName }}</p>
+    <p><strong>Numéro de compte :</strong> {{ ticketData?.accountNumber }}</p>
+    <p><strong>Code du Tag :</strong> {{ ticketData?.tagCode }}</p>
+    <p><strong>Montant :</strong> {{ ticketData?.amount | currency: 'XOF' }}</p>
+    <p><strong>Solde total :</strong> {{ ticketData?.compte?.solde | currency: 'XOF' }}</p>
+    <p><strong>Type de Tag :</strong> {{ ticketData?.typeTag }}</p>
+  </div>
+
+  <div class="text-end">
+    <p>Merci pour votre paiement!</p>
+    <p><em>Safer</em></p>
+  </div>
+</div>

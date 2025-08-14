@@ -1,0 +1,167 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Infomation abonnement</h4>
+
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard/listesClients">Liste des clients</a>
+          </li>
+          <li class="breadcrumb-item active">Infomation abonnement</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="p-2">
+
+      <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
+        <i class="ri-arrow-left-s-fill"></i>
+        Retour</a>
+      <br>
+    </div>
+  </div>
+</div>
+<div class="container">
+
+  <div class="row justify-content-center">
+
+    <ng-container *ngIf="detail">
+      <div class="col-lg-6 mb_30">
+        <div class="card">
+          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+            <h4 class="card-title text-white">Information du TAG</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Code:</strong>
+                <span>{{ detail?.tagCode }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Plaque:</strong>
+                <span>{{ detail?.plaque ?? '-'  }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Type:</strong>
+                <span>{{ detail?.typeTarg | titlecase  }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Exonéré:</strong>
+                <span class="badge" ngClass="{{ detail.isExo ? 'bg-primary' : 'bg-warning' }}"> {{ detail.isExo ?
+                        'Oui' : 'Non' }} </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Date création:</strong>
+                <span>{{ detail?.created_at }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Statut:</strong>
+                <span class="badge" *ngIf="detail?.statutTarg == 'actived'" ngClass="{{ 'bg-success'}}"> {{ 'Activé'}} </span>
+
+                <span class="badge"  *ngIf="detail?.statutTarg == 'disabled'" ngClass="{{ 'bg-warning' }}"> {{
+                  'Désactivé' }} </span>
+
+                <span class="badge" *ngIf="detail?.statutTarg == 'deleted'" ngClass="{{ 'bg-danger' }}"> {{
+                  'Supprimé' }} </span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Numéro de compte:</strong>
+                <span>{{ detail?.compte.accountNumber  }}</span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Solde:</strong>
+                <span>{{ detail?.compte.solde  }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb_30">
+        <div class="card">
+          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+            <h4 class="card-title text-white">Information du client</h4>
+            <button class="btn btn-info btn-sm " (click)="editClient(detail?.client || detail)"> Modifier </button>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Nom:</strong>
+                <span>{{ detail?.client?.nom || detail?.nom || detail?.client?.nom }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Prénoms:</strong>
+                <span>{{ detail?.client?.prenom || detail?.prenom || detail?.client?.prenom }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Email:</strong>
+                <span>{{ detail?.client?.email || detail?.email || detail?.client?.email }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>CNI:</strong>
+                <span>{{ detail?.client?.cin || detail?.cin || detail?.client?.cin }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Adresse:</strong>
+                <span>{{ detail?.client?.adresse || detail?.adresse || detail?.client?.adresse }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Téléphone:</strong>
+                <span>{{ detail?.client?.tel || '-' }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Type de Client:</strong>
+                <span>
+                  {{ (detail?.client?.typeClient === 'MORALE' ? 'Entreprise' : 'Particulier') ||
+                   (detail?.typeClient === 'MORALE' ? 'Entreprise' : 'Particulier') ||
+                   (detail?.client?.typeClient === 'MORALE' ? 'Entreprise' : 'Particulier') }}</span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Date de création:</strong>
+                <span>{{ (detail?.client?.created_at | date) || (detail?.created_at | date) || (detail?.client?.created_at | date) }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+
+        <span *ngIf="detail?.statutTarg != 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+
+          <span class="btn btn-outline-info btn-sm" (click)="rechargeAccount(detail?.compte?.accountNumber, 'compte')"
+            title="Passage mode">
+            <i class="fas fa-card">Recharger </i>
+          </span>
+
+          <span class="btn btn-outline-primary btn-sm" (click)="dialogModalStatus(detail)"
+            title="{{ detail.statutTarg == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
+            <i ngClass="{{ detail.statutTarg == 'actived' ? 'fa fa-lock-open' : 'fa fa-lock' }}"> {{
+              detail.statutTarg == 'actived' ? 'Désactiver' : 'Activer' }} </i>
+          </span>
+
+          <span class="btn btn-outline-info btn-sm" (click)="dialogModalChangeModePassage(detail)"
+            title="Passage mode">
+            <i class="fas fa-walking">Mode de passage </i>
+          </span>
+
+          <span class="btn btn-outline-danger btn-sm" (click)="dialogModalDelete(detail)"
+            title="Supprimer ce tag">
+            <i class="fa fa-trash"> Retirer </i>
+          </span>
+        </span>
+
+      </div>
+    </ng-container>
+
+  </div>
+</div>

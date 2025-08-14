@@ -1,5 +1,5 @@
 <div class="app-menu navbar-menu">
-  <div class="navbar-brand-box">
+  <div class="navbar-brand-box bg-primary">
     <a href="index.html" class="logo logo-light.png">
       <span class="logo-sm">
         <img src="assets/logo/icon-152x152.png" alt="" height="22" />
@@ -18,7 +18,7 @@
   </div>
 
   <div id="scrollbar">
-    <div class="container-fluid">
+    <div class="container-fluid ">
       <div id="two-column-menu"></div>
       <ul class="navbar-nav" id="navbar-nav">
         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
@@ -28,18 +28,25 @@
             <span data-key="t-widgets">Accueil</span>
           </a>
         </li>
+
+
+
         <li class="nav-item">
-          <a class="nav-link menu-link" routerLink="/dashboard/recharges-list">
-            <i class="ri-exchange-dollar-line"></i>
-            <span data-key="t-widgets">Liste des recharges</span>
+          <a class="nav-link menu-link" routerLink="/dashboard/enroulement">
+            <i class="ri-bank-card-line"></i>
+            <span data-key="t-widgets">Operation</span>
           </a>
         </li>
-        <li class="nav-item">
+
+        
+
+           <li class="nav-item">
           <a class="nav-link menu-link" routerLink="/dashboard/subscribe-list">
             <i class="ri-dashboard-2-line"></i>
-            <span data-key="t-widgets">Liste des tags</span>
+            <span data-key="t-widgets">Liste des Abonnements</span>
           </a>
         </li>
+
         <li>
           <a class="nav-link menu-link" routerLink="/dashboard/listesClients">
             <i class="ri-user-star-line"></i>
@@ -52,9 +59,17 @@
             routerLink="/dashboard/listesComptesClient"
           >
             <i class="ri-group-line"></i>
-            <span data-key="t-widgets">Listes des comptes clients</span>
+            <span data-key="t-widgets">Listes des comptes</span>
           </a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link menu-link" routerLink="/dashboard/recharges-list">
+            <i class="ri-exchange-dollar-line"></i>
+            <span data-key="t-widgets">Liste des recharges</span>
+          </a>
+        </li>
+
         <!-- <li class="nav-item">
           <a
             class="nav-link menu-link cursor-pointer"

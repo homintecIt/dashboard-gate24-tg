@@ -1,3 +1,5 @@
+import { Subscription } from "./subscription";
+
 export interface Compte {
   id: number;
   uuid: string;
@@ -20,6 +22,7 @@ export interface Transaction {
   solde: string,
   date: Date,
   compte: Compte| null;
+  abonnement :Subscription
 }
 
 export interface TransactionResponse {
