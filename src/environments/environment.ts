@@ -4,5 +4,5 @@ export const environment = {
   // apiUrl: 'http://10.17.10.51:3000/api/v2/homintec',
   apiUrl: 'http://127.0.0.1:3000/api/v2/homintec',
   // apiTestUrl: 'http://10.17.10.51:3000/api/v2/homintec'
-  apiTestUrl: 'http://127.0.0.1:3000/api/v1/docs/swagger'
+  apiTestUrl: 'http://127.0.0.1:3000/api/v2/homintec'
 };
