@@ -222,7 +222,7 @@ export class AddTagCompteComponent implements OnInit {
 
           <div class="text-end">
             <p>Merci pour votre vidélité !</p>
-            <p><em>Safer</em></p>
+            <p><em>FSR B</em></p>
             <p><em></em></p>
             <p><em></em></p>
             <p><em></em></p>

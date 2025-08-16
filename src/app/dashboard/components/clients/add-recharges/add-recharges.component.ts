@@ -198,7 +198,7 @@ export class AddRechargesComponent implements OnInit {
 
           <div class="text-end">
             <p>Merci pour votre paiement !</p>
-            <p><em>Safer</em></p>
+            <p><em>FSR B</em></p>
             <p><em></em></p>
             <p><em></em></p>
             <p><em></em></p>
