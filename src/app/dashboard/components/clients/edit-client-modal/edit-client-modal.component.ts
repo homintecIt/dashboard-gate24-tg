@@ -150,10 +150,11 @@ export class EditClientModalComponent implements OnInit {
 
 
   listAbonnementByCompte(data :any){
-    this.generalService.successEvent.emit(data);
-    this.router.navigate(['/dashboard/subscribe-list/compte']);
+    ///this.generalService.successEvent.emit(data);
+  //  console.log("datat",data);
 
-
+    storageHelper.local.store("account",data);
+     return this.router.navigate(['/dashboard/subscribe-list/compte'], { state: { data: data } });
   }
 
 

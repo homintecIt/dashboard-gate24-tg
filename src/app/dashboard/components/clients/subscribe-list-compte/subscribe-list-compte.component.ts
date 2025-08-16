@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, finalize, Subject, takeUntil } from 'rxjs';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 import Swal from 'sweetalert2';
@@ -12,6 +12,8 @@ import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TransfertTagComponent } from '../transfert-tag/transfert-tag.component';
 import { AddTagCompteComponent } from '../add-tag-compte/add-tag-compte.component';
+import { Compte } from 'src/app/dashboard/interfaces/transaction';
+import { Router } from '@angular/router';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -22,6 +24,10 @@ const swalWithBootstrapButtons = Swal.mixin({
   styleUrls: ['./subscribe-list-compte.component.css'],
 })
 export class SubscribeListCompteComponent implements OnInit, OnDestroy {
+
+  @Input() data!: any;
+
+
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
@@ -43,30 +49,34 @@ export class SubscribeListCompteComponent implements OnInit, OnDestroy {
 
   // Recherche
   searchTerm = '';
-
   // États
   loading = false;
   error: string | null = null;
 accountNumber:any;
-
+  compte?: Compte;
   constructor(
     private subscrptionService: SubscriptionService,
     private modalService: BootstrapModalService,
         private generalService: GeneralService,
     private sweetAlertService: SweetAlertService,
+    private router: Router,
 
 
-  ) {}
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    this.data = navigation?.extras?.state?.['data'];
+     this.compte  = storageHelper.local.get("account");
+
+  }
 
 
   ngOnInit(): void {
+    this.accountNumber = this.compte?.accountNumber;
+  this.loadSubscriptions();
 
   this.generalService.successEvent.subscribe((data: any) => {
-    this.accountNumber = data.accountNumber ?? data.compte.accountNumber;
-    storageHelper.local.store("accountNumber",this.accountNumber);
       this.loadSubscriptions();
     });
-    this.accountNumber = storageHelper.local.get("accountNumber")
     // Écoute des subscrption
     this.subscrptionService.subscription$
       .pipe(takeUntil(this.destroy$))
@@ -93,13 +103,6 @@ accountNumber:any;
     ).subscribe(searchTerm => {
       // Réinitialiser à la page 1 lors d'une nouvelle recherche
       this.currentPage = 1;
-
-
-      if (!searchTerm) {
-         const accountNumber = storageHelper.local.get("accountNumber");
-      this.accountNumber = accountNumber;
-      this.loadSubscriptions(this.currentPage );
-      }
       // Charger les abonnements avec le terme de recherche
       this.loadSubscriptions(this.currentPage, searchTerm);
     });
@@ -232,8 +235,7 @@ accountNumber:any;
 
 
    addTag(data: any) {
-    console.log("datat compte ",data)
-     this.modalService.openModal(AddTagCompteComponent, data, 'modal-md');
+     this.modalService.openModal(AddTagCompteComponent, data, 'modal-md modal-dialog-centered');
    }
 
   openDetailsModal(subscription: Subscription): void {

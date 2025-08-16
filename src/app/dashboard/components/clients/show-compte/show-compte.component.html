@@ -109,7 +109,9 @@
               <li class="text-end mt-3">
                 <button class="btn btn-primary me-2" (click)="rechargeAccount(detail?.compte?.accountNumber, 'compte')">
                   Recharger </button>
-                  <button class="btn btn-info  " (click)="addTag(detail?.compte?.id)"> Ajouter un tag </button>
+                  <button class="btn btn-info  " (click)="addTag(detail?.compte?.id)">
+                    <i class="fa fa-plus"></i>
+                    nouveau abonnement </button>
                 <!-- <button class="btn btn-danger " (click)="dialogModalStatus(detail?.compte)"> Désactiver </button> -->
               </li>
             </ul>

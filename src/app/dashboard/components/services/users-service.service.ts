@@ -20,12 +20,25 @@ export interface User {
   role: string;
 }
 
+export interface Role {
+  id: number;
+  name: string;
+}
+
+
 export interface UserUpdateDto {
   id: number;
   name?: string;
   email?: string;
   role?: string;
   is_active?: boolean;
+}
+
+
+export interface UserCreateDto {
+  name?: string;
+  email?: string;
+  roleId?: string;
 }
 
 @Injectable({
@@ -80,6 +93,11 @@ export class UserService {
     );
   }
 
+   // Mise à jour d'un utilisateur
+  saveUser(updateDto: any): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/users/new-account`, updateDto);
+
+  }
 
 
     // Activation ou desactivation d'un utilisateur
@@ -113,4 +131,12 @@ export class UserService {
       })
     );
   }
+
+
+    // Chargement des utilisateurs
+  getRoles(): Observable<Role[]> {
+
+    return this.http.get<Role[]>(`${this.apiUrl}/roles`);
+  }
+
 }

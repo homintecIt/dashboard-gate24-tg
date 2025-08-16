@@ -9,6 +9,7 @@ import { UsersDeleteModalComponent } from './users-delete-modal/users-delete-mod
 import { swalAnimation } from 'src/app/misc/utilities.misc';
 import Swal from 'sweetalert2';
 import { UsersAffectRouteModalComponent } from './users-affect-route-modal/users-affect-route-modal.component';
+import { UsersCreateModalComponent } from './users-create-modal/users-create-modal.component';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -151,6 +152,15 @@ export class UsersComponent implements OnInit, OnDestroy {
   openEditModal(user: User): void {
     this.selectedUser = user;
     this.modalService.openModal(UsersEditModalComponent,user , 'modal-lg',);
+
+    this.modalService.modalRef.onHidden?.subscribe(() => {
+      this.refreshData(); // Rafraîchir la liste après fermeture du modal
+    });
+  }
+
+  // Ouverture du modal d'édition
+  openCreateUserModal(): void {
+    this.modalService.openModal(UsersCreateModalComponent , 'modal-lg',);
 
     this.modalService.modalRef.onHidden?.subscribe(() => {
       this.refreshData(); // Rafraîchir la liste après fermeture du modal
