@@ -94,7 +94,17 @@ export class SaveTagComponent {
     this.loading = true;
     const  tagId = this.generalService.transformerRfidcode(this.tagForm.value.tagId);
     this.tagForm.value.tagId  = tagId;
-    this.generalService.saveTag(this.tagForm.value).subscribe({
+
+     const body = {
+      accountNumber: this.tagForm.value.accountNumber,
+      tagId: this.tagForm.value.tagId,
+      tagCode: this.tagForm.value.tagCode,
+      plaque: this.tagForm.value.plaque,
+      isExo: this.tagForm.value.isExo,
+      type_targ:this.tagForm.value.typeTag,
+      montant: this.tagForm.value.montant,
+    }
+    this.generalService.saveTag(body).subscribe({
       next: ((data) =>{
         this.handleSuccess(data, 'Tag enregistré avec succès');
       }),
