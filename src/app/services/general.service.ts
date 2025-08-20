@@ -29,6 +29,12 @@ export class GeneralService {
     return this.httpClient.post<any>(`${apiEndpoints.subscriptionUrl}/save/targ`, data);
   }
 
+
+    saveTargwithoutAmount(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.subscriptionUrl}/save/targ-without-amount`, data);
+  }
+
+
   rechargeAccount(data: any): Observable<any> {
     return this.httpClient.post<any>(`${apiEndpoints.rechargesUrl}/recharge/byAccountNumber`, data);
   }

@@ -56,6 +56,7 @@ import { SearchListComponent } from './components/enroulements/search-list/searc
 import { ShowCompteComponent } from './components/clients/show-compte/show-compte.component';
 import { EditClientComponent } from './components/clients/edit-client/edit-client.component';
 import { ShowtagComponent } from './components/clients/show-tag/show-tag.component';
+import { SaveTagWithouAmountComponent } from './components/clients/save-tag-without-amount/save-tag-without-amount.component';
 
 
 @NgModule({
@@ -108,7 +109,8 @@ import { ShowtagComponent } from './components/clients/show-tag/show-tag.compone
     SearchListComponent,
     ShowCompteComponent,
     EditClientComponent,
-    ShowtagComponent
+    ShowtagComponent,
+    SaveTagWithouAmountComponent
      ],
   imports: [
     CommonModule,

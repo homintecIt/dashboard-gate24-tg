@@ -12,6 +12,8 @@ import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TransfertTagComponent } from '../transfert-tag/transfert-tag.component';
 import { AddTagCompteComponent } from '../add-tag-compte/add-tag-compte.component';
+import { SaveTagComponent } from '../save-tag/save-tag.component';
+import { SaveTagWithouAmountComponent } from '../save-tag-without-amount/save-tag-without-amount.component';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -231,9 +233,8 @@ accountNumber:any;
   }
 
 
-   addTag(data: any) {
-    console.log("datat compte ",data)
-     this.modalService.openModal(AddTagCompteComponent, data, 'modal-md');
+   addTag() {
+     this.modalService.openModal(SaveTagWithouAmountComponent, this.accountNumber, 'modal-md');
    }
 
   openDetailsModal(subscription: Subscription): void {
