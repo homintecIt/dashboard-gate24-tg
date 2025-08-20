@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { RechercheModalComponent } from '../recherche-modal/recherche-modal.component';
@@ -9,6 +9,8 @@ import { RechercheModalComponent } from '../recherche-modal/recherche-modal.comp
   styleUrls: ['./search-list.component.css']
 })
 export class SearchListComponent implements OnInit {
+    @Input() data: string = '';
+
   constructor(
     private modalService: BootstrapModalService,
     public bsModalRef: BsModalRef

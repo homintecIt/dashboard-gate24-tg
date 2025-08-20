@@ -5,6 +5,8 @@ import { PassagesDropdownSiteComponent } from '../../passages/passages-dropdown-
 import { MonthlyReportModalComponent } from '../../monthly-report/monthly-report-modal/monthly-report-modal.component';
 import { PeriodReportModalComponent } from '../../period-report/period-report-modal/period-report-modal.component';
 import { DateModalComponent } from '../../financial-data/date-modal/date-modal.component';
+import { RechercheModalComponent } from '../../enroulements/recherche-modal/recherche-modal.component';
+import { SearchListComponent } from '../../enroulements/search-list/search-list.component';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -33,5 +35,26 @@ export class SidebarComponent {
     this.modalService.openModal(DateModalComponent,'modal-md modal-dialog-centered');
   }
 
+
+    searchChoice() {
+      this.modalService.openModal(SearchListComponent, '', 'modal-md modal-dialog-centered');
+    }
+
+
+     showCompte() {
+    this.modalService.openModal(RechercheModalComponent, "accountNumber", 'modal-md modal-dialog-centered');
+
+    }
+
+     showTag() {
+    this.modalService.openModal(RechercheModalComponent, "tagCode", 'modal-md modal-dialog-centered');
+
+    }
+
+
+      newCompte() {
+    this.modalService.openModal(SearchListComponent, "newCompte", 'modal-md modal-dialog-centered');
+
+    }
 
 }

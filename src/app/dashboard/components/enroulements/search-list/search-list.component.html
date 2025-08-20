@@ -17,6 +17,6 @@
   <div class="d-grid gap-2">
     <button class="btn btn-primary fs-20" (click)="openSearchModal('name')" type="button">Nom & Prénoms</button>
     <button class="btn btn-primary fs-20" (click)="openSearchModal('phoneNumber')" type="button">Numéro de téléphone</button>
-    <button class="btn btn-outline-primary fs-20" (click)="openSearchModal('accountNumber')" type="button">Numéro de compte</button>
+    <button class="btn btn-outline-primary fs-20" *ngIf="data!='newCompte'" (click)="openSearchModal('accountNumber')" type="button">Numéro de compte</button>
     </div>
 </div>

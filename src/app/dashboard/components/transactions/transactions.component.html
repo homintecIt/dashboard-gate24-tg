@@ -89,7 +89,6 @@
                 <th>Type</th>
                 <th>Solde</th>
                 <th>Date</th>
-                <th>Statut</th>
               </tr>
             </thead>
             <tbody>
@@ -116,14 +115,7 @@
                 </td>
                 <td>{{ transaction.solde | currency:'XOF':'symbol':'1.2-2' }}</td>
                 <td>{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</td>
-                <td>
-                  <span class="badge" [ngClass]="{
-                    'bg-success': transaction.compte?.status === 'actived',
-                    'bg-danger': transaction.compte?.status !== 'actived'
-                  }">
-                    {{ transaction.compte?.status === 'actived' ? 'Actif' : 'Inactif' }}
-                  </span>
-                </td>
+               
               </tr>
               <tr *ngIf="transactions.length === 0 && !loading">
                 <td colspan="7" class="text-center">Aucune transaction trouvée</td>
