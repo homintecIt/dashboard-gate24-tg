@@ -57,6 +57,7 @@ import { ShowCompteComponent } from './components/clients/show-compte/show-compt
 import { EditClientComponent } from './components/clients/edit-client/edit-client.component';
 import { ShowtagComponent } from './components/clients/show-tag/show-tag.component';
 import { SaveTagWithouAmountComponent } from './components/clients/save-tag-without-amount/save-tag-without-amount.component';
+import { UsersCreateModalComponent } from './components/users/users-create-modal/users-create-modal.component';
 
 
 @NgModule({
@@ -110,7 +111,8 @@ import { SaveTagWithouAmountComponent } from './components/clients/save-tag-with
     ShowCompteComponent,
     EditClientComponent,
     ShowtagComponent,
-    SaveTagWithouAmountComponent
+    SaveTagWithouAmountComponent,
+    UsersCreateModalComponent
      ],
   imports: [
     CommonModule,

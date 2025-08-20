@@ -22,7 +22,8 @@
           <div class="d-flex gap-3">
             <button
               class="btn btn-outline-light"
-              [disabled]="loading"
+
+              (click)="openCreateUserModal()"
             >
               <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
               Créer Utilisateur
