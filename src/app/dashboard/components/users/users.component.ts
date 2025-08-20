@@ -157,6 +157,15 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Ouverture du modal d'édition
+  openCreateUserModal(): void {
+    this.modalService.openModal(UsersCreateModalComponent , 'modal-lg',);
+
+    this.modalService.modalRef.onHidden?.subscribe(() => {
+      this.refreshData(); // Rafraîchir la liste après fermeture du modal
+    });
+  }
+
   // Sauvegarde des modifications
   onSaveChanges(changes: Partial<UserUpdateDto>): void {
     if (this.selectedUser) {
