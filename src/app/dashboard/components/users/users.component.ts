@@ -9,6 +9,7 @@ import { UsersDeleteModalComponent } from './users-delete-modal/users-delete-mod
 import { swalAnimation } from 'src/app/misc/utilities.misc';
 import Swal from 'sweetalert2';
 import { UsersAffectRouteModalComponent } from './users-affect-route-modal/users-affect-route-modal.component';
+import { UsersCreateModalComponent } from './users-create-modal/users-create-modal.component';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
