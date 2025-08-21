@@ -13,8 +13,8 @@ import { SweetAlertService } from 'src/app/services/sweetalert.service';
   templateUrl: './recherche-modal.component.html',
   styleUrls: ['./recherche-modal.component.css']
 })
-export class RechercheModalComponent implements OnInit {
-  @Input() data: string = ''; 
+export class  RechercheModalComponent implements OnInit {
+  @Input() data: string = '';
   searchForm!: FormGroup;
   modalTitle: string = 'Recherche';
   placeholder: string = '';

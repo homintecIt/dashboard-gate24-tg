@@ -10,6 +10,8 @@ import { swalAnimation } from 'src/app/misc/utilities.misc';
 import Swal from 'sweetalert2';
 import { UsersAffectRouteModalComponent } from './users-affect-route-modal/users-affect-route-modal.component';
 import { UsersCreateModalComponent } from './users-create-modal/users-create-modal.component';
+import { Menus } from 'src/app/models/menus.model';
+import { Router } from '@angular/router';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -22,6 +24,9 @@ const swalWithBootstrapButtons = Swal.mixin({
 })
 export class UsersComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+
+  role!: string;
+  menus!: Menus[];
 
   // Données
   users: User[] = [];
@@ -42,7 +47,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   // Modaux et actions
   selectedUser?: User;
 
-  constructor(private userService: UserService, private modalService: BootstrapModalService,) {}
+  constructor(private userService: UserService,
+    private modalService: BootstrapModalService,
+    private router: Router,
+
+  ) {}
 
   ngOnInit(): void {
     // Écoute des utilisateurs
@@ -241,4 +250,24 @@ export class UsersComponent implements OnInit, OnDestroy {
   refreshData(): void {
     this.loadUsers();
   }
+
+
+
+  onMenu() {
+    this.router.navigate(['/dashboard/menus']);
+  }
+
+
+  onRoles() {
+    this.router.navigate(['/dashboard/roles']);
+  }
+
+   checkeMenu(menu: string): boolean {
+    if (this.role == "SUPERADMIN") {
+      return true;
+    }
+    return this.menus.some((m) => m.name === menu);
+  }
+
+
 }

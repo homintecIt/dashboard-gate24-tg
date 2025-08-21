@@ -1,0 +1,41 @@
+input[type="checkbox"] {
+    transform: scale(1.5); /* Adjust the number to make the radio button larger or smaller */
+    margin-right: 10px; /* Optional: Add some space between the radio button and label */
+  }
+  
+ 
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .custom-checkbox input:checked + .checkbox-checkmark {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .checkbox-checkmark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px; /* Adjust width for size */
+    height: 20px; /* Adjust height for size */
+    border-radius: 3px; /* Rounded corners for checkbox */
+    border: 2px solid #ccc;
+    background-color: #fff;
+    transition: all 0.3s ease;
+  }
+  
+  .custom-checkbox input:checked + .checkbox-checkmark::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+  }
+  

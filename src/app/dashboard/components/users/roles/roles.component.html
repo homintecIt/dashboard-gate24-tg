@@ -1,0 +1,222 @@
+<!-- users.component.html -->
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Liste des Roles</h4>
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Accueil</a></li>
+          <li class="breadcrumb-item active">Roles</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-12">
+  <div class="p-2">
+
+    <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
+      <i class="ri-arrow-left-s-fill"></i>
+      Retour</a>
+    <br>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-header bg-primary">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title text-light mb-0">Liste des roles</h5>
+          <div class="d-flex gap-3">
+            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#addSiteModal">
+
+              <i class="ri-add-line"></i>
+
+              Ajouter</button>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <!-- État de chargement -->
+
+        <div class="card-body">
+          <table class="table table-bordered table-striped border-blue">
+            <thead class="table-blue">
+              <tr>
+                <th>#</th>
+                <th>Nom </th>
+                <th>Accès autorisé(s) </th>
+
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="roles != null; then isDataExist; else isDataEmpty">
+              </ng-container>
+              <ng-template #isDataExist>
+                <tr *ngFor="let role of roles, let i = index">
+                  <td> {{i+1}} </td>
+                  <td> {{role.name}} </td>
+                  <td>
+                    <span *ngFor="let menu of role.menus, let i = index">
+                      {{ formatActionName(menu.name!)}};
+                    </span>
+                  </td>
+
+                  <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                      data-bs-target="#updateSiteModal" (click)="getRole(role)">
+                      <i class="ri-edit-line"></i>
+
+
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+
+              <ng-template #isDataEmpty>
+                <tr>
+                  <td colspan="4" class="text-center">Aucune donnée disponible</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal addSiteModal -->
+<div class="modal fade" id="addSiteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="addSiteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <form [formGroup]="rolesForm" (ngSubmit)="addroles()">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addSiteModalLabel">Enregistrement d’un role</h1>
+          <button type="button" id="closeAddModal" class="btn-close" data-bs-dismiss="modal" (click)="closeModal()"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="name" style="text-transform: uppercase;" placeholder=""
+                formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+              <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                <div *ngIf="f['name'].errors['required']">Le nom est obligatoire</div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="menu" class="form-label">Menu autorisé</label>
+
+              <div class="row">
+                <div class="mb-3 col-6" *ngFor="let menu of menus; let i = index">
+                  <!-- Menu principal -->
+                  <label class="custom-checkbox d-block">
+                    <input type="checkbox" [id]="'menu' + i" [value]="menu.id" name="menu"
+                      (change)="onCheckboxChangeS($event, menu.id!)"
+                      [checked]="menuIdsFormArray.value.includes(menu.id)">
+                    <span class="checkbox-checkmark"></span>
+                    {{ formatActionName(menu.name!) }}
+                  </label>
+
+                  <!-- Sous-actions alignées -->
+                  <div class="ms-4 mt-2" *ngFor="let action of actions; let j = index">
+                    <label class="custom-checkbox d-block">
+                      <input type="checkbox" [id]="'action' + i + '-' + j" [value]="action.id" name="action">
+                      <span class="checkbox-checkmark"></span>
+                      {{ action.name }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-blue">
+            {{loading? 'Veuillez patienter ' : 'Enregister' }}
+            <span class="{{ loading? 'spinner-border spinner-border-sm ms-2' : '' }}" role="status"> </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal updateSiteModal -->
+<div class="modal fade" id="updateSiteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="updateSiteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <form [formGroup]="rolesForm" (ngSubmit)="updateRole()">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateSiteModalLabel">Modification d’un role</h1>
+          <button type="button" id="closeUpdateModal" class="btn-close" data-bs-dismiss="modal"
+            (click)="closeUpdateModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="mb-3">
+              <label for="nom" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="name" placeholder="" formControlName="name"
+                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+              <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                <div *ngIf="f['name'].errors['required']">Le nom est
+                  obligatoire</div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="menu" class="form-label">Menu autorisé</label>
+
+              <div class="row">
+                <div class="mb-3 col-6" *ngFor="let menu of menus; let i = index">
+                  <!-- Menu principal -->
+                  <label class="custom-checkbox d-block">
+                    <input type="checkbox" [id]="'menu' + i" [value]="menu.id" name="menu"
+                      (change)="onCheckboxChangeS($event, menu.id!)"
+                      [checked]="menuIdsFormArray.value.includes(menu.id)">
+                    <span class="checkbox-checkmark"></span>
+                    {{ formatActionName(menu.name!) }}
+                  </label>
+
+                  <!-- Sous-actions alignées -->
+                  <div class="ms-4 mt-2" *ngFor="let action of actions; let j = index">
+                    <label class="custom-checkbox d-block">
+                      <input type="checkbox" [id]="'action' + i + '-' + j" [value]="action.id" name="action">
+                      <span class="checkbox-checkmark"></span>
+                      {{ action.name }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-blue">
+            {{loading? 'Veuillez patienter ' : 'Modifier' }}
+            <span class="{{ loading? 'spinner-border spinner-border-sm ms-2' : '' }}" role="status"> </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

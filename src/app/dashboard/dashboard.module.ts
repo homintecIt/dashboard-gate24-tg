@@ -58,6 +58,10 @@ import { EditClientComponent } from './components/clients/edit-client/edit-clien
 import { ShowtagComponent } from './components/clients/show-tag/show-tag.component';
 import { SaveTagWithouAmountComponent } from './components/clients/save-tag-without-amount/save-tag-without-amount.component';
 import { UsersCreateModalComponent } from './components/users/users-create-modal/users-create-modal.component';
+import { MenusComponent } from './components/users/menus/menus.component';
+import { RolesComponent } from './components/users/roles/roles.component';
+import { RolesService } from '../services/roles.service';
+import { MenusService } from '../services/menus.service';
 
 
 @NgModule({
@@ -112,7 +116,9 @@ import { UsersCreateModalComponent } from './components/users/users-create-modal
     EditClientComponent,
     ShowtagComponent,
     SaveTagWithouAmountComponent,
-    UsersCreateModalComponent
+    UsersCreateModalComponent,
+    MenusComponent,
+    RolesComponent,
      ],
   imports: [
     CommonModule,
@@ -121,6 +127,6 @@ import { UsersCreateModalComponent } from './components/users/users-create-modal
     FormsModule,
     MultiSelectModule
   ],
-  providers: [RechargesService, SubscriptionService]
+  providers: [RechargesService, SubscriptionService,RolesService,MenusService]
 })
 export class DashboardModule { }

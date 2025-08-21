@@ -24,6 +24,8 @@ import { TransactionListSubscribeComponent } from './components/clients/transact
 import { EnroulementComponent } from './components/enroulements/enroulement.component';
 import { ShowCompteComponent } from './components/clients/show-compte/show-compte.component';
 import { ShowtagComponent } from './components/clients/show-tag/show-tag.component';
+import { MenusComponent } from './components/users/menus/menus.component';
+import { RolesComponent } from './components/users/roles/roles.component';
 const routes: Routes = [
   {
     path: "", component: MainComponent,
@@ -51,6 +53,9 @@ const routes: Routes = [
       { path: 'sync-status', component: SyncStatusComponent },
       { path: 'show-compte', component: ShowCompteComponent },
       { path: 'show/tag', component: ShowtagComponent },
+      { path: 'menus', component: MenusComponent },
+      { path: 'roles', component: RolesComponent },
+
 
 
 
