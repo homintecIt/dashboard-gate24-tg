@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListesClientService } from 'src/app/services/liste-client.service';
 
 @Component({
@@ -12,7 +12,8 @@ export class DetailCompteClientComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private clientService: ListesClientService
+    private clientService: ListesClientService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -35,5 +36,8 @@ export class DetailCompteClientComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+  goBack() {
+    this.router.navigate(['/dashboard/listesClients']);
   }
 }
