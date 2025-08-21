@@ -168,6 +168,14 @@ getAccountbyAccountNumber(accountNumber: string): Observable<any> {
   return this.http.post<Client>(`${this.apiUrl}/comptes/get/accountNumber`, { accountNumber });
 }
 
+deleteAccount(accountNumber: string): Observable<any> {
+  return this.http.delete<any>(`${this.apiUrl}/comptes/delete/${accountNumber}`);
+}
+
+deleteClient(uuid: string): Observable<any> {
+  return this.http.delete<any>(`${this.apiUrl}/clients/${uuid}`);
+}
+
 }
 // private allClients: Client[] = [];
 // private allAccounts: Account[] = [];

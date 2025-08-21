@@ -84,7 +84,7 @@
                 <th>Solde</th>
                 <th>Statut</th>
                 <th>Date de création</th>
-                <th>Actions</th>
+                <th style="text-align: center;">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -101,11 +101,11 @@
                   </span>
                 </td>
                 <td>{{ compte.created_at | date }}</td>
-                <td>
+                <td style="text-align: center;">
 
 
 
-                  <span class="d-flex gap-2 justify-content-center align-items-center">
+                  <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="compte.statut !== 'deleted'; else deletedActions">
                     <button [routerLink]="['/dashboard/transactions']"
                       [queryParams]="{ accountNumber: compte.accountNumber }" class="btn btn-sm btn-outline-primary"
                       title="Voir les transactions">
@@ -138,8 +138,20 @@
 
                     </span>
 
+                    <button class="btn btn-sm btn-danger" (click)="dialogModalDeleteCompte(compte)" title="Supprimer ce compte">
+                      <i class="ri-delete-bin-line">Supprimer</i>
+                    </button>
+
 
                   </span>
+
+                  <ng-template #deletedActions>
+                    <span class="d-flex gap-2 justify-content-center align-items-center">
+                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte">
+                        <i class="ri-history-line">Restaurer</i>
+                      </button>
+                    </span>
+                  </ng-template>
                 </td>
               </tr>
             </tbody>

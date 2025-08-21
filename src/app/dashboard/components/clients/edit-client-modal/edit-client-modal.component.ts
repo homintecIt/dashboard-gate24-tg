@@ -278,6 +278,29 @@ export class EditClientModalComponent implements OnInit {
       });
   }
 
+  dialogModalDeleteCompte(compte: any) {
+    swalWithBootstrapButtons
+      .fire({
+        title: 'Attention !!!',
+        text: `Voulez-vous supprimer le compte: "${compte.accountNumber}" ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Non',
+        confirmButtonColor: ' #0d6efd',
+        cancelButtonColor: '#6c757d',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        reverseButtons: false,
+        ...swalAnimation,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.deleteCompte(compte.accountNumber);
+        } else {
+        }
+      });
+  }
 
   dialogModalChangeModePassage(data: any) {
     const status = data.isExo ? 'désactiver' : 'activer';
@@ -412,6 +435,29 @@ export class EditClientModalComponent implements OnInit {
           this.generalService.successEvent.emit(data);
         }, 500)
         this.sweetAlertService.toastSuccess('Tag supprimé avec succès', 3000);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.generalService.failureEvent.emit(error);
+        this.sweetAlertService.toastError('Erreur !', 5000, (error.error.message || error.error.error) || 'Le service est temporairement indisponible');
+      },
+    });
+  }
+
+  deleteCompte(accountNumber: string) {
+    this.clientService.deleteAccount(accountNumber).subscribe({
+      next: (resp) => {
+        // Mettre à jour le statut local à 'deleted' au lieu de retirer l'élément
+        if (Array.isArray(this.client?.compte)) {
+          const idx = this.client.compte.findIndex((c: any) => c.accountNumber === accountNumber);
+          if (idx > -1) {
+            this.client.compte[idx] = { ...this.client.compte[idx], statut: 'deleted' };
+          }
+        }
+        // Notifier pour rafraîchir les données ailleurs si nécessaire
+        setTimeout(() => {
+          this.generalService.successEvent.emit({ type: 'accountDeleted', accountNumber });
+        }, 300);
+        this.sweetAlertService.toastSuccess('Compte supprimé avec succès', 3000);
       },
       error: (error: HttpErrorResponse) => {
         this.generalService.failureEvent.emit(error);

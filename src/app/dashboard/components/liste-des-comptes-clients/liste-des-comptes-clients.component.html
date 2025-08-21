@@ -83,6 +83,9 @@
                   <a [routerLink]="['/dashboard/listesComptesClient/details/', item.accountNumber]"  class=""
                     ><i class="fs-3 ri-eye-line text-primary"></i
                   ></a>
+                  <button class="btn btn-link p-0 ms-2" (click)="confirmDeleteClient(item)" [disabled]="!item.client?.uuid" title="Supprimer ce client">
+                    <i class="fs-3 ri-delete-bin-line text-danger"></i>
+                  </button>
                   <!-- <a href="" class=""
                     ><i class="mt-2 las la-eye-dropper text-success fs-4"></i
                   ></a> -->
