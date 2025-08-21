@@ -169,7 +169,7 @@ getAccountbyAccountNumber(accountNumber: string): Observable<any> {
 }
 
 deleteAccount(accountNumber: string): Observable<any> {
-  return this.http.delete<any>(`${this.apiUrl}/comptes/delete/${accountNumber}`);
+  return this.http.delete<any>(`${this.apiUrl}/comptes/delete/local/${accountNumber}`);
 }
 
 deleteClient(uuid: string): Observable<any> {
