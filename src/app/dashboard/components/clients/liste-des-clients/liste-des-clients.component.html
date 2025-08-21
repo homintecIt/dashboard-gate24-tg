@@ -81,10 +81,17 @@
                 <td scope="col" class="text-center" >{{ item.adresse }}</td>
                 <td scope="col" class="text-center" >{{ item.cin }}</td>
                 <td scope="col" class="text-center" >{{ item.created_at | date : "short" }}</td>
-                <td class="d-flex justify-content-center">
-                  <a [routerLink]="['/dashboard/clients/details/', item.tel]" class="text-primary">
+                <td class="d-flex justify-content-center gap-3">
+                  <a [routerLink]="['/dashboard/clients/details/', item.tel]" class="text-primary" title="Détails">
                     <i class=" ri-eye-line fs-4 text-secondary"></i>
                   </a>
+                  <button type="button"
+                          class="btn btn-link p-0 text-danger"
+                          title="Supprimer"
+                          (click)="confirmDeleteClient(item)"
+                          [disabled]="!item?.uuid">
+                    <i class="ri-delete-bin-line fs-4"></i>
+                  </button>
                   <!-- <a (click)="openDetailsModal(item)" href="Javascript:void(0);" class="text-success">
                     <i class="ri-edit-box-line fs-4 text-info"></i>                  </a> -->
                 </td>

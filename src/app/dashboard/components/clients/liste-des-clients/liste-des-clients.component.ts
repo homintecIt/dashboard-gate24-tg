@@ -4,6 +4,10 @@ import { Client } from 'src/app/models/listeClient.model';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 import { EditClientModalComponent } from '../edit-client-modal/edit-client-modal.component';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { SweetAlertService } from 'src/app/services/sweetalert.service';
+import Swal from 'sweetalert2';
+import { swalAnimation } from 'src/app/misc/utilities.misc';
+
 interface FilterPayload {
   nom?: string;
   prenom?: string;
@@ -34,7 +38,6 @@ export class ListeDesClientsComponent implements OnInit {
   totalItems = 0;
   totalPages = 0;
 
-
   // Recherche
   searchTerm = '';
 
@@ -44,10 +47,9 @@ export class ListeDesClientsComponent implements OnInit {
 
   constructor(
     private clientService: ListesClientService,
-    private modalService: BootstrapModalService
+    private modalService: BootstrapModalService,
+    private sweetAlert: SweetAlertService
   ) {}
-
-
 
   openDetailsModal(client: Client): void {
     console.log('Ouverture des détails:', client);
@@ -80,14 +82,13 @@ export class ListeDesClientsComponent implements OnInit {
         this.loading = loading;
       });
 
-
     // Chargement initial
     this.loadClients();
 
     // fonction d'initalisation de recherche
 
-     // Nouvelle configuration pour la recherche dynamique
-     this.searchSubject.pipe(
+    // Nouvelle configuration pour la recherche dynamique
+    this.searchSubject.pipe(
       debounceTime(300), // Attendre 300ms après la dernière frappe
       distinctUntilChanged(), // Ignorer si la valeur est identique à la précédente
       takeUntil(this.destroy$)
@@ -98,21 +99,6 @@ export class ListeDesClientsComponent implements OnInit {
       // Charger les abonnements avec le terme de recherche
       this.loadClients(this.currentPage, searchTerm);
     });
-    // this.searchSubject.pipe(
-    //   debounceTime(300),
-    //   distinctUntilChanged(),
-    //   takeUntil(this.destroy$)
-    // ).subscribe(searchTerm => {
-    //   // Réinitialiser à la page 1 lors d'une nouvelle recherche
-    //   this.currentPage = 1;
-
-    //   // Préparer le filtre
-    //   const filterPayload = this.prepareSearchFilter(searchTerm);
-
-    //   // Charger les abonnements
-    //   // - Si filterPayload est undefined, aucun filtre ne sera appliqué
-    //   this.loadClients(this.currentPage, filterPayload);
-    // });
   }
 
   ngOnDestroy(): void {
@@ -122,38 +108,37 @@ export class ListeDesClientsComponent implements OnInit {
 
   // Méthode pour préparer le filtre de recherche
   prepareSearchFilter(searchTerm: string): FilterPayload | undefined {
-  // Trim et supprimer les espaces multiples
-  const trimmedTerm = searchTerm.trim().replace(/\s+/g, ' ');
+    // Trim et supprimer les espaces multiples
+    const trimmedTerm = searchTerm.trim().replace(/\s+/g, ' ');
 
-  // Si la recherche est vide, retourner undefined
-  if (!trimmedTerm) return undefined;
+    // Si la recherche est vide, retourner undefined
+    if (!trimmedTerm) return undefined;
 
-  // Séparer les mots
-  const terms = trimmedTerm.split(' ');
+    // Séparer les mots
+    const terms = trimmedTerm.split(' ');
 
-  // Initialiser le payload de filtre
-  const filter: FilterPayload = {};
+    // Initialiser le payload de filtre
+    const filter: FilterPayload = {};
 
-  // Cas où un seul terme est saisi
-  if (terms.length === 1) {
-    // Le terme unique peut être soit un nom, soit un prénom
-    filter.nom = terms[0];
-    filter.prenom = terms[0];
-    // Ou filter.prenom = terms[0];
+    // Cas où un seul terme est saisi
+    if (terms.length === 1) {
+      // Le terme unique peut être soit un nom, soit un prénom
+      filter.nom = terms[0];
+      filter.prenom = terms[0];
+      // Ou filter.prenom = terms[0];
+      return filter;
+    }
+
+    // Cas avec plusieurs termes
+    // On suppose que le dernier terme est le prénom, les autres sont le nom
+    filter.prenom = terms[terms.length - 1];
+    filter.nom = terms.slice(0, -1).join(' ');
+
     return filter;
   }
 
-  // Cas avec plusieurs termes
-  // On suppose que le dernier terme est le prénom, les autres sont le nom
-  filter.prenom = terms[terms.length - 1];
-  filter.nom = terms.slice(0, -1).join(' ');
-
-  return filter;
-}
-
-
-   // Modifier loadSubscriptions pour accepter un payload de filtre
-   loadClients(page: number = 1, filter?: string | undefined): void {
+  // Modifier loadSubscriptions pour accepter un payload de filtre
+  loadClients(page: number = 1, filter?: string | undefined): void {
     this.clientService
       .loadClients(page, this.itemsPerPage, filter)
       .pipe(takeUntil(this.destroy$))
@@ -182,7 +167,6 @@ export class ListeDesClientsComponent implements OnInit {
         client.plaque?.toLowerCase().includes(term)*/
     );
   }
-
 
   //  la méthode onSearch
   onSearch(event: any): void {
@@ -252,119 +236,43 @@ export class ListeDesClientsComponent implements OnInit {
   refreshData(): void {
     this.loadClients(this.currentPage);
   }
+
+  // Suppression client (via uuid)
+  confirmDeleteClient(item: Client): void {
+    const fullName = `${item.nom ?? ''} ${item.prenom ?? ''}`.trim();
+    Swal.fire({
+      title: 'Confirmation',
+      text: `Voulez-vous supprimer le client « ${fullName || item.uuid} » ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non',
+      confirmButtonColor: ' #0d6efd',
+      cancelButtonColor: '#6c757d',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      reverseButtons: false,
+      ...swalAnimation,
+    }).then((result) => {
+      if (result.isConfirmed && item.uuid) {
+        this.deleteClient(item.uuid);
+      }
+    });
+  }
+
+  private deleteClient(uuid: string): void {
+    this.clientService.deleteClient(uuid).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        // Optimistic update
+        this.clients = this.clients.filter(c => c.uuid !== uuid);
+        this.filterClients();
+        this.sweetAlert.toastSuccess('Client supprimé avec succès', 3000);
+        // Reload current page to sync counts
+        this.loadClients(this.currentPage, this.searchTerm);
+      },
+      error: (error) => {
+        this.sweetAlert.toastError('Erreur !', 5000, (error?.error?.message || error?.error?.error) || 'Le service est temporairement indisponible');
+      }
+    });
+  }
 }
-
-
-  // allClients: Client[] = [];
-  // filteredClients: Client[] = [];
-  // paginatedClients: Client[] = [];
-  // totalPages: number = 0;
-  // totalItems: number = 0;
-  // currentPage: number = 1;
-  // itemsPerPage: number = 10;
-  // searchQuery: string = '';
-  // isSearchActive: boolean = false;
-
-  // constructor(private listesClientService: ListesClientService,
-  //   private modalService: BootstrapModalService
-
-  // ) {}
-
-  // openEditModal(client: Client) {
-  //   console.log('VerifieClient', client)
-  //   this.modalService.openModal(EditClientModalComponent, client,'modal-lg');
-  // }
-
-  // refreshClients(): void {
-  //   this.listesClientService.getAllClients().subscribe({
-  //     next: (response) => {
-  //       this.allClients = response.items; // Mets à jour la liste affichée
-  //       console.log('Liste des clients actualisée', this.allClients);
-  //     },
-  //     error: (error) => {
-  //       console.error('Erreur lors de la récupération des clients', error);
-  //     }
-  //   });
-  // }
-
-  // handleClientUpdate(updatedClient: any): void {
-  //   const index = this.allClients.findIndex(client => client.uuid === updatedClient.uuid);
-  //   if (index !== -1) {
-  //     this.allClients[index] = updatedClient;
-  //     this.filteredClients = [...this.allClients];
-  //   this.loadPage(this.currentPage);
-  //   } else {
-  //     this.refreshClients();
-  //   }
-  // }
-
-
-  // ngOnInit(): void {
-  //   // Charger tous les clients une seule fois
-  //   this.listesClientService.getAllClients().subscribe({
-  //     next: (response) => {
-  //       this.allClients = response.items;
-  //       this.filteredClients = [...this.allClients];
-  //       this.totalItems = this.filteredClients.length;
-  //       this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-  //       this.loadPage(this.currentPage);
-  //     },
-  //     error: (err) => {
-  //       console.error('Erreur lors du chargement des clients:', err);
-  //     },
-  //   });
-  //   this.refreshClients();
-  // }
-
-  // // Gestion des pages
-  // loadPage(page: number): void {
-  //   if (this.isSearchActive) {
-  //     this.paginateClients(page);
-  //   } else {
-  //     this.paginateClients(page);
-  //   }
-  // }
-
-  // // Pagination côté client
-  // paginateClients(page: number): void {
-  //   this.currentPage = page;
-  //   const startIndex = (page - 1) * this.itemsPerPage;
-  //   const endIndex = startIndex + this.itemsPerPage;
-  //   this.paginatedClients = this.filteredClients.slice(startIndex, endIndex);
-  // }
-
-  // // Recherche
-  // onSearchChange(event: any): void {
-  //   this.searchQuery = event.target.value.toLowerCase().trim();
-  //   this.isSearchActive = this.searchQuery.length > 0;
-
-  //   this.filteredClients = this.allClients.filter((client) =>
-  //     Object.values(client).some((value) =>
-  //       String(value).toLowerCase().includes(this.searchQuery)
-  //     )
-  //   );
-
-  //   this.totalItems = this.filteredClients.length;
-  //   this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-  //   this.loadPage(1); // Revenir à la première page des résultats
-  // }
-
-  // // Changement de page
-  // onPageChange(newPage: number): void {
-  //   if (newPage > 0 && newPage <= this.totalPages) {
-  //     this.loadPage(newPage);
-  //   }
-  // }
-
-  // // Numéros des pages à afficher
-  // getPageNumbers(): number[] {
-  //   const maxPagesToShow = 3;
-  //   let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
-  //   let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
-
-  //   if (endPage - startPage + 1 < maxPagesToShow) {
-  //     startPage = Math.max(1, endPage - maxPagesToShow + 1);
-  //   }
-
-  //   return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-  // }
