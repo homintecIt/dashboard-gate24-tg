@@ -172,6 +172,10 @@ deleteAccount(accountNumber: string): Observable<any> {
   return this.http.delete<any>(`${this.apiUrl}/comptes/delete/local/${accountNumber}`);
 }
 
+restoreAccount(accountNumber: string): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/comptes/restore`, { accountNumber });
+}
+
 deleteClient(uuid: string): Observable<any> {
   return this.http.delete<any>(`${this.apiUrl}/clients/${uuid}`);
 }

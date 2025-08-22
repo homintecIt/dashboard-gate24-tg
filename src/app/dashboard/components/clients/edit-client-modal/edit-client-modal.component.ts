@@ -45,6 +45,30 @@ export class EditClientModalComponent implements OnInit {
     this.loadData()
   }
 
+  dialogModalRestoreCompte(compte: any) {
+    swalWithBootstrapButtons
+      .fire({
+        title: 'Attention !!!',
+        text: `Voulez-vous restaurer le compte: "${compte.accountNumber}" ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Non',
+        confirmButtonColor: ' #0d6efd',
+        cancelButtonColor: '#6c757d',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        reverseButtons: false,
+        ...swalAnimation,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.restoreCompte(compte.accountNumber);
+        } else {
+        }
+      });
+  }
+
     goBack() {
     window.history.back();
   }
@@ -458,6 +482,28 @@ export class EditClientModalComponent implements OnInit {
           this.generalService.successEvent.emit({ type: 'accountDeleted', accountNumber });
         }, 300);
         this.sweetAlertService.toastSuccess('Compte supprimé avec succès', 3000);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.generalService.failureEvent.emit(error);
+        this.sweetAlertService.toastError('Erreur !', 5000, (error.error.message || error.error.error) || 'Le service est temporairement indisponible');
+      },
+    });
+  }
+
+  restoreCompte(accountNumber: string) {
+    this.clientService.restoreAccount(accountNumber).subscribe({
+      next: () => {
+        // Mettre à jour le statut local à 'disabled' (restauré mais inactif par défaut)
+        if (Array.isArray(this.client?.compte)) {
+          const idx = this.client.compte.findIndex((c: any) => c.accountNumber === accountNumber);
+          if (idx > -1) {
+            this.client.compte[idx] = { ...this.client.compte[idx], statut: 'disabled' };
+          }
+        }
+        setTimeout(() => {
+          this.generalService.successEvent.emit({ type: 'accountRestored', accountNumber });
+        }, 300);
+        this.sweetAlertService.toastSuccess('Compte restauré avec succès', 3000);
       },
       error: (error: HttpErrorResponse) => {
         this.generalService.failureEvent.emit(error);

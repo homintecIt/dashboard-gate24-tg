@@ -33,7 +33,11 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header bg-primary">
-          <h5 class="text-white"> Information du client</h5>
+          <h5 class="text-white"> Information du client <span class="badge" [ngClass]="{
+            'bg-success-subtle text-success text-uppercase': client?.statut === 'actived',
+            'bg-danger-subtle text-danger text-uppercase': client?.statut === 'disabled',
+            'bg-warning-subtle text-warning text-uppercase': client?.statut === 'deleted',
+          }">{{ client?.statut === 'actived' ? 'Activé' : client?.statut === 'disabled' ? 'Désactivé' : 'Supprimé' }}</span></h5>
 
           <!-- <button class="btn btn-primary float-end">Modifier</button> -->
         </div>
@@ -147,7 +151,7 @@
 
                   <ng-template #deletedActions>
                     <span class="d-flex gap-2 justify-content-center align-items-center">
-                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte">
+                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte" (click)="dialogModalRestoreCompte(compte)">
                         <i class="ri-history-line">Restaurer</i>
                       </button>
                     </span>
