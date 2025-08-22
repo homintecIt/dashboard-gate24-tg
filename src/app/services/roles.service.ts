@@ -28,4 +28,9 @@ export class RolesService {
   updateRole(data: any) {
     return this.httpClient.put<any>(`${apiEndpoints.rolesUrl}/${data.id}`, data);
   }
+
+  submitRolePermissions(rolePermissions: any) {
+ return this.httpClient.post('/roles/assign-permissions', rolePermissions);
+}
+
 }

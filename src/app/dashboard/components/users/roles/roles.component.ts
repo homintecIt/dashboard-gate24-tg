@@ -10,6 +10,20 @@ import { MenusService } from 'src/app/services/menus.service';
 import { RolesService } from 'src/app/services/roles.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 
+interface MenuSelection {
+  menuId: number;
+  actions: number[];
+}
+interface RolePermission {
+  roleId: number;
+  menus: {
+    menuId: number;
+    actions: number[];
+  }[];
+}
+
+
+
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.component.html',
@@ -20,7 +34,10 @@ export class RolesComponent implements OnInit {
   actions: any[] =[] ;
 
   rolesForm: FormGroup = new FormGroup({});
-
+rolePermissions: RolePermission = {
+  roleId: 1, // id du rôle à modifier
+  menus: []
+};
 
   submitted = false;
   loading = false;
@@ -43,7 +60,9 @@ export class RolesComponent implements OnInit {
     this.rolesForm = this.formBuilder.group({
       id: [''],
       name: ['', [Validators.required]],
-      menuIds: this.formBuilder.array([])
+      menuIds: this.formBuilder.array([]),
+      actionIds: this.formBuilder.array([]),
+
     });
   }
 
@@ -69,6 +88,13 @@ formatActionName(text: string): string {
 get menuIdsFormArray() {
   return this.rolesForm.get('menuIds') as FormArray;
 }
+
+
+get actionIdsFormArray(): FormArray {
+  return this.rolesForm.get('actionIds') as FormArray;
+}
+
+
 
   onCheckboxChange(event: any, menuId: number) {
     if (event.target.checked) {
@@ -162,6 +188,22 @@ get menuIdsFormArray() {
     });
   }
 
+
+
+  submit() {
+/*     const payload = {
+      roleId: this.roleId,
+      menus: this.menus
+        .filter(menu => menu.selected)
+        .map(menu => ({
+          menuId: menu.id,
+          actions: menu.actions.filter(a => a.selected).map(a => a.id),
+        })),
+    }; */
+
+
+  }
+
   getRole(role: Roles) {
     this.rolesForm.patchValue({
       id: role.id,
@@ -185,7 +227,25 @@ get menuIdsFormArray() {
         this.menuIdsFormArray.removeAt(index);
       }
     }
+
+    console.log("checked ",this.menuIdsFormArray);
+
   }
+
+
+  onCheckboxChangeAction(event: any, menuId: number, actionId: number) {
+  const key = `${menuId}-${actionId}`;
+
+  if (event.target.checked) {
+    this.actionIdsFormArray.push(new FormControl(key));
+  } else {
+    const index = this.actionIdsFormArray.controls.findIndex(c => c.value === key);
+    if (index !== -1) this.actionIdsFormArray.removeAt(index);
+  }
+
+  console.log("✅ actionIdsFormArray =", this.actionIdsFormArray.value);
+}
+
 
 
   updateRole() {
@@ -231,4 +291,5 @@ get menuIdsFormArray() {
  goBack(){
     window.history.back();
   }
+
 }

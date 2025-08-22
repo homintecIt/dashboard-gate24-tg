@@ -127,14 +127,16 @@
                     {{ formatActionName(menu.name!) }}
                   </label>
 
-                  <!-- Sous-actions alignées -->
                   <div class="ms-4 mt-2" *ngFor="let action of actions; let j = index">
                     <label class="custom-checkbox d-block">
-                      <input type="checkbox" [id]="'action' + i + '-' + j" [value]="action.id" name="action">
+                      <input type="checkbox" [id]="'action' + i + '-' + j"
+                        (change)="onCheckboxChangeAction($event, menu.id!, action.id!)"
+                        [checked]="actionIdsFormArray.value.includes(menu.id + '-' + action.id)">
                       <span class="checkbox-checkmark"></span>
                       {{ action.name }}
                     </label>
                   </div>
+
                 </div>
               </div>
 
@@ -197,11 +199,14 @@
                   <!-- Sous-actions alignées -->
                   <div class="ms-4 mt-2" *ngFor="let action of actions; let j = index">
                     <label class="custom-checkbox d-block">
-                      <input type="checkbox" [id]="'action' + i + '-' + j" [value]="action.id" name="action">
+                      <input type="checkbox" [id]="'action' + i + '-' + j"
+                        (change)="onCheckboxChangeAction($event, menu.id!, action.id!)"
+                        [checked]="actionIdsFormArray.value.includes(menu.id + '-' + action.id)">
                       <span class="checkbox-checkmark"></span>
                       {{ action.name }}
                     </label>
                   </div>
+
                 </div>
               </div>
 
