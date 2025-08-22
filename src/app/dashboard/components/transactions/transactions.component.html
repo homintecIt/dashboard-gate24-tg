@@ -1,21 +1,32 @@
 <div class="row">
   <div class="col-12">
-    <div
-      class="page-title-box d-sm-flex align-items-center justify-content-between"
-    >
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
       <h4 class="mb-sm-0">Liste des Transactions</h4>
+
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard/listesComptes">Liste des comptes</a>
           </li>
           <li class="breadcrumb-item active">Liste des Transactions</li>
         </ol>
       </div>
     </div>
   </div>
-</div>
 
+  <div class="col-12">
+    <div class="p-2">
+
+      <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
+        <i class="ri-arrow-left-s-fill"></i>
+        Retour</a>
+      <br>
+    </div>
+  </div>
+</div>
 <div class="container-fluid">
   <!-- Filtres de recherche -->
   <div class="row mb-3">
@@ -115,7 +126,7 @@
                 </td>
                 <td>{{ transaction.solde | currency:'XOF':'symbol':'1.2-2' }}</td>
                 <td>{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</td>
-               
+
               </tr>
               <tr *ngIf="transactions.length === 0 && !loading">
                 <td colspan="7" class="text-center">Aucune transaction trouvée</td>

@@ -142,16 +142,16 @@
 
                     </span>
 
-                    <button class="btn btn-sm btn-danger" (click)="dialogModalDeleteCompte(compte)" title="Supprimer ce compte">
+                    <button class="btn btn-sm btn-danger" (click)="dialogModalDeleteCompte(compte)" title="Supprimer ce compte" [disabled]="compte.solde != '0'">
                       <i class="ri-delete-bin-line">Supprimer</i>
                     </button>
 
 
                   </span>
 
-                  <ng-template #deletedActions>
-                    <span class="d-flex gap-2 justify-content-center align-items-center">
-                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte" (click)="dialogModalRestoreCompte(compte)">
+                  <ng-template #deletedActions >
+                    <span class="d-flex gap-2 justify-content-center align-items-center" >
+                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte" (click)="dialogModalRestoreCompte(compte)" [disabled]="client?.statut == 'deleted'">
                         <i class="ri-history-line">Restaurer</i>
                       </button>
                     </span>

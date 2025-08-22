@@ -35,6 +35,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   selectedTransaction?: Transaction;
+  accountNumber?: string;
   isEditModalOpen = false;
   isDetailsModalOpen = false;
   isStatusChanging = false;
@@ -50,6 +51,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(params => {
       if (params['accountNumber']) {
         this.searchTerm = params['accountNumber'];
+        this.accountNumber = params['accountNumber'];
       }
       this.loadTransactions();
     });
@@ -208,6 +210,10 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       'debit': 'Débit'
     };
     return typeMap[type] || type;
+  }
+
+  goBack(): void {
+    window.history.back();
   }
 
   // Écoute des transaction

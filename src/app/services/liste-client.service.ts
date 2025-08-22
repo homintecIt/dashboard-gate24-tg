@@ -140,17 +140,22 @@ getAccounts( page: number = 1,
 loadAccounts(
   page: number = 1,
   limit: number = 0,
-  filter?: string
+  filter?: string,
+  solde?: number
 ): Observable<ApiResponse<Client>> {
   this.loadingSubject.next(true);
 
-  return this.http
-    .post<ApiResponse<Client>>(`${this.apiUrl}/comptes/all`, {
-      page,
-      limit,
-      accountNumber:filter // Le terme de recherche sera passé ici
+  // Build payload conditionally
+  const body: any = { page, limit };
+  if (typeof filter === 'string' && filter.trim() !== '') {
+    body.accountNumber = filter.trim();
+  }
+  if (typeof solde === 'number' && !isNaN(solde)) {
+    body.solde = solde;
+  }
 
-    })
+  return this.http
+    .post<ApiResponse<Client>>(`${this.apiUrl}/comptes/all`, body)
     .pipe(
       tap((response) => {
         this.accountSubject.next(response.items);

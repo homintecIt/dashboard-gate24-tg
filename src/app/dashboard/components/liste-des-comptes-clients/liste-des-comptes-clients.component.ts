@@ -15,6 +15,7 @@ import { swalAnimation } from 'src/app/misc/utilities.misc';
 export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
+  private searchSubjectMontant = new Subject<string>();
 
   selectedAccount?: Account;
   isEditModalOpen = false;
@@ -34,6 +35,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
 
   // Recherche
   searchTerm = '';
+  searchTermMontant: number | undefined = undefined;
 
   // États
   loading = false;
@@ -67,7 +69,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     // Chargement initial
     this.loadAccounts();
 
-    // Nouvelle configuration pour la recherche dynamique
+    // Nouvelle configuration pour la recherche dynamique (par numéro de compte)
     this.searchSubject.pipe(
       debounceTime(300), // Attendre 300ms après la dernière frappe
       distinctUntilChanged(), // Ignorer si la valeur est identique à la précédente
@@ -75,9 +77,26 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     ).subscribe(searchTerm => {
       // Réinitialiser à la page 1 lors d'une nouvelle recherche
       this.currentPage = 1;
+      this.searchTerm = searchTerm ?? '';
+      // Charger les comptes avec les filtres
+      this.loadAccounts(this.currentPage, this.searchTerm, this.searchTermMontant);
+    });
 
-      // Charger les abonnements avec le terme de recherche
-      this.loadAccounts(this.currentPage, searchTerm);
+    // Recherche dynamique par montant (solde)
+    this.searchSubjectMontant.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(term => {
+      this.currentPage = 1;
+      const raw = (term ?? '').toString().trim();
+      if (raw === '') {
+        this.searchTermMontant = undefined; // champ vidé => ne pas envoyer 'solde'
+      } else {
+        const parsed = Number(raw.replace(',', '.'));
+        this.searchTermMontant = isNaN(parsed) ? undefined : parsed;
+      }
+      this.loadAccounts(this.currentPage, this.searchTerm, this.searchTermMontant);
     });
     console.log(this.account);
 
@@ -89,10 +108,10 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     this.searchSubject.complete();
   }
 
-  // Chargement desloadAccounts pour accepter un terme de recherche
-  loadAccounts(page: number = 1, searchTerm?: string): void {
+  // Chargement des comptes avec filtres: numéro de compte et solde
+  loadAccounts(page: number = 1, searchTerm?: string, solde?: number): void {
     this.accountService
-      .loadAccounts(page, this.itemsPerPage, searchTerm)
+      .loadAccounts(page, this.itemsPerPage, searchTerm, solde)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -124,6 +143,11 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
   onSearch(event: any): void {
     const searchTerm = event.target.value;
     this.searchSubject.next(searchTerm);
+  }
+
+  onSearchMontant(event: any): void {
+    const searchTermMontant = event.target.value;
+    this.searchSubjectMontant.next(searchTermMontant);
   }
 
   // Génération des pages
@@ -158,7 +182,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
   onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.loadAccounts(page);
+      this.loadAccounts(page, this.searchTerm, this.searchTermMontant);
     }
   }
 
@@ -172,7 +196,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     console.log(this.currentPage);
 
     this.accountService
-      .loadAccounts(this.currentPage, this.itemsPerPage,this.searchTerm)
+      .loadAccounts(this.currentPage, this.itemsPerPage,this.searchTerm,this.searchTermMontant)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -190,7 +214,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
 
   // Rafraîchissement
   refreshData(): void {
-    this.loadAccounts(this.currentPage);
+    this.loadAccounts(this.currentPage, this.searchTerm, this.searchTermMontant);
   }
 
   // Suppression client (via uuid)
