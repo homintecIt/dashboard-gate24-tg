@@ -65,7 +65,7 @@
           <tr *ngFor="let perm of role.permissions">
             <td>{{ perm.menu.name }}</td>
             <td>
-              <span *ngFor="let action of perm.actions" class="badge bg-secondary me-1 text-light fs-6">
+              <span *ngFor="let action of perm.actions" class="badge bg-primary me-1 text-light fs-6">
                 {{ action.name }}
               </span>
             </td>

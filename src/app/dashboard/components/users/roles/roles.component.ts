@@ -209,7 +209,24 @@ export class RolesComponent implements OnInit {
       perm.actions.forEach((action: any) => {
         const key = perm.menu.id + '-' + action.id;
         this.actionIdsFormArray.push(new FormControl(key));
+    let menu = this.menusSelection.find(m => m.menuId! === perm.menu.id);
+      if (!menu) {
+        // si le menu n’existe pas encore
+        this.menusSelection.push({
+          menuId: perm.menu.id,
+          actions: [action.id],
+        });
+      } else {
+        // ajoute l’action si pas déjà présente
+        if (!menu.actions.includes(action.id)) {
+          menu.actions.push(action.id);
+        }
+      }
+
       });
+
+
+
     });
 
 
@@ -271,7 +288,6 @@ export class RolesComponent implements OnInit {
       }
     }
 
-
   }
 
 
@@ -289,8 +305,12 @@ export class RolesComponent implements OnInit {
       menus: this.menusSelection
     };
 
+
+    console.log("okoko", this.actionIdsFormArray.value);
+
+
     this.loading = true;
-    this.rolesService.updateRolePermissions(payload).subscribe({
+  this.rolesService.updateRolePermissions(payload).subscribe({
       next: (resp: any) => {
         this.loading = false;
         this.getRoles();
