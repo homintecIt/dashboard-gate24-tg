@@ -73,7 +73,9 @@
             <div class="d-flex gap-3">
 
               <div class="search-box">
-                <button class="btn btn-info btn-sm " (click)="createClient(client.id)"> Créer un compte
+                <button class="btn btn-info btn-sm " (click)="createClient(client.id)"
+                *ngIf="permissionService.hasPermission('Gestion comptes', 'ajouter')"
+                > Créer un compte
                 </button>
               </div>
             </div>

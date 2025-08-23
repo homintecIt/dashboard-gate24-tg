@@ -87,10 +87,14 @@
                 <td>{{ item.client?.tel }}</td>
                 <td>{{item.client?.typeClient}}</td>
                 <td class="d-flex justify-content-between">
-                  <a [routerLink]="['/dashboard/listesComptesClient/details/', item.accountNumber]"  class=""
+                  <a [routerLink]="['/dashboard/listesComptesClient/details/', item.accountNumber]"
+                   *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')"
                     ><i class="fs-3 ri-eye-line text-primary"></i
                   ></a>
-                  <button class="btn btn-link p-0 ms-2" (click)="confirmDeleteClient(item)" [disabled]="!item.client?.uuid" title="Supprimer ce client">
+                  <button class="btn btn-link p-0 ms-2" (click)="confirmDeleteClient(item)" [disabled]="!item.client?.uuid"
+                    *ngIf="permissionService.hasPermission('Gestion comptes', 'supprimer')"
+
+                  title="Supprimer ce client">
                     <i class="fs-3 ri-delete-bin-line text-danger"></i>
                   </button>
                   <!-- <a href="" class=""

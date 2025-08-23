@@ -23,7 +23,7 @@
 
           <!--        <button type="button"   class="btn btn-outline-light" data-bs-toggle="modal"
               (click)="onMenu()">Menus utilisateur</button> -->
-              <button type="button" (click)="onRoles()" class="btn btn-secondary" data-bs-toggle="modal"
+              <button type="button" (click)="onRoles()" class="btn btn-secondary" data-bs-toggle="modal" *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'consulter') || authService.userRole ==='Admin'"
             >Roles et Permissions</button>
             <button
               class="btn btn-outline-light"

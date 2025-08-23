@@ -6,6 +6,7 @@ import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service'
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import Swal from 'sweetalert2';
 import { swalAnimation } from 'src/app/misc/utilities.misc';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-liste-des-comptes-clients',
@@ -43,8 +44,9 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
 
   constructor(
     private accountService: ListesClientService,
-    private modalService: BootstrapModalService,
     private sweetAlert: SweetAlertService,
+    public permissionService : PermissionService,
+
   ) {}
 
 

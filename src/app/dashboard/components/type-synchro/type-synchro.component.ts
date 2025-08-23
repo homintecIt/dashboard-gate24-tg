@@ -95,7 +95,6 @@ toggleStatus(item: any,event: Event): void {
 
 
 openDetailsModal(server: any): void {
-  console.log('Ouverture des détails:', server  );
   this.modalServices.openModal(
     TypeSynchroEditComponent,
     server,

@@ -8,7 +8,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   selector: 'app-type-synchro-edit',
   template:`
   <div class="modal-header">
-  <h4 class="modal-title">Ajouter un Serveur</h4>
+  <h4 class="modal-title">Modifier la frequence de synchronisation</h4>
   <button type="button" class="btn-close" (click)="this.bsModalRef.hide()"></button>
 </div>
 <div class="modal-body">
@@ -29,14 +29,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
               <option value="client">client</option>
               <option value="compte">compte</option>
               <option value="updateClient">updateClient</option>
-              <option value="updateAbonnement'">updateAbonnement'</option>
+              <option value="updateAbonnement'">updateAbonnement</option>
             </select>
-      <div
-        *ngIf="editForm.get('type')?.invalid && (editForm.get('type')?.dirty || editForm.get('type')?.touched)"
-        class="text-danger"
-      >
-        Le type est requis
-      </div>
+
     </div>
 
     <app-cron-select
@@ -87,13 +82,12 @@ ngOnInit():void{
   if (this.data) {
     this.currentCronValue= this.data.time
     this.editForm = this.fb.group({
-      type: [this.data.type, Validators.required],
+      type: [this.data.type],
       status: [this.data.status, Validators.required],
       id: [this.data.id, Validators.required],
       time:[this.data.time, ]
     });
-    console.log(this.editForm.value.time);
-
+this.editForm.get('type')?.disable();
   }
 }
 onCronValueSelected(cronValue: string) {
@@ -106,10 +100,13 @@ onCronValueSelected(cronValue: string) {
 
   onSubmit() : void{
     if (this.editForm.valid && !this.isSubmitting) {
-      console.log(this.editForm.value.time);
-
+        this.editForm.patchValue({
+          time: this.editForm.value.time,
+        })
+        /////this.editForm.get('type')?.enable();
+      const payload = this.editForm.getRawValue();
       this.isSubmitting = true;
-      this.typeSynchroService.updateSynchroStatus(this.editForm.value.type,this.editForm.value.status,this.editForm.value.id,this.editForm.value.time).subscribe({
+      this.typeSynchroService.updateSynchroStatus(payload.type,payload.status,payload.id,payload.time).subscribe({
         next: (response:any) => {
           this.isSubmitting = false;
           this.bsModalRef.hide();

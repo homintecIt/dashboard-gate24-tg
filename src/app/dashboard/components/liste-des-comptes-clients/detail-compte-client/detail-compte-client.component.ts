@@ -38,6 +38,6 @@ export class DetailCompteClientComponent implements OnInit {
     );
   }
   goBack() {
-    this.router.navigate(['/dashboard/listesClients']);
+    window.history.back();
   }
 }

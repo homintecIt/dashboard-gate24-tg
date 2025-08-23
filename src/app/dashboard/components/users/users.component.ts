@@ -12,6 +12,8 @@ import { UsersAffectRouteModalComponent } from './users-affect-route-modal/users
 import { UsersCreateModalComponent } from './users-create-modal/users-create-modal.component';
 import { Menus } from 'src/app/models/menus.model';
 import { Router } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -50,6 +52,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService,
     private modalService: BootstrapModalService,
     private router: Router,
+        public permissionService : PermissionService,
+        public authService:AuthService
 
   ) {}
 

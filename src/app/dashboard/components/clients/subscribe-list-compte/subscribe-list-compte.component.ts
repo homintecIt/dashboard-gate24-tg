@@ -14,6 +14,8 @@ import { TransfertTagComponent } from '../transfert-tag/transfert-tag.component'
 import { AddTagCompteComponent } from '../add-tag-compte/add-tag-compte.component';
 import { SaveTagComponent } from '../save-tag/save-tag.component';
 import { SaveTagWithouAmountComponent } from '../save-tag-without-amount/save-tag-without-amount.component';
+import { PermissionService } from 'src/app/services/permission.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -56,6 +58,10 @@ accountNumber:any;
     private modalService: BootstrapModalService,
         private generalService: GeneralService,
     private sweetAlertService: SweetAlertService,
+    public permissionService : PermissionService,
+    public authService:AuthService
+
+
 
 
   ) {}

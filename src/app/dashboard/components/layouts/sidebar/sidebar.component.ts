@@ -8,6 +8,7 @@ import { DateModalComponent } from '../../financial-data/date-modal/date-modal.c
 import { RechercheModalComponent } from '../../enroulements/recherche-modal/recherche-modal.component';
 import { SearchListComponent } from '../../enroulements/search-list/search-list.component';
 import { PermissionService } from 'src/app/services/permission.service';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -17,7 +18,9 @@ export class SidebarComponent {
 
   constructor(
     private modalService: BootstrapModalService,
-    public permissionService : PermissionService
+    public permissionService : PermissionService,
+    public authService:AuthService
+
 
   ) {}
 

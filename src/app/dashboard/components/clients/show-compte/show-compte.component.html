@@ -36,7 +36,9 @@
         <div class="card">
           <div class="card-header bg-primary d-flex justify-content-between align-items-center">
             <h4 class="card-title text-white">Information du client</h4>
-            <button class="btn btn-info btn-sm " (click)="editClient(detail?.compte.client || detail)"> Modifier </button>
+            <button class="btn btn-info btn-sm "
+              *ngIf="permissionService.hasPermission('Gestion clients', 'modifier')"
+            (click)="editClient(detail?.compte.client || detail)"> Modifier </button>
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
@@ -88,7 +90,9 @@
         <div class="card">
           <div class="card-header bg-primary d-flex justify-content-between align-items-center">
             <h4 class="card-title text-white">Détail Compte</h4>
-            <button class="btn btn-info btn-sm " (click)="createClient(detail?.compte?.client.id)"> Créer un compte
+            <button class="btn btn-info btn-sm "
+              *ngIf="permissionService.hasPermission('Gestion comptes', 'supprimer')"
+            (click)="createClient(detail?.compte?.client.id)"> Créer un compte
             </button>
           </div>
           <div class="card-body">
@@ -107,9 +111,13 @@
                 <span>{{ detail?.compte?.created_at | date }}</span>
               </li>
               <li class="text-end mt-3">
-                <button class="btn btn-primary me-2" (click)="rechargeAccount(detail?.compte?.accountNumber, 'compte')">
+                <button class="btn btn-primary me-2"
+                *ngIf="permissionService.hasPermission('Gestion recharges', 'ajouter')"
+                (click)="rechargeAccount(detail?.compte?.accountNumber, 'compte')">
                   Recharger </button>
-                  <button class="btn btn-info  " (click)="addTag(detail?.compte?.id)"> Ajouter un tag </button>
+                  <button class="btn btn-info"
+                  *ngIf="permissionService.hasPermission('Gestion abonnement', 'ajouter')"
+                  (click)="addTag(detail?.compte?.id)"> Ajouter un tag </button>
                 <!-- <button class="btn btn-danger " (click)="dialogModalStatus(detail?.compte)"> Désactiver </button> -->
               </li>
             </ul>
@@ -165,7 +173,7 @@
                     <td>
 
 
-                      <span *ngIf="item.statutTarg != 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+                      <span *ngIf="item.statutTarg != 'deleted' && permissionService.hasPermission('Gestion abonnement', 'modifier')" class="d-flex gap-2 justify-content-center align-items-center">
                         <span class="btn btn-outline-primary btn-sm" (click)="dialogModalStatus(item)"
                           title="{{ item.statutTarg == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
                           <i ngClass="{{ item.statutTarg == 'actived' ? 'fa fa-lock-open' : 'fa fa-lock' }}"> {{
@@ -173,22 +181,28 @@
                         </span>
 
                         <span class="btn btn-outline-info btn-sm" (click)="dialogModalChangeModePassage(item)"
+                          *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
                           title="Passage mode">
                           <i class="fas fa-walking" > {{ item.isExo ===  true ? 'Non Exonerer': 'Exonerer'}} </i>
                         </span>
 
                         <span class="btn btn-outline-danger btn-sm" (click)="dialogModalDelete(item)"
+                          *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
+
                           title="Supprimer ce tag">
                           <i class="fa fa-trash"> Retirer </i>
                         </span>
 
                          <span class="btn btn-warning btn-sm" (click)="transferClient(item)"
+                          *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
+
                           title="Supprimer ce tag">
                           <i class="fas fa-exchange-alt">Transfert</i>
                         </span>
                       </span>
 
-                      <span  *ngIf="item.statutTarg == 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+
+                      <span  *ngIf="item.statutTarg == 'deleted' && authService.userRole ==='Admin'" class="d-flex gap-2 justify-content-center align-items-center">
                         <span class="btn btn-primary-info btn-sm" (click)="dialogModalRestaureStatus(item)"  ngClass="{{ 'bg-warning' }}"> {{
                         'Restorer' }} </span>
                       </span>

@@ -17,6 +17,8 @@ import { storageHelper } from 'src/app/misc/storage.misc';
 import { EditClientModalComponent } from '../edit-client-modal/edit-client-modal.component';
 import { data } from 'jquery';
 import { EditClientComponent } from '../edit-client/edit-client.component';
+import { PermissionService } from 'src/app/services/permission.service';
+import { AuthService } from 'src/app/services/auth.service';
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
 });
@@ -31,12 +33,13 @@ export class ShowCompteComponent implements OnInit {
 
   detail :any;
   constructor(
-    private route: ActivatedRoute,
-    private clientService: ListesClientService,
+    public authService:AuthService,
     private generalService: GeneralService,
     private sweetAlertService: SweetAlertService,
     private modalService: BootstrapModalService,
     private router: Router,
+    public permissionService : PermissionService,
+
 
 
   ) {
@@ -65,10 +68,6 @@ export class ShowCompteComponent implements OnInit {
 
 
   loadData() {
-
-
-    console.log("load");
-
       this.generalService.successEvent.subscribe((data: any) => {
       const value = storageHelper.local.get(`${searchType}`);
       this.getData(value);

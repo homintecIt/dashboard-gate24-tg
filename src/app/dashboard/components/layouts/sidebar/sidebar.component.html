@@ -200,7 +200,7 @@
                     <a routerLink="/dashboard/settings/type-synchro" class="nav-link" data-key="t-utilities">Liste des
                       synchro</a>
                   </li>
-                  <li class="nav-item" *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'consulter')">
+                  <li class="nav-item" *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'consulter') || authService.userRole ==='Admin'">
                     <a routerLink="/dashboard/users" class="nav-link" data-key="t-utilities">Liste des utilisateurs</a>
                   </li>
                   <li class="nav-item">

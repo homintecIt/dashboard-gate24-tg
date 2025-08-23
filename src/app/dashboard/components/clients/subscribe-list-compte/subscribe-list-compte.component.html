@@ -143,31 +143,35 @@
                         </span>
 
                         <span class="btn btn-outline-info btn-sm" (click)="dialogModalChangeModePassage(sub)"
+                *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
+
                           title="Passage mode">
                           <i class="fas fa-walking" > {{ sub.isExo ===  true ? 'Non Exonerer': 'Exonerer'}} </i>
                         </span>
 
                         <span class="btn btn-outline-danger btn-sm" (click)="dialogModalDelete(sub)"
+                *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
+
                           title="Supprimer ce tag">
                           <i class="fa fa-trash"> Retirer </i>
                         </span>
 
                          <span class="btn btn-warning btn-sm" (click)="transferClient(sub)"
+                *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
                           title="Supprimer ce tag">
                           <i class="fas fa-exchange-alt">Transfert</i>
                         </span>
                       </span>
 
 
-
-
-                      <span  *ngIf="sub.statutTarg == 'deleted'" class="d-flex gap-2 justify-content-center align-items-center">
+                      <span  *ngIf="sub.statutTarg == 'deleted' && authService.userRole ==='Admin'" class="d-flex gap-2 justify-content-center align-items-center">
                         <span class="btn btn-primary-info btn-sm" (click)="dialogModalRestaureStatus(sub)"  ngClass="{{ 'bg-warning' }}"> {{
                         'Restorer' }} </span>
                       </span>
 
 
                             <span class="btn btn-secondary btn-sm text-black-100"
+                             *ngIf="permissionService.hasPermission('Transactions', 'consulter')"
                                   [routerLink]="['/dashboard/transaction/byTag']"
                           [queryParams]="{ tag: sub.tagId }"
 

@@ -76,7 +76,7 @@ const routes: Routes = [
       },
       { path: "transactions", component: TransactionsComponent,
          canActivate: [PermissionGuard],
-          data: { menu: 'Gestion utilisateurs' }
+          data: { menu: 'Transactions' }
        },
       { path: "transaction/byTag", component: TransactionListSubscribeComponent },
       { path: 'clients/details/:tel', component: EditClientModalComponent },
