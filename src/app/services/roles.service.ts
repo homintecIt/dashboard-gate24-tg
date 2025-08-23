@@ -30,7 +30,26 @@ export class RolesService {
   }
 
   submitRolePermissions(rolePermissions: any) {
- return this.httpClient.post('/roles/assign-permissions', rolePermissions);
+ return this.httpClient.post( `${apiEndpoints.rolesUrl}/assign-permissions/save`, rolePermissions);
 }
 
+
+
+  updateRolePermissions(rolePermissions: any) {
+ return this.httpClient.post(`${apiEndpoints.rolesUrl}/assign-permissions/update`, rolePermissions);
 }
+
+
+
+
+
+  getRolesWithPermissions() {
+ return this.httpClient.get(`${apiEndpoints.rolesUrl}/with/menus/action`);
+}
+
+
+
+}
+
+
+

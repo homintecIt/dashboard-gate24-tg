@@ -1,8 +1,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://192.168.188.7:3000/api/v2/homintec',
-  apiTestUrl: 'http://192.168.188.7:3000/api/v2/homintec'
+  apiUrl: 'http://127.0.0.1:3000/api/v2/homintec',
+  apiTestUrl: 'http://127.0.0.1:3000/api/v2/homintec'
 
 
 };

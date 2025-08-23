@@ -4,6 +4,7 @@ export class Menus {
   updated_at?: Date;
   name?: string;
   path?: number;
+  actions? :number[]
   ///selected?: boolean;
 }
 export interface MenusWithSelected extends Menus {

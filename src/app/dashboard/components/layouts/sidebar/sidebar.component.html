@@ -39,7 +39,7 @@
           <a class="nav-link menu-link" href="#Clients" data-bs-toggle="collapse" role="button" aria-expanded="false"
             aria-controls="Clients">
             <i class="ri-user-star-line"></i>
-            <span data-key="t-widgets">Clients</span>
+            <span data-key="t-widgets">Gestion clients</span>
           </a>
           <div class="collapse menu-dropdown mega-dropdown-menu" id="Clients">
             <div class="row">
@@ -47,22 +47,22 @@
                 <ul class="nav nav-sm flex-column">
 
 
-                  <li class="nav-item text-dark">
+                  <li class="nav-item text-dark" *ngIf="permissionService.hasPermission('Gestion clients', 'ajouter')">
                     <a routerLink="/dashboard/add-client" class="nav-link" data-key="t-ribbons">
                       <i class="ri-add-line"></i>
 
                       Nouveau Clients</a>
                   </li>
 
-                  <li class="nav-item text-dark">
-                    <a type="button" (click)="newCompte()" class="nav-link" data-key="t-ribbons">
+                  <li class="nav-item text-dark" *ngIf="permissionService.hasPermission('Gestion clients', 'consulter')">
+                    <a type="button" (click)="newCompte()" class="nav-link" data-key="t-ribbons" >
                       <i class="ri-record-circle-line"></i>
 
                       Consulter un client</a>
                   </li>
 
                   <li>
-                    <a class="nav-link menu-link" routerLink="/dashboard/listesClients">
+                    <a class="nav-link menu-link" routerLink="/dashboard/listesClients"  *ngIf="permissionService.hasPermission('Gestion clients', 'consulter')">
                       <i class="ri-user-star-line"></i>
                       <span data-key="t-widgets">Listes des clients</span>
                     </a>
@@ -80,13 +80,13 @@
           <a class="nav-link menu-link" href="#Abonnements" data-bs-toggle="collapse" role="button"
             aria-expanded="false" aria-controls="Abonnements">
             <i class="ri-bank-card-line"></i>
-            <span data-key="t-widgets">Abonnements</span>
+            <span data-key="t-widgets">Gestion abonnements</span>
           </a>
           <div class="collapse menu-dropdown mega-dropdown-menu" id="Abonnements">
             <div class="row">
               <div class="col-lg-4">
                 <ul class="nav nav-sm flex-column">
-                  <li class="nav-item text-dark">
+                  <li class="nav-item text-dark"  *ngIf="permissionService.hasPermission('Gestion abonnement', 'ajouter')">
                     <a type="button" (click)="searchChoice()" class="nav-link" data-key="t-ribbons">
                       <i class="ri-add-line"></i>
 
@@ -94,13 +94,13 @@
                   </li>
 
 
-                  <li class="nav-item text-dark">
+                  <li class="nav-item text-dark"  *ngIf="permissionService.hasPermission('Gestion abonnement', 'consulter')">
                     <a type="button" (click)="showTag()" class="nav-link" data-key="t-ribbons">
                       <i class="ri-record-circle-line"></i>
 
                       Consulter un abonnement</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item"  *ngIf="permissionService.hasPermission('Gestion abonnement', 'consulter')">
                     <a class="nav-link menu-link" routerLink="/dashboard/subscribe-list">
                       <i class="ri-dashboard-2-line"></i>
                       <span data-key="t-widgets">Liste des Abonnements</span>
@@ -119,29 +119,29 @@
           <a class="nav-link menu-link" href="#Comptes" data-bs-toggle="collapse" role="button" aria-expanded="false"
             aria-controls="Comptes">
             <i class="ri-user-star-line"></i>
-            <span data-key="t-widgets">Comptes Client</span>
+            <span data-key="t-widgets">Gestion comptes Client</span>
           </a>
           <div class="collapse menu-dropdown mega-dropdown-menu" id="Comptes">
             <div class="row">
               <div class="col-lg-4">
                 <ul class="nav nav-sm flex-column">
-                  <li class="nav-item text-dark">
+                  <li class="nav-item text-dark" *ngIf="permissionService.hasPermission('Gestion comptes', 'ajouter')">
                     <a type="button" (click)="newCompte()" class="nav-link" data-key="t-ribbons">
                       <i class="ri-record-circle-line"></i>
 
                       Nouveau compte</a>
                   </li>
 
-                  <li class="nav-item text-dark">
+                  <li class="nav-item text-dark" *ngIf="permissionService.hasPermission('Gestion recharges', 'ajouter')">
                     <a type="button" (click)="showCompte()" class="nav-link" data-key="t-ribbons">Recharge Compte</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item"  *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')">
                     <a class="nav-link menu-link" routerLink="/dashboard/listesComptesClient">
                       <i class="ri-bank-card-line"></i>
                       <span data-key="t-widgets">Liste des comptes</span>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item"  *ngIf="permissionService.hasPermission('Gestion recharges', 'consulter')">
                     <a class="nav-link menu-link" routerLink="/dashboard/recharges-list">
                       <i class="ri-exchange-dollar-line"></i>
                       <span data-key="t-widgets">Liste des recharges</span>
@@ -154,7 +154,9 @@
           </div>
         </li>
 
-        <li (click)="openMonthlyReport()" class="nav-item">
+
+
+        <li (click)="openMonthlyReport()" class="nav-item" *ngIf="permissionService.hasPermission('Gestion Rapports', 'consulter')">
           <a class="nav-link menu-link" href="Javascript:void(0);">
             <i class="ri-rhythm-line"></i>
             <span data-key="t-widgets">Tout les Rapports</span>
@@ -173,7 +175,7 @@
           </a>
         </li> -->
 
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="permissionService.hasPermission('Transactions', 'consulter')">
           <a class="nav-link menu-link" routerLink="/dashboard/transactions">
             <i class="ri-git-repository-line"></i>
             <span data-key="t-widgets">Transactions</span>
@@ -181,7 +183,7 @@
         </li>
 
 
-        <li class="nav-item">
+        <li class="nav-item"  *ngIf="permissionService.hasPermission('Gestion parametres', 'consulter')">
           <a class="nav-link menu-link" href="#sidebarUI" data-bs-toggle="collapse" role="button" aria-expanded="false"
             aria-controls="sidebarUI">
             <i class="ri-settings-2-line"></i>
@@ -198,7 +200,7 @@
                     <a routerLink="/dashboard/settings/type-synchro" class="nav-link" data-key="t-utilities">Liste des
                       synchro</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'consulter')">
                     <a routerLink="/dashboard/users" class="nav-link" data-key="t-utilities">Liste des utilisateurs</a>
                   </li>
                   <li class="nav-item">

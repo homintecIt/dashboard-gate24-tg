@@ -1,3 +1,4 @@
+import { permissions } from './../../../../misc/utilities.misc';
 import { Component, OnInit } from '@angular/core';
 import { ListesClientService } from 'src/app/services/liste-client.service';
 import { Client } from 'src/app/models/listeClient.model';
@@ -7,6 +8,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import Swal from 'sweetalert2';
 import { swalAnimation } from 'src/app/misc/utilities.misc';
+import { PermissionService } from 'src/app/services/permission.service';
 
 interface FilterPayload {
   nom?: string;
@@ -48,7 +50,9 @@ export class ListeDesClientsComponent implements OnInit {
   constructor(
     private clientService: ListesClientService,
     private modalService: BootstrapModalService,
-    private sweetAlert: SweetAlertService
+    private sweetAlert: SweetAlertService,
+    public permissionService : PermissionService
+
   ) {}
 
   openDetailsModal(client: Client): void {

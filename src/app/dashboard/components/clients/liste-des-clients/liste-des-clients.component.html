@@ -82,10 +82,10 @@
                 <td scope="col" class="text-center" >{{ item.cin }}</td>
                 <td scope="col" class="text-center" >{{ item.created_at | date : "short" }}</td>
                 <td class="d-flex justify-content-center gap-3">
-                  <a [routerLink]="['/dashboard/clients/details/', item.tel]" class="text-primary" title="Détails">
+                  <a [routerLink]="['/dashboard/clients/details/', item.tel]" class="text-primary" title="Détails" *ngIf="permissionService.hasPermission('Gestion clients', 'consulter')">
                     <i class=" ri-eye-line fs-4 text-secondary"></i>
                   </a>
-                  <button type="button"
+                  <button type="button" *ngIf="permissionService.hasPermission('Gestion clients', 'supprimer')"
                           class="btn btn-link p-0 text-danger"
                           title="Supprimer"
                           (click)="confirmDeleteClient(item)"

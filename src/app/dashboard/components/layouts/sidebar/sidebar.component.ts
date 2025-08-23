@@ -7,6 +7,7 @@ import { PeriodReportModalComponent } from '../../period-report/period-report-mo
 import { DateModalComponent } from '../../financial-data/date-modal/date-modal.component';
 import { RechercheModalComponent } from '../../enroulements/recherche-modal/recherche-modal.component';
 import { SearchListComponent } from '../../enroulements/search-list/search-list.component';
+import { PermissionService } from 'src/app/services/permission.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -15,7 +16,10 @@ import { SearchListComponent } from '../../enroulements/search-list/search-list.
 export class SidebarComponent {
 
   constructor(
-    private modalService: BootstrapModalService,  ) {}
+    private modalService: BootstrapModalService,
+    public permissionService : PermissionService
+
+  ) {}
 
 
     openPassagesModal(): void {

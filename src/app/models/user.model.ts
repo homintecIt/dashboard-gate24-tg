@@ -1,3 +1,4 @@
+import { Role } from './../dashboard/components/services/users-service.service';
 
 export class User {
   id?: number;
@@ -13,5 +14,5 @@ export class User {
   remember_token?: string;
   account_number?: string;
   is_active?: boolean;
-  role?: string;
+  role?: Role;
 }

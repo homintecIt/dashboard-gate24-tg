@@ -5,5 +5,8 @@ export class Roles {
   created_at?: Date;
   updated_at?: Date;
   name?: string;
-  menus?: Menus [];
+  permissions?:  {
+    menus: Menus;
+    actions: [];
+  }[];
 }

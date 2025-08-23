@@ -30,18 +30,20 @@ interface RolePermission {
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  roles!: Roles[];
-  actions: any[] =[] ;
-
+  roles: any[] = [];
+  actions: any[] = [];
+  roleId?: number;
   rolesForm: FormGroup = new FormGroup({});
-rolePermissions: RolePermission = {
-  roleId: 1, // id du rôle à modifier
-  menus: []
-};
+  rolePermissions: RolePermission = {
+    roleId: 1, // id du rôle à modifier
+    menus: []
+  };
 
   submitted = false;
   loading = false;
   menus!: Menus[];
+  menusSelection: MenuSelection[] = [];
+
   selectedMenuIds: number[] = [];  // Tableau des IDs sélectionnés
 
   constructor(
@@ -51,7 +53,7 @@ rolePermissions: RolePermission = {
     private formBuilder: FormBuilder,
     private menusService: MenusService,
     private sweetAlertService: SweetAlertService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getRoles();
@@ -69,30 +71,30 @@ rolePermissions: RolePermission = {
   get f(): { [key: string]: AbstractControl } {
     return this.rolesForm.controls;
   }
-formatActionName(text: string): string {
-  let result = text
-    .replace(/_/g, ' ')                  // snake_case
-    .replace(/-/g, ' ')                  // kebab-case
-    .replace(/([a-z])([A-Z])/g, '$1 $2')  // camelCase
-    .toLowerCase();
+  formatActionName(text: string): string {
+    let result = text
+      .replace(/_/g, ' ')                  // snake_case
+      .replace(/-/g, ' ')                  // kebab-case
+      .replace(/([a-z])([A-Z])/g, '$1 $2')  // camelCase
+      .toLowerCase();
 
-  // Traductions spécifiques
-  result = result
-    .replace(/\bupdate\b/g, 'modifier')
-    .replace(/\bdelete\b/g, 'supprimer')
-    .replace(/\badd\b/g, 'ajouter');
+    // Traductions spécifiques
+    result = result
+      .replace(/\bupdate\b/g, 'modifier')
+      .replace(/\bdelete\b/g, 'supprimer')
+      .replace(/\badd\b/g, 'ajouter');
 
-  return result;
-}
-// Getter pour accéder au FormArray plus facilement
-get menuIdsFormArray() {
-  return this.rolesForm.get('menuIds') as FormArray;
-}
+    return result;
+  }
+  // Getter pour accéder au FormArray plus facilement
+  get menuIdsFormArray() {
+    return this.rolesForm.get('menuIds') as FormArray;
+  }
 
 
-get actionIdsFormArray(): FormArray {
-  return this.rolesForm.get('actionIds') as FormArray;
-}
+  get actionIdsFormArray(): FormArray {
+    return this.rolesForm.get('actionIds') as FormArray;
+  }
 
 
 
@@ -133,7 +135,7 @@ get actionIdsFormArray(): FormArray {
 
 
   getRoles() {
-    this.rolesService.getRoles().subscribe({
+    this.rolesService.getRolesWithPermissions().subscribe({
       next: (data: any) => {
         this.roles = data;
       },
@@ -157,7 +159,7 @@ get actionIdsFormArray(): FormArray {
   }
 
 
-  addroles() {
+  submitRolesMenusAction() {
     this.submitted = true;
     if (this.rolesForm.invalid) {
       return;
@@ -165,16 +167,11 @@ get actionIdsFormArray(): FormArray {
 
     this.loading = true;
 
-    // Filtrer les menus sélectionnés et extraire leurs ID
-     // Récupérer les ID des menus sélectionnés
-
-     const formValues = this.rolesForm.value;
-
     const bodyFormData = {
-      name: this.rolesForm.value.name,
-      menuIds: this.selectedMenuIds
+      roleName: this.rolesForm.value.name,
+      menus: this.menusSelection
     };
-    this.rolesService.addRoles(bodyFormData).subscribe({
+    this.rolesService.submitRolePermissions(bodyFormData).subscribe({
       next: (resp: any) => {
         this.loading = false;
         this.getRoles();
@@ -190,33 +187,34 @@ get actionIdsFormArray(): FormArray {
 
 
 
-  submit() {
-/*     const payload = {
-      roleId: this.roleId,
-      menus: this.menus
-        .filter(menu => menu.selected)
-        .map(menu => ({
-          menuId: menu.id,
-          actions: menu.actions.filter(a => a.selected).map(a => a.id),
-        })),
-    }; */
 
-
-  }
-
-  getRole(role: Roles) {
+  openUpdateModal(role: any) {
+    // Nom du rôle
     this.rolesForm.patchValue({
-      id: role.id,
-      name: role.name,  // Assurez-vous que vous utilisez 'name' pour le champ du rôle
+      name: role.name,
     });
-    this.menuIdsFormArray.clear(); // Réinitialiser les cases cochées
 
-    if (role.menus) {
-      role.menus.forEach(menu => {
-        this.menuIdsFormArray.push(new FormControl(menu.id)); // Ajouter les menus déjà sélectionnés
+    this.roleId = role.id;
+
+    // Réinitialiser les FormArray
+    this.menuIdsFormArray.clear();
+    this.actionIdsFormArray.clear();
+
+    // Charger les permissions existantes
+    role.permissions.forEach((perm: any) => {
+      // Menu coché
+      this.menuIdsFormArray.push(new FormControl(perm.menu.id));
+
+      // Actions cochées pour ce menu
+      perm.actions.forEach((action: any) => {
+        const key = perm.menu.id + '-' + action.id;
+        this.actionIdsFormArray.push(new FormControl(key));
       });
-    }
+    });
+
+
   }
+
 
   onCheckboxChangeS(event: any, menuId: number) {
     if (event.target.checked) {
@@ -228,23 +226,53 @@ get actionIdsFormArray(): FormArray {
       }
     }
 
-    console.log("checked ",this.menuIdsFormArray);
-
   }
 
 
   onCheckboxChangeAction(event: any, menuId: number, actionId: number) {
-  const key = `${menuId}-${actionId}`;
+    const key = `${menuId}-${actionId}`;
 
-  if (event.target.checked) {
-    this.actionIdsFormArray.push(new FormControl(key));
-  } else {
-    const index = this.actionIdsFormArray.controls.findIndex(c => c.value === key);
-    if (index !== -1) this.actionIdsFormArray.removeAt(index);
+    const data = {
+      menuId: menuId,
+      actionId: actionId,
+    }
+
+    let menu = this.menusSelection.find(m => m.menuId! === menuId);
+
+    if (event.target.checked) {
+      this.actionIdsFormArray.push(new FormControl(data));
+
+      if (!menu) {
+        // si le menu n’existe pas encore
+        this.menusSelection.push({
+          menuId: menuId,
+          actions: [actionId],
+        });
+      } else {
+        // ajoute l’action si pas déjà présente
+        if (!menu.actions.includes(actionId)) {
+          menu.actions.push(actionId);
+        }
+      }
+    } else {  // Supprime dans le FormArray
+      const index = this.actionIdsFormArray.controls.findIndex(
+        c => c.value.menuId === menuId && c.value.actionId === actionId
+      );
+      if (index !== -1) this.actionIdsFormArray.removeAt(index);
+
+      if (menu) {
+        // enlève l’action
+        menu.actions = menu.actions.filter(a => a !== actionId);
+
+        // supprime le menu si plus d’actions
+        if (menu.actions.length === 0) {
+          this.menusSelection = this.menusSelection.filter(m => m.menuId !== menuId);
+        }
+      }
+    }
+
+
   }
-
-  console.log("✅ actionIdsFormArray =", this.actionIdsFormArray.value);
-}
 
 
 
@@ -255,8 +283,14 @@ get actionIdsFormArray(): FormArray {
       return;
     }
 
+    const payload = {
+      roleName: this.rolesForm.value.name,
+      roleId: this.roleId,
+      menus: this.menusSelection
+    };
+
     this.loading = true;
-    this.rolesService.updateRole(this.rolesForm.value).subscribe({
+    this.rolesService.updateRolePermissions(payload).subscribe({
       next: (resp: any) => {
         this.loading = false;
         this.getRoles();
@@ -280,7 +314,7 @@ get actionIdsFormArray(): FormArray {
     document.getElementById('closeUpdateModal')?.click();
   }
 
-  resetForm(){
+  resetForm() {
     this.rolesForm.reset();
     Object.keys(this.rolesForm.controls).forEach((c) => {
       this.rolesForm.controls[c].setErrors(null);
@@ -288,7 +322,7 @@ get actionIdsFormArray(): FormArray {
   }
 
 
- goBack(){
+  goBack() {
     window.history.back();
   }
 

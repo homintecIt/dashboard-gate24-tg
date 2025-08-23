@@ -1,3 +1,4 @@
+import { UserService } from './../../../dashboard/components/services/users-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -5,6 +6,7 @@ import { Router } from '@angular/router';
 import { storageHelper } from 'src/app/misc/storage.misc';
 import { jwtTokenIdentifier, userIdentifier } from 'src/app/misc/utilities.misc';
 import { AuthService } from 'src/app/services/auth.service';
+import { PermissionService } from 'src/app/services/permission.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 
 @Component({
@@ -23,7 +25,9 @@ export class SignInComponent implements OnInit {
     private authService: AuthService,
     private sweetAlertService: SweetAlertService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private permissionService : PermissionService,
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +85,11 @@ export class SignInComponent implements OnInit {
         this.authService.onAuthSuccess(data);
         this.authService.setAuthUser(data);
         this.sweetAlertService.toastSuccess('Connexion réussie!', 3000);
+        const me = this.userService.getProfile().subscribe(me => {
+  console.log('me réel :', me);
+  this.permissionService.setPermissions(me.permissions);
+      });
+     // this.permissionService.setPermissions(me.permissions!);
         this.resetForm();
       },
       error: (error: HttpErrorResponse) => {

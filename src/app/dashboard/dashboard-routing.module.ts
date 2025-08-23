@@ -26,35 +26,73 @@ import { ShowCompteComponent } from './components/clients/show-compte/show-compt
 import { ShowtagComponent } from './components/clients/show-tag/show-tag.component';
 import { MenusComponent } from './components/users/menus/menus.component';
 import { RolesComponent } from './components/users/roles/roles.component';
+import { PermissionGuard } from '../guards/permission.guard';
 const routes: Routes = [
   {
+
+
     path: "", component: MainComponent,
     children: [
-      { path: "statistics", component: StatisticsComponent },
+      { path: "statistics", component: StatisticsComponent,
+
+       },
       { path: "enroulement", component: EnroulementComponent },
-      { path: "recharges-list", component: RechargesListComponent },
-      { path: "subscribe-list", component: SubscribeListComponent },
-      { path: "subscribe-list/compte", component: SubscribeListCompteComponent },
+      { path: "recharges-list", component: RechargesListComponent ,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion utilisateurs' }
+      },
+      { path: "subscribe-list", component: SubscribeListComponent ,
+         canActivate: [PermissionGuard],
+          data: { menu: "Gestion abonnement" }
+      },
+      { path: "subscribe-list/compte", component: SubscribeListCompteComponent,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion comptes' }
+       },
       { path: "passage-daily", component: PassageDailyComponent },
       { path: "passage-by-subscriber", component: PassageBySubscriberComponent },
-      { path: "listesClients", component: ListeDesClientsComponent },
-      { path: "listesComptesClient", component: ListeDesComptesClientsComponent },
+      { path: "listesClients", component: ListeDesClientsComponent ,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion clients' }
+      },
+      { path: "listesComptesClient", component: ListeDesComptesClientsComponent,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion clients' }
+       },
       { path: "passage-monthly", component: MonthlyReportComponent },
       { path: "passage-period", component: PeriodReportComponent },
-      { path: "settings/type-synchro", component: TypeSynchroComponent },
+      { path: "settings/type-synchro", component: TypeSynchroComponent,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion utilisateurs' }
+       },
       { path: 'financial-data', component: FinancialDataComponent },
-      { path: "listeServer", component: ServersComponent },
-      { path: "users", component: UsersComponent },
-      { path: "transactions", component: TransactionsComponent },
+      { path: "listeServer", component: ServersComponent ,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion utilisateurs' }
+      },
+      { path: "users", component: UsersComponent ,
+          canActivate: [PermissionGuard],
+          data: { menu: 'Gestion utilisateurs' }
+      },
+      { path: "transactions", component: TransactionsComponent,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion utilisateurs' }
+       },
       { path: "transaction/byTag", component: TransactionListSubscribeComponent },
       { path: 'clients/details/:tel', component: EditClientModalComponent },
       { path: 'add-client', component: AddClientComponent },
       { path: 'listesComptesClient/details/:accountNumber', component: DetailCompteClientComponent },
       { path: 'sync-status', component: SyncStatusComponent },
-      { path: 'show-compte', component: ShowCompteComponent },
+      { path: 'show-compte', component: ShowCompteComponent, },
       { path: 'show/tag', component: ShowtagComponent },
-      { path: 'menus', component: MenusComponent },
-      { path: 'roles', component: RolesComponent },
+      { path: 'menus', component: MenusComponent ,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion utilisateurs' }
+      },
+      { path: 'roles', component: RolesComponent ,
+         canActivate: [PermissionGuard],
+          data: { menu: 'Gestion utilisateurs' }
+      },
 
 
 

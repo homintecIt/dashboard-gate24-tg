@@ -109,19 +109,19 @@
 
 
 
-                  <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="compte.statut !== 'deleted'; else deletedActions">
+                  <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="compte.statut !== 'deleted' &&  permissionService.hasPermission('Transactions', 'consulter'); else deletedActions">
                     <button [routerLink]="['/dashboard/transactions']"
                       [queryParams]="{ accountNumber: compte.accountNumber }" class="btn btn-sm btn-outline-primary"
                       title="Voir les transactions">
                       <i class="ri-eye-line">Translation</i>
                     </button>
 
-                    <span class="btn btn-success btn-sm text-black-100" *ngIf="compte.solde != '0'"
-                      (click)="listAbonnementByCompte(compte)" title="Supprimer ce tag">
+                    <span class="btn btn-success btn-sm text-black-100" *ngIf="compte.solde != '0' && permissionService.hasPermission('Gestion clients', 'consulter') "
+                      (click)="listAbonnementByCompte(compte)" title="voir liste de tag">
                       <i class="ri-bank-card-line">Abonnements</i>
 
                     </span>
-                    <span class="btn btn-outline-primary btn-sm"
+                    <span class="btn btn-outline-primary btn-sm" *ngIf="permissionService.hasPermission('Gestion recharges', 'ajouter')"
                       (click)="rechargeAccount(compte.accountNumber, 'compte')">
                       <i class="fa fa-rotate-right">Recharger</i>
                     </span>
@@ -130,28 +130,29 @@
                           <i class="fa fa-rotate-right">Ajouter un tag </i>
                         </span> -->
 
-                    <span class="btn btn-outline-secondary btn-sm" (click)="dialogModalStatusCompte(compte)"
+                    <span class="btn btn-outline-secondary btn-sm" (click)="dialogModalStatusCompte(compte)" *ngIf="permissionService.hasPermission('Gestion clients', 'modifier')"
                       title="{{ compte.statut == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
                       <i ngClass="{{ compte.statut == 'actived' ? 'fa fa-lock-open' : 'fa fa-lock' }}"> {{
                         compte.statut == 'actived' ? 'Désactiver' : 'Activer' }} </i>
                     </span>
 
                     <span class="btn btn-warning btn-sm text-black-100" *ngIf="compte.solde != '0'"
-                      (click)="transfertSoldeToCompte(compte)" title="Supprimer ce tag">
+                      (click)="transfertSoldeToCompte(compte)" title="transferer ce tag">
                       <i class="fas fa-exchange-alt">Transfert</i>
 
                     </span>
 
-                    <button class="btn btn-sm btn-danger" (click)="dialogModalDeleteCompte(compte)" title="Supprimer ce compte" [disabled]="compte.solde != '0'">
+                    <button class="btn btn-sm btn-danger" (click)="dialogModalDeleteCompte(compte)" title="Supprimer ce compte" *ngIf="permissionService.hasPermission('Gestion clients', 'supprimer')"
+                    >
                       <i class="ri-delete-bin-line">Supprimer</i>
                     </button>
 
 
                   </span>
 
-                  <ng-template #deletedActions >
-                    <span class="d-flex gap-2 justify-content-center align-items-center" >
-                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte" (click)="dialogModalRestoreCompte(compte)" [disabled]="client?.statut == 'deleted'">
+                  <ng-template #deletedActions>
+                    <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="authService.userRole ==='Admin'">
+                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte" (click)="dialogModalRestoreCompte(compte)">
                         <i class="ri-history-line">Restaurer</i>
                       </button>
                     </span>

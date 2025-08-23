@@ -66,6 +66,7 @@ export const resetPasswordTokenIdentifier = "gate-rSyeh5RwFAjPaDXGHLaPx7RGXIkLop
 export const resetPasswordUserIdentifier = "gate-XkuMdMgXAuETPUZS5lQDu5PZaIwwpVx7JSZBSYvX36UPMVy0RsaAvvEDbXFftbvHMdWgszYogbyFby0Bb6U6MAg7Mx01Rm0y0r5Dz54WAervRJtYcOSXMleJxj8fuHQC"
 export const locale = "gate-zFk3JLwQj6MdFMbOw48XlojG1YvLmohRR2zAYgJTTO87PCg3tgQuJv7Khh2srJ0ZAg7MxtgqMDpl8IqhTEmuXeE4c4j5xkewCvMRjRuI4P5Y1jRe86PK5IdqCeX5RmQT"
 
+export const permissions = "2372b413-efd0-41ba-85a5-4f13821c4b9d";
 
 export const swalAnimation: any = {
   showClass: {

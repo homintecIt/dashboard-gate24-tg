@@ -68,6 +68,8 @@ export class AuthService {
 
   get userRole() {
     const user: any = this.user;
+    console.log("role",user);
+
     return user.role as string;
   }
 

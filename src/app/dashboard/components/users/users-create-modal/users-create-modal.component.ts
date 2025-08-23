@@ -12,7 +12,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class UsersCreateModalComponent implements OnInit {
   @Input() data!: User;
   editForm!: FormGroup;
-    roles: Role[] = []; // au lieu de Role | undefined
+    roles: Role[] = []; // au lieu de Role | undefined  
 
   constructor(
     private fb: FormBuilder,

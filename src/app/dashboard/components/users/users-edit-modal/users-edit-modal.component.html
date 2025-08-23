@@ -14,11 +14,11 @@
     </div>
     <div class="mb-3">
       <label for="role" class="form-label">Rôle</label>
-      <select id="role" class="form-control" formControlName="role">
-        <option value="ADMIN">Admin</option>
-        <option value="USER">Utilisateur</option>
-        <option value="SIRAT">Sirat</option>
-      </select>
+  <select id="role" class="form-control" formControlName="roleId">
+  <option *ngFor="let role of roles" [value]="role.id">
+    {{ role.name }}
+  </option>
+</select>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Annuler</button>

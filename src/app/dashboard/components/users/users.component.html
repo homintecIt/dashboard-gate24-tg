@@ -21,10 +21,10 @@
           <h5 class="card-title text-light mb-0">Liste des Utilisateurs</h5>
           <div class="d-flex gap-3">
 
-                 <button type="button"   class="btn btn-outline-light" data-bs-toggle="modal"
-              (click)="onMenu()">Menus utilisateur</button>
+          <!--        <button type="button"   class="btn btn-outline-light" data-bs-toggle="modal"
+              (click)="onMenu()">Menus utilisateur</button> -->
               <button type="button" (click)="onRoles()" class="btn btn-secondary" data-bs-toggle="modal"
-            >Roles</button>
+            >Roles et Permissions</button>
             <button
               class="btn btn-outline-light"
 
@@ -83,20 +83,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of filteredUsers; let i = index">
+              <tr *ngFor="let user of users; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                  <span class="badge"
-                    [ngClass]="{
-                      'bg-primary': user.role === 'ADMIN',
-                      'bg-success': user.role === 'USER',
-                      'bg-warning': user.role === 'SIRAT',
-                      'bg-info': user.role === 'PARTENAIRE',
-                      'bg-danger': user.role === 'SUBSCRIBER',
-                    }">
-                    {{ user.role }}
+                  <span class="badge bg-success-subtle text-success text-uppercase"
+                   >
+                    {{ user.role?.name }}
                   </span>
                 </td>
                 <td>{{ user.created_at | date:'short' }}</td>
@@ -123,11 +117,7 @@
                           <i class="ri-edit-line me-1"></i> Modifier
                         </a>
                       </li>
-                      <li>
-                        <a class="dropdown-item text-info" href="javascript:void(0);" (click)="openAffectModal(user)">
-                          <i class="ri-add-line me-1"></i> Affecter des routes
-                        </a>
-                      </li>
+
                       <li>
                         <a class="dropdown-item text-danger" href="javascript:void(0);" (click)="openDeleteConfirmModal(user)">
                           <i class="ri-delete-bin-line me-1"></i> Supprimer

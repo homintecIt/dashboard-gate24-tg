@@ -14,6 +14,8 @@ import { AddTagCompteComponent } from '../add-tag-compte/add-tag-compte.componen
 import { RechargesListComponent } from '../../recharges-list/recharges-list.component';
 import { AddRechargesComponent } from '../add-recharges/add-recharges.component';
 import { storageHelper } from 'src/app/misc/storage.misc';
+import { PermissionService } from 'src/app/services/permission.service';
+import { AuthService } from 'src/app/services/auth.service';
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
 });
@@ -33,6 +35,10 @@ export class EditClientModalComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private modalService: BootstrapModalService,
     private router: Router,
+    public permissionService : PermissionService,
+    public authService:AuthService
+
+
 
 
   ) {}

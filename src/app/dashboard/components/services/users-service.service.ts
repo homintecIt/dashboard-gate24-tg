@@ -17,7 +17,7 @@ export interface User {
   remember_token: string | null;
   account_number: string | null;
   is_active: boolean;
-  role: string;
+  role?: Role;
 }
 
 export interface Role {
@@ -30,8 +30,7 @@ export interface UserUpdateDto {
   id: number;
   name?: string;
   email?: string;
-  role?: string;
-  is_active?: boolean;
+  roleId?: number;
 }
 
 
@@ -45,6 +44,7 @@ export interface UserCreateDto {
   providedIn: 'root'
 })
 export class UserService {
+
   private apiUrl = environment.apiTestUrl;
 
   // Gestion de l'état
@@ -135,8 +135,14 @@ export class UserService {
 
     // Chargement des utilisateurs
   getRoles(): Observable<Role[]> {
-
     return this.http.get<Role[]>(`${this.apiUrl}/roles`);
   }
 
+
+  getProfile(): Observable<any> {
+    // On envoie le token JWT dans l'entête Authorization
+
+    console.log("okokokokokokokokokokokokokokokokokokokokokok++++++++")
+    return this.http.get(`${this.apiUrl}/users/auth/me`);
+  }
 }
