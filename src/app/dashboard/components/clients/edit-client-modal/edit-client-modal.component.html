@@ -111,8 +111,9 @@
 
 
 
-                  <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="compte.statut !== 'deleted' &&  permissionService.hasPermission('Transactions', 'consulter'); else deletedActions">
+                  <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="compte.statut !== 'deleted'; else deletedActions">
                     <button [routerLink]="['/dashboard/transactions']"
+                    *ngIf="permissionService.hasPermission('Transactions', 'consulter')"
                       [queryParams]="{ accountNumber: compte.accountNumber }" class="btn btn-sm btn-outline-primary"
                       title="Voir les transactions">
                       <i class="ri-eye-line">Translation</i>

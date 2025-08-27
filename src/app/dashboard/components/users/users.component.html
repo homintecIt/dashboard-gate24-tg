@@ -29,6 +29,7 @@
               class="btn btn-outline-light"
 
               (click)="openCreateUserModal()"
+              *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'ajouter')"
             >
               <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
               Créer Utilisateur

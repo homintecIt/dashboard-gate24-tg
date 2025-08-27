@@ -50,7 +50,7 @@ export class ServerService {
   }
 
   updateServer(server: object): Observable<any> {
-    return this.http.post(`${this.apiUrl}/update/status/server/synchro`, server);
+  return this.http.post(`${this.apiUrl}/update/status/server/synchro`, server);
   }
 
   updateServerData(server:object): Observable<any> {

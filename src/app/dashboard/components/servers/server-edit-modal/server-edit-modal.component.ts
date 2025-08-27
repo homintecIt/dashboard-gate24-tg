@@ -69,8 +69,6 @@ export class ServerEditModalComponent   implements OnInit  {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
-
     this.editForm = this.fb.group({
       url: this.data.url,
       etat: this.data.etat,

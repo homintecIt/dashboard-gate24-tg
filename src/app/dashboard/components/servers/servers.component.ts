@@ -30,8 +30,7 @@ export class ServersComponent implements OnInit {
 
   ngOnInit() {
     // Charger les serveurs
-    this.serverService.loadServeurs().subscribe();
-
+    this.refreshServeurs();
     // S'abonner aux changements de la liste des serveurs
     this.serverService.serveurs$
       .pipe(takeUntil(this.destroy$))
@@ -45,6 +44,9 @@ export class ServersComponent implements OnInit {
     this.destroy$.complete();
   }
 
+   refreshServeurs() {
+      return this.serverService.loadServeurs().subscribe();
+    }
   openAddServeurModal() {
     const modalRef = this.modalService.open(ServersCreateModalComponent, {
       size: 'lg',
@@ -89,8 +91,8 @@ export class ServersComponent implements OnInit {
         // Si confirmé, mettre à jour le statut
         this.serverService.updateServer({...server, etat: newEtat}).subscribe(
           () => {
-            server.etat = newEtat;
-            this.serverService.loadServeurs().subscribe();
+           /// server.etat = newEtat;
+           this.refreshServeurs();
             Swal.fire('Succès', `Le statut a été mis à jour.`, 'success');
           },
           (error) => {
@@ -105,7 +107,6 @@ export class ServersComponent implements OnInit {
 
 
 openDetailsModal(server: any): void {
-  console.log('Ouverture des détails:', server  );
   this.modalServices.openModal(
     ServerEditModalComponent,
     server,

@@ -79,7 +79,8 @@
 
                 <div class="col-md-6">
                   <label for="tel" class="form-label">Téléphone</label>
-                  <input type="text" class="form-control" id="tel" formControlName="tel"
+                  <input type="number
+                  " class="form-control" id="tel" formControlName="tel"
                     [ngClass]="{ 'is-invalid': submitted && form['tel'].errors }">
                   <div *ngIf="submitted && form['tel'].errors" class="invalid-feedback">
                     <div *ngIf="form['tel'].errors['required']">Le téléphone est obligatoire</div>
