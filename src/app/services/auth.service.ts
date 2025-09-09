@@ -92,4 +92,8 @@ export class AuthService {
   onAuthFailure(data: any) {
     this.authFailureEvent.emit(data);
   }
+
+   firstResetPassword(data: any) {
+    return this.httpClient.post<any>(apiEndpoints.firstResetPasswordUrl, data);
+  }
 }

@@ -52,13 +52,13 @@
               <tr *ngFor="let transaction of transactions">
                 <td>
                   <span class="badge bg-secondary">
-                    {{ transaction?.abonnement?.tagCode }}
+                    {{ transaction?.tagCode }}
                   </span>
                 </td>
                 <td [class.text-success]="transaction.type_transaction === 'credit'"
                     [class.text-danger]="transaction.type_transaction === 'debit'">
                   {{ transaction.type_transaction === 'credit' ? '+' : '-' }}
-                  {{ transaction.montant | currency:'XOF':'symbol':'1.2-2' }}
+                  {{ transaction.montant_transaction | currency:'XOF':'symbol':'1.2-2' }}
                 </td>
                 <td>
                   <span class="badge"
@@ -71,11 +71,11 @@
                 </td>
                  <td>
                   <span class="badge bg-primary">
-                    {{ transaction.compte?.accountNumber }}
+                    {{ transaction.account_number }}
                   </span>
                 </td>
-                <td>{{ transaction.solde | currency:'XOF':'symbol':'1.2-2' }}</td>
-                <td>{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ transaction.solde_transaction | currency:'XOF':'symbol':'1.2-2' }}</td>
+                <td>{{ transaction.date_transaction| date:'dd/MM/yyyy HH:mm' }}</td>
 
               </tr>
               <tr *ngIf="transactions.length === 0 && !loading">

@@ -141,8 +141,13 @@ export class UserService {
 
   getProfile(): Observable<any> {
     // On envoie le token JWT dans l'entête Authorization
-
-    console.log("okokokokokokokokokokokokokokokokokokokokokok++++++++")
     return this.http.get(`${this.apiUrl}/users/auth/me`);
+  }
+
+
+
+  resetPassword(body:any): Observable<any> {
+    // On envoie le token JWT dans l'entête Authorization
+    return this.http.post(`${this.apiUrl}/users/reset/password`,body);
   }
 }

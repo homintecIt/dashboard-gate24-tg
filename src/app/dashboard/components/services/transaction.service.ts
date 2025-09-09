@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap, shareReplay, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Transaction, TransactionResponse } from '../../interfaces/transaction';
+import { Transaction, TransactionResponse, VTransaction } from '../../interfaces/transaction';
 import apiEndpoints from 'src/app/misc/api-endpoints.misc';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class TransactionService {
   private apiUrl = environment.apiTestUrl;
 
   // Gestion de l'état
-  private transactionSubject = new BehaviorSubject<Transaction[]>([]);
+  private transactionSubject = new BehaviorSubject<VTransaction[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   // Observables publics
@@ -27,7 +27,10 @@ export class TransactionService {
     page: number = 1,
     limit: number = 10,
     accountNumber: string = '',
-    type: string = ''
+    type: string = '',
+     dateStart?: string,
+    dateEnd?: string,
+    siteTransaction?: string
   ): Observable<TransactionResponse> {
     this.loadingSubject.next(true);
 
@@ -44,8 +47,18 @@ export class TransactionService {
     if (type) {
       payload.type = type;
     }
+     if (dateStart && dateEnd) {
+      payload.dateStart = dateEnd;
+      payload.dateEnd = dateEnd;
 
-    return this.http.post<TransactionResponse>(`${this.apiUrl}/transactions/get/all`, payload).pipe(
+    }
+
+    if (siteTransaction) {
+
+      payload.siteTransaction = siteTransaction
+    }
+
+    return this.http.post<TransactionResponse>(`${this.apiUrl}/transactions/get/paginate/view`, payload).pipe(
       tap(response => {
         this.transactionSubject.next(response.items);
         this.loadingSubject.next(false);
@@ -64,9 +77,12 @@ export class TransactionService {
     page: number = 1,
     limit: number = 10,
     accountNumber: string = '',
-    type: string = ''
+    type: string = '',
+     dateStart?: string,
+    dateEnd?: string,
+    siteTransaction?:string,
   ): Observable<TransactionResponse> {
-    return this.loadTransactions(page, limit, accountNumber, type);
+    return this.loadTransactions(page, limit, accountNumber, type,dateStart,dateEnd,siteTransaction);
   }
 
   // Méthode de rafraîchissement

@@ -62,6 +62,7 @@ import { MenusComponent } from './components/users/menus/menus.component';
 import { RolesComponent } from './components/users/roles/roles.component';
 import { RolesService } from '../services/roles.service';
 import { MenusService } from '../services/menus.service';
+import { ChangePasswordComponent } from '../components/auth/change-password/change-password.component';
 
 
 @NgModule({
@@ -119,6 +120,7 @@ import { MenusService } from '../services/menus.service';
     UsersCreateModalComponent,
     MenusComponent,
     RolesComponent,
+    ChangePasswordComponent
      ],
   imports: [
     CommonModule,
