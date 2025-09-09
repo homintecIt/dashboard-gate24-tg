@@ -48,12 +48,23 @@
                     [(ngModel)]="searchTerm"
                     (keyup.enter)="onSearch()"
                   />
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
-                      Rechercher
-                    </button>
-                  </div>
+
                 </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="">Date de debut</label>
+                <input type="date" name="dateStart" id="dateStart" (change)="onSearch()" class="form-control" [(ngModel)]="dateStart" >
+              </div>
+            </div>
+                <div class="col-md-4">
+              <div class="form-group">
+                <label for="">Date de fin</label>
+                <input type="date" name="dateStart" id="dateStart" (change)="onSearch()" class="form-control" [(ngModel)]="dateEnd">
+
               </div>
             </div>
             <div class="col-md-4">
@@ -66,7 +77,18 @@
                 </select>
               </div>
             </div>
+             <div class="col-md-4">
+              <div class="form-group">
+                <label for="">Site</label>
+                <input type="text" name="site" id="site" (change)="onSearch()" class="form-control" [(ngModel)]="siteTransaction">
+
+              </div>
+            </div>
             <div class="col-md-4 d-flex align-items-end">
+
+                    <button class="btn btn-outline-secondary me-1" type="button" (click)="onSearch()">
+                      Rechercher
+                    </button>
               <button class="btn btn-outline-secondary" (click)="resetFilters()" [disabled]="loading">
                 <i class="fas fa-filter-circle-xmark me-1"></i> Rénitialiser les filtres
               </button>
@@ -94,38 +116,42 @@
           <table class="table table-hover text-nowrap">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Client</th>
                 <th>Compte</th>
                 <th>Montant</th>
                 <th>Type</th>
+                <th>Site Transaction</th>
+
                 <th>Solde</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let transaction of transactions">
-                <td>{{ transaction.id }}</td>
+                <td>{{transaction.nom_client}}   </td>
                 <td>
                   <span class="badge bg-primary">
-                    {{ transaction.compte?.accountNumber }}
+                    {{ transaction.account_number }}
                   </span>
                 </td>
-                <td [class.text-success]="transaction.type_transaction === 'credit'"
-                    [class.text-danger]="transaction.type_transaction === 'debit'">
-                  {{ transaction.type_transaction === 'credit' ? '+' : '-' }}
-                  {{ transaction.montant | currency:'XOF':'symbol':'1.2-2' }}
+                <td [class.text-success]="transaction.type_transaction === 'crédit'"
+                    [class.text-danger]="transaction.type_transaction === 'débit'">
+                  {{ transaction.type_transaction === 'crédit' ? '+' : '-' }}
+                  {{ transaction.montant_transaction | currency:'XOF':'symbol':'1.2-2' }}
                 </td>
+
                 <td>
                   <span class="badge"
                         [ngClass]="{
-                          'bg-success': transaction.type_transaction === 'credit',
-                          'bg-danger': transaction.type_transaction === 'debit'
+                          'bg-success': transaction.type_transaction === 'crédit',
+                          'bg-danger': transaction.type_transaction === 'débit'
                         }">
                     {{ getTypeLabel(transaction.type_transaction) }}
                   </span>
                 </td>
-                <td>{{ transaction.solde | currency:'XOF':'symbol':'1.2-2' }}</td>
-                <td>{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{transaction.site_transaction}}</td>
+                <td>{{ transaction.solde_transaction | currency:'XOF':'symbol':'1.2-2' }}</td>
+                <td>{{ transaction.date_transaction | date:'dd/MM/yyyy HH:mm' }}</td>
 
               </tr>
               <tr *ngIf="transactions.length === 0 && !loading">

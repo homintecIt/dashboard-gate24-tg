@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
-import { Transaction, TransactionResponse } from '../../interfaces/transaction';
+import { Transaction, TransactionResponse, VTransaction } from '../../interfaces/transaction';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -13,11 +13,15 @@ import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service'
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
-  transactions: Transaction[] = [];
+  transactions: VTransaction[] = [];
   loading = false;
   error: string | null = null;
   searchTerm = '';
   selectedType = '';
+  dateStart = '';
+  dateEnd = '';
+  siteTransaction="";
+
 
   // Pagination
   currentPage = 1;
@@ -79,12 +83,18 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         pageForApi,  // Envoyer la page 0-based à l'API
         this.itemsPerPage,
         this.searchTerm,
-        this.selectedType
+        this.selectedType,
+        this.dateStart,
+        this.dateEnd,
+        this.siteTransaction
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: TransactionResponse) => {
           this.transactions = response.items || [];
+
+          console.log("trans",this.transactions);
+
           this.totalItems = response.meta?.totalItems || 0;
           this.totalPages = response.meta?.totalPages || 1;
 
@@ -126,6 +136,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.searchTerm = '';
     this.selectedType = '';
     this.currentPage = 1;
+    this.dateEnd ="";
+    this.dateStart ="";
     this.loadTransactions();
   }
 

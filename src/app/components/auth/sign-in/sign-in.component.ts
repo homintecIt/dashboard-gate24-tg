@@ -8,6 +8,8 @@ import { jwtTokenIdentifier, userIdentifier } from 'src/app/misc/utilities.misc'
 import { AuthService } from 'src/app/services/auth.service';
 import { PermissionService } from 'src/app/services/permission.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -28,6 +30,8 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private permissionService : PermissionService,
     private userService: UserService,
+    private modalService: BootstrapModalService,
+
   ) {}
 
   ngOnInit(): void {
@@ -52,8 +56,16 @@ export class SignInComponent implements OnInit {
         var userData = data.user;
         storageHelper.local.store(`${jwtTokenIdentifier}`, userAccessToken);
         storageHelper.local.store(`${userIdentifier}`, userData);
-        this.router.navigateByUrl("/dashboard");
+      var firstConnection = data.user.email_verified_at !== null ? false : true;
+
+         if (firstConnection == true) {
+       this.changePasswordModal('');
+      } else {
+         this.router.navigateByUrl("/dashboard");
+
       }
+      }
+
     );
 
     this.authService.authFailureEvent.subscribe((error: HttpErrorResponse) => {
@@ -66,6 +78,12 @@ export class SignInComponent implements OnInit {
     });
 
   }
+
+
+  changePasswordModal(data: any) {
+    this.modalService.openModal(ChangePasswordComponent, data, 'modal-md', true);
+  }
+
 
 
   onSignin() {

@@ -15,6 +15,7 @@ const apiEndpoints = {
   forgotPasswordUrl: `${apiUrlBase}/auth/forget/password`,
   resetPasswordUrl: `${apiUrlBase}/auth/reset/password`,
   changePasswordUrl: `${apiUrlBase}/auth/change/password`,
+  firstResetPasswordUrl: `${apiUrlBase}/users/change/password`,
   logoutUrl: `${apiUrlBase}/auth/logout`,
   usersUrl: `${apiUrlBase}/users`,
   uploadProfileUrl: `${apiUrlBase}/file`,
