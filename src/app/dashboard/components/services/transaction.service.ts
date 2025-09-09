@@ -48,7 +48,7 @@ export class TransactionService {
       payload.type = type;
     }
      if (dateStart && dateEnd) {
-      payload.dateStart = dateEnd;
+      payload.dateStart = dateStart;
       payload.dateEnd = dateEnd;
 
     }
