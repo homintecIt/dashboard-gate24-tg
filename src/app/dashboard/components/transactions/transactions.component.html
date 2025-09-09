@@ -106,10 +106,17 @@
         <div class="card-header">
           <h3 class="card-title">Liste des transactions</h3>
           <div class="card-tools">
-            <button class="btn btn-sm btn-outline-primary" (click)="loadTransactions()" [disabled]="loading">
+            <button class="btn btn-sm btn-outline-primary me-1" (click)="loadTransactions()" [disabled]="loading">
               <i class="fas fa-sync-alt me-1" [class.fa-spin]="loading"></i>
               {{ loading ? 'Chargement...' : 'Rafraîchir' }}
             </button>
+            <select name="limit" id="limite"   [(ngModel)]="itemsPerPage" (change)="onSearch()" >
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="500">500</option>
+
+            </select>
           </div>
         </div>
         <div class="card-body table-responsive p-0">
