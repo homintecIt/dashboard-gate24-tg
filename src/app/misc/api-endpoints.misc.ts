@@ -40,6 +40,7 @@ const apiEndpoints = {
   menusUrl: `${apiUrlBase}/menus`,
   rolesUrl: `${apiUrlBase}/roles`,
   actionUrl: `${apiUrlBase}/actions`,
+  exportTransaction : `${apiUrlBase}/transactions/export`,
 
 
 }

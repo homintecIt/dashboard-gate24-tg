@@ -30,7 +30,9 @@ export class TransactionService {
     type: string = '',
      dateStart?: string,
     dateEnd?: string,
-    siteTransaction?: string
+    siteTransaction?: string,
+     client ?:string,
+    tagCode ?:string,
   ): Observable<TransactionResponse> {
     this.loadingSubject.next(true);
 
@@ -54,9 +56,19 @@ export class TransactionService {
     }
 
     if (siteTransaction) {
-
       payload.siteTransaction = siteTransaction
     }
+
+
+    if (client) {
+      payload.clientName = client
+    }
+
+
+    if (tagCode) {
+      payload.tagCode = tagCode
+    }
+
 
     return this.http.post<TransactionResponse>(`${this.apiUrl}/transactions/get/paginate/view`, payload).pipe(
       tap(response => {
@@ -81,8 +93,10 @@ export class TransactionService {
      dateStart?: string,
     dateEnd?: string,
     siteTransaction?:string,
+    client ?:string,
+    tagCode ?:string,
   ): Observable<TransactionResponse> {
-    return this.loadTransactions(page, limit, accountNumber, type,dateStart,dateEnd,siteTransaction);
+    return this.loadTransactions(page, limit, accountNumber, type,dateStart,dateEnd,siteTransaction,client,tagCode);
   }
 
   // Méthode de rafraîchissement
@@ -104,6 +118,20 @@ export class TransactionService {
   return this.http.get<TransactionResponse>(`${apiEndpoints.transactionUrl}/tag/${body.tagId}`, { params });
 }
 
+
+  exportExcel(filters: any)  {
+    return this.http.get(`${apiEndpoints.exportTransaction}/excel`, {
+      params: filters,
+      responseType: 'blob', // très important
+    });
+  }
+
+  exportPdf(filters: any) {
+    return this.http.get(`${apiEndpoints.exportTransaction}/pdf`, {
+      params: filters,
+      responseType: 'blob', // très important
+    });
+  }
 }
 
 

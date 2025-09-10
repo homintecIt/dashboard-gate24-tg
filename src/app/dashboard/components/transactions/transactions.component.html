@@ -37,7 +37,7 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group">
                 <label>Numéro de compte</label>
                 <div class="input-group">
@@ -54,20 +54,20 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group">
                 <label for="">Date de debut</label>
                 <input type="date" name="dateStart" id="dateStart" (change)="onSearch()" class="form-control" [(ngModel)]="dateStart" >
               </div>
             </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
               <div class="form-group">
                 <label for="">Date de fin</label>
                 <input type="date" name="dateEnd" id="dateEnd" (change)="onSearch()" class="form-control" [(ngModel)]="dateEnd">
 
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group">
                 <label>Type de transaction</label>
                 <select class="form-control" [(ngModel)]="selectedType" (change)="onSearch()">
@@ -77,21 +77,40 @@
                 </select>
               </div>
             </div>
-             <div class="col-md-4">
+             <div class="col-md-3">
               <div class="form-group">
                 <label for="">Site</label>
                 <input type="text" name="site" id="site" (change)="onSearch()" class="form-control" [(ngModel)]="siteTransaction">
 
               </div>
             </div>
-            <div class="col-md-4 d-flex align-items-end">
 
-                    <button class="btn btn-outline-secondary me-1" type="button" (click)="onSearch()">
-                      Rechercher
-                    </button>
+              <div class="col-md-3">
+              <div class="form-group">
+                <label for="">TAG CODE</label>
+                <input type="text" name="tagCode" id="tagCode" (change)="onSearch()" class="form-control" [(ngModel)]="tagCode">
+
+              </div>
+               </div>
+
+                <div class="col-md-3">
+              <div class="form-group">
+                <label for="">Client</label>
+                <input type="text" name="client" id="client" (change)="onSearch()" class="form-control" [(ngModel)]="client">
+              </div>
+
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+
+
               <button class="btn btn-outline-secondary" (click)="resetFilters()" [disabled]="loading">
                 <i class="fas fa-filter-circle-xmark me-1"></i> Rénitialiser les filtres
               </button>
+               <button class="btn btn-outline-secondary me-1" type="button" (click)="onSearch()">
+                      Rechercher
+                    </button>
+
+
             </div>
           </div>
         </div>
@@ -110,6 +129,13 @@
               <i class="fas fa-sync-alt me-1" [class.fa-spin]="loading"></i>
               {{ loading ? 'Chargement...' : 'Rafraîchir' }}
             </button>
+
+             <button class="btn btn-outline-secondary me-1" type="button" (click)="onExportExcel()">
+                      Excel
+                    </button>
+                     <button class="btn btn-outline-secondary me-1" type="button" (click)="onExportPdf()">
+                      Pdf
+                    </button>
 
           </div>
           <div>
