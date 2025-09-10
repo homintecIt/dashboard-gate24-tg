@@ -1,0 +1,25 @@
+.nav-link.active {
+  background-color: #073489; /* bleu Bootstrap */
+  color: #fff !important;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+
+.nav-sm .nav-item {
+  list-style: none !important;
+  background: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+.nav-sm .nav-item::marker,
+.nav-sm .nav-item::before {
+  content: none !important;
+}
+
+
+.list-unstyleds{
+  padding-left: 30px !important;
+
+}

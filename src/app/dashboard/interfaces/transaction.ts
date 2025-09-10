@@ -45,6 +45,7 @@ export interface TransactionResponse {
     itemsPerPage: number;
     totalPages: number;
     currentPage: number;
+    totalAmount :number
   };
 
 

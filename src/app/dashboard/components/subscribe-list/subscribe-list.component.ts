@@ -15,6 +15,8 @@ import { storageHelper } from 'src/app/misc/storage.misc';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import { Router } from '@angular/router';
+import { SearchListComponent } from '../enroulements/search-list/search-list.component';
+import { PermissionService } from 'src/app/services/permission.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -56,7 +58,9 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
     private modalService: BootstrapModalService,
     private generalService: GeneralService,
     private sweetAlertService: SweetAlertService,
-    private router: Router
+    private router: Router,
+    public permissionService: PermissionService,
+
 
 
 
@@ -250,21 +254,21 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
           // this.refreshData(); // Rafraîchir la liste après fermeture du modal
         }); */
 
-this.generalService.searchWithTagCode(subscription.tagCode).subscribe({
-  next: (resp: any) => {
-    if (resp === null) {
-      this.loading = false;
-    } else {
-      const data = {
-        type: 'tagCode',
-        value: subscription.tagCode,
-      };
-      storageHelper.local.store(`${searchType}`, data);
-      this.router.navigate(['/dashboard/show/tag'], { state: { data: resp } });
-    }
-  },
-  error: (error: HttpErrorResponse) => this.handleError(error)
-});
+    this.generalService.searchWithTagCode(subscription.tagCode).subscribe({
+      next: (resp: any) => {
+        if (resp === null) {
+          this.loading = false;
+        } else {
+          const data = {
+            type: 'tagCode',
+            value: subscription.tagCode,
+          };
+          storageHelper.local.store(`${searchType}`, data);
+          this.router.navigate(['/dashboard/show/tag'], { state: { data: resp } });
+        }
+      },
+      error: (error: HttpErrorResponse) => this.handleError(error)
+    });
 
 
 
@@ -344,4 +348,9 @@ this.generalService.searchWithTagCode(subscription.tagCode).subscribe({
   refreshData(): void {
     this.loadSubscriptions(this.currentPage);
   }
+
+  searchChoice() {
+    this.modalService.openModal(SearchListComponent, '', 'modal-md modal-dialog-centered');
+  }
+
 }

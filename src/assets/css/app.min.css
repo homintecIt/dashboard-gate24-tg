@@ -650,7 +650,8 @@
 }
 
 .navbar-menu .navbar-nav .nav-sm {
-  padding-left: 1.75rem
+  padding-left: 1.75rem;
+  list-style: none;
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link {
@@ -659,7 +660,8 @@
   white-space: none;
   position: relative;
   font-size: .813rem;
-  font-family: Poppins, sans-serif
+  font-family: Poppins, sans-serif;
+  list-style: none;
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:before {
@@ -693,8 +695,11 @@
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-sm {
-  padding-left: 15px
+  padding-left: 15px;
+  list-style: none;
 }
+
+
 
 .navbar-menu .navbar-nav .nav-sm .nav-sm .nav-link:before {
   height: 5px;

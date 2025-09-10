@@ -1,3 +1,5 @@
+import { ToastrModule } from 'ngx-toastr';
+import { ListesClientService } from 'src/app/services/liste-client.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
@@ -32,6 +34,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   itemsPerPage = 10;
   totalItems = 0;
   totalPages = 1;
+  totalAmount =0;
 
   // Options pour le filtre de type
   typeOptions = [
@@ -47,11 +50,12 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   isEditModalOpen = false;
   isDetailsModalOpen = false;
   isStatusChanging = false;
-
+ distinctClients: any[] = [];
   constructor(
     @Inject(TransactionService) private transactionService: TransactionService,
     private modalService: BootstrapModalService,
     private route: ActivatedRoute,
+    private listesClientService: ListesClientService,
     private router: Router
   ) {}
 
@@ -63,6 +67,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       }
       this.loadTransactions();
     });
+
+
   }
 
   ngOnDestroy(): void {
@@ -99,8 +105,9 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         next: (response: TransactionResponse) => {
           this.transactions = response.items || [];
 
-          console.log("trans",this.transactions);
+          console.log("trans",response.meta?.totalAmount);
 
+          this.totalAmount = response.meta.totalAmount;
           this.totalItems = response.meta?.totalItems || 0;
           this.totalPages = response.meta?.totalPages || 1;
 

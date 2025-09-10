@@ -80,7 +80,14 @@
              <div class="col-md-3">
               <div class="form-group">
                 <label for="">Site</label>
-                <input type="text" name="site" id="site" (change)="onSearch()" class="form-control" [(ngModel)]="siteTransaction">
+                <select name="site" id="site" (change)="onSearch()" class="form-control" [(ngModel)]="siteTransaction">
+                  <option value="">Tout les sites</option>
+
+                  <option value="AKEPE">AKEPE</option>
+                  <option value="AKEPEDO">AKEPEDO</option>
+                  <option value="DAVIE">DAVIE</option>
+                  <option value="VODOUGBE">VODOUGBE</option>
+                </select>
 
               </div>
             </div>
@@ -147,6 +154,10 @@
               <b>{{ totalItems }}</b> transactions
             </div>
 
+
+            <div>
+              <h3>Montant total : {{totalAmount}}</h3>
+            </div>
 
                  <select name="limit" id="limite"  [(ngModel)]="itemsPerPage" (change)="onSearch()" >
               <option value="10">10</option>

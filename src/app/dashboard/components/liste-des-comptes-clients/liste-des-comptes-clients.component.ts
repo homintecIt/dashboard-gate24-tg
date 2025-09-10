@@ -7,6 +7,8 @@ import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import Swal from 'sweetalert2';
 import { swalAnimation } from 'src/app/misc/utilities.misc';
 import { PermissionService } from 'src/app/services/permission.service';
+import { SearchListComponent } from '../enroulements/search-list/search-list.component';
+import { RechercheModalComponent } from '../enroulements/recherche-modal/recherche-modal.component';
 
 @Component({
   selector: 'app-liste-des-comptes-clients',
@@ -46,6 +48,8 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     private accountService: ListesClientService,
     private sweetAlert: SweetAlertService,
     public permissionService : PermissionService,
+
+    private modalService: BootstrapModalService,
 
   ) {}
 
@@ -109,6 +113,16 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     this.destroy$.complete();
     this.searchSubject.complete();
   }
+
+     newCompte() {
+      this.modalService.openModal(SearchListComponent, "newCompte", 'modal-md modal-dialog-centered');
+
+      }
+
+        showCompte() {
+          this.modalService.openModal(RechercheModalComponent, "accountNumber", 'modal-md modal-dialog-centered');
+
+          }
 
   // Chargement des comptes avec filtres: numéro de compte et solde
   loadAccounts(page: number = 1, searchTerm?: string, solde?: number): void {
