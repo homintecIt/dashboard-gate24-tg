@@ -132,7 +132,7 @@
         <div class="card-header">
           <h3 class="card-title">Liste des transactions</h3>
           <div class="card-tools">
-            <button class="btn btn-sm btn-outline-primary me-1" (click)="loadTransactions()" [disabled]="loading">
+            <button class="btn btn-outline-primary me-1" (click)="loadTransactions()" [disabled]="loading">
               <i class="fas fa-sync-alt me-1" [class.fa-spin]="loading"></i>
               {{ loading ? 'Chargement...' : 'Rafraîchir' }}
             </button>
@@ -143,6 +143,10 @@
                      <button class="btn btn-outline-secondary me-1" type="button" (click)="onExportPdf()">
                       Pdf
                     </button>
+
+            <span class="text-center">
+              <h3>Montant total : {{totalAmount | currency:'XOF':'symbol':'1.2-2' }}</h3>
+            </span>
 
           </div>
           <div>
@@ -155,9 +159,7 @@
             </div>
 
 
-            <div>
-              <h3>Montant total : {{totalAmount}}</h3>
-            </div>
+
 
                  <select name="limit" id="limite"  [(ngModel)]="itemsPerPage" (change)="onSearch()" >
               <option value="10">10</option>
