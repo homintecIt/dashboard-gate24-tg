@@ -6,25 +6,29 @@ import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service'
 import { DateService } from 'src/app/services/date.service';
 import { GeneralService } from 'src/app/services/general.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
-import { SaveTagComponent } from '../save-tag/save-tag.component';
+import { SaveTagComponent } from '../../save-tag/save-tag.component';
+import { ListesClientService } from 'src/app/services/liste-client.service';
 
 @Component({
-  selector: 'app-add-client',
-  templateUrl: './add-client.component.html',
-  styleUrls: ['./add-client.component.css']
+  selector: 'app-add-client-litige',
+  templateUrl: './add-client-litige.component.html',
+  styleUrls: ['./add-client-litige.component.css']
 })
-export class AddClientComponent implements OnInit {
+export class AddClientLitigeComponent implements OnInit {
   date!: Date;
   clientForm!: FormGroup;
   submitted = false;
   loading = false;
 
+  tel?:string;
   constructor(
     private formBuilder: FormBuilder,
     private dateService: DateService,
     private sweetAlertService: SweetAlertService,
     private modalService: BootstrapModalService,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private router:Router,
+    private clientService:ListesClientService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +54,39 @@ export class AddClientComponent implements OnInit {
     return this.clientForm.controls;
   }
 
+onSubmitEdit() {
+  console.log("tel", this.tel);
+
+  if (!this.tel) {
+    console.warn("Le numéro de téléphone est vide !");
+    return; // stop si pas de tel
+  }
+this.getClientByTel(this.tel);
+}
+
+
+   getClientByTel(tel: string) {
+     this.clientService.getClientByTel(tel).subscribe(
+       (data) => {
+
+        if (!data) {
+
+        this.sweetAlertService.toastError(
+          "Cet numero n'existe pas",1000);
+          return;
+        }
+     this.router.navigate(['/dashboard/clients/details/litige/', this.tel]);
+
+       },
+       (error) => {
+         console.error(error);
+        this.sweetAlertService.toastError(
+          "Cet numero n'existe pas",500);
+
+       }
+     );
+   }
+
   onSubmit() {
     this.submitted = true;
     if (this.clientForm.invalid) {
@@ -57,15 +94,12 @@ export class AddClientComponent implements OnInit {
     }
     this.loading = true;
 
-    this.generalService.saveClient(this.clientForm.value).subscribe({
+    this.generalService.saveClientOther(this.clientForm.value).subscribe({
       next: (response) => {
-        const accountNumber = response.accountNumber;
         this.loading = false;
         this.sweetAlertService.toastSuccess('Client enregistré !', 5000);
         this.resetForm();
-        if (accountNumber) {
-          this.addTag(accountNumber);
-        }
+
       },
       error: (error: HttpErrorResponse) => {
         this.loading = false;

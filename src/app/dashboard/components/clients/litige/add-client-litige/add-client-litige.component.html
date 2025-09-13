@@ -1,0 +1,177 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Enroulements</h4>
+
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item active">Enroulements</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="p-2">
+
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-6">
+    <div class="card p-4">
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <div class="white_card card_height_100 mb_30">
+            <div class="white_card_header">
+              <div class="box_header m-0">
+                <div class="main-title text-center">
+                  <h3 class="m-0">Formulaire d'enroulement</h3>
+                </div>
+              </div>
+            </div>
+            <div class="white_card_body">
+              <div class="card-body">
+                <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="nom" class="form-label">Nom</label>
+                      <input type="text" class="form-control" id="nom" formControlName="nom"
+                        (input)="onInputNom($event)" [ngClass]="{ 'is-invalid': submitted && form['nom'].errors }">
+                      <div *ngIf="submitted && form['nom'].errors" class="invalid-feedback">
+                        <div *ngIf="form['nom'].errors['required']">Le nom est obligatoire</div>
+                        <div *ngIf="form['nom'].errors['minlength']">Le nom doit comporter au moins 2 caractères</div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="prenom" class="form-label">Prénoms</label>
+                      <input type="text" class="form-control" id="prenom" formControlName="prenom"
+                        [ngClass]="{ 'is-invalid': submitted && form['prenom'].errors }">
+                      <div *ngIf="submitted && form['prenom'].errors" class="invalid-feedback">
+                        <div *ngIf="form['prenom'].errors['required']">Les prénoms sont obligatoires</div>
+                        <div *ngIf="form['prenom'].errors['minlength']">Les prénoms doivent comporter au moins 2
+                          caractères
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" formControlName="email"
+                        (input)="onInputEmail($event)" [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
+                      <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
+                        <div *ngIf="form['email'].errors['required']">L'email est obligatoire</div>
+                        <div *ngIf="form['email'].errors['email']">L'email n'est pas valide</div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="tel" class="form-label">Téléphone</label>
+                      <input type="number
+                  " class="form-control" id="tel" formControlName="tel"
+                        [ngClass]="{ 'is-invalid': submitted && form['tel'].errors }">
+                      <div *ngIf="submitted && form['tel'].errors" class="invalid-feedback">
+                        <div *ngIf="form['tel'].errors['required']">Le téléphone est obligatoire</div>
+                        <div *ngIf="form['tel'].errors['pattern']">Le numéro de téléphone est invalide</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label class="form-label" for="type">Type de client</label>
+                      <select class="form-control" id="type" formControlName="type"
+                        [ngClass]="{ 'is-invalid': submitted && form['type'].errors }">
+                        <option value="PHYSICAL" selected>Particulier</option>
+                        <option value="MORALE">Entreprise</option>
+                      </select>
+                      <div *ngIf="submitted && form['type'].errors" class="invalid-feedback">
+                        <small *ngIf="form['type'].errors['required']">Le type de client est obligatoire.</small>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label" for="cin">CNI</label>
+                      <input type="text" class="form-control" id="cin" formControlName="cin" placeholder="455896223547"
+                        [ngClass]="{ 'is-invalid': submitted && form['cin'].errors }">
+                      <div *ngIf="submitted && form['cin'].errors" class="text-danger">
+                        <small *ngIf="form['cin'].errors['required']">Le CNI est obligatoire.</small>
+                        <small *ngIf="form['cin'].errors['minlength']">Le CIN doit avoir au moins 8 caractères.</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="adresse" class="form-label">Adresse</label>
+                    <input type="text" class="form-control" id="adresse" formControlName="adresse"
+                      [ngClass]="{ 'is-invalid': submitted && form['adresse'].errors }">
+                    <div *ngIf="submitted && form['adresse'].errors" class="invalid-feedback">
+                      <div *ngIf="form['adresse'].errors['required']">L'adresse est obligatoire</div>
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">
+                      {{loading ? 'Veuillez patienter ' : 'ENREGISTRER'}}
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                    </button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+    <div class="col-6">
+
+      <div class="card  p-4">
+ <div class="row justify-content-center">
+        <div class="col-md-10">
+          <div class="white_card card_height_100 mb_30">
+            <div class="white_card_header">
+              <div class="box_header m-0">
+                <div class="main-title text-center">
+                  <h3 class="m-0">Modification  client</h3>
+                </div>
+              </div>
+            </div>
+            <div class="white_card_body">
+              <div class="card-body">
+                <form  >
+                  <div class="row mb-3">
+                    <div class="col-md-12">
+                      <label for="tel" class="form-label">Numéro téléphone</label>
+                      <input type="text" class="form-control" id="tel" [(ngModel)]="tel" name="tel">
+                    </div>
+
+                  </div>
+
+
+                  <div class="text-center">
+                    <button type="button" (click)="onSubmitEdit()" class="btn btn-primary">
+                      {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                    </button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+</div>

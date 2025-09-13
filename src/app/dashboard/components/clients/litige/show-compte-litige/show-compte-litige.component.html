@@ -1,0 +1,227 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Infomation client</h4>
+
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard/listesClients">Liste des clients</a>
+          </li>
+          <li class="breadcrumb-item active">Infomation d'un client</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="p-2">
+
+      <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
+        <i class="ri-arrow-left-s-fill"></i>
+        Retour</a>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h5 class="text-white"> Information du client <span class="badge" [ngClass]="{
+            'bg-success-subtle text-success text-uppercase': client?.statut === 'actived',
+            'bg-danger-subtle text-danger text-uppercase': client?.statut === 'disabled',
+            'bg-warning-subtle text-warning text-uppercase': client?.statut === 'deleted',
+          }">{{ client?.statut === 'actived' ? 'Activé' : client?.statut === 'disabled' ? 'Désactivé' : 'Supprimé' }}</span></h5>
+
+          <!-- <button class="btn btn-primary float-end">Modifier</button> -->
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <p><strong>Nom:</strong> {{ client?.nom }}</p>
+              <p><strong>Prénom:</strong> {{ client?.prenom }}</p>
+              <p><strong>Email:</strong> {{ client?.email }}</p>
+              <p><strong>CNI:</strong> {{ client?.cin }}</p>
+            </div>
+            <div class="col-6">
+              <p><strong>Téléphone:</strong> {{ client?.tel }}</p>
+              <p><strong>Adresse:</strong> {{ client?.adresse }}</p>
+              <p><strong>Type de Client:</strong> {{ client?.typeClient }}</p>
+              <p><strong>Date de création:</strong> {{ client?.created_at | date }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12">
+
+      <div class="card">
+
+
+        <div class="card-header bg-primary">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title text-white mb-0">Comptes</h5>
+            <div class="d-flex gap-3">
+
+              <div class="search-box">
+                <button class="btn btn-info btn-sm me-2 " (click)="createCompte(client.uuid)"
+                *ngIf="permissionService.hasPermission('Gestion comptes', 'ajouter')"
+                > Créer un compte
+                </button>
+
+                   <button class="btn btn-warning btn-sm " (click)="transfertSToCompteAtClient(client.uuid)"
+                *ngIf="permissionService.hasPermission('Gestion comptes', 'ajouter')"
+                > Transafert de compte
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Numéro</th>
+                <th>Solde</th>
+                <th>Statut</th>
+                <th>Date de création</th>
+                <th style="text-align: center;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let compte of client?.compte; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ compte.accountNumber }}</td>
+                <td>{{ compte.solde }} F CFA</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase': compte.statut === 'actived',
+                      'bg-danger-subtle text-danger text-uppercase': compte.statut === 'disabled'
+                    }">
+                    {{ compte.statut === 'actived' ? 'Activé' : 'Désactivé' }}
+                  </span>
+                </td>
+                <td>{{ compte.created_at | date }}</td>
+                <td style="text-align: center;">
+
+
+
+                  <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="compte.statut !== 'deleted'; else deletedActions">
+                    <button [routerLink]="['/dashboard/transactions']"
+                    *ngIf="permissionService.hasPermission('Transactions', 'consulter')"
+                      [queryParams]="{ accountNumber: compte.accountNumber }" class="btn btn-sm btn-outline-primary"
+                      title="Voir les transactions">
+                      <i class="ri-eye-line">Translation</i>
+                    </button>
+
+                    <span class="btn btn-success btn-sm text-black-100" *ngIf="compte.solde != '0' && permissionService.hasPermission('Gestion clients', 'consulter') "
+                      (click)="listAbonnementByCompte(compte)" title="voir liste de tag">
+                      <i class="ri-bank-card-line">Abonnements</i>
+
+                    </span>
+                    <span class="btn btn-outline-primary btn-sm" *ngIf="permissionService.hasPermission('Gestion recharges', 'ajouter')"
+                      (click)="rechargeAccount(compte.accountNumber, 'compte')">
+                      <i class="fa fa-rotate-right">Recharger</i>
+                    </span>
+                    <!-- <span class="btn btn-outline-primary btn-sm"
+                        (click)="addTag(compte?.id)">
+                          <i class="fa fa-rotate-right">Ajouter un tag </i>
+                        </span> -->
+
+                    <span class="btn btn-outline-secondary btn-sm" (click)="dialogModalStatusCompte(compte)" *ngIf="permissionService.hasPermission('Gestion clients', 'modifier')"
+                      title="{{ compte.statut == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
+                      <i ngClass="{{ compte.statut == 'actived' ? 'fa fa-lock-open' : 'fa fa-lock' }}"> {{
+                        compte.statut == 'actived' ? 'Désactiver' : 'Activer' }} </i>
+                    </span>
+
+                    <span class="btn btn-warning btn-sm text-black-100" *ngIf="compte.solde != '0'"
+                      (click)="transfertSoldeToCompte(compte)" title="transferer ce tag">
+                      <i class="fas fa-exchange-alt">Transfert solde</i>
+
+                    </span>
+
+                    <button class="btn btn-sm btn-danger" (click)="dialogModalDeleteCompte(compte)" title="Supprimer ce compte" *ngIf="permissionService.hasPermission('Gestion clients', 'supprimer')"
+                    >
+                      <i class="ri-delete-bin-line">Supprimer</i>
+                    </button>
+
+
+                  </span>
+
+                  <ng-template #deletedActions>
+                    <span class="d-flex gap-2 justify-content-center align-items-center" *ngIf="authService.userRole ==='Admin'">
+                      <button class="btn btn-sm btn-warning" title="Restaurer ce compte" (click)="dialogModalRestoreCompte(compte)">
+                        <i class="ri-history-line">Restaurer</i>
+                      </button>
+                    </span>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4" hidden>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">Abonnements</div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TagCode</th>
+                <th>Plaque</th>
+                <th>Numéro de Compte</th>
+                <th>Type</th>
+                <th>Exonéré</th>
+                <th>Date de création</th>
+                <th>Statut</th>
+                <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let abonnement of client?.abonnements; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ abonnement.tagCode }}</td>
+                <td>{{ abonnement.plaque }}</td>
+                <td>{{ abonnement.compte.accountNumber }}</td>
+                <td>{{ abonnement.type_targ }}</td>
+                <td>{{ abonnement.isExo ? 'Oui' : 'Non' }}</td>
+                <td>{{ abonnement.created_at | date }}</td>
+                <td>
+                  <span class="badge badge-outline" [ngClass]="{
+                      'bg-success-subtle text-success text-uppercase':
+                        abonnement.statutTarg === 'actived',
+                      'bg-danger-subtle text-danger text-uppercase':
+                        abonnement.statutTarg !== 'actived'
+                    }">
+                    {{ abonnement.statutTarg == "actived" ? "Activé" : "Désactivé" }}
+                  </span>
+                </td>
+                <!-- <td>
+                  <button class="btn btn-primary btn-sm">Activer</button>
+                  <button class="btn btn-primary btn-sm">Exonérer</button>
+                  <button class="btn btn-danger btn-sm">Retirer</button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

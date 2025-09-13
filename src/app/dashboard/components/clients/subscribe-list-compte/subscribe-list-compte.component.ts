@@ -16,6 +16,7 @@ import { SaveTagComponent } from '../save-tag/save-tag.component';
 import { SaveTagWithouAmountComponent } from '../save-tag-without-amount/save-tag-without-amount.component';
 import { PermissionService } from 'src/app/services/permission.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -59,7 +60,10 @@ accountNumber:any;
         private generalService: GeneralService,
     private sweetAlertService: SweetAlertService,
     public permissionService : PermissionService,
-    public authService:AuthService
+    public authService:AuthService,
+    private route: ActivatedRoute,
+
+
 
 
 
@@ -69,11 +73,14 @@ accountNumber:any;
 
   ngOnInit(): void {
 
-  this.generalService.successEvent.subscribe((data: any) => {
-    this.accountNumber = data.accountNumber ?? data.compte.accountNumber;
-    storageHelper.local.store("accountNumber",this.accountNumber);
+     this.route.params.subscribe(params => {
+      const accountNumber = params['accountNumber'];
+      this.accountNumber = accountNumber;
+    storageHelper.local.store("accountNumber",accountNumber);
       this.loadSubscriptions();
     });
+
+
     this.accountNumber = storageHelper.local.get("accountNumber")
     // Écoute des subscrption
     this.subscrptionService.subscription$

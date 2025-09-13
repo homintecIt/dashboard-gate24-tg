@@ -47,6 +47,10 @@ export class GeneralService {
     return this.httpClient.post<any>(`${apiEndpoints.clientsUrl}`, data);
   }
 
+  saveClientOther(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.clientsUrl}/other`, data);
+  }
+
   deleteTag(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${apiEndpoints.subscriptionUrl}/${id}`);
   }
@@ -123,6 +127,12 @@ export class GeneralService {
    transferSoldeCompte(data: any): Observable<any> {
     return this.httpClient.post<any>(`${apiEndpoints.comptesUrl}/transfer/solde`, data);
   }
+
+    transferCompteClient(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.comptesUrl}/transfer/compte/client`, data);
+  }
+
+
 
 
 

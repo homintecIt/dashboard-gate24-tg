@@ -63,6 +63,9 @@ import { RolesComponent } from './components/users/roles/roles.component';
 import { RolesService } from '../services/roles.service';
 import { MenusService } from '../services/menus.service';
 import { ChangePasswordComponent } from '../components/auth/change-password/change-password.component';
+import { AddClientLitigeComponent } from './components/clients/litige/add-client-litige/add-client-litige.component';
+import { ShowCompteLitigeComponent } from './components/clients/litige/show-compte-litige/show-compte-litige.component';
+import { TransfertCompteComponent } from './components/clients/litige/transfert-compte/transfert-compte.component';
 
 
 @NgModule({
@@ -120,7 +123,10 @@ import { ChangePasswordComponent } from '../components/auth/change-password/chan
     UsersCreateModalComponent,
     MenusComponent,
     RolesComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    AddClientLitigeComponent,
+    ShowCompteLitigeComponent,
+    TransfertCompteComponent
      ],
   imports: [
     CommonModule,
