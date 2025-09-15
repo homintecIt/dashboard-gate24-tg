@@ -126,7 +126,7 @@
                       <i class="ri-eye-line">Translation</i>
                     </button>
 
-                    <span class="btn btn-success btn-sm text-black-100" *ngIf="compte.solde != '0' && permissionService.hasPermission('Gestion clients', 'consulter') "
+                    <span class="btn btn-success btn-sm text-black-100" *ngIf="permissionService.hasPermission('Gestion clients', 'consulter') "
                       (click)="listAbonnementByCompte(compte)" title="voir liste de tag">
                       <i class="ri-bank-card-line">Abonnements</i>
 
