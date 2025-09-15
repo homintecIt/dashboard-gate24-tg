@@ -7,7 +7,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { AuthService } from 'src/app/services/auth.service';
 import { GeneralService } from 'src/app/services/general.service';
+import { PermissionService } from 'src/app/services/permission.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 
 @Component({
@@ -25,19 +27,24 @@ export class AddRechargesComponent implements OnInit {
   deactivated: boolean = false;
 
   ticketData: any;
-
+userRole:any;
   constructor(
     public bsModalRef: BsModalRef,
     private sweetAlertService: SweetAlertService,
     private formBuilder: FormBuilder,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    public authService:AuthService
+
   ) {}
 
   ngOnInit(): void {
+    this.userRole = this.authService.userRole;
+
+    console.log("role",this.userRole);
     this.rechargeForm = this.formBuilder.group({
       accountNumber: ['', [Validators.required, Validators.minLength(8)]],
       tagCode: [''],
-      montant: [ '', [ Validators.required, Validators.min(99)]]
+      montant:  this.userRole ==='Admin' ? [ '', [ Validators.required]] :  [ '', [ Validators.required, Validators.min(99)]]
     });
 
     if (this.data !== '') {
@@ -70,18 +77,25 @@ export class AddRechargesComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
       ]);
-      this.rechargeForm.controls['montant'].setValidators([
-        Validators.required, Validators.min(99)
-      ]);
+
+            this.rechargeForm.controls['montant'].setValidators(
+        this.userRole === 'Admin'
+          ? [Validators.required, Validators.min(99)]
+          : [Validators.required, ]
+      );
+
       this.rechargeForm.controls['tagCode'].clearValidators();
     } else {
       this.rechargeForm.controls['tagCode'].setValidators([
         Validators.required,
         Validators.minLength(4),
       ]);
-      this.rechargeForm.controls['montant'].setValidators([
-        Validators.required, Validators.min(99)
-      ]);
+         this.rechargeForm.controls['montant'].setValidators(
+        this.userRole === 'Admin'
+          ? [Validators.required, Validators.min(99)]
+          : [Validators.required, ]
+      );
+
       this.rechargeForm.controls['accountNumber'].clearValidators();
     }
     this.rechargeForm.controls['accountNumber'].updateValueAndValidity();

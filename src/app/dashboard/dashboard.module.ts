@@ -66,6 +66,7 @@ import { ChangePasswordComponent } from '../components/auth/change-password/chan
 import { AddClientLitigeComponent } from './components/clients/litige/add-client-litige/add-client-litige.component';
 import { ShowCompteLitigeComponent } from './components/clients/litige/show-compte-litige/show-compte-litige.component';
 import { TransfertCompteComponent } from './components/clients/litige/transfert-compte/transfert-compte.component';
+import { EditTagComponent } from './components/clients/edit-tag/edit-tag.component';
 
 
 @NgModule({
@@ -126,7 +127,8 @@ import { TransfertCompteComponent } from './components/clients/litige/transfert-
     ChangePasswordComponent,
     AddClientLitigeComponent,
     ShowCompteLitigeComponent,
-    TransfertCompteComponent
+    TransfertCompteComponent,
+    EditTagComponent
      ],
   imports: [
     CommonModule,

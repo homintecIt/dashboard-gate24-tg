@@ -154,6 +154,10 @@ export class GeneralService {
     return this.httpClient.put<any>(`${apiEndpoints.clientsUrl}/update/${uuid}`, data);
   }
 
+    updateTag(data: any,): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.subscriptionUrl}/update/info/`, data);
+  }
+
 
 
   listClient(data: any): Observable<any> {

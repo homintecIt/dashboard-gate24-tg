@@ -19,8 +19,12 @@ export class AddClientLitigeComponent implements OnInit {
   clientForm!: FormGroup;
   submitted = false;
   loading = false;
-
+  dataTransfert:any;
   tel?:string;
+accountNumber: any;
+tagCode: any;
+montant: any;
+dataRecharge: any;
   constructor(
     private formBuilder: FormBuilder,
     private dateService: DateService,
@@ -63,6 +67,108 @@ onSubmitEdit() {
   }
 this.getClientByTel(this.tel);
 }
+
+
+onSubmitTransfertTageCode () {
+  console.log("tel", this.tel);
+  if (!this.tagCode && !this.accountNumber) {
+    console.warn("Le numéro de téléphone est vide !");
+    return; // stop si pas de tel
+  }
+    const body ={
+      tagCode : this.tagCode,
+      accountNumberTo : this.accountNumber
+    }
+    this.generalService.transferTagToCompte(body).subscribe({
+      next: ((data) =>{
+
+        this.dataTransfert = data;
+        setTimeout(() => {
+              this.handleSuccess(data, 'Tag transféré avec succès');
+        }, 20);
+
+        setTimeout(()=>{
+          this.dataTransfert =null;
+        },3000);
+      }),
+      error: (error: HttpErrorResponse) => this.handleError(error),
+    });
+
+
+}
+
+onSubmitRechargeCompte() {
+  console.log("tel", this.tel);
+
+  if (!this.montant || !this.accountNumber) {
+    console.warn("Le montant ou le numéro de compte est vide !");
+    return; // stop si champ manquant
+  }
+
+  this.generalService
+    .rechargeAccount({
+      accountNumber: this.accountNumber,
+      montant: this.montant,
+    })
+    .subscribe({
+      next: (data) => {
+        if (data.status === 400) {
+          this.sweetAlertService.toastError(
+            'Erreur !',
+            5000,
+            "compteClient non trouvé"
+          );
+          return;
+        }
+
+        this.dataRecharge = data;
+        this.handleSuccess(data, 'Compte rechargé avec succès');
+
+
+        setTimeout(()=>{
+          this.dataRecharge =null;
+          this.montant ='';
+        },3000);
+      },
+
+      error: (error: HttpErrorResponse) => this.handleError(error),
+    });
+}
+
+
+
+
+  handleSuccess(data: any, message: string) {
+    this.loading = false;
+    this.generalService.successEvent.emit(data);
+    this.sweetAlertService.toastSuccess(message, 5000);
+    this.resetFormTransfert();
+  }
+
+   resetFormTransfert() {
+   this.accountNumber ='';
+   this.tagCode ='';
+  }
+
+   handleError(error: HttpErrorResponse) {
+    this.loading = false;
+    this.generalService.failureEvent.emit(error);
+
+    let message ="";
+    if (error.error.message ="This account does not exist!") {
+      message = "Ce compte n'existe pas !"
+    }
+
+    if (error.error.message ="This subscription does not exist!") {
+      message = "Cet abonnement n'existe pas !"
+    }
+    this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+     message ||
+        'Le service est temporairement indisponible'
+    );
+  }
 
 
    getClientByTel(tel: string) {

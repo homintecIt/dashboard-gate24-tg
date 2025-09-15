@@ -159,7 +159,7 @@ export class ShowCompteLitigeComponent implements OnInit {
 
 
    editClient(data: any) {
-     this.modalService.openModal(EditClientModalComponent, data, 'modal-md');
+     this.modalService.openModal(EditClientComponent, data, 'modal-md');
    }
 
    createClient(data: any) {
