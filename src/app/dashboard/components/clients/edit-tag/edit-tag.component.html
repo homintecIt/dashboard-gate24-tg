@@ -21,26 +21,22 @@
         <div class="col-md-6">
           <label for="plaque" class="form-label">Plaque</label>
           <input type="text" class="form-control" id="plaque" formControlName="plaque"
-            [ngClass]="{ 'is-invalid': submitted && form['plaque'].errors }">
-          <div *ngIf="submitted && form['plaque'].errors" class="invalid-feedback">
-            <div *ngIf="form['plaque'].errors['required']">Les prénoms sont obligatoires</div>
-            <div *ngIf="form['plaque'].errors['minlength']">Les prénoms doivent comporter au moins 2 caractères
-            </div>
-          </div>
+          >
+
         </div>
       </div>
 
 
       <div class="row mb-3">
         <div class="col-md-6">
-          <label class="form-label" for="typeTag">Type de Tage</label>
-          <select class="form-control" id="typeTag" formControlName="typeTag"
-            [ngClass]="{ 'is-invalid': submitted && form['typeTag'].errors }">
+          <label class="form-label" for="typeTarg">Type de Tage</label>
+          <select class="form-control" id="typeTarg" formControlName="typeTarg"
+            [ngClass]="{ 'is-invalid': submitted && form['typeTarg'].errors }">
             <option value="CARTE" selected>CARTE</option>
-            <option value="UHF">EntrUHFeprise</option>
+            <option value="UHF">UHF</option>
           </select>
-          <div *ngIf="submitted && form['typeTag'].errors" class="invalid-feedback">
-            <small *ngIf="form['typeTag'].errors['required']">Le type de  est obligatoire.</small>
+          <div *ngIf="submitted && form['typeTarg'].errors" class="invalid-feedback">
+            <small *ngIf="form['typeTarg'].errors['required']">Le type de  est obligatoire.</small>
           </div>
         </div>
 

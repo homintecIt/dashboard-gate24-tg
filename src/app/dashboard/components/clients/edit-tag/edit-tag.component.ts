@@ -31,15 +31,16 @@ export class EditTagComponent implements OnInit {
     this.tageForm = this.formBuilder.group({
       tagCode: ['', [Validators.required, Validators.minLength(2)]],
       plaque: ['', [Validators.required, Validators.minLength(2)]],
-      typeTag: ['', [Validators.required]],
+      typeTarg: ['', []],
     });
+
 
     if (this.data !== '') {
       this.tageForm.patchValue({
         tagCode: this.data.tagCode,
         plaque: this.data.plaque,
-        typeTag: this.data.typeTag,
-        
+        typeTarg: this.data.typeTarg,
+
       });
     }
   }
@@ -56,14 +57,21 @@ export class EditTagComponent implements OnInit {
     }
     this.loading = true;
 
-    this.generalService.updateTag(this.tageForm.value).subscribe({
+    const body={
+      id : this.data.id,
+      tagCode: this.tageForm.value.tagCode,
+        plaque: this.tageForm.value.plaque,
+        typeTarg: this.tageForm.value.typeTarg,
+    }
+
+    this.generalService.updateTag(body).subscribe({
       next: (resp) => {
         const data = {
-          type: 'phoneNumber',
-          value: resp.tel,
+          type: 'tagCode',
+          value: this.tageForm.value.tagCode,
         };
         storageHelper.local.store(`${searchType}`, data);
-        this.handleSuccess(resp, 'Client mis à jour avec succès')
+        this.handleSuccess(data, 'Client mis à jour avec succès')
       },
       error: (error: HttpErrorResponse) => this.handleError(error),
     });

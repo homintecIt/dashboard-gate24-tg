@@ -90,8 +90,15 @@ export class ShowCompteLitigeComponent implements OnInit {
      this.generalService.successEvent.subscribe((data: any) => {
          ///console.log("data",data);
         this.route.params.subscribe(params => {
-       const tel = params['tel'];
-       this.getClientByTel(tel);
+           const newtel =  storageHelper.local.get(`${searchType}`);
+
+        if (newtel.type =='phoneNumber'&& newtel.value != params['tel']) {
+          this.getClientByTel(newtel.value);
+
+        }else{
+          const tel = params['tel'];
+
+        }
      });
        ////const value = storageHelper.local.get(`${searchType}`);
      //  this.getData(data);

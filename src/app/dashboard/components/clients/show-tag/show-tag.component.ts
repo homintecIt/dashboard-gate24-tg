@@ -1,3 +1,4 @@
+import { EditTagComponent } from './../edit-tag/edit-tag.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -52,9 +53,20 @@ export class ShowtagComponent implements OnInit {
   }
 
   loadData() {
-    const value = storageHelper.local.get(`${searchType}`);
+    let value = storageHelper.local.get(`${searchType}`);
     this.generalService.successEvent.subscribe((data) => {
+        const newtel =  storageHelper.local.get(`${searchType}`);
+        if (newtel.type =='tagCode'&& newtel.value != value['tel']) {
+          value= {
+             type: 'tagCode',
+          value: data.value,
+          }
       this.getData(value);
+
+        }else{
+      this.getData(value);
+
+        }
     }
   );
   }
@@ -66,6 +78,9 @@ export class ShowtagComponent implements OnInit {
   }
 
   getData(data: any) {
+
+    console.log("date",data);
+
     if (data.type === 'accountNumber') {
       this.generalService.getCompteClient(data.value).subscribe({
         next: (resp) => {
@@ -115,6 +130,10 @@ export class ShowtagComponent implements OnInit {
 
   editClient(data: any) {
     this.modalService.openModal(EditClientComponent, data, 'modal-md');
+  }
+
+   editTag(data: any) {
+    this.modalService.openModal(EditTagComponent, data, 'modal-md');
   }
 
 

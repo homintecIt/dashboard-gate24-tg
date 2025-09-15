@@ -59,8 +59,6 @@ dataRecharge: any;
   }
 
 onSubmitEdit() {
-  console.log("tel", this.tel);
-
   if (!this.tel) {
     console.warn("Le numéro de téléphone est vide !");
     return; // stop si pas de tel
@@ -72,7 +70,7 @@ this.getClientByTel(this.tel);
 onSubmitTransfertTageCode () {
   console.log("tel", this.tel);
   if (!this.tagCode && !this.accountNumber) {
-    console.warn("Le numéro de téléphone est vide !");
+    console.warn("Le tagCode  est vide !");
     return; // stop si pas de tel
   }
     const body ={
@@ -98,8 +96,6 @@ onSubmitTransfertTageCode () {
 }
 
 onSubmitRechargeCompte() {
-  console.log("tel", this.tel);
-
   if (!this.montant || !this.accountNumber) {
     console.warn("Le montant ou le numéro de compte est vide !");
     return; // stop si champ manquant
