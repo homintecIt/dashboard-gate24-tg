@@ -8,6 +8,8 @@ import { GeneralService } from 'src/app/services/general.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import { SaveTagComponent } from '../../save-tag/save-tag.component';
 import { ListesClientService } from 'src/app/services/liste-client.service';
+import { site } from 'src/app/misc/api-endpoints.misc';
+import { da } from 'date-fns/locale';
 
 @Component({
   selector: 'app-add-client-litige',
@@ -25,6 +27,11 @@ accountNumber: any;
 tagCode: any;
 montant: any;
 dataRecharge: any;
+site: any;
+sitePassage: any;
+
+voie: any;
+datePassage: any;
   constructor(
     private formBuilder: FormBuilder,
     private dateService: DateService,
@@ -36,6 +43,8 @@ dataRecharge: any;
   ) {}
 
   ngOnInit(): void {
+
+    this.site = `${site}`
     this.currentDate();
     this.clientForm = this.formBuilder.group({
       nom: ['', [Validators.required, Validators.minLength(2)]],
@@ -63,12 +72,33 @@ onSubmitEdit() {
     console.warn("Le numéro de téléphone est vide !");
     return; // stop si pas de tel
   }
+
+    if (this.site !='DIRECTION') {
+
+        this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+          "Vous ne pouvez pas effectuer cette transaction depuis ce site. Connectez-vous à la plateforme de la direction."
+      );
+    return; // stop si champ manquant
+
+  }
 this.getClientByTel(this.tel);
 }
 
 
 onSubmitTransfertTageCode () {
-  console.log("tel", this.tel);
+
+    if (this.site !='DIRECTION') {
+
+        this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+          "Vous ne pouvez pas effectuer cette transaction depuis ce site. Connectez-vous à la plateforme de la direction."
+      );
+    return; // stop si champ manquant
+
+  }
   if (!this.tagCode && !this.accountNumber) {
     console.warn("Le tagCode  est vide !");
     return; // stop si pas de tel
@@ -96,6 +126,18 @@ onSubmitTransfertTageCode () {
 }
 
 onSubmitRechargeCompte() {
+
+
+  if (this.site !='DIRECTION') {
+
+        this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+          "Vous ne pouvez pas effectuer cette transaction depuis ce site. Connectez-vous à la plateforme de la direction."
+      );
+    return; // stop si champ manquant
+
+  }
   if (!this.montant || !this.accountNumber) {
     console.warn("Le montant ou le numéro de compte est vide !");
     return; // stop si champ manquant
@@ -133,6 +175,49 @@ onSubmitRechargeCompte() {
 
 
 
+onSubmitPassages() {
+  if (!this.tagCode || !this.site || !this.voie|| !this.datePassage) {
+    console.warn("Le site ou le voie, date est vide !");
+
+    console.log("oaddd", this.datePassage);
+
+    return; // stop si champ manquant
+  }
+
+
+  if (this.site =='DIRECTION') {
+
+        this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+          "Vous ne pouvez pas effectuer cette transaction de passage depuis le site de la Direction. Connectez-vous au site du passage concerné."
+      );
+    return; // stop si champ manquant
+
+  }
+
+  this.generalService
+    .passages({
+      site: this.site,
+      voie: this.voie,
+      montantPassage: 500,
+      tagCode: this.tagCode,
+      datePassage: this.datePassage,
+    })
+    .subscribe({
+      next: (data) => {
+        this.handleSuccess(data, 'Passage effectué  avec succès');
+        setTimeout(()=>{
+          this.voie =null;
+          this.tagCode ='';
+          this.datePassage ='';
+
+        },3000);
+      },
+
+      error: (error: HttpErrorResponse) => this.handleErrorLigite(error),
+    });
+}
 
   handleSuccess(data: any, message: string) {
     this.loading = false;
@@ -167,6 +252,20 @@ onSubmitRechargeCompte() {
   }
 
 
+     handleErrorLigite(error: HttpErrorResponse) {
+    this.loading = false;
+    this.generalService.failureEvent.emit(error);
+
+    let message =error.error.message;
+
+    this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+     message ||
+        'Le service est temporairement indisponible'
+    );
+  }
+
    getClientByTel(tel: string) {
      this.clientService.getClientByTel(tel).subscribe(
        (data) => {
@@ -194,6 +293,19 @@ onSubmitRechargeCompte() {
     if (this.clientForm.invalid) {
       return;
     }
+
+
+  if (this.site =='DIRECTION') {
+
+        this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+          "Vous ne pouvez pas effectuer cette transaction de passage depuis le site de la Direction. Connectez-vous au site du passage concerné."
+      );
+    return; // stop si champ manquant
+
+  }
+  
     this.loading = true;
 
     this.generalService.saveClientOther(this.clientForm.value).subscribe({

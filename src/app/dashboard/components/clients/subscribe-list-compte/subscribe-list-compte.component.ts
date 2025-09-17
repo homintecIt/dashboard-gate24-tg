@@ -73,6 +73,15 @@ accountNumber:any;
 
   ngOnInit(): void {
 
+    this.generalService.successEvent.subscribe((data: any) => {
+      this.accountNumber = data.compte.accountNumber;
+    storageHelper.local.store("accountNumber",data.compte.accountNumber);
+      this.loadSubscriptions();
+
+    });
+
+
+
      this.route.params.subscribe(params => {
       const accountNumber = params['accountNumber'];
       this.accountNumber = accountNumber;

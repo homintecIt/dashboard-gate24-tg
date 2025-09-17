@@ -103,6 +103,8 @@ export class SaveTagWithouAmountComponent {
     }
     this.generalService.saveTargwithoutAmount(body).subscribe({
       next: ((data) =>{
+
+        console.log("okokokokokoko",data);
         this.handleSuccess(data, 'Tag enregistré avec succès');
       }),
       error: (error: HttpErrorResponse) => this.handleError(error),
@@ -126,7 +128,7 @@ export class SaveTagWithouAmountComponent {
     this.generalService.successEvent.emit(data);
     this.ticketData = data;
     this.sweetAlertService.toastSuccess(message, 5000);
-    ///this.printReceiptContent();
+    this.printReceiptContent();
     this.resetFormClose();
   }
 
@@ -155,7 +157,7 @@ export class SaveTagWithouAmountComponent {
           <style>
             body {
               font-family: Arial, sans-serif;
-              margin: 20px;
+              margin: 5px;
             }
             .text-center {
               text-align: center;
@@ -164,8 +166,17 @@ export class SaveTagWithouAmountComponent {
               text-align: end;
             }
             .mb-3 {
-              margin-bottom: 15px;
+              margin-bottom: 5px;
             }
+
+             footer {
+          position: relative;
+        bottom: 0;
+        margin-top: 10px;
+          }
+      @page {
+        margin: 0;
+      }
           </style>
         </head>
         <body onload="window.print(); window.close();">
@@ -178,7 +189,6 @@ export class SaveTagWithouAmountComponent {
             <p><strong>Client :</strong> ${this.ticketData.client?.nom || '-'}  ${this.ticketData.client?.prenom}</p>
             <p><strong>Numéro de compte :</strong> ${this.ticketData.compte?.accountNumber || '-'}</p>
             <p><strong>Code du Tag :</strong> ${this.ticketData.tagCode || '-'}</p>
-            <p><strong>Montant payé :</strong> ${this.ticketData.compte?.solde ? this.ticketData.compte?.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }) : 'Exonéré'}</p>
             <p><strong>Solde :</strong> ${this.ticketData.compte?.solde ? this.ticketData.compte?.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }) : '-'}</p>
             <p><strong>Plaque :</strong> ${this.ticketData.plaque || '-'}</p>
           </div>

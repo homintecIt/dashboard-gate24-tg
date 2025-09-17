@@ -2,8 +2,9 @@ import { environment } from "src/environments/environment";
 
 export const onlineApiUrlBase = environment.apiUrl;
 export const testApiUrlBase = environment.apiTestUrl;
-
 export const apiUrlBase = testApiUrlBase;
+
+export const site = environment.site;
 
 const apiEndpoints = {
   apiUrlBase: apiUrlBase,
@@ -41,6 +42,7 @@ const apiEndpoints = {
   rolesUrl: `${apiUrlBase}/roles`,
   actionUrl: `${apiUrlBase}/actions`,
   exportTransaction : `${apiUrlBase}/transactions/export`,
+  passageUrl: `${apiUrlBase}/passage`
 
 
 }

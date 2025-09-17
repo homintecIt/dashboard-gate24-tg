@@ -238,7 +238,7 @@
                     <div class="row mb-3">
 
                       <div class="col-md-6">
-                        <label for="tel" class="form-label">Numéro Compte destinateur</label>
+                        <label for="tel" class="form-label">Numéro Compte</label>
                         <input type="text" class="form-control" id="accountNumber" [(ngModel)]="accountNumber"
                           name="accountNumber">
                       </div>
@@ -260,16 +260,98 @@
 
                 </div>
               </div>
+
+
+      <span class="alert alert-info" *ngIf="dataRecharge">Recharge de  {{this.dataRecharge.montant}} FCFA effectué
+        avec succès sur le compte n° :{{dataRecharge.compte.accountNumber}}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-6">
+   <div class="card  p-1">
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="white_card card_height_100 mb_30">
+              <div class="white_card_header">
+                <div class="box_header m-0">
+                  <div class="main-title text-center">
+                    <h3 class="m-0">Passages de Tag</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="white_card_body">
+                <div class="card-body">
+                  <form>
+                    <div class="row mb-3">
+
+                      <div class="col-md-3">
+                        <label for="tel" class="form-label">Tag code</label>
+                        <input type="text" class="form-control" id="tagCode" [(ngModel)]="tagCode"
+                          name="tagCode">
+                      </div>
 
 
-      <span class="alert alert-info" *ngIf="dataRecharge">Recharge de  {{this.dataRecharge.montant}} FCFA effectué
-        avec succès sur le compte n° :{{dataRecharge.compte.accountNumber}}</span>
+                      <div class="col-md-3">
+                        <label for="tel" class="form-label">Site</label>
+                        <input type="text" disabled="" class="form-control" id="site" [(ngModel)]="site"
+                          name="site">
+                      </div>
+
+                            <div class="col-md-3">
+                        <label for="tel" class="form-label">Voie</label>
+
+                        <select name="voie"  class="form-control" id="voie"  [(ngModel)]="voie">
+
+                          <option value="GATE-ALLER">GATE-ALLER</option>
+                          <option value="GATE-RETOUR">GATE-RETOUR</option>
+                          <option value="DA1">DA1</option>
+                          <option value="DA2">DA2</option>
+                          <option value="DA3">DA3</option>
+                          <option value="DA4">DA4</option>
+                          <option value="DA5">DA5</option>
+                          <option value="DA6">DA6</option>
+
+                                 <option value="DR5">DR1</option>
+                          <option value="DR2">DR2</option>
+                          <option value="DR3">DR3</option>
+                          <option value="DR4">DR4</option>
+                          <option value="DR5">DR5</option>
+                          <option value="DR6">DR6</option>
+
+                                 <option value="AA1">AA1</option>
+                          <option value="AA2">AA2</option>
+                          <option value="AR1">AR1</option>
+                          <option value="AR2">AR2</option>
+
+                        </select>
+                      </div>
+
+
+                        <div class="col-md-3">
+                        <label for="tel" class="form-label">Date passage</label>
+                        <input type="datetime-local" class="form-control" id="datePassage" [(ngModel)]="datePassage"
+                          name="datePassage">
+                      </div>
+
+                    </div>
+
+
+                    <div class="text-center">
+                      <button type="button" (click)="onSubmitPassages()" class="btn btn-primary">
+                        {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                      </button>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 </div>

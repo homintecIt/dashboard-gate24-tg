@@ -39,6 +39,12 @@ export class GeneralService {
     return this.httpClient.post<any>(`${apiEndpoints.rechargesUrl}/recharge/byAccountNumber`, data);
   }
 
+
+
+  passages(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.passageUrl}/save/litige`, data);
+  }
+
   rechargeTag(data: any): Observable<any> {
     return this.httpClient.post<any>(`${apiEndpoints.rechargesUrl}/recharge/byTargCode`, data);
   }
