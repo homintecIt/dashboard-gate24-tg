@@ -116,6 +116,10 @@
                   title="Supprimer ce client">
                     <i class="fs-3 ri-delete-bin-line text-danger"></i>
                   </button>
+                  <a  (click)="printingCompte(item)" title="imprimer Etat compte"
+                   *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')"
+                    ><i class="fs-3 ri-printer-line text-info"></i
+                  ></a>
                   <!-- <a href="" class=""
                     ><i class="mt-2 las la-eye-dropper text-success fs-4"></i
                   ></a> -->

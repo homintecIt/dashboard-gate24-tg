@@ -9,6 +9,16 @@
     <div class="modal-body">
       <div class="row">
         <div class="col-md-6">
+          <label for="tagId" class="form-label">TagId</label>
+          <input type="text" class="form-control" id="tagId" formControlName="tagId"
+            [ngClass]="{ 'is-invalid': submitted && form['tagId'].errors }">
+          <div *ngIf="submitted && form['tagId'].errors" class="invalid-feedback">
+            <div *ngIf="form['tagId'].errors['required']">Le tagId est obligatoire</div>
+            <div *ngIf="form['tagId'].errors['minlength']">Le tagId doit comporter au moins 2 caractères</div>
+          </div>
+        </div>
+
+           <div class="col-md-6">
           <label for="tagCode" class="form-label">Code Tag</label>
           <input type="text" class="form-control" id="tagCode" formControlName="tagCode"
             [ngClass]="{ 'is-invalid': submitted && form['tagCode'].errors }">
@@ -18,16 +28,16 @@
           </div>
         </div>
 
-        <div class="col-md-6">
+      </div>
+
+
+      <div class="row mb-3">
+                <div class="col-md-6">
           <label for="plaque" class="form-label">Plaque</label>
           <input type="text" class="form-control" id="plaque" formControlName="plaque"
           >
 
         </div>
-      </div>
-
-
-      <div class="row mb-3">
         <div class="col-md-6">
           <label class="form-label" for="typeTarg">Type de Tage</label>
           <select class="form-control" id="typeTarg" formControlName="typeTarg"

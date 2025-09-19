@@ -29,14 +29,20 @@ export class EditTagComponent implements OnInit {
 
   ngOnInit(): void {
     this.tageForm = this.formBuilder.group({
+      tagId: ['', [Validators.required, Validators.minLength(2)]],
       tagCode: ['', [Validators.required, Validators.minLength(2)]],
-      plaque: ['', [Validators.required, Validators.minLength(2)]],
+      plaque: ['', []],
       typeTarg: ['', []],
     });
 
 
     if (this.data !== '') {
+
+const tagId = BigInt(this.data.tagId);
+const hexUpper = tagId.toString(16).toUpperCase().padStart(16, '0');
+
       this.tageForm.patchValue({
+        tagId: hexUpper,
         tagCode: this.data.tagCode,
         plaque: this.data.plaque,
         typeTarg: this.data.typeTarg,
@@ -59,6 +65,7 @@ export class EditTagComponent implements OnInit {
 
     const body={
       id : this.data.id,
+      tagId: this.tageForm.value.tagId,
       tagCode: this.tageForm.value.tagCode,
         plaque: this.tageForm.value.plaque,
         typeTarg: this.tageForm.value.typeTarg,

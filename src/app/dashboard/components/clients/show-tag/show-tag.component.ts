@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { AddTagCompteComponent } from '../add-tag-compte/add-tag-compte.component';
 import { EditClientComponent } from '../edit-client/edit-client.component';
 import { AddRechargesComponent } from '../add-recharges/add-recharges.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -33,7 +34,9 @@ export class ShowtagComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private modalService: BootstrapModalService,
     private dateService: DateService,
-    private router: Router
+    private router: Router,
+    public authService:AuthService
+
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.detail = navigation?.extras?.state?.['data'];

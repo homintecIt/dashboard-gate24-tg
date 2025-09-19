@@ -36,7 +36,7 @@
         <div class="card">
           <div class="card-header bg-primary d-flex justify-content-between align-items-center">
             <h4 class="card-title text-white">Information du TAG</h4>
-            <button class="btn btn-info btn-sm " (click)="editTag(detail)"> Modifier </button>
+            <button class="btn btn-info btn-sm " *ngIf="authService.userRole ==='Admin'" (click)="editTag(detail)"> Modifier </button>
 
           </div>
           <div class="card-body">

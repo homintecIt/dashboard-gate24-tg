@@ -170,8 +170,16 @@ getClientByTel(tel: string): Observable<Client> {
 }
 
 getAccountbyAccountNumber(accountNumber: string): Observable<any> {
-  return this.http.post<Client>(`${this.apiUrl}/comptes/get/accountNumber`, { accountNumber });
+  return this.http.post<any>(`${this.apiUrl}/comptes/get/accountNumber`, { accountNumber });
 }
+
+
+
+  getRechargesbyAccount(accountNumber: string): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/recharges/get/byAccountNumber/last`, { accountNumber });
+}
+
+
 
 deleteAccount(accountNumber: string): Observable<any> {
   return this.http.delete<any>(`${this.apiUrl}/comptes/delete/local/${accountNumber}`);
