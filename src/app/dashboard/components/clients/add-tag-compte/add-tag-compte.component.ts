@@ -204,6 +204,14 @@ export class AddTagCompteComponent implements OnInit {
             .mb-3 {
               margin-bottom: 15px;
             }
+               footer {
+          position: relative;
+        bottom: 0;
+        margin-top: 10px;
+          }
+      @page {
+        margin: 0;
+      }
           </style>
         </head>
         <body onload="window.print(); window.close();">

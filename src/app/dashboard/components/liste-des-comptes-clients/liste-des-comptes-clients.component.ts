@@ -1,3 +1,4 @@
+import { data } from 'jquery';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ListesClientService } from 'src/app/services/liste-client.service';
 import { Account } from 'src/app/models/listeClient.model';
@@ -7,6 +8,8 @@ import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import Swal from 'sweetalert2';
 import { swalAnimation } from 'src/app/misc/utilities.misc';
 import { PermissionService } from 'src/app/services/permission.service';
+import { SearchListComponent } from '../enroulements/search-list/search-list.component';
+import { RechercheModalComponent } from '../enroulements/recherche-modal/recherche-modal.component';
 
 @Component({
   selector: 'app-liste-des-comptes-clients',
@@ -41,11 +44,14 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
   // États
   loading = false;
   error: string | null = null;
+  ticketData: any;
 
   constructor(
     private accountService: ListesClientService,
     private sweetAlert: SweetAlertService,
     public permissionService : PermissionService,
+
+    private modalService: BootstrapModalService,
 
   ) {}
 
@@ -55,8 +61,6 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     this.accountService.account$
       .pipe(takeUntil(this.destroy$))
       .subscribe((account) => {
-        console.log("account", account);
-
         this.account = account;
         this.filterAccounts();
       });
@@ -100,7 +104,6 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
       }
       this.loadAccounts(this.currentPage, this.searchTerm, this.searchTermMontant);
     });
-    console.log(this.account);
 
   }
 
@@ -109,6 +112,16 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     this.destroy$.complete();
     this.searchSubject.complete();
   }
+
+     newCompte() {
+      this.modalService.openModal(SearchListComponent, "newCompte", 'modal-md modal-dialog-centered');
+
+      }
+
+        showCompte() {
+          this.modalService.openModal(RechercheModalComponent, "accountNumber", 'modal-md modal-dialog-centered');
+
+          }
 
   // Chargement des comptes avec filtres: numéro de compte et solde
   loadAccounts(page: number = 1, searchTerm?: string, solde?: number): void {
@@ -240,6 +253,21 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
         this.deleteClient(item.client.uuid);
       }
     });
+
+  }
+
+
+    printingCompte(item: Account): void {
+     this.accountService.getRechargesbyAccount(item.accountNumber!).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {
+        this.ticketData = data;
+      this.printReceiptContent();
+
+      },
+      error: (error) => {
+        this.sweetAlert.toastError('Erreur !', 5000, (error?.error?.message || error?.error?.error) || 'Le service est temporairement indisponible');
+      }
+    });
   }
 
   private deleteClient(uuid: string): void {
@@ -257,4 +285,77 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
       }
     });
   }
+
+     formatToCurrency(value:any) {
+    const number = Number(value);
+    if (isNaN(number)) {
+      throw new Error('Valeur invalide. Impossible de convertir en nombre.');
+    }
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XOF',
+    }).format(number);
+  }
+
+  printReceiptContent() {
+    if (!this.ticketData) {
+     /// this.sweetAlertService.toastError('Données du ticket manquantes', 5000);
+      return;
+    }
+
+    const montant  = this.formatToCurrency(this.ticketData.recharge.montant);
+
+  const receiptHtml = `
+<html>
+  <head>
+    <title>Etat compte Client</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 10px;
+      }
+      .text-center { text-align: center; }
+      .text-end { text-align: end; }
+      .mb-3 { margin-bottom: 15px; }
+      footer {
+        text-align: center;
+        margin-top: 20px;
+      }
+      @page { margin: 0; }
+    </style>
+  </head>
+  <body onload="window.print(); window.close();">
+    <div class="d-flex flex-column align-items-center justify-content-between mb-4 text-center">
+      <img src="/assets/img/logo.png" alt="logo" width="50">
+      <h5>Etat de compte Client</h5>
+      <p>Date : ${new Date().toLocaleDateString('fr-FR', {
+        day: 'numeric', month: 'long', year: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric'
+      })}</p>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>Client :</strong> ${(this.ticketData.compte.client.nom || '-')}  ${this.ticketData.compte.client.prenom || '-'}</p>
+      <p><strong>Numéro de compte :</strong> ${this.ticketData.compte?.accountNumber || '-'}</p>
+      <p><strong>Dernière Recharge :</strong> ${this.ticketData.recharge?.montant ? this.ticketData.recharge.montant : '-'}</p>
+      <p><strong>Solde :</strong> ${this.ticketData.compte?.solde ? this.ticketData.compte.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }) : '-'}</p>
+    </div>
+
+    <footer>
+      <p>Merci pour votre paiement !</p>
+      <p><em>Safer</em></p>
+    </footer>
+  </body>
+</html>
+`;
+
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(receiptHtml);
+      printWindow.document.close();
+    } else {
+    }
+  }
+
 }

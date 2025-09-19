@@ -2,8 +2,9 @@ import { environment } from "src/environments/environment";
 
 export const onlineApiUrlBase = environment.apiUrl;
 export const testApiUrlBase = environment.apiTestUrl;
-
 export const apiUrlBase = testApiUrlBase;
+
+export const site = environment.site;
 
 const apiEndpoints = {
   apiUrlBase: apiUrlBase,
@@ -15,6 +16,7 @@ const apiEndpoints = {
   forgotPasswordUrl: `${apiUrlBase}/auth/forget/password`,
   resetPasswordUrl: `${apiUrlBase}/auth/reset/password`,
   changePasswordUrl: `${apiUrlBase}/auth/change/password`,
+  firstResetPasswordUrl: `${apiUrlBase}/users/change/password`,
   logoutUrl: `${apiUrlBase}/auth/logout`,
   usersUrl: `${apiUrlBase}/users`,
   uploadProfileUrl: `${apiUrlBase}/file`,
@@ -39,6 +41,8 @@ const apiEndpoints = {
   menusUrl: `${apiUrlBase}/menus`,
   rolesUrl: `${apiUrlBase}/roles`,
   actionUrl: `${apiUrlBase}/actions`,
+  exportTransaction : `${apiUrlBase}/transactions/export`,
+  passageUrl: `${apiUrlBase}/passage`
 
 
 }

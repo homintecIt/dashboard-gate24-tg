@@ -273,4 +273,57 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
 
+
+
+  // Changement de statut
+  onReinstal(user: User): void {
+
+
+    swalWithBootstrapButtons.fire({
+      title: 'Êtes-vous sûr ?',
+      text: `Voulez-vous vraiment reinstaliser le mot de passe de 'utilisateur "${user.name}" ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: ' #405189',
+          cancelButtonColor: '#6c757d',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          reverseButtons: false,
+          ...swalAnimation,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updateDto = {
+          userId: user.id,
+        };
+
+        this.userService.resetPassword(updateDto).subscribe(
+          () => {
+
+            Swal.fire('Succès', `Le statut a été mis à jour.`, 'success');
+            this.refreshData();
+          },
+          (error) => {
+            console.error('Erreur lors de la mise à jour du statut', error);
+            Swal.fire('Erreur', 'La mise à jour a échoué.', 'error');
+          }
+        );
+      }
+    });
+
+
+
+    // this.userService.updateStatusUser(updateDto)
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe({
+    //     error: (err) => {
+    //       console.error('Erreur de mise à jour du statut', err);
+    //       // Optionnel : notification d'erreur
+    //     }
+    //   });
+  }
+
+
+
 }

@@ -27,6 +27,8 @@ import { ShowtagComponent } from './components/clients/show-tag/show-tag.compone
 import { MenusComponent } from './components/users/menus/menus.component';
 import { RolesComponent } from './components/users/roles/roles.component';
 import { PermissionGuard } from '../guards/permission.guard';
+import { AddClientLitigeComponent } from './components/clients/litige/add-client-litige/add-client-litige.component';
+import { ShowCompteLitigeComponent } from './components/clients/litige/show-compte-litige/show-compte-litige.component';
 const routes: Routes = [
   {
 
@@ -45,7 +47,7 @@ const routes: Routes = [
          canActivate: [PermissionGuard],
           data: { menu: "Gestion abonnement" }
       },
-      { path: "subscribe-list/compte", component: SubscribeListCompteComponent,
+      { path: "subscribe-list/compte/:accountNumber", component: SubscribeListCompteComponent,
          canActivate: [PermissionGuard],
           data: { menu: 'Gestion comptes' }
        },
@@ -80,11 +82,15 @@ const routes: Routes = [
        },
       { path: "transaction/byTag", component: TransactionListSubscribeComponent },
       { path: 'clients/details/:tel', component: EditClientModalComponent },
+      { path: 'clients/details/litige/:tel', component: ShowCompteLitigeComponent },
+
+
       { path: 'add-client', component: AddClientComponent },
       { path: 'listesComptesClient/details/:accountNumber', component: DetailCompteClientComponent },
       { path: 'sync-status', component: SyncStatusComponent },
       { path: 'show-compte', component: ShowCompteComponent, },
       { path: 'show/tag', component: ShowtagComponent },
+      { path: 'create/client/litige', component: AddClientLitigeComponent },
       { path: 'menus', component: MenusComponent ,
          canActivate: [PermissionGuard],
           data: { menu: 'Gestion utilisateurs' }

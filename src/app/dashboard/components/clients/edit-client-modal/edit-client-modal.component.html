@@ -33,12 +33,19 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header bg-primary">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
           <h5 class="text-white"> Information du client <span class="badge" [ngClass]="{
             'bg-success-subtle text-success text-uppercase': client?.statut === 'actived',
             'bg-danger-subtle text-danger text-uppercase': client?.statut === 'disabled',
             'bg-warning-subtle text-warning text-uppercase': client?.statut === 'deleted',
           }">{{ client?.statut === 'actived' ? 'Activé' : client?.statut === 'disabled' ? 'Désactivé' : 'Supprimé' }}</span></h5>
 
+            <button class="btn btn-info btn-sm float-end" (click)="editClient(client)"> Modifier </button>
+
+
+                    </div>
           <!-- <button class="btn btn-primary float-end">Modifier</button> -->
         </div>
         <div class="card-body">
@@ -119,7 +126,7 @@
                       <i class="ri-eye-line">Translation</i>
                     </button>
 
-                    <span class="btn btn-success btn-sm text-black-100" *ngIf="compte.solde != '0' && permissionService.hasPermission('Gestion clients', 'consulter') "
+                    <span class="btn btn-success btn-sm text-black-100" *ngIf="permissionService.hasPermission('Gestion clients', 'consulter') "
                       (click)="listAbonnementByCompte(compte)" title="voir liste de tag">
                       <i class="ri-bank-card-line">Abonnements</i>
 
@@ -141,7 +148,7 @@
 
                     <span class="btn btn-warning btn-sm text-black-100" *ngIf="compte.solde != '0'"
                       (click)="transfertSoldeToCompte(compte)" title="transferer ce tag">
-                      <i class="fas fa-exchange-alt">Transfert</i>
+                      <i class="fas fa-exchange-alt">Transfert de solde</i>
 
                     </span>
 

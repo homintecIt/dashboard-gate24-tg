@@ -11,7 +11,7 @@ import { storageHelper } from 'src/app/misc/storage.misc';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TransfertTagComponent } from '../transfert-tag/transfert-tag.component';
-import { Transaction, TransactionResponse } from 'src/app/dashboard/interfaces/transaction';
+import { Transaction, TransactionResponse, VTransaction } from 'src/app/dashboard/interfaces/transaction';
 import { TransactionService } from '../../services/transaction.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -26,7 +26,7 @@ const swalWithBootstrapButtons = Swal.mixin({
 export class TransactionListSubscribeComponent implements OnInit, OnDestroy {
 
 
-    transactions: Transaction[] = [];
+    transactions: VTransaction[] = [];
     loading = false;
     error: string | null = null;
     searchTerm = '';

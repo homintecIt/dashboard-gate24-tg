@@ -9,8 +9,14 @@ import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service'
 import { SubscriptionEditModalComponent } from './subscription-edit-modal/subscription-edit-modal.component';
 import { SubscriptionDetailsModalComponent } from './subscription-details-modal/subscription-details-modal.component';
 import Swal from 'sweetalert2';
-import { swalAnimation } from 'src/app/misc/utilities.misc';
+import { searchType, swalAnimation } from 'src/app/misc/utilities.misc';
 import { GeneralService } from 'src/app/services/general.service';
+import { storageHelper } from 'src/app/misc/storage.misc';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SweetAlertService } from 'src/app/services/sweetalert.service';
+import { Router } from '@angular/router';
+import { SearchListComponent } from '../enroulements/search-list/search-list.component';
+import { PermissionService } from 'src/app/services/permission.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -50,15 +56,21 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
   constructor(
     private subscrptionService: SubscriptionService,
     private modalService: BootstrapModalService,
-        private generalService: GeneralService,
+    private generalService: GeneralService,
+    private sweetAlertService: SweetAlertService,
+    private router: Router,
+    public permissionService: PermissionService,
 
-  ) {}
+
+
+
+  ) { }
 
 
   ngOnInit(): void {
 
-  this.generalService.successEvent.subscribe((data: any) => {
-      this.loadSubscriptions(this.currentPage, "",data.accountNumber);
+    this.generalService.successEvent.subscribe((data: any) => {
+      this.loadSubscriptions(this.currentPage, "", data.accountNumber);
 
     });
 
@@ -105,9 +117,9 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
 
 
   // Chargement desloadSubscriptions pour accepter un terme de recherche
-  loadSubscriptions(page: number = 1, searchTerm?: string,accountNumber?:string): void {
+  loadSubscriptions(page: number = 1, searchTerm?: string, accountNumber?: string): void {
     this.subscrptionService
-      .loadSubscriptions(page, this.itemsPerPage, searchTerm,accountNumber)
+      .loadSubscriptions(page, this.itemsPerPage, searchTerm, accountNumber)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -145,18 +157,17 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
   }
 
   onStatusToggle(subscription: Subscription): void {
-  // Stocker le statut initial
-  const initialStatus = subscription.statutTarg;
+    // Stocker le statut initial
+    const initialStatus = subscription.statutTarg;
 
-  // Désactiver le switch pendant le processus
-  this.isStatusChanging = true;
+    // Désactiver le switch pendant le processus
+    this.isStatusChanging = true;
 
     swalWithBootstrapButtons
       .fire({
         title: 'Êtes-vous sûr ?',
-        text: `Voulez-vous vraiment ${
-          subscription.statutTarg === 'actived' ? 'désactiver' : 'activer'
-        } le type "${subscription.tagCode}" ?`,
+        text: `Voulez-vous vraiment ${subscription.statutTarg === 'actived' ? 'désactiver' : 'activer'
+          } le type "${subscription.tagCode}" ?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Oui',
@@ -231,17 +242,49 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
 
   openDetailsModal(subscription: Subscription): void {
     console.log('Ouverture des détails:', subscription);
+    /*
+        this.modalService.openModal(
+          SubscriptionDetailsModalComponent,
+          subscription,
+          'modal-lg'
+        );
 
-    this.modalService.openModal(
-      SubscriptionDetailsModalComponent,
-      subscription,
-      'modal-lg'
-    );
+        // Souscrire aux événements du modal si nécessaire
+        this.modalService.modalRef.onHidden?.subscribe(() => {
+          // this.refreshData(); // Rafraîchir la liste après fermeture du modal
+        }); */
 
-    // Souscrire aux événements du modal si nécessaire
-    this.modalService.modalRef.onHidden?.subscribe(() => {
-      // this.refreshData(); // Rafraîchir la liste après fermeture du modal
+    this.generalService.searchWithTagCode(subscription.tagCode).subscribe({
+      next: (resp: any) => {
+        if (resp === null) {
+          this.loading = false;
+        } else {
+          const data = {
+            type: 'tagCode',
+            value: subscription.tagCode,
+          };
+          storageHelper.local.store(`${searchType}`, data);
+          this.router.navigate(['/dashboard/show/tag'], { state: { data: resp } });
+        }
+      },
+      error: (error: HttpErrorResponse) => this.handleError(error)
     });
+
+
+
+  }
+
+
+  handleError(error: HttpErrorResponse) {
+    this.loading = false;
+    this.generalService.failureEvent.emit(error);
+    this.sweetAlertService.toastError(
+      'Erreur !',
+      5000,
+      error.error.message ||
+      error.error.error ||
+      'Le service est temporairement indisponible'
+    );
   }
   // Génération des pages
   getPagesArray(): number[] {
@@ -305,4 +348,9 @@ export class SubscribeListComponent implements OnInit, OnDestroy {
   refreshData(): void {
     this.loadSubscriptions(this.currentPage);
   }
+
+  searchChoice() {
+    this.modalService.openModal(SearchListComponent, '', 'modal-md modal-dialog-centered');
+  }
+
 }

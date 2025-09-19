@@ -68,8 +68,6 @@ export class AuthService {
 
   get userRole() {
     const user: any = this.user;
-    console.log("role",user);
-
     return user.role as string;
   }
 
@@ -91,5 +89,9 @@ export class AuthService {
 
   onAuthFailure(data: any) {
     this.authFailureEvent.emit(data);
+  }
+
+   firstResetPassword(data: any) {
+    return this.httpClient.post<any>(apiEndpoints.firstResetPasswordUrl, data);
   }
 }

@@ -1,7 +1,9 @@
+import { ToastrModule } from 'ngx-toastr';
+import { ListesClientService } from 'src/app/services/liste-client.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
-import { Transaction, TransactionResponse } from '../../interfaces/transaction';
+import { Transaction, TransactionResponse, VTransaction } from '../../interfaces/transaction';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -13,17 +15,26 @@ import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service'
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
-  transactions: Transaction[] = [];
+
+  transactions: VTransaction[] = [];
   loading = false;
   error: string | null = null;
   searchTerm = '';
   selectedType = '';
+  dateStart = '';
+  dateEnd = '';
+  siteTransaction="";
+  tagCode ='';
+  client ='';
+
+
 
   // Pagination
   currentPage = 1;
   itemsPerPage = 10;
   totalItems = 0;
   totalPages = 1;
+  totalAmount =0;
 
   // Options pour le filtre de type
   typeOptions = [
@@ -39,11 +50,12 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   isEditModalOpen = false;
   isDetailsModalOpen = false;
   isStatusChanging = false;
-
+ distinctClients: any[] = [];
   constructor(
     @Inject(TransactionService) private transactionService: TransactionService,
     private modalService: BootstrapModalService,
     private route: ActivatedRoute,
+    private listesClientService: ListesClientService,
     private router: Router
   ) {}
 
@@ -55,6 +67,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       }
       this.loadTransactions();
     });
+
+
   }
 
   ngOnDestroy(): void {
@@ -79,12 +93,21 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         pageForApi,  // Envoyer la page 0-based à l'API
         this.itemsPerPage,
         this.searchTerm,
-        this.selectedType
+        this.selectedType,
+        this.dateStart,
+        this.dateEnd,
+        this.siteTransaction,
+        this.client,
+        this.tagCode
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: TransactionResponse) => {
           this.transactions = response.items || [];
+
+          console.log("trans",response.meta?.totalAmount);
+
+          this.totalAmount = response.meta.totalAmount;
           this.totalItems = response.meta?.totalItems || 0;
           this.totalPages = response.meta?.totalPages || 1;
 
@@ -126,6 +149,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.searchTerm = '';
     this.selectedType = '';
     this.currentPage = 1;
+    this.dateEnd ="";
+    this.dateStart ="";
     this.loadTransactions();
   }
 
@@ -216,92 +241,46 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     window.history.back();
   }
 
-  // Écoute des transaction
-  // this.transactionservice.transaction$
-  //   .pipe(takeUntil(this.destroy$))
-  //   .subscribe((transaction) => {
-  //     this.transaction = transaction;
-  //     this.filterTransactions();
-  //   });
 
-  // Écoute du chargement
-  // this.transactionservice.loading$
-  //   .pipe(takeUntil(this.destroy$))
-  //   .subscribe((loading) => {
-  //     this.loading = loading;
-  //   });
+  onExportExcel() {
 
-  // Chargement initial
-  // this.loadTransactions();
+         const filters = {
+    accountNumber: this.searchTerm,
+    type: this.selectedType,
+    clientName: this.client,
+    siteTransaction: this.siteTransaction,
+    tagCode: this.tagCode,
+    dateStart: this.dateStart,
+    dateEnd : this.dateEnd
+  };
+this.transactionService.exportExcel(filters).subscribe((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'transactions.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
 
-  // Filtrage des transaction
-  // filterTransactions(): void {
-  //   const term = this.searchTerm.toLowerCase();
-  //   this.filteredTransactions = this.transaction.filter(
-  //     (transactions) =>
-  //       transactions.compte?.accountNumber.toLowerCase().includes(term) ||
-  //       transactions.montant.toLowerCase().includes(term)
-  //   );
-  // }
+onExportPdf() {
+  const filters = {
+    accountNumber: this.searchTerm,
+    type: this.selectedType,
+    clientName: this.client,
+    siteTransaction: this.siteTransaction,
+    tagCode: this.tagCode,
+    dateStart: this.dateStart,
+    dateEnd : this.dateEnd
+  };
+this.transactionService.exportPdf(filters).subscribe((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+     a.download = 'transactions.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
 
-  // Recherche
-  // onSearch(event: any): void {
-  //   this.searchTerm = event.target.value;
-  //   this.filterTransactions();
-  // }
-
-  // Génération des pages
-  // getPagesArray(): number[] {
-  //   const delta = 1;
-  //   const left = this.currentPage - delta;
-  //   const right = this.currentPage + delta;
-  //   const range: number[] = [];
-  //   const rangeWithDots: number[] = [];
-
-  //   // Générer la plage complète
-  //   for (let i = 1; i <= this.totalPages; i++) {
-  //     if (i === 1 || i === this.totalPages || (i >= left && i <= right)) {
-  //       range.push(i);
-  //     }
-  //   }
-
-  //   // Ajouter des points si nécessaire
-  //   for (let i = 0; i < range.length; i++) {
-  //     if (i > 0) {
-  //       if (range[i] - range[i - 1] > 1) {
-  //         rangeWithDots.push(-1); // Représente les points de suspension
-  //       }
-  //     }
-  //     rangeWithDots.push(range[i]);
-  //   }
-
-  //   return rangeWithDots;
-  // }
-
-  // Navigation entre pages
-  // goToPage(page: number): void {
-  //   if (page < 1 || page > this.totalPages) return;
-
-  //   this.currentPage = page;
-  //   this.transactionservice
-  //     .loadTransaction(this.currentPage, this.itemsPerPage)
-  //     .pipe(takeUntil(this.destroy$))
-  //     .subscribe({
-  //       next: (response) => {
-  //         this.totalItems = response.meta.totalItems;
-  //         this.totalPages = response.meta.totalPages;
-  //         this.currentPage = response.meta.currentPage;
-  //       },
-  //       error: (err) => {
-  //         console.error('Erreur de chargement', err);
-  //         this.error = 'Impossible de charger les transaction';
-  //       },
-  //     });
-  //   this.filterTransactions();
-  // }
-
-  // Rafraîchissement
-  // refreshData(): void {
-  //   this.loadTransactions(this.currentPage);
-  // }
+}
 }
