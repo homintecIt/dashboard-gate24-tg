@@ -59,7 +59,7 @@ export class SidebarComponent {
     }
 
 
-      newCompte() {
+    newCompte() {
     this.modalService.openModal(SearchListComponent, "newCompte", 'modal-md modal-dialog-centered');
 
     }

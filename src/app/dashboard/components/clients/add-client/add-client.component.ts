@@ -79,7 +79,7 @@ export class AddClientComponent implements OnInit {
     const value = input.value;
     // Remplacer chaque caractère selon la map
     const transformedValue =this.generalService.transformerRfidcode(value);
-  
+
     // Mettre à jour la valeur de l'input
     input.value = transformedValue;
   }

@@ -1,0 +1,69 @@
+
+<div class="modal-content">
+  <form novalidate [formGroup]="tageForm" (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5 text-center w-100">MODIFIER UN CLIENT</h1>
+      <button type="button" class="btn-close" (click)="resetFormClose()"></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="tagId" class="form-label">TagId</label>
+          <input type="text" class="form-control" id="tagId" formControlName="tagId"
+            [ngClass]="{ 'is-invalid': submitted && form['tagId'].errors }">
+          <div *ngIf="submitted && form['tagId'].errors" class="invalid-feedback">
+            <div *ngIf="form['tagId'].errors['required']">Le tagId est obligatoire</div>
+            <div *ngIf="form['tagId'].errors['minlength']">Le tagId doit comporter au moins 2 caractères</div>
+          </div>
+        </div>
+
+           <div class="col-md-6">
+          <label for="tagCode" class="form-label">Code Tag</label>
+          <input type="text" class="form-control" id="tagCode" formControlName="tagCode"
+            [ngClass]="{ 'is-invalid': submitted && form['tagCode'].errors }">
+          <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback">
+            <div *ngIf="form['tagCode'].errors['required']">Le tagCode est obligatoire</div>
+            <div *ngIf="form['tagCode'].errors['minlength']">Le tagCode doit comporter au moins 2 caractères</div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="row mb-3">
+                <div class="col-md-6">
+          <label for="plaque" class="form-label">Plaque</label>
+          <input type="text" class="form-control" id="plaque" formControlName="plaque"
+          >
+
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="typeTarg">Type de Tage</label>
+          <select class="form-control" id="typeTarg" formControlName="typeTarg"
+            [ngClass]="{ 'is-invalid': submitted && form['typeTarg'].errors }">
+            <option value="CARTE" selected>CARTE</option>
+            <option value="UHF">UHF</option>
+          </select>
+          <div *ngIf="submitted && form['typeTarg'].errors" class="invalid-feedback">
+            <small *ngIf="form['typeTarg'].errors['required']">Le type de  est obligatoire.</small>
+          </div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary"
+        (click)="resetFormClose()">ANNULER</button>
+      <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'MODIFIER' }}
+        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+      </button>
+    </div>
+    <!-- <pre>{{ clientForm.value | json }}</pre> -->
+  </form>
+
+</div>

@@ -1,3 +1,4 @@
+import { EditTagComponent } from './../edit-tag/edit-tag.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
 import { AddTagCompteComponent } from '../add-tag-compte/add-tag-compte.component';
 import { EditClientComponent } from '../edit-client/edit-client.component';
 import { AddRechargesComponent } from '../add-recharges/add-recharges.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
@@ -32,7 +34,9 @@ export class ShowtagComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private modalService: BootstrapModalService,
     private dateService: DateService,
-    private router: Router
+    private router: Router,
+    public authService:AuthService
+
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.detail = navigation?.extras?.state?.['data'];
@@ -52,9 +56,20 @@ export class ShowtagComponent implements OnInit {
   }
 
   loadData() {
-    const value = storageHelper.local.get(`${searchType}`);
+    let value = storageHelper.local.get(`${searchType}`);
     this.generalService.successEvent.subscribe((data) => {
+        const newtel =  storageHelper.local.get(`${searchType}`);
+        if (newtel.type =='tagCode'&& newtel.value != value['tel']) {
+          value= {
+             type: 'tagCode',
+          value: data.value,
+          }
       this.getData(value);
+
+        }else{
+      this.getData(value);
+
+        }
     }
   );
   }
@@ -66,6 +81,9 @@ export class ShowtagComponent implements OnInit {
   }
 
   getData(data: any) {
+
+    console.log("date",data);
+
     if (data.type === 'accountNumber') {
       this.generalService.getCompteClient(data.value).subscribe({
         next: (resp) => {
@@ -115,6 +133,10 @@ export class ShowtagComponent implements OnInit {
 
   editClient(data: any) {
     this.modalService.openModal(EditClientComponent, data, 'modal-md');
+  }
+
+   editTag(data: any) {
+    this.modalService.openModal(EditTagComponent, data, 'modal-md');
   }
 
 

@@ -62,6 +62,11 @@ import { MenusComponent } from './components/users/menus/menus.component';
 import { RolesComponent } from './components/users/roles/roles.component';
 import { RolesService } from '../services/roles.service';
 import { MenusService } from '../services/menus.service';
+import { ChangePasswordComponent } from '../components/auth/change-password/change-password.component';
+import { AddClientLitigeComponent } from './components/clients/litige/add-client-litige/add-client-litige.component';
+import { ShowCompteLitigeComponent } from './components/clients/litige/show-compte-litige/show-compte-litige.component';
+import { TransfertCompteComponent } from './components/clients/litige/transfert-compte/transfert-compte.component';
+import { EditTagComponent } from './components/clients/edit-tag/edit-tag.component';
 
 
 @NgModule({
@@ -119,6 +124,11 @@ import { MenusService } from '../services/menus.service';
     UsersCreateModalComponent,
     MenusComponent,
     RolesComponent,
+    ChangePasswordComponent,
+    AddClientLitigeComponent,
+    ShowCompteLitigeComponent,
+    TransfertCompteComponent,
+    EditTagComponent
      ],
   imports: [
     CommonModule,

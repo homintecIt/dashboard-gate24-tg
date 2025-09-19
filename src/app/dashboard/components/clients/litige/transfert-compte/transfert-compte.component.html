@@ -1,0 +1,43 @@
+<div class="modal-content">
+  <form novalidate [formGroup]="tagForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5 text-center w-100">TRANSFERT DE COMPTE ASSOCIE AU CLIENT</h1>
+      <button  type="button" class="btn-close" (click)="resetFormClose()"></button>
+    </div>
+
+    <div class="modal-body">
+
+
+
+
+      <div class="mb-3">
+        <label for="accountNumberOf">Numéro de compte de transfert</label>
+
+
+        <input type="text" id="accountNumberOf"  formControlName="accountNumberOf"  class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && form['accountNumberOf'].errors }" placeholder="00000000000"/>
+        <div *ngIf="submitted && form['accountNumberOf'].errors" class="invalid-feedback">
+          <div *ngIf="form['accountNumberOf'].errors['required']">Le numéro de compte est obligatoire</div>
+          <div *ngIf="form['accountNumberOf'].errors['minlength']">Doit comporter au moins 10 chiffres</div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="compteClient">
+        <div class="alert alert-primary" role="alert">
+           {{ compteClient.compte?.client?.prenom | titlecase }} {{ compteClient.compte?.client?.nom | uppercase }}
+        </div>
+      </ng-container>
+
+    </div>
+
+    <div class="modal-footer">
+      <button *ngIf="!disabledCompteId" type="button" class="btn btn-secondary"
+        (click)="resetFormClose()">ANNULER</button>
+      <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'ENREGISTRER' }}
+        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+      </button>
+    </div>
+    <!-- <pre>{{ tagForm.value | json }}</pre> -->
+  </form>
+
+</div>

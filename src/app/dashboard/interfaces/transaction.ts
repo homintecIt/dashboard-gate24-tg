@@ -24,14 +24,30 @@ export interface Transaction {
   compte: Compte| null;
   abonnement :Subscription
 }
+export interface VTransaction {
+  type_transaction: string;
+  montant_transaction: number;
+  date_transaction: Date;
+  site_transaction :string
+  compte_id: number;
+  account_number: string;
+  abonnement_id: number;
+  nom_client: string;
+  solde_transaction:number;
+  tagCode:string
+}
 
 export interface TransactionResponse {
-  items: Transaction[];
+  items: VTransaction[];
   meta: {
     totalItems: number;
     itemCount: number;
     itemsPerPage: number;
     totalPages: number;
     currentPage: number;
+    totalAmount :number
   };
+
+
+
 }

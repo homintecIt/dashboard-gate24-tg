@@ -37,7 +37,7 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group">
                 <label>Numéro de compte</label>
                 <div class="input-group">
@@ -48,15 +48,26 @@
                     [(ngModel)]="searchTerm"
                     (keyup.enter)="onSearch()"
                   />
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
-                      Rechercher
-                    </button>
-                  </div>
+
                 </div>
               </div>
+
             </div>
-            <div class="col-md-4">
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="">Date de debut</label>
+                <input type="date" name="dateStart" id="dateStart" (change)="onSearch()" class="form-control" [(ngModel)]="dateStart" >
+              </div>
+            </div>
+                <div class="col-md-3">
+              <div class="form-group">
+                <label for="">Date de fin</label>
+                <input type="date" name="dateEnd" id="dateEnd" (change)="onSearch()" class="form-control" [(ngModel)]="dateEnd">
+
+              </div>
+            </div>
+            <div class="col-md-3">
               <div class="form-group">
                 <label>Type de transaction</label>
                 <select class="form-control" [(ngModel)]="selectedType" (change)="onSearch()">
@@ -66,10 +77,47 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-4 d-flex align-items-end">
+             <div class="col-md-3">
+              <div class="form-group">
+                <label for="">Site</label>
+                <select name="site" id="site" (change)="onSearch()" class="form-control" [(ngModel)]="siteTransaction">
+                  <option value="">Tout les sites</option>
+
+                  <option value="AKEPE">AKEPE</option>
+                  <option value="AKEPEDO">AKEPEDO</option>
+                  <option value="DAVIE">DAVIE</option>
+                  <option value="VODOUGBE">VODOUGBE</option>
+                </select>
+
+              </div>
+            </div>
+
+              <div class="col-md-3">
+              <div class="form-group">
+                <label for="">TAG CODE</label>
+                <input type="text" name="tagCode" id="tagCode" (change)="onSearch()" class="form-control" [(ngModel)]="tagCode">
+
+              </div>
+               </div>
+
+                <div class="col-md-3">
+              <div class="form-group">
+                <label for="">Client</label>
+                <input type="text" name="client" id="client" (change)="onSearch()" class="form-control" [(ngModel)]="client">
+              </div>
+
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+
+
               <button class="btn btn-outline-secondary" (click)="resetFilters()" [disabled]="loading">
                 <i class="fas fa-filter-circle-xmark me-1"></i> Rénitialiser les filtres
               </button>
+               <button class="btn btn-outline-secondary me-1" type="button" (click)="onSearch()">
+                      Rechercher
+                    </button>
+
+
             </div>
           </div>
         </div>
@@ -84,48 +132,142 @@
         <div class="card-header">
           <h3 class="card-title">Liste des transactions</h3>
           <div class="card-tools">
-            <button class="btn btn-sm btn-outline-primary" (click)="loadTransactions()" [disabled]="loading">
+            <button class="btn btn-outline-primary me-1" (click)="loadTransactions()" [disabled]="loading">
               <i class="fas fa-sync-alt me-1" [class.fa-spin]="loading"></i>
               {{ loading ? 'Chargement...' : 'Rafraîchir' }}
             </button>
+
+             <button class="btn btn-outline-secondary me-1" type="button" (click)="onExportExcel()">
+                      Excel
+                    </button>
+                     <button class="btn btn-outline-secondary me-1" type="button" (click)="onExportPdf()">
+                      Pdf
+                    </button>
+
+            <span class="text-center">
+              <h3>Montant total : {{totalAmount | currency:'XOF':'symbol':'1.2-2' }}</h3>
+            </span>
+
+          </div>
+          <div>
+               <div class="card-footer clearfix" *ngIf="totalPages > 1">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted">
+              Affichage de <b>{{ (currentPage - 1) * itemsPerPage + 1 }}</b> à
+              <b>{{ Math.min(currentPage * itemsPerPage, totalItems) }}</b> sur
+              <b>{{ totalItems }}</b> transactions
+            </div>
+
+
+
+
+                 <select name="limit" id="limite"  [(ngModel)]="itemsPerPage" (change)="onSearch()" >
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="500">500</option>
+
+            </select>
+            <div class="pagination-container">
+              <ul class="pagination pagination-sm mb-0">
+                <!-- Bouton Précédent -->
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link"
+                     href="javascript:void(0)"
+                     (click)="currentPage > 1 && onPageChange(currentPage - 1)"
+                     [class.disabled]="currentPage === 1">
+                    Précédent
+                  </a>
+                </li>
+
+                <!-- Première page -->
+                <li class="page-item" [class.active]="currentPage === 1">
+                  <a class="page-link" href="javascript:void(0)" (click)="onPageChange(1)">1</a>
+                </li>
+
+                <!-- Points de suspension après la première page si nécessaire -->
+                <li class="page-item disabled" *ngIf="currentPage > 3">
+                  <span class="page-link">...</span>
+                </li>
+
+                <!-- Pages autour de la page courante -->
+                <ng-container *ngIf="totalPages > 2">
+                  <ng-container *ngFor="let page of getPagesAroundCurrent()">
+                    <li class="page-item" [class.active]="page === currentPage">
+                      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(page)">{{ page }}</a>
+                    </li>
+                  </ng-container>
+                </ng-container>
+
+                <!-- Points de suspension avant la dernière page si nécessaire -->
+                <li class="page-item disabled" *ngIf="currentPage < totalPages - 2">
+                  <span class="page-link">...</span>
+                </li>
+
+                <!-- Dernière page -->
+                <li class="page-item"
+                    [class.active]="currentPage === totalPages"
+                    *ngIf="totalPages > 1">
+                  <a class="page-link" href="javascript:void(0)" (click)="onPageChange(totalPages)">
+                    {{ totalPages }}
+                  </a>
+                </li>
+
+                <!-- Bouton Suivant -->
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                  <a class="page-link"
+                     href="javascript:void(0)"
+                     (click)="currentPage < totalPages && onPageChange(currentPage + 1)"
+                     [class.disabled]="currentPage === totalPages">
+                    Suivant
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
           </div>
         </div>
         <div class="card-body table-responsive p-0">
           <table class="table table-hover text-nowrap">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Client</th>
                 <th>Compte</th>
                 <th>Montant</th>
                 <th>Type</th>
+                <th>Site Transaction</th>
+
                 <th>Solde</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let transaction of transactions">
-                <td>{{ transaction.id }}</td>
+                <td>{{transaction.nom_client}}   </td>
                 <td>
                   <span class="badge bg-primary">
-                    {{ transaction.compte?.accountNumber }}
+                    {{ transaction.account_number }}
                   </span>
                 </td>
-                <td [class.text-success]="transaction.type_transaction === 'credit'"
-                    [class.text-danger]="transaction.type_transaction === 'debit'">
-                  {{ transaction.type_transaction === 'credit' ? '+' : '-' }}
-                  {{ transaction.montant | currency:'XOF':'symbol':'1.2-2' }}
+                <td [class.text-success]="transaction.type_transaction === 'crédit'"
+                    [class.text-danger]="transaction.type_transaction === 'débit'">
+                  {{ transaction.type_transaction === 'crédit' ? '+' : '-' }}
+                  {{ transaction.montant_transaction | currency:'XOF':'symbol':'1.2-2' }}
                 </td>
+
                 <td>
                   <span class="badge"
                         [ngClass]="{
-                          'bg-success': transaction.type_transaction === 'credit',
-                          'bg-danger': transaction.type_transaction === 'debit'
+                          'bg-success': transaction.type_transaction === 'crédit',
+                          'bg-danger': transaction.type_transaction === 'débit'
                         }">
                     {{ getTypeLabel(transaction.type_transaction) }}
                   </span>
                 </td>
-                <td>{{ transaction.solde | currency:'XOF':'symbol':'1.2-2' }}</td>
-                <td>{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{transaction.site_transaction}}</td>
+                <td>{{ transaction.solde_transaction | currency:'XOF':'symbol':'1.2-2' }}</td>
+                <td>{{ transaction.date_transaction | date:'dd/MM/yyyy HH:mm' }}</td>
 
               </tr>
               <tr *ngIf="transactions.length === 0 && !loading">
@@ -144,6 +286,7 @@
         </div>
 
 
+
         <!-- Pagination -->
         <div class="card-footer clearfix" *ngIf="totalPages > 1">
           <div class="d-flex justify-content-between align-items-center">
@@ -153,6 +296,13 @@
               <b>{{ totalItems }}</b> transactions
             </div>
 
+                 <select name="limit" id="limite"   [(ngModel)]="itemsPerPage" (change)="onSearch()" >
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="500">500</option>
+
+            </select>
             <div class="pagination-container">
               <ul class="pagination pagination-sm mb-0">
                 <!-- Bouton Précédent -->

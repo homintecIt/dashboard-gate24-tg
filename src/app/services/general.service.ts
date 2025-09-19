@@ -39,12 +39,22 @@ export class GeneralService {
     return this.httpClient.post<any>(`${apiEndpoints.rechargesUrl}/recharge/byAccountNumber`, data);
   }
 
+
+
+  passages(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.passageUrl}/save/litige`, data);
+  }
+
   rechargeTag(data: any): Observable<any> {
     return this.httpClient.post<any>(`${apiEndpoints.rechargesUrl}/recharge/byTargCode`, data);
   }
 
   saveClient(data: any): Observable<any> {
     return this.httpClient.post<any>(`${apiEndpoints.clientsUrl}`, data);
+  }
+
+  saveClientOther(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.clientsUrl}/other`, data);
   }
 
   deleteTag(id: string): Observable<any> {
@@ -124,6 +134,12 @@ export class GeneralService {
     return this.httpClient.post<any>(`${apiEndpoints.comptesUrl}/transfer/solde`, data);
   }
 
+    transferCompteClient(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.comptesUrl}/transfer/compte/client`, data);
+  }
+
+
+
 
 
   saveCompte(data: any): Observable<any> {
@@ -142,6 +158,10 @@ export class GeneralService {
 
   updateClient(data: any, uuid: any): Observable<any> {
     return this.httpClient.put<any>(`${apiEndpoints.clientsUrl}/update/${uuid}`, data);
+  }
+
+    updateTag(data: any,): Observable<any> {
+    return this.httpClient.post<any>(`${apiEndpoints.subscriptionUrl}/update/info/`, data);
   }
 
 

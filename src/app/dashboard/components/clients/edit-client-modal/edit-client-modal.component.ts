@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GeneralService } from 'src/app/services/general.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { swalAnimation } from 'src/app/misc/utilities.misc';
+import { searchType, swalAnimation } from 'src/app/misc/utilities.misc';
 import { TransfertTagComponent } from '../transfert-tag/transfert-tag.component';
 import { TransfertSoldeComponent } from '../transfert-solde/transfert-solde.component';
 import Swal from 'sweetalert2';
@@ -16,6 +16,7 @@ import { AddRechargesComponent } from '../add-recharges/add-recharges.component'
 import { storageHelper } from 'src/app/misc/storage.misc';
 import { PermissionService } from 'src/app/services/permission.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { EditClientComponent } from '../edit-client/edit-client.component';
 const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: true,
 });
@@ -85,8 +86,16 @@ export class EditClientModalComponent implements OnInit {
     this.generalService.successEvent.subscribe((data: any) => {
         ///console.log("data",data);
        this.route.params.subscribe(params => {
-      const tel = params['tel'];
-      this.getClientByTel(tel);
+            const newtel =  storageHelper.local.get(`${searchType}`);
+
+        if (newtel.type =='phoneNumber'&& newtel.value != params['tel']) {
+          this.getClientByTel(newtel.value);
+
+        }else{
+          const tel = params['tel'];
+
+        }
+
     });
       ////const value = storageHelper.local.get(`${searchType}`);
     //  this.getData(data);
@@ -154,7 +163,7 @@ export class EditClientModalComponent implements OnInit {
 
 
   editClient(data: any) {
-    this.modalService.openModal(EditClientModalComponent, data, 'modal-md');
+    this.modalService.openModal(EditClientComponent, data, 'modal-md');
   }
 
   createClient(data: any) {
@@ -181,7 +190,7 @@ export class EditClientModalComponent implements OnInit {
 
   listAbonnementByCompte(data :any){
     this.generalService.successEvent.emit(data);
-    this.router.navigate(['/dashboard/subscribe-list/compte']);
+    this.router.navigate(['/dashboard/subscribe-list/compte',data.accountNumber]);
 
 
   }
