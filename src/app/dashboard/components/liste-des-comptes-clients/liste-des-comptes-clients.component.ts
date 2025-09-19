@@ -308,7 +308,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
   const receiptHtml = `
 <html>
   <head>
-    <title>Etat compte Client</title>
+    <title>Reçu de recharge<</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -327,7 +327,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
   <body onload="window.print(); window.close();">
     <div class="d-flex flex-column align-items-center justify-content-between mb-4 text-center">
       <img src="/assets/img/logo.png" alt="logo" width="50">
-      <h5>Etat de compte Client</h5>
+      <h5>Reçu de recharge<</h5>
       <p>Date : ${new Date().toLocaleDateString('fr-FR', {
         day: 'numeric', month: 'long', year: 'numeric',
         hour: 'numeric', minute: 'numeric', second: 'numeric'
@@ -337,8 +337,8 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     <div class="mb-3">
       <p><strong>Client :</strong> ${(this.ticketData.compte.client.nom || '-')}  ${this.ticketData.compte.client.prenom || '-'}</p>
       <p><strong>Numéro de compte :</strong> ${this.ticketData.compte?.accountNumber || '-'}</p>
-      <p><strong>Dernière Recharge :</strong> ${this.ticketData.recharge?.montant ? this.ticketData.recharge.montant : '-'}</p>
-      <p><strong>Solde :</strong> ${this.ticketData.compte?.solde ? this.ticketData.compte.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }) : '-'}</p>
+      <p><strong>Montant :</strong> ${this.ticketData.recharge?.montant ? this.ticketData.recharge.montant : '-'}</p>
+      <p><strong>Solde :</strong> ${this.ticketData.recharge?.montant_apres_recharge ? this.ticketData.recharge.montant_apres_recharge.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }) : '-'}</p>
     </div>
 
     <footer>
