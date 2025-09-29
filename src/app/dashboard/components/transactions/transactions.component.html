@@ -237,8 +237,9 @@
                 <th>Montant</th>
                 <th>Type</th>
                 <th>Site Transaction</th>
-
                 <th>Solde</th>
+                <th>Tag Code</th>
+
                 <th>Date</th>
               </tr>
             </thead>
@@ -267,6 +268,7 @@
                 </td>
                 <td>{{transaction.site_transaction}}</td>
                 <td>{{ transaction.solde_transaction | currency:'XOF':'symbol':'1.2-2' }}</td>
+                <td>{{ transaction.tagCode }}</td>
                 <td>{{ transaction.date_transaction | date:'dd/MM/yyyy HH:mm' }}</td>
 
               </tr>

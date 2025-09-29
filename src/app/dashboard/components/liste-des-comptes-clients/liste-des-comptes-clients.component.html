@@ -110,10 +110,10 @@
                    *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')"
                     ><i class="fs-3 ri-eye-line text-primary"></i
                   ></a>
-                  <button class="btn btn-link p-0 ms-2" (click)="confirmDeleteClient(item)" [disabled]="!item.client?.uuid"
+                  <button class="btn btn-link p-0 ms-2" (click)="confirmDeleteCompte(item)" [disabled]="!item.client?.uuid"
                     *ngIf="permissionService.hasPermission('Gestion comptes', 'supprimer')"
 
-                  title="Supprimer ce client">
+                  title="Supprimer ce compte">
                     <i class="fs-3 ri-delete-bin-line text-danger"></i>
                   </button>
                   <a  (click)="printingCompte(item)" title="imprimer Etat compte"

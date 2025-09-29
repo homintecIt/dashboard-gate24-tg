@@ -232,12 +232,12 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
     this.loadAccounts(this.currentPage, this.searchTerm, this.searchTermMontant);
   }
 
-  // Suppression client (via uuid)
-  confirmDeleteClient(item: Account): void {
-    const clientName = `${item.client?.nom ?? ''} ${item.client?.prenom ?? ''}`.trim();
+  // Suppression compte (via uuid)
+  confirmDeleteCompte(item: Account): void {
+    const compteName = `${item.client?.nom ?? ''} ${item.client?.prenom ?? ''}`.trim();
     Swal.fire({
       title: 'Confirmation',
-      text: `Voulez-vous supprimer le client « ${clientName || item.client?.uuid} » ?`,
+      text: `Voulez-vous supprimer le compte « ${compteName || item.client?.uuid} » ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Oui',
@@ -250,7 +250,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
       ...swalAnimation,
     }).then((result) => {
       if (result.isConfirmed && item.client?.uuid) {
-        this.deleteClient(item.client.uuid);
+        this.deleteCompte(item.accountNumber!);
       }
     });
 
@@ -277,6 +277,25 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
         this.account = this.account.filter(a => a.client?.uuid !== uuid);
         this.filterAccounts();
         this.sweetAlert.toastSuccess('Client supprimé avec succès', 3000);
+        // Reload current page to sync with backend counts
+        this.loadAccounts(this.currentPage, this.searchTerm);
+      },
+      error: (error) => {
+        this.sweetAlert.toastError('Erreur !', 5000, (error?.error?.message || error?.error?.error) || 'Le service est temporairement indisponible');
+      }
+    });
+  }
+
+
+
+
+  private deleteCompte(account: string): void {
+    this.accountService.deleteAccount(account).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        // Optimistic update
+        //this.account = this.account.filter(a => a.client?.uuid !== uuid);
+        this.filterAccounts();
+        this.sweetAlert.toastSuccess('Compte supprimé avec succès', 3000);
         // Reload current page to sync with backend counts
         this.loadAccounts(this.currentPage, this.searchTerm);
       },
