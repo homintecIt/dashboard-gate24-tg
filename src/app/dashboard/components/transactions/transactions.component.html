@@ -266,8 +266,8 @@
                   </span>
                 </td>
                 <td>{{transaction.site_transaction}}</td>
+                <td>{{transaction.tagCode ? transaction.tagCode : 'N/A'}}</td>
                 <td>{{ transaction.solde_transaction | currency:'XOF':'symbol':'1.2-2' }}</td>
-                <td>{{ transaction.tagCode }}</td>
                 <td>{{ transaction.date_transaction | date:'dd/MM/yyyy HH:mm' }}</td>
 
               </tr>
