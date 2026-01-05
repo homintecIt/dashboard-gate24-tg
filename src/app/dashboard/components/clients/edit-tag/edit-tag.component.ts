@@ -38,11 +38,11 @@ export class EditTagComponent implements OnInit {
 
     if (this.data !== '') {
 
-const tagId = BigInt(this.data.tagId);
-const hexUpper = tagId.toString(16).toUpperCase().padStart(16, '0');
+const tagId =  this.data.tagId.length >= 16 ?this.data.tagId:  BigInt(this.data.tagId);
+const hexUpper =  this.data.tagId.length >= 16 ?this.data.tagId: tagId.toString(16).toUpperCase().padStart(16, '0');
 
       this.tageForm.patchValue({
-        tagId: tagId.toString().length >= 16 ? tagId : hexUpper,
+        tagId: this.data.tagId.length >= 16 ? tagId : hexUpper,
         tagCode: this.data.tagCode,
         plaque: this.data.plaque,
         typeTarg: this.data.typeTarg,
