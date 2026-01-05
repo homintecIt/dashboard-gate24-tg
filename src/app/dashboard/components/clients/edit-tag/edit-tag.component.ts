@@ -42,7 +42,7 @@ const tagId = BigInt(this.data.tagId);
 const hexUpper = tagId.toString(16).toUpperCase().padStart(16, '0');
 
       this.tageForm.patchValue({
-        tagId: hexUpper,
+        tagId: tagId.toString().length >= 16 ? tagId : hexUpper,
         tagCode: this.data.tagCode,
         plaque: this.data.plaque,
         typeTarg: this.data.typeTarg,
