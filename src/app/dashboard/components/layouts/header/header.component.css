@@ -1,0 +1,315 @@
+/* Modern Header */
+.modern-header {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  box-shadow: 0 2px 10px rgba(8, 52, 137, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-header {
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo Styling */
+.navbar-brand-box .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand-box .logo:hover {
+  transform: scale(1.02);
+}
+
+.logo-sm img,
+.logo-lg img {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Modern Hamburger Button */
+.btn-modern-hamburger {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-modern-hamburger:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 20px;
+}
+
+.hamburger-icon span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Site Badge */
+.site-badge {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.site-badge:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.site-badge i {
+  font-size: 1rem;
+}
+
+/* Theme Toggle Button */
+.btn-modern-theme {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 0.5rem;
+  width: 44px;
+  height: 44px;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-modern-theme:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-modern-theme i {
+  font-size: 1.25rem;
+}
+
+/* Header Items */
+.header-item {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+.topbar-user {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+.dropdown {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+/* Modern User Button */
+.btn-modern-user {
+  background: #ffffff !important;
+  border: 3px solid #083489 !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 1rem !important;
+  color: #083489 !important;
+  display: flex !important;
+  align-items: center !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.btn-modern-user,
+.btn-modern-user *,
+.btn-modern-user *::before,
+.btn-modern-user *::after {
+  color: #083489 !important;
+}
+
+.btn-modern-user:hover {
+  background: #f0f9ff !important;
+  border-color: #083489 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.25rem;
+  backdrop-filter: blur(10px);
+}
+
+.user-name-text {
+  color: #083489 !important;
+  font-size: 0.95rem;
+}
+
+.user-name-sub-text {
+  color: #64748b !important;
+  font-size: 0.8rem;
+}
+
+.btn-modern-user i {
+  color: #083489 !important;
+}
+
+.btn-modern-user span {
+  color: #083489 !important;
+}
+
+/* Modern Dropdown */
+.modern-dropdown {
+  background: #ffffff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  min-width: 200px;
+  backdrop-filter: blur(20px);
+}
+
+.modern-dropdown .dropdown-header {
+  color: #083489;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 0.25rem;
+}
+
+.modern-dropdown .dropdown-item {
+  color: #374151;
+  padding: 0.625rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.modern-dropdown .dropdown-item:hover {
+  background: linear-gradient(135deg, rgba(8, 52, 137, 0.1) 0%, rgba(5, 38, 99, 0.1) 100%);
+  color: #083489;
+  transform: translateX(4px);
+}
+
+.modern-dropdown .dropdown-item i {
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .navbar-header {
+    padding: 0.625rem 1rem;
+  }
+
+  .site-badge {
+    display: none;
+  }
+
+  .btn-modern-user {
+    padding: 0.4rem 0.75rem;
+  }
+
+  .user-name-text,
+  .user-name-sub-text {
+    display: none !important;
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .logo-lg {
+    display: none;
+  }
+
+  .logo-sm img {
+    height: 24px;
+  }
+
+  .btn-modern-hamburger {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .modern-dropdown {
+    min-width: 180px;
+  }
+}
+
+/* Dark Mode Support */
+body.dark-mode .modern-dropdown {
+  background: #1e293b;
+}
+
+body.dark-mode .modern-dropdown .dropdown-header {
+  color: #e2e8f0;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .modern-dropdown .dropdown-item {
+  color: #e2e8f0;
+}
+
+body.dark-mode .modern-dropdown .dropdown-item:hover {
+  background: rgba(8, 52, 137, 0.2);
+  color: #ffffff;
+}
+
+body.dark-mode .modern-dropdown .dropdown-item i {
+  color: #94a3b8;
+}
+
+body.dark-mode .modern-dropdown .dropdown-item:hover i {
+  color: #ffffff;
+}

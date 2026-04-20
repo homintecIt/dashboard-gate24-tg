@@ -1,139 +1,150 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-        <h4 class="mb-sm-0">Rapport Mensuel</h4>
-        <div class="page-title-right">
-          <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item">
-              <a routerLink="/dashboard">Accueil</a>
-            </li>
-            <li class="breadcrumb-item active">Rapport Mensuel</li>
-          </ol>
-        </div>
+<div class="monthly-report-container">
+  <!-- Header Section -->
+  <div class="report-header mb-4 animate-fade-in">
+    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+      <div class="header-content">
+        <h2 class="mb-1 fw-bold">Rapport Mensuel</h2>
+        <p class="text-muted mb-0">Historique des transactions mensuelles</p>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header bg-primary">
-          <div class="row text-light">
-            <div class="col-md-3">
-              <label>Date de début</label>
-              <input
-                type="date"
-                class="form-control"
-                [(ngModel)]="dateStart"
-                (change)="onDateStartChange()"
-              >
-            </div>
-            <div class="col-md-3">
-              <label>Date de fin</label>
-              <input
-                type="date"
-                class="form-control"
-                [(ngModel)]="dateEnd"
-                [disabled]="!dateStart"
-              >
-            </div>
-            <div class="col-md-3">
-              <label>Code Tag</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="targCode"
-                placeholder="Rechercher par code Targ"
-              >
-            </div>
-            <div class="col-md-3 gap-md-2 d-flex align-items-end">
-              <button
-                class="btn btn-outline-light"
-                (click)="searchWithFilters()"
-              >
-                Rechercher
-              </button>
-              <button
-                class="btn btn-outline-light ml-2"
-                (click)="refreshData()"
-                [disabled]="loading"
-              >
-                Actualiser
-                <i class="fas fa-sync" [class.fa-spin]="loading"></i>
-              </button>
-            </div>
+  <!-- Main Card -->
+  <div class="card report-card animate-slide-up">
+    <div class="card-header report-card-header">
+      <div class="d-flex align-items-center gap-3">
+        <div class="report-icon">
+          <i class="ri-file-chart-line"></i>
+        </div>
+        <div>
+          <h5 class="mb-0 text-white">Filtres de recherche</h5>
+          <p class="mb-0 text-white-50">Filtrer les rapports par date et code tag</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <!-- Filters -->
+      <div class="filters-section mb-4">
+        <div class="row">
+          <div class="col-md-3">
+            <label class="form-label-modern">
+              <i class="ri-calendar-line me-2"></i>Date de début
+            </label>
+            <input
+              type="date"
+              class="form-control form-control-modern"
+              [(ngModel)]="dateStart"
+              (change)="onDateStartChange()"
+            >
+          </div>
+          <div class="col-md-3">
+            <label class="form-label-modern">
+              <i class="ri-calendar-check-line me-2"></i>Date de fin
+            </label>
+            <input
+              type="date"
+              class="form-control form-control-modern"
+              [(ngModel)]="dateEnd"
+              [disabled]="!dateStart"
+            >
+          </div>
+          <div class="col-md-3">
+            <label class="form-label-modern">
+              <i class="ri-tag-line me-2"></i>Code Tag
+            </label>
+            <input
+              type="text"
+              class="form-control form-control-modern"
+              [(ngModel)]="targCode"
+              placeholder="Rechercher par code Targ"
+            >
+          </div>
+          <div class="col-md-3 d-flex align-items-end gap-2">
+            <button
+              class="btn btn-modern-search"
+              (click)="searchWithFilters()"
+            >
+              <i class="ri-search-line me-2"></i>
+              Rechercher
+            </button>
+            <button
+              class="btn btn-modern-refresh"
+              (click)="refreshData()"
+              [disabled]="loading"
+            >
+              <i class="ri-refresh-line" [class.fa-spin]="loading"></i>
+            </button>
           </div>
         </div>
+      </div>
 
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>N°</th>
-                  <th>Site</th>
-                  <th>Code Targ</th>
-                  <th>Montant</th>
-                  <th>Date</th>
-                  <th>Type Passage</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let report of filteredReports; let i = index">
-                  <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                  <td>{{ report.site }}</td>
-                  <td>{{ report.abonnement?.tagCode ?? "-" }}</td>
-                  <td>{{ report.montant }}</td>
-                  <td>{{ report.created_at | date: 'short' }}</td>
-                  <td>{{ report.type_passage }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <!-- Table Section -->
+      <div class="table-modern">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center">N°</th>
+              <th>Site</th>
+              <th>Code Targ</th>
+              <th>Montant</th>
+              <th>Date</th>
+              <th>Type Passage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of filteredReports; let i = index">
+              <td class="text-center">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td><strong>{{ report.site }}</strong></td>
+              <td>{{ report.abonnement.tagCode ?? "-" }}</td>
+              <td class="amount-cell">{{ report.montant }} F CFA</td>
+              <td>{{ report.created_at | date: 'short' }}</td>
+              <td>
+                <span class="badge badge-modern">{{ report.type_passage }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-          <!-- Pagination -->
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>
-              Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
-              {{ currentPage * itemsPerPage > totalItems ? totalItems : currentPage * itemsPerPage }}
-              sur {{ totalItems }} entrées
-            </div>
-            <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
-              <ul class="pagination justify-content-center">
-                <!-- Bouton précédent -->
-                <li class="page-item" [class.disabled]="currentPage === 1">
-                  <a class="page-link" (click)="onPageChange(currentPage - 1)" role="button">
-                    Précédent
-                  </a>
-                </li>
-
-                <!-- Pages -->
-                <ng-container *ngFor="let page of getPagesArray()">
-                  <li *ngIf="page === -1" class="page-item disabled">
-                    <span class="page-link">...</span>
-                  </li>
-                  <li
-                    *ngIf="page !== -1"
-                    class="page-item"
-                    [class.active]="page === currentPage"
-                  >
-                    <a class="page-link" (click)="onPageChange(page)" role="button">
-                      {{ page }}
-                    </a>
-                  </li>
-                </ng-container>
-
-                <!-- Bouton suivant -->
-                <li class="page-item" [class.disabled]="currentPage === totalPages">
-                  <a class="page-link" (click)="onPageChange(currentPage + 1)" role="button">
-                    Suivant
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+      <!-- Pagination -->
+      <div class="pagination-container">
+        <div class="pagination-info">
+          Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
+          {{ currentPage * itemsPerPage > totalItems ? totalItems : currentPage * itemsPerPage }}
+          sur {{ totalItems }} entrées
         </div>
+
+        <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
+          <ul class="pagination pagination-modern justify-content-center">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="onPageChange(currentPage - 1)" role="button">
+                <i class="ri-arrow-left-s-line"></i>
+              </a>
+            </li>
+
+            <ng-container *ngFor="let page of getPagesArray()">
+              <li *ngIf="page === -1" class="page-item disabled">
+                <span class="page-link">...</span>
+              </li>
+              <li
+                *ngIf="page !== -1"
+                class="page-item"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="onPageChange(page)" role="button">
+                  {{ page }}
+                </a>
+              </li>
+            </ng-container>
+
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="onPageChange(currentPage + 1)" role="button">
+                <i class="ri-arrow-right-s-line"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

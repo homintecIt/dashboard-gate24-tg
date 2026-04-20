@@ -67,6 +67,7 @@ import { AddClientLitigeComponent } from './components/clients/litige/add-client
 import { ShowCompteLitigeComponent } from './components/clients/litige/show-compte-litige/show-compte-litige.component';
 import { TransfertCompteComponent } from './components/clients/litige/transfert-compte/transfert-compte.component';
 import { EditTagComponent } from './components/clients/edit-tag/edit-tag.component';
+import { TransfertHistoryComponent } from './components/transfert-history/transfert-history.component';
 
 
 @NgModule({
@@ -128,7 +129,8 @@ import { EditTagComponent } from './components/clients/edit-tag/edit-tag.compone
     AddClientLitigeComponent,
     ShowCompteLitigeComponent,
     TransfertCompteComponent,
-    EditTagComponent
+    EditTagComponent,
+    TransfertHistoryComponent
      ],
   imports: [
     CommonModule,

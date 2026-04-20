@@ -1,215 +1,201 @@
-<div class="row">
-  <div class="col-12">
-    <div
-      class="page-title-box d-sm-flex align-items-center justify-content-between"
-    >
-      <h4 class="mb-sm-0">Liste des abonnements</h4>
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">Accueil</a>
-          </li>
-          <li class="breadcrumb-item active">Liste des abonnements</li>
-        </ol>
+<div class="subscribe-list-container">
+  <!-- Header Section -->
+ 
+
+    <div class="clients-header mb-4 animate-fade-in">
+    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+      <div class="header-content">
+        <h2 class="mb-1 fw-bold">Liste des abonnements</h2>
+        <p class="text-muted mb-0">Gestion des abonnements clients</p>
       </div>
+
+      
     </div>
   </div>
-</div>
+  <!-- Main Card -->
+  <div class="main-card animate-slide-up">
+    <!-- Card Header -->
+    <div class="card-header-modern">
+      <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <h5 class="card-title-modern mb-0">Liste des abonnements</h5>
+        <div class="d-flex gap-3">
+          <a type="button" (click)="searchChoice()" *ngIf="permissionService.hasPermission('Gestion abonnement', 'ajouter')"
+             routerLinkActive="active"
+             class="btn btn-modern-primary">
+            <i class="ri-add-line"></i>
+            Nouveau Abonnement
+          </a>
+          <button
+            class="btn btn-modern-secondary"
+            (click)="refreshData()"
+            [disabled]="loading"
+          >
+            <i class="ri-refresh-line" [class.fa-spin]="loading"></i>
+            Rafraîchir
+          </button>
 
-<div class="row p-2">
-  <div class="col d-flex">
-    <a type="button" (click)="searchChoice()" *ngIf="permissionService.hasPermission('Gestion abonnement', 'ajouter')"
-       routerLinkActive="active"
-       class="btn btn-primary ms-auto">
-       <i class="ri-add-line"></i>
-       Nouveau Abonnement
-    </a>
-  </div>
-</div>
+          <div class="modern-search">
+            <i class="ri-search-line search-icon"></i>
+            <input
+              type="text"
+              class="form-control modern-input"
+              placeholder="Rechercher..."
+              (input)="onSearch($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div class="row">
+    <!-- Card Body -->
+    <div class="card-body-modern">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-state">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p class="mt-3 text-muted">Chargement des abonnements...</p>
+      </div>
 
-  <div class="col">
-
-    <div class="card">
-      <div class="card-header bg-primary">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title text-light mb-0">Liste des abonnements</h5>
-          <div class="d-flex gap-3">
-            <button
-              class="btn btn-outline-light "
-              (click)="refreshData()"
-              [disabled]="loading"
-            >
-              <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
-              Rafraîchir
-            </button>
-
-            <div class="search-box">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Rechercher..."
-                (input)="onSearch($event)"
-              />
-            </div>
+      <!-- Error State -->
+      <div *ngIf="error" class="error-state">
+        <div class="alert-modern alert-danger">
+          <div class="alert-icon">
+            <i class="ri-error-warning-line"></i>
+          </div>
+          <div class="alert-content">
+            <h5 class="alert-title">Erreur</h5>
+            <p class="alert-message mb-0">{{ error }}</p>
           </div>
         </div>
       </div>
 
-      <div class="card-body">
-
-
-        <!-- Message d'erreur -->
-        <div *ngIf="error" class="alert alert-danger">
-          {{ error }}
-        </div>
-
-        <!-- Tableau des données -->
-        <div class="table-responsive" *ngIf="!loading && !error">
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th scope="col">Code Targ</th>
-                <th scope="col">Type Targ</th>
-                <th scope="col">Statut</th>
-                <th scope="col">Exonéré</th>
-                <th scope="col">Numéro de Compte</th>
-                <th scope="col">Solde</th>
-                <th scope="col">Date Création</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let sub of filteredSubscriptions; let i = index">
-                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                <td>{{ sub.tagCode }}</td>
-                <td>
-                  <span
-                    class="badge bg-secondary-subtle text-secondary"
-                    [ngClass]="{
-                      'bg-success-subtle text-success text-uppercase':
-                        sub.typeTarg === 'CARTE',
-                      'bg-info-subtle text-info text-uppercase':
-                        sub.typeTarg !== 'UHF'
-                    }"
-                  >
-                    {{ sub.typeTarg }}
-                  </span>
-                </td>
-            <td>
-                  <span
-                    class="badge badge-outline"
-                    [ngClass]="{
-                      'bg-success-subtle text-success text-uppercase':
-                        sub.statutTarg === 'actived',
-                      'bg-danger-subtle text-danger text-uppercase':
-                        sub.statutTarg !== 'actived',
-                      'bg-info-subtle text-info text-uppercase':
-                        sub.statutTarg === 'deleted'
-                    }"
-                  >
-                    {{ sub.statutTarg == "actived" ? "Activé" : sub.statutTarg == "deleted" ? "Supprimé" : "Désactivé" }}
-                  </span>
-                </td>
-
-                <td>
-                  <span
-                    class="badge badge-outline"
-                    [ngClass]="{
-                      'bg-success-subtle text-success text-uppercase':
-                        sub.isExo,
-                      'bg-danger-subtle text-danger text-uppercase':
-                        !sub.isExo
-                    }"
-                  >
-                    {{ sub.isExo ? "Oui" : "non" }}
-                  </span>
-                </td>
-                <td>{{ sub.compte.accountNumber }}</td>
-                <td>{{ sub.compte.solde | currency : "XOF" }}</td>
-                <td>{{ sub.created_at | date : "short" }}</td>
-                <td>
-                  <div class="d-flex gap-3">
-                    <!-- <div class="form-check form-switch">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        [checked]="sub.statutTarg === 'actived'"
-                        (change)="onStatusToggle(sub)"
-                        [disabled]="isStatusChanging"
-                      />
-                    </div> -->
-                    <a class="dropdown-item" (click)="openDetailsModal(sub)">
-                      <i class="ri-eye-line fs-4 text-secondary"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Pagination -->
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>
-            Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
-            {{
-              currentPage * itemsPerPage > totalItems
-                ? totalItems
-                : currentPage * itemsPerPage
-            }}
-            sur {{ totalItems }} entrées
-          </div>
-          <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
-            <ul class="pagination justify-content-center">
-              <!-- Bouton précédent -->
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage - 1)"
-                  role="button"
+      <!-- Table -->
+      <div class="table-responsive-modern" *ngIf="!loading && !error">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Code Targ</th>
+              <th>Type Targ</th>
+              <th>Statut</th>
+              <th>Exonéré</th>
+              <th>Numéro de Compte</th>
+              <th>Solde</th>
+              <th>Date Création</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sub of filteredSubscriptions; let i = index">
+              <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td><span class="text-primary fw-medium">{{ sub.tagCode }}</span></td>
+              <td>
+                <span
+                  class="badge-modern"
+                  [ngClass]="{
+                    'badge-success': sub.typeTarg === 'CARTE',
+                    'badge-info': sub.typeTarg !== 'UHF'
+                  }"
                 >
-                  Précédent
+                  {{ sub.typeTarg }}
+                </span>
+              </td>
+              <td>
+                <span
+                  class="badge-modern"
+                  [ngClass]="{
+                    'badge-success': sub.statutTarg === 'actived',
+                    'badge-danger': sub.statutTarg !== 'actived' && sub.statutTarg !== 'deleted',
+                    'badge-warning': sub.statutTarg === 'deleted'
+                  }"
+                >
+                  {{ sub.statutTarg == "actived" ? "Activé" : sub.statutTarg == "deleted" ? "Supprimé" : "Désactivé" }}
+                </span>
+              </td>
+              <td>
+                <span
+                  class="badge-modern"
+                  [ngClass]="{
+                    'badge-success': sub.isExo,
+                    'badge-danger': !sub.isExo
+                  }"
+                >
+                  {{ sub.isExo ? "Oui" : "Non" }}
+                </span>
+              </td>
+              <td>{{ sub.compte.accountNumber }}</td>
+              <td><span class="fw-semibold">{{ sub.compte.solde | currency : "XOF" }}</span></td>
+              <td>{{ sub.created_at | date : "short" }}</td>
+              <td>
+                <a class="btn-icon-modern" (click)="openDetailsModal(sub)" title="Voir détails">
+                  <i class="ri-eye-line"></i>
                 </a>
-              </li>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-              <!-- Pages -->
-              <ng-container *ngFor="let page of getPagesArray()">
-                <li *ngIf="page === -1" class="page-item disabled">
-                  <span class="page-link">...</span>
-                </li>
-                <li
-                  *ngIf="page !== -1"
-                  class="page-item"
-                  [class.active]="page === currentPage"
-                >
-                  <a class="page-link" (click)="goToPage(page)" role="button">
-                    {{ page }}
-                  </a>
-                </li>
-              </ng-container>
-
-              <!-- Bouton suivant -->
-              <li
-                class="page-item"
-                [class.disabled]="currentPage === totalPages"
+      <!-- Pagination -->
+      <div class="pagination-wrapper" *ngIf="!loading && !error">
+        <div class="pagination-info">
+          Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
+          {{
+            currentPage * itemsPerPage > totalItems
+              ? totalItems
+              : currentPage * itemsPerPage
+          }}
+          sur {{ totalItems }} entrées
+        </div>
+        <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
+          <ul class="pagination-modern">
+            <!-- Previous Button -->
+            <li class="page-item-modern" [class.disabled]="currentPage === 1">
+              <a
+                class="page-link-modern"
+                (click)="goToPage(currentPage - 1)"
+                role="button"
               >
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage + 1)"
-                  role="button"
-                >
-                  Suivant
+                <i class="ri-arrow-left-s-line"></i>
+                Précédent
+              </a>
+            </li>
+
+            <!-- Pages -->
+            <ng-container *ngFor="let page of getPagesArray()">
+              <li *ngIf="page === -1" class="page-item-modern disabled">
+                <span class="page-link-modern">...</span>
+              </li>
+              <li
+                *ngIf="page !== -1"
+                class="page-item-modern"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link-modern" (click)="goToPage(page)" role="button">
+                  {{ page }}
                 </a>
               </li>
-            </ul>
-          </nav>
-        </div>
+            </ng-container>
+
+            <!-- Next Button -->
+            <li
+              class="page-item-modern"
+              [class.disabled]="currentPage === totalPages"
+            >
+              <a
+                class="page-link-modern"
+                (click)="goToPage(currentPage + 1)"
+                role="button"
+              >
+                Suivant
+                <i class="ri-arrow-right-s-line"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
-
   </div>
 </div>
 

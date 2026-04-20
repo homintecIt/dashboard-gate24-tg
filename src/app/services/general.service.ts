@@ -140,8 +140,6 @@ export class GeneralService {
 
 
 
-
-
   saveCompte(data: any): Observable<any> {
     return this.httpClient.post<any>(`${apiEndpoints.subscriptionUrl}/save/targ/with/saveCompte`, data);
   }
@@ -149,6 +147,16 @@ export class GeneralService {
 
   enregTag(data: any): Observable<any> {
     return this.httpClient.post<any>(`${apiEndpoints.subscriptionUrl}/save/targ/without/solde`, data);
+  }
+
+  getTransfersPaginated(params: { page?: number; limit?: number; type?: string; sourceAccountId?: string; targetAccountId?: string }): Observable<any> {
+    let httpParams = new HttpParams();
+    if (params.page) httpParams = httpParams.set('page', params.page.toString());
+    if (params.limit) httpParams = httpParams.set('limit', params.limit.toString());
+    if (params.type) httpParams = httpParams.set('type', params.type);
+    if (params.sourceAccountId) httpParams = httpParams.set('sourceAccountId', params.sourceAccountId);
+    if (params.targetAccountId) httpParams = httpParams.set('targetAccountId', params.targetAccountId);
+    return this.httpClient.get<any>(`${apiEndpoints.apiUrlBase}/transfers/paginated`, { params: httpParams });
   }
 
 

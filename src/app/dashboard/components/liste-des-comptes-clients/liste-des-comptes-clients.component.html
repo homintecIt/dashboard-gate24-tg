@@ -1,199 +1,181 @@
 
-<div class="row">
-  <div class="col-12">
-    <div
-    class="page-title-box d-sm-flex align-items-center justify-content-between"
-    >
-    <h4 class="mb-sm-0">Liste des comptes</h4>
-    <div class="page-title-right">
-      <ol class="breadcrumb m-0">
-        <li class="breadcrumb-item">
-          <a routerLink="/dashboard">Accueil</a>
-        </li>
-        <li class="breadcrumb-item active">Liste des comptes</li>
-      </ol>
+<div class="accounts-list-container">
+  <!-- Header Section -->
+  <div class="accounts-header mb-4 animate-fade-in">
+    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+      <div class="header-content">
+        <h2 class="mb-1 fw-bold">Liste des comptes</h2>
+        <p class="text-muted mb-0">Gestion des comptes clients</p>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button class="btn btn-modern-action" (click)="showCompte()">
+          <i class="ri-refresh-line me-2"></i>
+          Recharger compte
+        </button>
+        <button class="btn btn-modern-create" (click)="newCompte()">
+          <i class="ri-add-line me-2"></i>
+          Nouveau compte
+        </button>
+      </div>
     </div>
   </div>
-</div>
-</div>
-<div class="row p-2">
-  <div class="col d-flex justify-content-end">
-    <!-- Bouton 1 -->
-    <a type="button" (click)="showCompte()"
-       class="btn btn-primary me-2">
-       Recharge Compte
-    </a>
 
-    <!-- Bouton 2 -->
-    <a type="button" (click)="newCompte()"
-       class="btn btn-primary">
-       <i class="ri-record-circle-line"></i>
-       Nouveau compte
-    </a>
-  </div>
-</div>
+  <!-- Main Card -->
+  <div class="card accounts-card animate-slide-up">
+    <div class="card-header accounts-card-header">
+      <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="accounts-icon">
+            <i class="ri-bank-line"></i>
+          </div>
+          <h5 class="mb-0 text-white">Comptes clients</h5>
+        </div>
 
+        <div class="d-flex gap-2">
+          <button
+            class="btn btn-modern-refresh"
+            (click)="refreshData()"
+            [disabled]="loading"
+          >
+            <i class="ri-refresh-line" [class.fa-spin]="loading"></i>
+          </button>
 
-
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <div class="card-header bg-primary">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title text-light mb-0">Liste des comptes</h5>
-          <div class="d-flex gap-3">
-            <button
-              class="btn btn-outline-light"
-              (click)="refreshData()"
-              [disabled]="loading"
-            >
-              <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
-              Rafraîchir
-            </button>
-
-            <div class="search-box d-flex gap-3">
-              <input
+          <div class="search-modern">
+            <input
               type="text"
-              class="form-control"
+              class="form-control search-input-modern"
               placeholder="Rechercher..."
               (input)="onSearch($event)"
             />
-              <input
+            <i class="ri-search-line search-icon"></i>
+          </div>
+
+          <div class="search-modern">
+            <input
               type="text"
-              class="form-control"
+              class="form-control search-input-modern"
               placeholder="Montant..."
               (input)="onSearchMontant($event)"
             />
-
-            </div>
+            <i class="ri-money-dollar-circle-line search-icon"></i>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="card-body">
+    <div class="card-body">
+      <!-- Error Alert -->
+      <div *ngIf="error" class="alert alert-modern alert-danger-modern">
+        <i class="ri-error-warning-line me-2"></i>
+        {{ error }}
+      </div>
 
-
-        <!-- Message d'erreur -->
-        <div *ngIf="error" class="alert alert-danger">
-          {{ error }}
-        </div>
-
-        <div class="table-responsive" *ngIf="!loading && !error">
-          <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                <th>#</th>
-                <th>Numéro de compte</th>
-                <th>Solde</th>
-                <th>Nom du client</th>
-                <th>Prénom du client</th>
-                <th>Email du client</th>
-                <th>Téléphone du client</th>
-                <th>Type de client</th>
-
-                <th>Actions</th>
-
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of account; let i = index">
-                <td>{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
-                <td>{{ item.accountNumber }}</td>
-                <td>{{ item.solde }}</td>
-                <td>{{ item.client?.nom }}</td>
-                <td>{{ item.client?.prenom }}</td>
-                <td>{{ item.client?.email }}</td>
-                <td>{{ item.client?.tel }}</td>
-                <td>{{item.client?.typeClient}}</td>
-                <td class="d-flex justify-content-between">
-                  <a [routerLink]="['/dashboard/listesComptesClient/details/', item.accountNumber]"
-                   *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')"
-                    ><i class="fs-3 ri-eye-line text-primary"></i
-                  ></a>
-                  <button class="btn btn-link p-0 ms-2" (click)="confirmDeleteCompte(item)" [disabled]="!item.client?.uuid"
-                    *ngIf="permissionService.hasPermission('Gestion comptes', 'supprimer')"
-
-                  title="Supprimer ce compte">
-                    <i class="fs-3 ri-delete-bin-line text-danger"></i>
-                  </button>
-                  <a  (click)="printingCompte(item)" title="imprimer Etat compte"
-                   *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')"
-                    ><i class="fs-3 ri-printer-line text-info"></i
-                  ></a>
-                  <!-- <a href="" class=""
-                    ><i class="mt-2 las la-eye-dropper text-success fs-4"></i
-                  ></a> -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Pagination -->
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>
-            Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
-            {{
-              currentPage * itemsPerPage > totalItems
-                ? totalItems
-                : currentPage * itemsPerPage
-            }}
-            sur {{ totalItems }} entrées
-          </div>
-          <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
-            <ul class="pagination justify-content-center">
-              <!-- Bouton précédent -->
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage - 1)"
-                  role="button"
-                >
-                  Précédent
-                </a>
-              </li>
-
-              <!-- Pages -->
-              <ng-container *ngFor="let page of getPagesArray()">
-                <li *ngIf="page === -1" class="page-item disabled">
-                  <span class="page-link">...</span>
-                </li>
-                <li
-                  *ngIf="page !== -1"
-                  class="page-item"
-                  [class.active]="page === currentPage"
-                >
-                  <a class="page-link" (click)="goToPage(page)" role="button">
-                    {{ page }}
+      <!-- Table Section -->
+      <div class="table-modern" *ngIf="!loading && !error">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th>Numéro de compte</th>
+              <th>Solde</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Type</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of account; let i = index">
+              <td class="text-center">{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+              <td><strong>{{ item.accountNumber }}</strong></td>
+              <td class="amount-cell">{{ item.solde }} F CFA</td>
+              <td>{{ item.client?.nom }}</td>
+              <td>{{ item.client?.prenom }}</td>
+              <td>{{ item.client?.email }}</td>
+              <td>{{ item.client?.tel }}</td>
+              <td>
+                <span class="badge badge-modern">{{ item.client?.typeClient }}</span>
+              </td>
+              <td class="text-center">
+                <div class="action-buttons">
+                  <a
+                    [routerLink]="['/dashboard/listesComptesClient/details/', item.accountNumber]"
+                    class="action-btn action-btn-view"
+                    *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')"
+                    title="Voir détails"
+                  >
+                    <i class="ri-eye-line"></i>
                   </a>
-                </li>
-              </ng-container>
-
-              <!-- Bouton suivant -->
-              <li
-                class="page-item"
-                [class.disabled]="currentPage === totalPages"
-              >
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage + 1)"
-                  role="button"
-                >
-                  Suivant
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
+                  <button
+                    class="action-btn action-btn-delete"
+                    (click)="confirmDeleteCompte(item)"
+                    [disabled]="!item.client?.uuid"
+                    *ngIf="permissionService.hasPermission('Gestion comptes', 'supprimer')"
+                    title="Supprimer"
+                  >
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                  <a
+                    (click)="printingCompte(item)"
+                    class="action-btn action-btn-print"
+                    title="Imprimer"
+                    *ngIf="permissionService.hasPermission('Gestion comptes', 'consulter')"
+                  >
+                    <i class="ri-printer-line"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
+      <!-- Pagination -->
+      <div class="pagination-container">
+        <div class="pagination-info">
+          Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
+          {{
+            currentPage * itemsPerPage > totalItems
+              ? totalItems
+              : currentPage * itemsPerPage
+          }}
+          sur {{ totalItems }} entrées
+        </div>
 
+        <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
+          <ul class="pagination pagination-modern justify-content-center">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="goToPage(currentPage - 1)" role="button">
+                <i class="ri-arrow-left-s-line"></i>
+              </a>
+            </li>
+
+            <ng-container *ngFor="let page of getPagesArray()">
+              <li *ngIf="page === -1" class="page-item disabled">
+                <span class="page-link">...</span>
+              </li>
+              <li
+                *ngIf="page !== -1"
+                class="page-item"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="goToPage(page)" role="button">
+                  {{ page }}
+                </a>
+              </li>
+            </ng-container>
+
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="goToPage(currentPage + 1)" role="button">
+                <i class="ri-arrow-right-s-line"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- <div *ngIf="isLoading" class="text-center my-4">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Chargement...</span>
-  </div>
-</div> -->

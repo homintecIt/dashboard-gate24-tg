@@ -1,0 +1,224 @@
+/* Modern Modal */
+.modern-modal {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(8, 52, 137, 0.3);
+}
+
+.modern-modal-header {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  border-bottom: none;
+  padding: 1.5rem 2rem;
+}
+
+.modal-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.modal-title {
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.btn-close-modern {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+}
+
+.btn-close-modern:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.modern-modal-body {
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.modern-modal-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e5e7eb;
+  padding: 1.5rem 2rem;
+}
+
+/* Form Groups */
+.form-group-modern {
+  margin-bottom: 1.5rem;
+}
+
+.form-label-modern {
+  display: flex;
+  align-items: center;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-label-modern i {
+  color: #083489;
+  font-size: 1rem;
+}
+
+.form-control-modern,
+.form-select-modern {
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-control-modern:focus,
+.form-select-modern:focus {
+  border-color: #083489;
+  box-shadow: 0 0 0 4px rgba(8, 52, 137, 0.1);
+}
+
+.form-control-modern::placeholder {
+  color: #9ca3af;
+}
+
+.form-control-modern.is-invalid-modern,
+.form-select-modern.is-invalid-modern {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.invalid-feedback-modern {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Buttons */
+.btn-modern-cancel {
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  color: #374151;
+  padding: 0.625rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-modern-cancel:hover {
+  background: #f8fafc;
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.btn-modern-submit {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  border: none;
+  color: #ffffff;
+  padding: 0.625rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(8, 52, 137, 0.3);
+}
+
+.btn-modern-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #052663 0%, #031a4d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(8, 52, 137, 0.4);
+}
+
+.btn-modern-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .modern-modal-header {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .modern-modal-body {
+    padding: 1.5rem;
+  }
+
+  .modern-modal-footer {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-modern-cancel,
+  .btn-modern-submit {
+    width: 100%;
+  }
+}
+
+/* Dark Mode Support */
+body.dark-mode {
+  .modern-modal-body {
+    background: #1e293b;
+  }
+
+  .modern-modal-footer {
+    background: #0f172a;
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .form-label-modern {
+    color: #e2e8f0;
+  }
+
+  .form-control-modern,
+  .form-select-modern {
+    background: #0f172a;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+  }
+
+  .form-control-modern:focus,
+  .form-select-modern:focus {
+    background: #0f172a;
+    border-color: #083489;
+  }
+
+  .form-control-modern::placeholder {
+    color: #64748b;
+  }
+
+  .form-control-modern.is-invalid-modern,
+  .form-select-modern.is-invalid-modern {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: #ef4444;
+  }
+
+  .btn-modern-cancel {
+    background: #1e293b;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+  }
+
+  .btn-modern-cancel:hover {
+    background: #0f172a;
+  }
+}

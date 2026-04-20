@@ -1,357 +1,396 @@
-<div class="row">
-  <div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0">Enroulements</h4>
-
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">Accueil</a>
-          </li>
-          <li class="breadcrumb-item active">Enroulements</li>
-        </ol>
-      </div>
-    </div>
+<div class="litige-container">
+  <!-- Header Section -->
+  <div class="page-header-section">
+    <h2 class="page-title text-light">Enroulements</h2>
+    <p class="page-subtitle">Gestion des opérations clients</p>
   </div>
-  <div class="col-12">
-    <div class="p-2">
 
-    </div>
-  </div>
-</div>
+  <!-- Tabs Navigation -->
+  <ul class="nav nav-modern-tabs mb-4" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="enroulement-tab" data-bs-toggle="tab" data-bs-target="#enroulement" type="button" role="tab" aria-controls="enroulement" aria-selected="true">
+        <i class="ri-user-add-line me-2"></i>Enroulement & Transferts
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="operations-tab" data-bs-toggle="tab" data-bs-target="#operations" type="button" role="tab" aria-controls="operations" aria-selected="false">
+        <i class="ri-exchange-dollar-line me-2"></i>Recharge & Passages
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="abonnement-tab" data-bs-toggle="tab" data-bs-target="#abonnement" type="button" role="tab" aria-controls="abonnement" aria-selected="false">
+        <i class="ri-vip-crown-line me-2"></i>Abonnement & Compte
+      </button>
+    </li>
+  </ul>
 
-
-<div class="row">
-  <div class="col-6">
-    <div class="card p-4">
-      <div class="row justify-content-center">
-        <div class="col-md-10">
-          <div class="white_card card_height_100 mb_30">
-            <div class="white_card_header">
-              <div class="box_header m-0">
-                <div class="main-title text-center">
-                  <h3 class="m-0">Formulaire d'enroulement</h3>
-                </div>
-              </div>
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- Tab 1: Enroulement & Transferts -->
+    <div class="tab-pane fade show active" id="enroulement" role="tabpanel" aria-labelledby="enroulement-tab">
+      <div class="row g-4">
+        <!-- Formulaire d'enroulement -->
+        <div class="col-lg-6">
+          <div class="main-card animate-slide-up">
+            <div class="card-header-modern">
+              <h5 class="card-title-modern mb-0">Formulaire d'enroulement</h5>
             </div>
-            <div class="white_card_body">
-              <div class="card-body">
-                <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="nom" class="form-label">Nom</label>
-                      <input type="text" class="form-control" id="nom" formControlName="nom"
-                        (input)="onInputNom($event)" [ngClass]="{ 'is-invalid': submitted && form['nom'].errors }">
-                      <div *ngIf="submitted && form['nom'].errors" class="invalid-feedback">
-                        <div *ngIf="form['nom'].errors['required']">Le nom est obligatoire</div>
-                        <div *ngIf="form['nom'].errors['minlength']">Le nom doit comporter au moins 2 caractères</div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <label for="prenom" class="form-label">Prénoms</label>
-                      <input type="text" class="form-control" id="prenom" formControlName="prenom"
-                        [ngClass]="{ 'is-invalid': submitted && form['prenom'].errors }">
-                      <div *ngIf="submitted && form['prenom'].errors" class="invalid-feedback">
-                        <div *ngIf="form['prenom'].errors['required']">Les prénoms sont obligatoires</div>
-                        <div *ngIf="form['prenom'].errors['minlength']">Les prénoms doivent comporter au moins 2
-                          caractères
-                        </div>
-                      </div>
+            <div class="card-body-modern">
+              <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="nom" class="form-label-modern">Nom</label>
+                    <input type="text" class="form-control modern-input" id="nom" formControlName="nom"
+                      (input)="onInputNom($event)" [ngClass]="{ 'is-invalid': submitted && form['nom'].errors }" placeholder="Entrez le nom">
+                    <div *ngIf="submitted && form['nom'].errors" class="invalid-feedback">
+                      <div *ngIf="form['nom'].errors['required']">Le nom est obligatoire</div>
+                      <div *ngIf="form['nom'].errors['minlength']">Le nom doit comporter au moins 2 caractères</div>
                     </div>
                   </div>
-
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="email" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="email" formControlName="email"
-                        (input)="onInputEmail($event)" [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
-                      <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
-                        <div *ngIf="form['email'].errors['required']">L'email est obligatoire</div>
-                        <div *ngIf="form['email'].errors['email']">L'email n'est pas valide</div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <label for="tel" class="form-label">Téléphone</label>
-                      <input type="number
-                  " class="form-control" id="tel" formControlName="tel"
-                        [ngClass]="{ 'is-invalid': submitted && form['tel'].errors }">
-                      <div *ngIf="submitted && form['tel'].errors" class="invalid-feedback">
-                        <div *ngIf="form['tel'].errors['required']">Le téléphone est obligatoire</div>
-                        <div *ngIf="form['tel'].errors['pattern']">Le numéro de téléphone est invalide</div>
-                      </div>
+                  <div class="col-md-6">
+                    <label for="prenom" class="form-label-modern">Prénoms</label>
+                    <input type="text" class="form-control modern-input" id="prenom" formControlName="prenom"
+                      [ngClass]="{ 'is-invalid': submitted && form['prenom'].errors }" placeholder="Entrez les prénoms">
+                    <div *ngIf="submitted && form['prenom'].errors" class="invalid-feedback">
+                      <div *ngIf="form['prenom'].errors['required']">Les prénoms sont obligatoires</div>
+                      <div *ngIf="form['prenom'].errors['minlength']">Les prénoms doivent comporter au moins 2 caractères</div>
                     </div>
                   </div>
-
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label class="form-label" for="type">Type de client</label>
-                      <select class="form-control" id="type" formControlName="type"
-                        [ngClass]="{ 'is-invalid': submitted && form['type'].errors }">
-                        <option value="PHYSICAL" selected>Particulier</option>
-                        <option value="MORALE">Entreprise</option>
-                      </select>
-                      <div *ngIf="submitted && form['type'].errors" class="invalid-feedback">
-                        <small *ngIf="form['type'].errors['required']">Le type de client est obligatoire.</small>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <label class="form-label" for="cin">CNI</label>
-                      <input type="text" class="form-control" id="cin" formControlName="cin" placeholder="455896223547"
-                        [ngClass]="{ 'is-invalid': submitted && form['cin'].errors }">
-                      <div *ngIf="submitted && form['cin'].errors" class="text-danger">
-                        <small *ngIf="form['cin'].errors['required']">Le CNI est obligatoire.</small>
-                        <small *ngIf="form['cin'].errors['minlength']">Le CIN doit avoir au moins 8 caractères.</small>
-                      </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="email" class="form-label-modern">Email</label>
+                    <input type="email" class="form-control modern-input" id="email" formControlName="email"
+                      (input)="onInputEmail($event)" [ngClass]="{ 'is-invalid': submitted && form['email'].errors }" placeholder="exemple@email.com">
+                    <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
+                      <div *ngIf="form['email'].errors['required']">L'email est obligatoire</div>
+                      <div *ngIf="form['email'].errors['email']">L'email n'est pas valide</div>
                     </div>
                   </div>
-
-                  <div class="mb-3">
-                    <label for="adresse" class="form-label">Adresse</label>
-                    <input type="text" class="form-control" id="adresse" formControlName="adresse"
-                      [ngClass]="{ 'is-invalid': submitted && form['adresse'].errors }">
-                    <div *ngIf="submitted && form['adresse'].errors" class="invalid-feedback">
-                      <div *ngIf="form['adresse'].errors['required']">L'adresse est obligatoire</div>
+                  <div class="col-md-6">
+                    <label for="tel" class="form-label-modern">Téléphone</label>
+                    <input type="number" class="form-control modern-input" id="tel" formControlName="tel"
+                      [ngClass]="{ 'is-invalid': submitted && form['tel'].errors }" placeholder="Numéro de téléphone">
+                    <div *ngIf="submitted && form['tel'].errors" class="invalid-feedback">
+                      <div *ngIf="form['tel'].errors['required']">Le téléphone est obligatoire</div>
+                      <div *ngIf="form['tel'].errors['pattern']">Le numéro de téléphone est invalide</div>
                     </div>
                   </div>
-
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">
-                      {{loading ? 'Veuillez patienter ' : 'ENREGISTRER'}}
-                      <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
-                    </button>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label-modern" for="type">Type de client</label>
+                    <select class="form-select modern-select" id="type" formControlName="type"
+                      [ngClass]="{ 'is-invalid': submitted && form['type'].errors }">
+                      <option value="PHYSICAL" selected>Particulier</option>
+                      <option value="MORALE">Entreprise</option>
+                    </select>
+                    <div *ngIf="submitted && form['type'].errors" class="invalid-feedback">
+                      <small *ngIf="form['type'].errors['required']">Le type de client est obligatoire.</small>
+                    </div>
                   </div>
-                </form>
-
-              </div>
+                  <div class="col-md-6">
+                    <label class="form-label-modern" for="cin">CNI</label>
+                    <input type="text" class="form-control modern-input" id="cin" formControlName="cin" placeholder="455896223547"
+                      [ngClass]="{ 'is-invalid': submitted && form['cin'].errors }">
+                    <div *ngIf="submitted && form['cin'].errors" class="text-danger">
+                      <small *ngIf="form['cin'].errors['required']">Le CNI est obligatoire.</small>
+                      <small *ngIf="form['cin'].errors['minlength']">Le CIN doit avoir au moins 8 caractères.</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="adresse" class="form-label-modern">Adresse</label>
+                  <input type="text" class="form-control modern-input" id="adresse" formControlName="adresse"
+                    [ngClass]="{ 'is-invalid': submitted && form['adresse'].errors }" placeholder="Adresse complète">
+                  <div *ngIf="submitted && form['adresse'].errors" class="invalid-feedback">
+                    <div *ngIf="form['adresse'].errors['required']">L'adresse est obligatoire</div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-modern-primary">
+                    {{loading ? 'Veuillez patienter ' : 'ENREGISTRER'}}
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-  </div>
-  <div class="col-6">
-    <div class="card  p-4">
-      <div class="row justify-content-center">
-        <div class="col-md-10">
-          <div class="white_card card_height_100 mb_30">
-            <div class="white_card_header">
-              <div class="box_header m-0">
-                <div class="main-title text-center">
-                  <h3 class="m-0">Transfert de compte</h3>
-                </div>
-              </div>
+        <!-- Transferts Group -->
+        <div class="col-lg-6">
+          <div class="transfers-group">
+            <div class="transfers-header">
+              <h5 class="transfers-title">Opérations de transfert</h5>
             </div>
-            <div class="white_card_body">
-              <div class="card-body">
+            
+            <!-- Transfert de compte -->
+            <div class="main-card animate-slide-up" style="animation-delay: 0.1s;">
+              <div class="card-header-modern">
+                <h5 class="card-title-modern mb-0">Transfert de compte</h5>
+              </div>
+              <div class="card-body-modern">
                 <form>
-                  <div class="row mb-3">
-                    <div class="col-md-12">
-                      <label for="tel" class="form-label">Numéro téléphone</label>
-                      <input type="text" class="form-control" id="tel" [(ngModel)]="tel" name="tel">
-                    </div>
-
+                  <div class="mb-3">
+                    <label for="tel" class="form-label-modern">Numéro téléphone</label>
+                    <input type="text" class="form-control modern-input" id="tel" [(ngModel)]="tel" name="tel" placeholder="Numéro de téléphone">
                   </div>
-
-
                   <div class="text-center">
-                    <button type="button" (click)="onSubmitEdit()" class="btn btn-primary">
+                    <button type="button" (click)="onSubmitEdit()" class="btn btn-modern-primary">
                       {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
                       <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
 
+            <!-- Transfert Tag vers un compte -->
+            <div class="main-card animate-slide-up mt-3" style="animation-delay: 0.2s;">
+              <div class="card-header-modern">
+                <h5 class="card-title-modern mb-0">Transfert Tag vers un compte</h5>
+              </div>
+              <div class="card-body-modern">
+                <form>
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="tagCode" class="form-label-modern">Tag Code</label>
+                      <input type="text" class="form-control modern-input" id="tagCode" [(ngModel)]="tagCode" name="tagCode" placeholder="Code du tag">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="accountNumber" class="form-label-modern">Numéro Compte destinataire</label>
+                      <input type="text" class="form-control modern-input" id="accountNumber" [(ngModel)]="accountNumber"
+                        name="accountNumber" placeholder="Numéro de compte">
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="button" (click)="onSubmitTransfertTageCode()" class="btn btn-modern-primary">
+                      {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                    </button>
+                  </div>
+                </form>
+                <span class="alert-modern alert-success" *ngIf="dataTransfert">
+                  <i class="ri-check-line"></i>
+                  Transfert du tag code {{this.dataTransfert.tagCode}} effectué avec succès vers le compte n° :{{dataTransfert.compte.accountNumber}}
+                </span>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <hr>
-      <div class="card  p-1">
-        <div class="row justify-content-center">
-          <div class="col-md-10">
-            <div class="white_card card_height_100 mb_30">
-              <div class="white_card_header">
-                <div class="box_header m-0">
-                  <div class="main-title text-center">
-                    <h3 class="m-0">Transfert Tag vers un compte</h3>
+    <!-- Tab 2: Recharge & Passages -->
+    <div class="tab-pane fade" id="operations" role="tabpanel" aria-labelledby="operations-tab">
+      <div class="row g-4">
+        <!-- Recharge de compte -->
+        <div class="col-lg-6">
+          <div class="main-card animate-slide-up" style="animation-delay: 0.3s;">
+            <div class="card-header-modern">
+              <h5 class="card-title-modern mb-0">Recharge de compte</h5>
+            </div>
+            <div class="card-body-modern">
+              <form>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="accountNumber" class="form-label-modern">Numéro Compte</label>
+                    <input type="text" class="form-control modern-input" id="accountNumber" [(ngModel)]="accountNumber"
+                      name="accountNumber" placeholder="Numéro de compte">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="montant" class="form-label-modern">Montant</label>
+                    <input type="number" class="form-control modern-input" id="montant" [(ngModel)]="montant" name="montant" placeholder="Montant">
                   </div>
                 </div>
-              </div>
-              <div class="white_card_body">
-                <div class="card-body">
-                  <form>
-                    <div class="row mb-3">
-                      <div class="col-md-6">
-                        <label for="tel" class="form-label">Tag Code</label>
-                        <input type="text" class="form-control" id="tagCode" [(ngModel)]="tagCode" name="tagCode">
-                      </div>
-                      <div class="col-md-6">
-                        <label for="tel" class="form-label">Numéro Compte destinateur</label>
-                        <input type="text" class="form-control" id="accountNumber" [(ngModel)]="accountNumber"
-                          name="accountNumber">
-                      </div>
-
-                    </div>
-
-
-                    <div class="text-center">
-                      <button type="button" (click)="onSubmitTransfertTageCode()" class="btn btn-primary">
-                        {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
-                      </button>
-                    </div>
-                  </form>
-
+                <div class="text-center">
+                  <button type="button" (click)="onSubmitRechargeCompte()" class="btn btn-modern-primary">
+                    {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                  </button>
                 </div>
-              </div>
+              </form>
+              <span class="alert-modern alert-success" *ngIf="dataRecharge">
+                <i class="ri-check-line"></i>
+                Recharge de {{this.dataRecharge.montant}} FCFA effectué avec succès sur le compte n° :{{dataRecharge.compte.accountNumber}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passages de Tag -->
+        <div class="col-lg-6">
+          <div class="main-card animate-slide-up" style="animation-delay: 0.4s;">
+            <div class="card-header-modern">
+              <h5 class="card-title-modern mb-0">Passages de Tag</h5>
+            </div>
+            <div class="card-body-modern">
+              <form>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="tagCode" class="form-label-modern">Tag code</label>
+                    <input type="text" class="form-control modern-input" id="tagCode" [(ngModel)]="tagCode"
+                      name="tagCode" placeholder="Code du tag">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="site" class="form-label-modern">Site</label>
+                    <input type="text" disabled class="form-control modern-input" id="site" [(ngModel)]="site"
+                      name="site" placeholder="Site">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="voie" class="form-label-modern">Voie</label>
+                    <select name="voie" class="form-select modern-select" id="voie" [(ngModel)]="voie">
+                      <option value="GATE-ALLER">GATE-ALLER</option>
+                      <option value="GATE-RETOUR">GATE-RETOUR</option>
+                      <option value="DA1">DA1</option>
+                      <option value="DA2">DA2</option>
+                      <option value="DA3">DA3</option>
+                      <option value="DA4">DA4</option>
+                      <option value="DA5">DA5</option>
+                      <option value="DA6">DA6</option>
+                      <option value="DR1">DR1</option>
+                      <option value="DR2">DR2</option>
+                      <option value="DR3">DR3</option>
+                      <option value="DR4">DR4</option>
+                      <option value="DR5">DR5</option>
+                      <option value="DR6">DR6</option>
+                      <option value="AA1">AA1</option>
+                      <option value="AA2">AA2</option>
+                      <option value="AR1">AR1</option>
+                      <option value="AR2">AR2</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="datePassage" class="form-label-modern">Date passage</label>
+                    <input type="datetime-local" class="form-control modern-input" id="datePassage" [(ngModel)]="datePassage"
+                      name="datePassage">
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="button" (click)="onSubmitPassages()" class="btn btn-modern-primary">
+                    {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <span class="alert alert-info" *ngIf="dataTransfert">Transfert du tag code {{this.dataTransfert.tagCode}} effectué
-        avec succès vers le compte n° :{{dataTransfert.compte.accountNumber}}</span>
+    <!-- Tab 3: Abonnement & Compte -->
+    <div class="tab-pane fade" id="abonnement" role="tabpanel" aria-labelledby="abonnement-tab">
+      <div class="row justify-content-center g-4">
+        <!-- Création de Compte -->
+        <div class="col-lg-8 col-md-10">
+          <div class="main-card animate-slide-up">
+            <div class="card-header-modern">
+              <h5 class="card-title-modern mb-0">Création de Compte</h5>
+            </div>
+            <div class="card-body-modern">
+              <form (ngSubmit)="createAccount()">
+                <div class="row mb-3">
+                  <div class="col-md-12">
+                    <label for="clientSearch" class="form-label-modern">Client</label>
+                    <div class="position-relative">
+                      <input
+                        type="text"
+                        class="form-control modern-input"
+                        id="clientSearch"
+                        name="clientSearch"
+                        placeholder="Rechercher un client..."
+                        [(ngModel)]="searchClientQuery"
+                        (ngModelChange)="searchClients($event)"
+                        autocomplete="off"
+                      >
+                      <div class="dropdown-menu w-100" [class.show]="clientsList.length > 0 && !selectedClient">
+                        <div class="p-2">
+                          <div *ngIf="loadingClients" class="text-center">
+                            <div class="spinner-border spinner-border-sm" role="status">
+                              <span class="visually-hidden">Chargement...</span>
+                            </div>
+                          </div>
+                          <div *ngIf="!loadingClients && clientsList.length === 0" class="text-muted">
+                            Aucun client trouvé
+                          </div>
+                          <a
+                            *ngFor="let client of clientsList"
+                            class="dropdown-item"
+                            href="javascript:void(0)"
+                            (click)="selectClient(client)"
+                          >
+                            <strong>{{ client.nom }} {{ client.prenom }}</strong>
+                            <small class="d-block text-muted">{{ client.tel }}</small>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-modern-primary" [disabled]="loading || !selectedClient">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    CRÉER COMPTE
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Info Display -->
+        <div *ngIf="showAccountInfo && createdAccount" class="col-lg-6 col-md-8">
+          <div class="main-card animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="card-header-modern">
+              <h5 class="card-title-modern mb-0">Informations du Compte</h5>
+            </div>
+            <div class="card-body-modern">
+              <div class="alert-modern alert-success mb-3">
+                <i class="ri-checkbox-circle-fill"></i>
+                <strong>Compte créé avec succès !</strong>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label-modern">Numéro de compte</label>
+                  <div class="modern-input">{{ createdAccount.accountNumber }}</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label-modern">Solde</label>
+                  <div class="modern-input">{{ createdAccount.solde }} FCFA</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label-modern">Statut</label>
+                  <div class="modern-input">{{ createdAccount.statut }}</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label-modern">Client</label>
+                  <div class="modern-input">{{ createdAccount.client?.nom }} {{ createdAccount.client?.prenom }}</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label-modern">Téléphone</label>
+                  <div class="modern-input">{{ createdAccount.client?.tel }}</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label-modern">Email</label>
+                  <div class="modern-input">{{ createdAccount.client?.email }}</div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="button" class="btn btn-modern-secondary" (click)="hideAccountInfo()">
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Création d'Abonnement -->
+        
+      </div>
     </div>
   </div>
-
-    <div class="col-6">
-   <div class="card  p-1">
-        <div class="row justify-content-center">
-          <div class="col-md-12">
-            <div class="white_card card_height_100 mb_30">
-              <div class="white_card_header">
-                <div class="box_header m-0">
-                  <div class="main-title text-center">
-                    <h3 class="m-0">Recharge de compte</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="white_card_body">
-                <div class="card-body">
-                  <form>
-                    <div class="row mb-3">
-
-                      <div class="col-md-6">
-                        <label for="tel" class="form-label">Numéro Compte</label>
-                        <input type="text" class="form-control" id="accountNumber" [(ngModel)]="accountNumber"
-                          name="accountNumber">
-                      </div>
-
-                       <div class="col-md-6">
-                        <label for="tel" class="form-label">Montant</label>
-                        <input type="number" class="form-control" id="montant" [(ngModel)]="montant" name="montant">
-                      </div>
-                    </div>
-
-
-                    <div class="text-center">
-                      <button type="button" (click)="onSubmitRechargeCompte()" class="btn btn-primary">
-                        {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
-                      </button>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-
-
-      <span class="alert alert-info" *ngIf="dataRecharge">Recharge de  {{this.dataRecharge.montant}} FCFA effectué
-        avec succès sur le compte n° :{{dataRecharge.compte.accountNumber}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6">
-   <div class="card  p-1">
-        <div class="row justify-content-center">
-          <div class="col-md-12">
-            <div class="white_card card_height_100 mb_30">
-              <div class="white_card_header">
-                <div class="box_header m-0">
-                  <div class="main-title text-center">
-                    <h3 class="m-0">Passages de Tag</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="white_card_body">
-                <div class="card-body">
-                  <form>
-                    <div class="row mb-3">
-
-                      <div class="col-md-3">
-                        <label for="tel" class="form-label">Tag code</label>
-                        <input type="text" class="form-control" id="tagCode" [(ngModel)]="tagCode"
-                          name="tagCode">
-                      </div>
-
-
-                      <div class="col-md-3">
-                        <label for="tel" class="form-label">Site</label>
-                        <input type="text" disabled="" class="form-control" id="site" [(ngModel)]="site"
-                          name="site">
-                      </div>
-
-                            <div class="col-md-3">
-                        <label for="tel" class="form-label">Voie</label>
-
-                        <select name="voie"  class="form-control" id="voie"  [(ngModel)]="voie">
-
-                          <option value="GATE-ALLER">GATE-ALLER</option>
-                          <option value="GATE-RETOUR">GATE-RETOUR</option>
-                          <option value="DA1">DA1</option>
-                          <option value="DA2">DA2</option>
-                          <option value="DA3">DA3</option>
-                          <option value="DA4">DA4</option>
-                          <option value="DA5">DA5</option>
-                          <option value="DA6">DA6</option>
-
-                                 <option value="DR5">DR1</option>
-                          <option value="DR2">DR2</option>
-                          <option value="DR3">DR3</option>
-                          <option value="DR4">DR4</option>
-                          <option value="DR5">DR5</option>
-                          <option value="DR6">DR6</option>
-
-                                 <option value="AA1">AA1</option>
-                          <option value="AA2">AA2</option>
-                          <option value="AR1">AR1</option>
-                          <option value="AR2">AR2</option>
-
-                        </select>
-                      </div>
-
-
-                        <div class="col-md-3">
-                        <label for="tel" class="form-label">Date passage</label>
-                        <input type="datetime-local" class="form-control" id="datePassage" [(ngModel)]="datePassage"
-                          name="datePassage">
-                      </div>
-
-                    </div>
-
-
-                    <div class="text-center">
-                      <button type="button" (click)="onSubmitPassages()" class="btn btn-primary">
-                        {{loading ? 'Veuillez patienter ' : 'VALIDER'}}
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
-                      </button>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
 </div>
