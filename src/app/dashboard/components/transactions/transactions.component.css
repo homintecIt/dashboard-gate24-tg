@@ -485,3 +485,267 @@ body.dark-mode .pagination-modern .page-item.disabled .page-link {
   background: #1e293b;
   color: #64748b;
 }
+
+/* Custom NG-Select Styles for Selected Tags */
+.ng-select .ng-value-container .ng-value {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0.25rem 0.25rem 0.25rem 0;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(8, 52, 137, 0.2);
+  max-width: calc(100% - 2rem);
+}
+
+.ng-select .ng-value-container .ng-value .ng-value-label {
+  color: #ffffff;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ng-select .ng-value-container .ng-value .ng-value-icon {
+  color: rgba(255, 255, 255, 0.9);
+  margin-left: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ng-select .ng-value-container .ng-value .ng-value-icon:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.ng-select .ng-select-container {
+  min-height: 48px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0.25rem 0.75rem;
+}
+
+.ng-select .ng-placeholder {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  color: #6b7280;
+}
+
+.ng-select.ng-select-focused .ng-select-container {
+  border-color: #083489;
+  box-shadow: 0 0 0 3px rgba(8, 52, 137, 0.1);
+}
+
+.ng-select .ng-value-container {
+  padding: 0.25rem 0;
+  flex-wrap: wrap;
+}
+
+.modern-input.ng-select.ng-select-focused .ng-select-container {
+  border-color: #083489;
+  box-shadow: 0 0 0 3px rgba(8, 52, 137, 0.1);
+}
+
+.modern-input.ng-select .ng-dropdown-panel {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin-top: 0.5rem;
+  background: #ffffff;
+}
+
+.modern-input.ng-select .ng-option {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+}
+
+.modern-input.ng-select .ng-option:hover {
+  background: rgba(8, 52, 137, 0.05);
+  color: #083489;
+}
+
+.modern-input.ng-select .ng-option.ng-option-selected {
+  background: rgba(8, 52, 137, 0.1);
+  color: #083489;
+  font-weight: 500;
+}
+
+/* Dark mode for NG-Select */
+body.dark-mode .modern-input.ng-select .ng-value {
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+}
+
+body.dark-mode .modern-input.ng-select .ng-dropdown-panel {
+  background: #1e293b;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .modern-input.ng-select .ng-option {
+  color: #e2e8f0;
+}
+
+body.dark-mode .modern-input.ng-select .ng-option:hover {
+  background: rgba(8, 52, 137, 0.2);
+}
+
+/* Custom Multi-Select Styles */
+.custom-multi-select {
+  position: relative;
+}
+
+.selected-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: text;
+  transition: all 0.3s ease;
+}
+
+.selected-chips:focus-within {
+  border-color: #083489;
+  box-shadow: 0 0 0 3px rgba(8, 52, 137, 0.1);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(8, 52, 137, 0.2);
+}
+
+.chip-text {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip-remove {
+  margin-left: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+}
+
+.chip-remove:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.search-input {
+  flex: 1;
+  min-width: 150px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  padding: 0.35rem 0;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.5rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background: rgba(8, 52, 137, 0.05);
+  color: #083489;
+}
+
+.dropdown-item-text {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.dropdown-no-results,
+.dropdown-loading {
+  padding: 1rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Dark mode for Custom Multi-Select */
+body.dark-mode .selected-chips {
+  background: #334155;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .selected-chips:focus-within {
+  border-color: rgba(8, 52, 137, 0.5);
+  box-shadow: 0 0 0 3px rgba(8, 52, 137, 0.2);
+}
+
+body.dark-mode .search-input::placeholder {
+  color: #94a3b8;
+}
+
+body.dark-mode .search-input {
+  color: #e2e8f0;
+}
+
+body.dark-mode .dropdown-list {
+  background: #1e293b;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .dropdown-item {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .dropdown-item:hover {
+  background: rgba(8, 52, 137, 0.2);
+}
+
+body.dark-mode .dropdown-item-text {
+  color: #e2e8f0;
+}
+
+body.dark-mode .dropdown-no-results,
+body.dark-mode .dropdown-loading {
+  color: #94a3b8;
+}

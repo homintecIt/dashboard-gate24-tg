@@ -137,7 +137,8 @@ import { TransfertHistoryComponent } from './components/transfert-history/transf
     DashboardRoutingModule,
     ReactiveFormsModule ,
     FormsModule,
-    MultiSelectModule
+    MultiSelectModule,
+    NgSelectModule
   ],
   providers: [RechargesService, SubscriptionService,RolesService,MenusService]
 })

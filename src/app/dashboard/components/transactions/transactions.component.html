@@ -66,8 +66,41 @@
           <label for="client" class="form-label-modern">Client</label>
           <input type="text" id="client" (change)="onSearch()" class="form-control modern-input" [(ngModel)]="client">
         </div>
-        <div class="col-md-3 d-flex align-items-end gap-2">
-          <button class="btn btn-modern-primary" (click)="resetFilters()" [disabled]="loading">
+        <div class="col-md-3">
+          <label for="excludeClients" class="form-label-modern">Exclure Clients</label>
+          <div class="custom-multi-select">
+            <div class="selected-chips" (click)="focusSearchInput()">
+              <div *ngFor="let client of excludeClients" class="chip">
+                <span class="chip-text">{{client}}</span>
+                <span class="chip-remove" (click)="removeClient(client, $event)">×</span>
+              </div>
+              <input
+                type="text"
+                #searchInput
+                class="search-input"
+                placeholder="Rechercher des clients..."
+              (input)="onSearchInput($event)"
+              (focus)="showDropdown = true"
+              (keydown)="onKeyDown($event)">
+            </div>
+            <div *ngIf="showDropdown && filteredClientsList.length > 0" class="dropdown-list">
+              <div
+                *ngFor="let client of filteredClientsList"
+                class="dropdown-item"
+                (click)="selectClient(client)">
+                <span class="dropdown-item-text">{{client.nom_client}}</span>
+              </div>
+            </div>
+            <div *ngIf="showDropdown && filteredClientsList.length === 0 && !loadingClients" class="dropdown-no-results">
+              Aucun client trouvé
+            </div>
+            <div *ngIf="loadingClients" class="dropdown-loading">
+              Chargement...
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-end gap-2">
+          <button class="btn btn-primary" (click)="resetFilters()" [disabled]="loading">
             <i class="ri-filter-off-line me-2"></i>Réinitialiser
           </button>
           <button class="btn btn-modern-secondary" (click)="onSearch()">

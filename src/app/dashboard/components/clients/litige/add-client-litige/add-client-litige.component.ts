@@ -47,7 +47,7 @@ showAccountInfo = false;
 
 private searchSubject = new Subject<string>();
 currentPage = 1;
-itemsPerPage = 10;
+itemsPerPage = 100;
 
   constructor(
     private formBuilder: FormBuilder,

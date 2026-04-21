@@ -223,8 +223,12 @@ export class ShowtagComponent implements OnInit {
 
     this.generalService.toggleStatus(data).subscribe({
       next: (data) => {
-        this.generalService.successEvent.emit(data);
         this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+        // Reload data after success
+        let value = storageHelper.local.get(`${searchType}`);
+        if (value) {
+          this.getData(value);
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.generalService.failureEvent.emit(error);
@@ -242,8 +246,12 @@ export class ShowtagComponent implements OnInit {
 
     this.generalService.toggleExoStatus(data).subscribe({
       next: (data) => {
-        this.generalService.successEvent.emit(data);
         this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+        // Reload data after success
+        let value = storageHelper.local.get(`${searchType}`);
+        if (value) {
+          this.getData(value);
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.generalService.failureEvent.emit(error);
