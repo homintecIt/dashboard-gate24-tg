@@ -58,17 +58,10 @@ export class ShowtagComponent implements OnInit {
   loadData() {
     let value = storageHelper.local.get(`${searchType}`);
     this.generalService.successEvent.subscribe((data) => {
-        const newtel =  storageHelper.local.get(`${searchType}`);
-        if (newtel.type =='tagCode'&& newtel.value != value['tel']) {
-          value= {
-             type: 'tagCode',
-          value: data.value,
-          }
-      this.getData(value);
-
-        }else{
-      this.getData(value);
-
+        // Reload data after any successful operation (recharge, status change, etc.)
+        let value = storageHelper.local.get(`${searchType}`);
+        if (value) {
+          this.getData(value);
         }
     }
   );
