@@ -139,7 +139,7 @@
                   <button class="btn btn-modern-action btn-modern-transactions"
                     *ngIf="permissionService.hasPermission('Transactions', 'consulter')"
                     [routerLink]="['/dashboard/transaction/byTag']"
-                    [queryParams]="{ tag: sub.tagId }"
+                    [queryParams]="{ tag: sub.tagCode }"
                     title="Voir les transactions">
                     <i class="ri-exchange-dollar-line"></i>
                   </button>

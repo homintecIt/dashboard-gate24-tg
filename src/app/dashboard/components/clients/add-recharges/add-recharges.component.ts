@@ -39,8 +39,6 @@ userRole:any;
 
   ngOnInit(): void {
     this.userRole = this.authService.userRole;
-
-    console.log("role",this.userRole);
     this.rechargeForm = this.formBuilder.group({
       accountNumber: ['', [Validators.required, Validators.minLength(8)]],
       tagCode: [''],
@@ -137,6 +135,7 @@ userRole:any;
     this.loading = false;
     this.ticketData = data;
     this.sweetAlertService.toastSuccess(message, 5000);
+    this.generalService.successEvent.emit(data);
     this.printReceiptContent();
     this.resetFormClose();
   }

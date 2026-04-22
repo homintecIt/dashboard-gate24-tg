@@ -79,11 +79,9 @@
               <th class="text-center">#</th>
               <th>Numéro de compte</th>
               <th>Solde</th>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Email</th>
+              <th>Client</th>
               <th>Téléphone</th>
-              <th>Type</th>
+              <th>Annotation</th>
               <th class="text-center">Actions</th>
             </tr>
           </thead>
@@ -92,12 +90,10 @@
               <td class="text-center">{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
               <td><strong>{{ item.accountNumber }}</strong></td>
               <td class="amount-cell">{{ item.solde }} F CFA</td>
-              <td>{{ item.client?.nom }}</td>
-              <td>{{ item.client?.prenom }}</td>
-              <td>{{ item.client?.email }}</td>
+              <td>{{ item.client?.nom }} {{ item.client?.prenom }}</td>
               <td>{{ item.client?.tel }}</td>
               <td>
-                <span class="badge badge-modern">{{ item.client?.typeClient }}</span>
+                <span class="badge badge-modern">{{ item.comment ?? "-" }}</span>
               </td>
               <td class="text-center">
                 <div class="action-buttons">

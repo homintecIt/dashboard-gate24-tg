@@ -54,12 +54,13 @@
           <thead>
             <tr>
               <th class="text-center">#</th>
-              <th class="text-center">Nom</th>
-              <th class="text-center">Prénom</th>
+              <th class="text-center">Client</th>
               <th class="text-center">Email</th>
               <th class="text-center">Téléphone</th>
               <th class="text-center">Adresse</th>
               <th class="text-center">CIN</th>
+              <th class="text-center">Type Client</th>
+
               <th class="text-center">Date de création</th>
               <th class="text-center">Actions</th>
             </tr>
@@ -67,12 +68,12 @@
           <tbody>
             <tr *ngFor="let item of filteredClients; let i = index">
               <td class="text-center">{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
-              <td class="text-center">{{ item.nom }}</td>
-              <td class="text-center">{{ item.prenom }}</td>
+              <td class="text-center">{{ item.nom }} {{ item.prenom }}</td>
               <td class="text-center">{{ item.email }}</td>
               <td class="text-center">{{ item.tel }}</td>
               <td class="text-center">{{ item.adresse }}</td>
               <td class="text-center">{{ item.cin }}</td>
+              <td class="text-center">{{ item.typeClient=='PHYSICAL' ? 'Particulier' : 'Entreprise' }}</td>
               <td class="text-center">{{ item.created_at | date : "short" }}</td>
               <td class="text-center">
                 <div class="action-buttons">

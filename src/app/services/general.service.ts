@@ -183,7 +183,15 @@ export class GeneralService {
   }
 
 
-   transformerRfidcode(chaine: string): string {
+   markAccountWithComment(accountNumber: string, comment: string): Observable<any> {
+    const payload = {
+      accountNumber: accountNumber,
+      comment: comment
+    };
+    return this.httpClient.post<any>(`${apiEndpoints.markAccountCommentUrl}`, payload);
+  }
+
+  transformerRfidcode(chaine: string): string {
     let resultat = "";
 
     // Iterate through each character in the string

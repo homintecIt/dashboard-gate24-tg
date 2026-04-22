@@ -309,6 +309,17 @@
   box-shadow: 0 4px 8px rgba(5, 150, 105, 0.2);
 }
 
+.action-btn-success {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #059669;
+}
+
+.action-btn-success:hover {
+  background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(5, 150, 105, 0.2);
+}
+
 .action-btn-primary {
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
   color: #083489;

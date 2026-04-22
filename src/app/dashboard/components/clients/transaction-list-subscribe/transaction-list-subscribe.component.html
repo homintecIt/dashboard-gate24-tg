@@ -25,10 +25,20 @@
             <p class="card-subtitle-modern mb-0">{{ totalItems || 0 }} transactions</p>
           </div>
         </div>
-        <button class="btn btn-modern-primary btn-sm" (click)="loadTransactions()" [disabled]="loading">
-          <i class="ri-refresh-line me-2" [class.fa-spin]="loading"></i>
-          {{ loading ? 'Chargement...' : 'Rafraîchir' }}
-        </button>
+       
+        
+           <div class="d-flex gap-2">
+          <button class="btn btn-modern-primary btn-sm" (click)="loadTransactions()" [disabled]="loading">
+            <i class="ri-refresh-line me-2" [class.fa-spin]="loading"></i>
+            {{ loading ? 'Chargement...' : 'Rafraîchir' }}
+          </button>
+          <button class="btn btn-modern-secondary btn-sm" (click)="onExportExcel()">
+            <i class="ri-file-excel-line me-2"></i>Excel
+          </button>
+          <button class="btn btn-modern-secondary btn-sm" (click)="onExportPdf()">
+            <i class="ri-file-pdf-line me-2"></i>PDF
+          </button>
+        </div>
       </div>
     </div>
 
@@ -51,16 +61,16 @@
               <td>
                 <span class="badge badge-modern badge-info">{{ transaction?.tagCode }}</span>
               </td>
-              <td [class.amount-credit]="transaction.type_transaction === 'credit'"
-                  [class.amount-debit]="transaction.type_transaction === 'debit'">
-                {{ transaction.type_transaction === 'credit' ? '+' : '-' }}
+              <td [class.amount-credit]="transaction.type_transaction === 'crédit'"
+                  [class.amount-debit]="transaction.type_transaction === 'débit'">
+                {{ transaction.type_transaction === 'crédit' ? '+' : '-' }}
                 {{ transaction.montant_transaction | currency:'XOF':'symbol':'1.2-2' }}
               </td>
               <td>
                 <span class="badge badge-modern"
                       [ngClass]="{
-                        'badge-success': transaction.type_transaction === 'credit',
-                        'badge-danger': transaction.type_transaction === 'debit'
+                        'badge-success': transaction.type_transaction === 'crédit',
+                        'badge-danger': transaction.type_transaction === 'débit'
                       }">
                   {{ getTypeLabel(transaction.type_transaction) }}
                 </span>

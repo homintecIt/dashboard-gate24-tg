@@ -58,6 +58,7 @@ export class ShowtagComponent implements OnInit {
   loadData() {
     let value = storageHelper.local.get(`${searchType}`);
     this.generalService.successEvent.subscribe((data) => {
+
         // Reload data after any successful operation (recharge, status change, etc.)
         let value = storageHelper.local.get(`${searchType}`);
         if (value) {
@@ -74,8 +75,6 @@ export class ShowtagComponent implements OnInit {
   }
 
   getData(data: any) {
-
-    console.log("date",data);
 
     if (data.type === 'accountNumber') {
       this.generalService.getCompteClient(data.value).subscribe({

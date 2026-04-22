@@ -128,6 +128,7 @@
               <th>Numéro</th>
               <th>Solde</th>
               <th>Statut</th>
+              <th>Annotation</th>
               <th>Date de création</th>
               <th class="text-center">Actions</th>
             </tr>
@@ -144,6 +145,10 @@
                   }">
                   {{ compte.statut === 'actived' ? 'Activé' : 'Désactivé' }}
                 </span>
+              </td>
+              <td>
+                <span class="comment-text" *ngIf="compte.comment">{{ compte.comment }}</span>
+                <span class="text-muted" *ngIf="!compte.comment">-</span>
               </td>
               <td>{{ compte.created_at | date }}</td>
               <td class="text-center">
@@ -166,6 +171,15 @@
                       title="voir liste de tag"
                     >
                       <i class="ri-bank-card-line"></i>
+                    </button>
+
+                    <button 
+                      class="action-btn action-btn-success"
+                      *ngIf="permissionService.hasPermission('Gestion clients', 'modifier')"
+                      (click)="markAccountWithComment(compte)"
+                      title="Marquer le compte"
+                    >
+                      <i class="ri-chat-new-line"></i>
                     </button>
 
                     <button 
