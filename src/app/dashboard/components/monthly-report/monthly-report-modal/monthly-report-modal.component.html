@@ -1,37 +1,32 @@
-<div class="modal-content text-center">
-  <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel1">Choix du site</h5>
-    <button
-      type="button"
-      (click)="bsModalRef.hide()"
-      class="btn-close"
-      aria-label="Close"
-    ></button>
+<div class="modal-content modern-modal">
+  <div class="modal-header modern-modal-header">
+    <div class="d-flex align-items-center gap-3">
+      <div class="modal-icon">
+        <i class="ri-map-pin-line"></i>
+      </div>
+      <h5 class="modal-title">Choix du site</h5>
+    </div>
+    <button type="button" (click)="bsModalRef.hide()" class="btn-close-modern" aria-label="Close">
+      <i class="ri-close-line"></i>
+    </button>
   </div>
 
-  <div class="modal-body p-4">
-    <!-- Email input -->
-    <div data-mdb-input-init class="form-outline mb-4">
-      <select [(ngModel)]="selectedOption" class="form-select">
-        <option value="" disabled>Selectionnez un site</option>
-        <option
-          *ngFor="let option of dropdownOptions"
-          [value]="option.passages_site"
-        >
+  <div class="modal-body modern-modal-body">
+    <div class="form-group-modern">
+      <label for="siteSelect" class="form-label-modern">
+        <i class="ri-building-line me-2"></i>Site
+      </label>
+      <select [(ngModel)]="selectedOption" class="form-select form-control-modern" id="siteSelect">
+        <option value="" disabled>Sélectionnez un site</option>
+        <option *ngFor="let option of dropdownOptions" [value]="option.passages_site">
           {{ option.passages_site }}
         </option>
       </select>
-      <label class="form-label">Selectionner</label>
     </div>
 
-    <button
-      type="button"
-      class="btn btn-primary waves-effect waves-light"
-      (click)="onSiteSelected(selectedOption)"
-    >
+    <button type="button" class="btn btn-modern-submit w-100" (click)="onSiteSelected(selectedOption)">
+      <i class="ri-check-line me-2"></i>
       Valider
     </button>
-    <!-- <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block">Login</button> -->
   </div>
 </div>
-<!-- Modal -->

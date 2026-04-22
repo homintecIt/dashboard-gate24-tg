@@ -1,22 +1,59 @@
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-  <a class="dropdown-item"  href="javascript:void(0);">Par Nom & Prénoms
-    <i class="fas fa-arrow-right"></i> </a>
-  <a class="dropdown-item" (click)="openSearchModal('accountNumber')" href="javascript:void(0);">Par
-     <i class="fas fa-arrow-right"></i> </a>
-  <a class="dropdown-item" (click)="openSearchModal('tagCode')" href="javascript:void(0);">Par Code Tag
-    <i class="fas fa-arrow-right"></i> </a>
-  <a class="dropdown-item" (click)="openSearchModal('phoneNumber')" href="javascript:void(0);">Par Numéro
-    de Téléphone <i class="fas fa-arrow-right"></i> </a>
-</div>
-<div class="modal-header">
-  <h5 class="modal-title fw-bold"> RECHERCHE PAR </h5>
-  <button type="button" class="btn-close" (click)="closeModal()"></button>
-</div>
-
-<div class="modal-body">
-  <div class="d-grid gap-2">
-    <button class="btn btn-primary fs-20" (click)="openSearchModal('name')" type="button">Nom & Prénoms</button>
-    <button class="btn btn-primary fs-20" (click)="openSearchModal('phoneNumber')" type="button">Numéro de téléphone</button>
-    <button class="btn btn-outline-primary fs-20" *ngIf="data!='newCompte'" (click)="openSearchModal('accountNumber')" type="button">Numéro de compte</button>
+<div class="search-list-container">
+  <div class="modal-content modern-modal">
+    <div class="modal-header modern-modal-header">
+      <div class="d-flex align-items-center gap-3">
+        <div class="modal-icon">
+          <i class="ri-list-check-line"></i>
+        </div>
+        <h5 class="modal-title">Type de recherche</h5>
+      </div>
+      <button type="button" class="btn-close-modern" (click)="closeModal()">
+        <i class="ri-close-line"></i>
+      </button>
     </div>
+
+    <div class="modal-body modern-modal-body">
+      <div class="search-buttons-grid">
+        <button class="btn btn-modern-search" (click)="openSearchModal('name')" type="button">
+          <div class="search-btn-icon search-btn-blue">
+            <i class="ri-user-line"></i>
+          </div>
+          <span class="search-btn-text">Nom & Prénoms</span>
+          <div class="search-btn-arrow">
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </button>
+
+        <button class="btn btn-modern-search" (click)="openSearchModal('phoneNumber')" type="button">
+          <div class="search-btn-icon search-btn-green">
+            <i class="ri-phone-line"></i>
+          </div>
+          <span class="search-btn-text">Numéro de téléphone</span>
+          <div class="search-btn-arrow">
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </button>
+
+        <button class="btn btn-modern-search" (click)="openSearchModal('accountNumber')" *ngIf="data!='newCompte'" type="button">
+          <div class="search-btn-icon search-btn-purple">
+            <i class="ri-bank-card-line"></i>
+          </div>
+          <span class="search-btn-text">Numéro de compte</span>
+          <div class="search-btn-arrow">
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </button>
+
+        <button class="btn btn-modern-search" (click)="openSearchModal('tagCode')" type="button">
+          <div class="search-btn-icon search-btn-yellow">
+            <i class="ri-price-tag-3-line"></i>
+          </div>
+          <span class="search-btn-text">Code Tag</span>
+          <div class="search-btn-arrow">
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

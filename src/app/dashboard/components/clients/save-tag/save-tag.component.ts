@@ -150,67 +150,221 @@ export class SaveTagComponent {
       return;
     }
 
+    const montantPaye = this.ticketData.compte?.solde
+      ? this.ticketData.compte.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' })
+      : this.tagForm.value.montant;
+    const solde = this.ticketData.compte?.solde
+      ? this.ticketData.compte.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' })
+      : this.tagForm.value.montant;
+
     const receiptHtml = `
       <html>
         <head>
-          <title>Reçu d'abonnement </title>
+          <title>Reçu de Paiement</title>
           <style>
-            body {
-              font-family: Arial, sans-serif;
-              margin: 20px;
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
             }
-            .text-center {
+
+            html, body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              background: white;
+              padding: 0;
+              margin: 0;
+            }
+
+            .receipt {
+              background: white;
+              width: 80mm;
+              padding: 5px;
+            }
+
+            .header {
+              text-align: center;
+              margin-bottom: 10px;
+              padding-bottom: 10px;
+              border-bottom: 2px dashed #e0e0e0;
+            }
+
+            .logo {
+              width: 40px;
+              height: 40px;
+              margin: 0 auto 8px;
+            }
+
+            .logo img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+            }
+
+            .header h2 {
+              color: #083489;
+              font-size: 12px;
+              margin-bottom: 3px;
+              font-weight: 600;
+            }
+
+            .header p {
+              color: #666;
+              font-size: 8px;
+            }
+
+            .info-row {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 6px;
+              font-size: 9px;
+            }
+
+            .info-label {
+              color: #888;
+              font-weight: 500;
+            }
+
+            .info-value {
+              color: #333;
+              font-weight: 600;
+              text-align: right;
+              word-break: break-word;
+              max-width: 60%;
+            }
+
+            .amount-section {
+              background: linear-gradient(135deg, #083489 0%, #052663 100%);
+              color: white;
+              padding: 8px;
+              border-radius: 4px;
+              margin: 10px 0;
               text-align: center;
             }
-            .text-end {
-              text-align: end;
-            }
-            .mb-3 {
-              margin-bottom: 15px;
+
+            .amount-label {
+              font-size: 8px;
+              opacity: 0.9;
+              margin-bottom: 2px;
             }
 
-      footer {
-          position: relative;
-        bottom: 0;
-        margin-top: 10px;
-          }
-      @page {
-        margin: 0;
-      }
+            .amount-value {
+              font-size: 14px;
+              font-weight: bold;
+            }
+
+            .divider {
+              border-top: 2px dashed #e0e0e0;
+              margin: 10px 0;
+            }
+
+            .footer {
+              text-align: center;
+              margin-top: 10px;
+            }
+
+            .footer p {
+              color: #666;
+              font-size: 8px;
+              margin-bottom: 2px;
+            }
+
+            .footer .thank-you {
+              color: #083489;
+              font-weight: 600;
+              font-size: 9px;
+              margin-bottom: 5px;
+            }
+
+            @media print {
+              html, body {
+                background: white;
+                padding: 0;
+                margin: 0;
+              }
+
+              .receipt {
+                box-shadow: none;
+                border: none;
+                width: 80mm;
+              }
+
+              @page {
+                margin: 0;
+                size: 80mm auto;
+              }
+            }
           </style>
         </head>
-        <body onload="window.print(); window.close();">
-          <div class="text-center mb-4">
-            <h5>Reçu de paiement</h5>
-            <p>Date : ${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })}</p>
-          </div>
+        <body>
+          <div class="receipt">
+            <div class="header">
+              <div class="logo">
+                <img src="/assets/img/logo.png" alt="SAFER Logo" onerror="this.style.display='none'">
+              </div>
+              <h2>REÇU DE PAIEMENT</h2>
+              <p>${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+            </div>
 
-          <div class="mb-3">
-            <p><strong>Client :</strong> ${this.ticketData.client?.nom || '-'}  ${this.ticketData.client?.prenom}</p>
-            <p><strong>Numéro de compte :</strong> ${this.ticketData.compte?.accountNumber || '-'}</p>
-            <p><strong>Code du Tag :</strong> ${this.ticketData.tagCode || '-'}</p>
-            <p><strong>Montant payé :</strong> ${this.ticketData.compte?.solde ? this.ticketData.compte?.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }) : 'Exonéré'}</p>
-            <p><strong>Solde :</strong> ${this.ticketData.compte?.solde ? this.ticketData.compte?.solde.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }) : '-'}</p>
-            <p><strong>Plaque :</strong> ${this.ticketData.plaque || '-'}</p>
-          </div>
+            <div class="info-row">
+              <span class="info-label">Client</span>
+              <span class="info-value">${this.ticketData.client?.nom || '-'} ${this.ticketData.client?.prenom || ''}</span>
+            </div>
 
-          <div class="text-end">
-            <p>Merci pour votre paiement !</p>
-            <p><em>Safer</em></p>
-            <p><em></em></p>
-            <p><em></em></p>
-            <p><em></em></p>
+            <div class="info-row">
+              <span class="info-label">Compte</span>
+              <span class="info-value">${this.ticketData.compte?.accountNumber || '-'}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Code Tag</span>
+              <span class="info-value">${this.ticketData.tagCode || '-'}</span>
+            </div>
+
+            <div class="amount-section">
+              <div class="amount-label">Montant Payé</div>
+              <div class="amount-value">${montantPaye}</div>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Solde</span>
+              <span class="info-value">${solde}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Plaque</span>
+              <span class="info-value">${this.ticketData.plaque || '-'}</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="footer">
+              <p class="thank-you">Merci pour votre confiance !</p>
+            </div>
           </div>
         </body>
       </html>
     `;
 
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(receiptHtml);
-      printWindow.document.close();
+    // Create an iframe to print without opening a new window
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (iframeDoc) {
+      iframeDoc.open();
+      iframeDoc.write(receiptHtml);
+      iframeDoc.close();
+
+      iframe.onload = () => {
+        iframe.contentWindow?.print();
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+        }, 1000);
+      };
     } else {
-      this.sweetAlertService.toastError('Échec de l\'ouverture de la fenêtre d\'impression', 5000);
+      this.sweetAlertService.toastError('Échec de l\'impression', 5000);
+      document.body.removeChild(iframe);
     }
   }
 

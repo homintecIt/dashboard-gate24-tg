@@ -1,153 +1,139 @@
-<div class="auth-page-wrapper pt-5">
-  <div class="auth-one-bg-position bg-primary " id="auth-particles">
-    <div class="bg-overlay"></div>
-
-    <div class="shape">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 0 1440 120"
-      >
-        <path
-          d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"
-        ></path>
-      </svg>
+<div class="auth-page-wrapper min-vh-100 d-flex flex-column">
+  <!-- Modern Gradient Background -->
+  <div class="auth-background position-absolute top-0 start-0 w-100 h-100 overflow-hidden">
+    <div class="gradient-bg"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
     </div>
   </div>
 
-  <div class="auth-page-content">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="text-center mt-sm-5 mb-4 text-white-50">
-            <div>
-              <a href="index.html" class="d-inline-block auth-logo">
-                <img
-                  src="assets/logo/icon-152x152.png"
-                  alt="logo gate24"
-                  height="80"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
+  <div class="auth-page-content position-relative z-1 flex-grow-1 d-flex flex-column">
+    <div class="container flex-grow-1 d-flex flex-column justify-content-center">
       <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6 col-xl-5">
-          <div class="card mt-4">
-            <div class="card-body p-4">
-              <div class="text-center mt-2">
-                <h5 class="text-primary">Bienvenue sur Gate24</h5>
-                <p class="text-muted">Connectez-vous pour continuer</p>
-              </div>
-              <div class="p-2 mt-4">
-                <form
-                  novalidate
-                  [formGroup]="loginForm"
-                  (ngSubmit)="onSignin()"
-                >
-                  <div class="mb-3">
-                    <label for="username" class="form-label"
-                      >Nom d'utilisateur</label
-                    >
+          <!-- Logo Section -->
+          <div class="text-center mb-5">
+            <a routerLink="/dashboard" class="d-inline-block auth-logo mb-3">
+              <img
+                src="assets/logo/icon-152x152.png"
+                alt="logo gate24"
+                height="90"
+                class="logo-shadow"
+              />
+            </a>
+            <h1 class="text-white fw-bold mb-2 animate-fade-in">Bienvenue sur Gate24</h1>
+            <p class="text-white-50 fs-5 animate-fade-in-delay">Connectez-vous pour accéder à votre espace</p>
+          </div>
+
+          <!-- Modern Card with Glassmorphism -->
+          <div class="card auth-card shadow-lg border-0 animate-slide-up">
+            <div class="card-body p-5">
+              <form
+                novalidate
+                [formGroup]="loginForm"
+                (ngSubmit)="onSignin()"
+                class="auth-form"
+              >
+                <div class="mb-4">
+                  <label for="username" class="form-label fw-semibold text-muted">
+                    <i class="ri-user-line me-2"></i>Nom d'utilisateur
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg modern-input"
+                    id="username"
+                    formControlName="email"
+                    [ngClass]="{
+                      'is-invalid': submitted && form['email'].errors,
+                      'is-valid': submitted && !form['email'].errors
+                    }"
+                    placeholder="Entrez votre nom d'utilisateur ou email"
+                  />
+                  <div
+                    *ngIf="submitted && form['email'].errors"
+                    class="invalid-feedback d-block"
+                  >
+                    <div *ngIf="form['email'].errors['required']">
+                      <i class="ri-error-warning-fill me-1"></i>L'email est obligatoire
+                    </div>
+                    <div *ngIf="form['email'].errors['email']">
+                      <i class="ri-error-warning-fill me-1"></i>L'email n'est pas valide
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label fw-semibold text-muted mb-0" for="password-input">
+                      <i class="ri-lock-line me-2"></i>Mot de passe
+                    </label>
+                    <a routerLink="/auth/forgot-password" class="text-primary text-decoration-none fw-medium small">
+                      Mot de passe oublié?
+                    </a>
+                  </div>
+                  <div class="position-relative auth-pass-inputgroup">
                     <input
-                      type="text"
-                      class="form-control"
-                      id="username"
-                      formControlName="email"
+                      #password
+                      type="password"
+                      class="form-control form-control-lg modern-input pe-5"
+                      placeholder="Entrez votre mot de passe"
+                      id="password-input"
+                      formControlName="password"
                       [ngClass]="{
-                        'is-invalid': submitted && form['email'].errors
+                        'is-invalid': submitted && form['password'].errors,
+                        'is-valid': submitted && !form['password'].errors
                       }"
-                      placeholder="Entez votre nom d'utilisateur ou adresse email"
                     />
-                    <div
-                      *ngIf="submitted && form['email'].errors"
-                      class="invalid-feedback"
+                    <button
+                      class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-decoration-none password-toggle"
+                      (click)="togglePassword(password)"
+                      type="button"
+                      id="password-addon"
                     >
-                      <div *ngIf="form['email'].errors['required']">
-                        L'email est obligatoire
-                      </div>
-                      <div *ngIf="form['email'].errors['email']">
-                        L'email n'est pas valide
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <div class="float-end">
-                      <a routerLink="/auth/forgot-password" class="text-muted"
-                        >Mot de passe oublié?</a
-                      >
-                    </div>
-                    <label class="form-label" for="password-input"
-                      >Mot de passe</label
-                    >
-                    <div class="position-relative auth-pass-inputgroup mb-3">
-                      <input
-                        #password
-                        type="password"
-                        class="form-control pe-5 password-input"
-                        placeholder="Entrez votre mot de passe"
-                        id="password-input"
-                        formControlName="password"
-                        [ngClass]="{
-                          'is-invalid': submitted && form['password'].errors
-                        }"
-                      />
-                      <button
-                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
-                        (click)="togglePassword(password)"
-                        type="button"
-                        id="password-addon"
-                      >
-                        <i class="ri-eye-fill align-middle"></i>
-                      </button>
-                      <div
-                        *ngIf="submitted && form['password'].errors"
-                        class="invalid-feedback"
-                      >
-                        <div *ngIf="form['password'].errors['required']">
-                          Le mot de passe est obligatoire
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-4">
-                    <button class="btn btn-primary w-100" type="submit">
-                      {{ loading ? "Veuillez patienter " : "Se connecter" }}
-                      <span
-                        class="{{
-                          loading ? 'spinner-border spinner-border-sm ms-2' : ''
-                        }}"
-                        role="status"
-                      >
-                      </span>
+                      <i class="ri-eye-fill align-middle fs-5"></i>
                     </button>
+                    <div
+                      *ngIf="submitted && form['password'].errors"
+                      class="invalid-feedback d-block"
+                    >
+                      <div *ngIf="form['password'].errors['required']">
+                        <i class="ri-error-warning-fill me-1"></i>Le mot de passe est obligatoire
+                      </div>
+                    </div>
                   </div>
-                </form>
-              </div>
+                </div>
+
+                <div class="mt-5">
+                  <button 
+                    class="btn btn-primary btn-lg w-100 modern-btn shadow-sm" 
+                    type="submit"
+                    [disabled]="loading"
+                  >
+                    <span *ngIf="!loading">Se connecter</span>
+                    <span *ngIf="loading">
+                      <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                      Connexion en cours...
+                    </span>
+                  </button>
+                </div>
+              </form>
             </div>
-            <!-- end card body -->
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <footer class="footer">
+  <!-- Modern Footer -->
+  <footer class="footer position-relative z-1 py-4">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="text-center">
-            <p class="mb-0 text-muted">
-              &copy; 2024 © Gate24, crafted by
-              <a href="https://homintec.com/" target="_blank">HOMINTEC</a>
-            </p>
-          </div>
-        </div>
+      <div class="text-center">
+        <p class="mb-0 text-white-50">
+          &copy; 2024 Gate24. Conçu avec passion par
+          <a href="https://homintec.com/" target="_blank" class="text-white text-decoration-none fw-medium">HOMINTEC</a>
+        </p>
       </div>
     </div>
   </footer>

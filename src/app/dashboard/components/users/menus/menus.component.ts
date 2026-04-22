@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Menus } from 'src/app/models/menus.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { MenusService } from 'src/app/services/menus.service';
 import { SweetAlertService } from 'src/app/services/sweetalert.service';
 
@@ -26,7 +27,8 @@ export class MenusComponent  implements OnInit{
     private router: Router,
     private menusService: MenusService,
     private formBuilder: FormBuilder,
-    private sweetAlertService: SweetAlertService) { }
+    private sweetAlertService: SweetAlertService,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     this.getMenus();

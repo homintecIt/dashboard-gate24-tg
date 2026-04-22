@@ -1,65 +1,72 @@
-<div class="modal-content">
+<div class="modal-content modern-modal">
   <form novalidate [formGroup]="tagForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
-    <div class="modal-header">
-      <h1 class="modal-title fs-5 text-center w-100">TRANSFERT DE TAG VERS UN COMPTE</h1>
-      <button  type="button" class="btn-close" (click)="resetFormClose()"></button>
+    <div class="modal-header-modern">
+      <div class="d-flex align-items-center">
+        <div class="header-icon me-3">
+          <i class="ri-exchange-line"></i>
+        </div>
+        <div>
+          <h5 class="modal-title-modern mb-0">Transfert de Tag</h5>
+          <p class="modal-subtitle-modern mb-0">Transférer un tag vers un compte</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close-modern" (click)="resetFormClose()">
+        <i class="ri-close-line"></i>
+      </button>
     </div>
 
-    <div class="modal-body">
-      <div class="mb-3">
-        <label for="tagCode">Code du Tag</label>
-        <input type="text" id="tagCode" [readonly]="disabledCompteId"   formControlName="tagCode" class="form-control"
+    <div class="modal-body-modern">
+      <!-- Tag Code -->
+      <div class="form-section mb-3">
+        <label for="tagCode" class="form-label-modern">Code du Tag</label>
+        <input type="text" id="tagCode" [readonly]="disabledCompteId" formControlName="tagCode" class="form-control modern-input"
           [ngClass]="{ 'is-invalid': submitted && form['tagCode'].errors }" placeholder="123456" />
-        <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback">
+        <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['tagCode'].errors['required']">Le code du tag est obligatoire</div>
           <div *ngIf="form['tagCode'].errors['minlength']">Le code doit avoir au moins 8 caractères</div>
         </div>
       </div>
 
-
-      <div class="mb-3">
-        <label for="accountNumber">Numéro de compte</label>
-        <input type="text" id="accountNumber"  formControlName="accountNumber" [readonly]="disabledCompteId" (change)="onChangeCompteId($event)" class="form-control"
+      <!-- Account Number From -->
+      <div class="form-section mb-3">
+        <label for="accountNumber" class="form-label-modern">Numéro de compte source</label>
+        <input type="text" id="accountNumber" formControlName="accountNumber" [readonly]="disabledCompteId" (change)="onChangeCompteId($event)" class="form-control modern-input"
           [ngClass]="{ 'is-invalid': submitted && form['accountNumber'].errors }" placeholder="0000-000-0000"/>
-        <div *ngIf="submitted && form['accountNumber'].errors" class="invalid-feedback">
+        <div *ngIf="submitted && form['accountNumber'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['accountNumber'].errors['required']">Le numéro de compte est obligatoire</div>
           <div *ngIf="form['accountNumber'].errors['minlength']">Doit comporter au moins 10 chiffres</div>
         </div>
       </div>
 
-
-
-      <div class="mb-3">
-        <label for="accountNumberTo">Numéro de compte de transfert</label>
-
-
-        <input type="text" name="accountNumberTo" id="accountNumberTo" class="form-control" formControlName="accountNumberTo" >
-     
-        <div *ngIf="submitted && form['accountNumberTo'].errors" class="invalid-feedback">
+      <!-- Account Number To -->
+      <div class="form-section mb-3">
+        <label for="accountNumberTo" class="form-label-modern">Numéro de compte de destination</label>
+        <input type="text" name="accountNumberTo" id="accountNumberTo" class="form-control modern-input" formControlName="accountNumberTo" 
+          [ngClass]="{ 'is-invalid': submitted && form['accountNumberTo'].errors }" placeholder="0000-000-0000"/>
+        <div *ngIf="submitted && form['accountNumberTo'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['accountNumberTo'].errors['required']">Le numéro de compte est obligatoire</div>
           <div *ngIf="form['accountNumberTo'].errors['minlength']">Doit comporter au moins 10 chiffres</div>
         </div>
       </div>
 
-
+      <!-- Client Info Alert -->
       <ng-container *ngIf="compteClient">
-        <div class="alert alert-primary" role="alert">
-           {{ compteClient.compte?.client?.prenom | titlecase }} {{ compteClient.compte?.client?.nom | uppercase }}
+        <div class="alert-modern alert-info mb-3">
+          <i class="ri-user-line"></i>
+          <span>{{ compteClient.compte?.client?.prenom | titlecase }} {{ compteClient.compte?.client?.nom | uppercase }}</span>
         </div>
       </ng-container>
-
-
-
     </div>
 
-    <div class="modal-footer">
-      <button *ngIf="!disabledCompteId" type="button" class="btn btn-secondary"
-        (click)="resetFormClose()">ANNULER</button>
-      <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'ENREGISTRER' }}
-        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+    <div class="modal-footer-modern">
+      <button *ngIf="!disabledCompteId" type="button" class="btn btn-modern-secondary" (click)="resetFormClose()">
+        <i class="ri-close-line me-2"></i>
+        Annuler
+      </button>
+      <button type="submit" class="btn btn-modern-primary" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Veuillez patienter...' : 'Transférer' }}
       </button>
     </div>
-    <!-- <pre>{{ tagForm.value | json }}</pre> -->
   </form>
-
 </div>

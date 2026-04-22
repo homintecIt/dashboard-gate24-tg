@@ -58,17 +58,11 @@ export class ShowtagComponent implements OnInit {
   loadData() {
     let value = storageHelper.local.get(`${searchType}`);
     this.generalService.successEvent.subscribe((data) => {
-        const newtel =  storageHelper.local.get(`${searchType}`);
-        if (newtel.type =='tagCode'&& newtel.value != value['tel']) {
-          value= {
-             type: 'tagCode',
-          value: data.value,
-          }
-      this.getData(value);
 
-        }else{
-      this.getData(value);
-
+        // Reload data after any successful operation (recharge, status change, etc.)
+        let value = storageHelper.local.get(`${searchType}`);
+        if (value) {
+          this.getData(value);
         }
     }
   );
@@ -81,8 +75,6 @@ export class ShowtagComponent implements OnInit {
   }
 
   getData(data: any) {
-
-    console.log("date",data);
 
     if (data.type === 'accountNumber') {
       this.generalService.getCompteClient(data.value).subscribe({
@@ -223,8 +215,12 @@ export class ShowtagComponent implements OnInit {
 
     this.generalService.toggleStatus(data).subscribe({
       next: (data) => {
-        this.generalService.successEvent.emit(data);
         this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+        // Reload data after success
+        let value = storageHelper.local.get(`${searchType}`);
+        if (value) {
+          this.getData(value);
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.generalService.failureEvent.emit(error);
@@ -242,8 +238,12 @@ export class ShowtagComponent implements OnInit {
 
     this.generalService.toggleExoStatus(data).subscribe({
       next: (data) => {
-        this.generalService.successEvent.emit(data);
         this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+        // Reload data after success
+        let value = storageHelper.local.get(`${searchType}`);
+        if (value) {
+          this.getData(value);
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.generalService.failureEvent.emit(error);

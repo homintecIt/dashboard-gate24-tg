@@ -36,13 +36,13 @@ export class EditClientModalComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private modalService: BootstrapModalService,
     private router: Router,
-    public permissionService : PermissionService,
-    public authService:AuthService
+    public permissionService: PermissionService,
+    public authService: AuthService
 
 
 
 
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -76,7 +76,7 @@ export class EditClientModalComponent implements OnInit {
       });
   }
 
-    goBack() {
+  goBack() {
     window.history.back();
   }
 
@@ -84,25 +84,26 @@ export class EditClientModalComponent implements OnInit {
 
   loadData() {
     this.generalService.successEvent.subscribe((data: any) => {
-        ///console.log("data",data);
-       this.route.params.subscribe(params => {
-            const newtel =  storageHelper.local.get(`${searchType}`);
+      console.log("data", data);
+      this.route.params.subscribe(params => {
+        const newtel = storageHelper.local.get(`${searchType}`);
 
-        if (newtel.type =='phoneNumber'&& newtel.value != params['tel']) {
+        if (newtel.type == 'phoneNumber' && newtel.value != params['tel']) {
           this.getClientByTel(newtel.value);
-
-        }else{
+        } else {
           const tel = params['tel'];
+          this.getClientByTel(tel);
 
         }
 
-    });
+      });
       ////const value = storageHelper.local.get(`${searchType}`);
-    //  this.getData(data);
+      this.getData(data);
     });
   }
 
-    getData(data: any) {
+  getData(data: any) {
+
     if (data.type === 'accountNumber') {
       this.generalService.getCompteClient(data.value).subscribe({
         next: (resp) => {
@@ -110,6 +111,10 @@ export class EditClientModalComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => console.log(error),
       });
+    }
+
+    if (data && data.type === 'accountRestored') {
+      this.getClientByTel(data.value);
     }
 
     if (data.type === 'name') {
@@ -152,7 +157,7 @@ export class EditClientModalComponent implements OnInit {
     );
   }
 
-   rechargeAccount(data: any, type: 'compte' | 'tag') {
+  rechargeAccount(data: any, type: 'compte' | 'tag') {
     const param: any = {
       type: type,
       data: data,
@@ -169,50 +174,50 @@ export class EditClientModalComponent implements OnInit {
   createClient(data: any) {
     this.modalService.openModal(SaveCompteComponent, data, 'modal-md modal-dialog-centered');
   }
-   transferClient(data: any) {
- const compte = Array.isArray(data)
-          ? data.map((item:any) => item.accountNumber)
-          : [];
-          const dataAll ={
-              abonnement : data,
-              comptes: compte
-          }
+  transferClient(data: any) {
+    const compte = Array.isArray(data)
+      ? data.map((item: any) => item.accountNumber)
+      : [];
+    const dataAll = {
+      abonnement: data,
+      comptes: compte
+    }
 
     this.modalService.openModal(TransfertTagComponent, dataAll, 'modal-md modal-dialog-centered');
   }
 
 
-   transfertSoldeToCompte(data: any) {
+  transfertSoldeToCompte(data: any) {
 
     this.modalService.openModal(TransfertSoldeComponent, this.getDataTransfert(data), 'modal-md modal-dialog-centered');
   }
 
 
-  listAbonnementByCompte(data :any){
+  listAbonnementByCompte(data: any) {
     this.generalService.successEvent.emit(data);
-    this.router.navigate(['/dashboard/subscribe-list/compte',data.accountNumber]);
+    this.router.navigate(['/dashboard/subscribe-list/compte', data.accountNumber]);
 
 
   }
 
 
 
-  passages(){
+  passages() {
 
 
   }
 
-    getDataTransfert(data:any){
+  getDataTransfert(data: any) {
 
-      const compte = Array.isArray(this.client?.compte)
-          ? this.client.compte.map((item:any) => item.accountNumber)
-          : [];
-          const dataAll ={
-              compte : data,
-              comptes: compte
-          }
-          return dataAll;
+    const compte = Array.isArray(this.client?.compte)
+      ? this.client.compte.map((item: any) => item.accountNumber)
+      : [];
+    const dataAll = {
+      compte: data,
+      comptes: compte
     }
+    return dataAll;
+  }
 
   dialogModalStatus(data: any) {
     const status = data.statutTarg === 'actived' ? 'désactiver' : 'activer';
@@ -367,15 +372,15 @@ export class EditClientModalComponent implements OnInit {
   }
   restaurerStatus(item: any) {
     const data = {
-      isActive:false,
+      isActive: false,
       tagId: item.tagId,
     }
     this.generalService.toggleStatus(data).subscribe({
       next: (data) => {
         item.statutTarg = 'disabled';
-
-        //console.log(data)
-        this.generalService.successEvent.emit(data);
+        this.route.params.subscribe(params => {
+          this.getClientByTel(params['tel']);
+        });
         this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
       },
       error: (error: HttpErrorResponse) => {
@@ -393,10 +398,9 @@ export class EditClientModalComponent implements OnInit {
 
     this.generalService.toggleStatus(data).subscribe({
       next: (data) => {
-        setTimeout(() => {
-          this.generalService.successEvent.emit(data);
-        }, 500)
-
+        this.route.params.subscribe(params => {
+          this.getClientByTel(params['tel']);
+        });
         this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
       },
       error: (error: HttpErrorResponse) => {
@@ -412,37 +416,37 @@ export class EditClientModalComponent implements OnInit {
       accountNumber: item.accountNumber,
     }
 
-    if (item.statut =='actived') {
-   this.generalService.toggleStatusDesactivatedCompte(data).subscribe({
-      next: (data) => {
-        setTimeout(() => {
-          this.generalService.successEvent.emit(data);
-        }, 500)
+    if (item.statut == 'actived') {
+      this.generalService.toggleStatusDesactivatedCompte(data).subscribe({
+        next: (data) => {
+          this.route.params.subscribe(params => {
+            this.getClientByTel(params['tel']);
+          });
 
-        this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.generalService.failureEvent.emit(error);
-        this.sweetAlertService.toastError('Erreur !', 5000, (error.error.message || error.error.error) || 'Le service est temporairement indisponible');
-      },
-    });
+          this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.generalService.failureEvent.emit(error);
+          this.sweetAlertService.toastError('Erreur !', 5000, (error.error.message || error.error.error) || 'Le service est temporairement indisponible');
+        },
+      });
     }
 
 
-    if (item.statut =='disabled') {
-   this.generalService.toggleStatusActivatedCompte(data).subscribe({
-      next: (data) => {
-        setTimeout(() => {
-          this.generalService.successEvent.emit(data);
-        }, 500)
+    if (item.statut == 'disabled') {
+      this.generalService.toggleStatusActivatedCompte(data).subscribe({
+        next: (data) => {
 
-        this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.generalService.failureEvent.emit(error);
-        this.sweetAlertService.toastError('Erreur !', 5000, (error.error.message || error.error.error) || 'Le service est temporairement indisponible');
-      },
-    });
+          this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+          this.route.params.subscribe(params => {
+            this.getClientByTel(params['tel']);
+          });
+        },
+        error: (error: HttpErrorResponse) => {
+          this.generalService.failureEvent.emit(error);
+          this.sweetAlertService.toastError('Erreur !', 5000, (error.error.message || error.error.error) || 'Le service est temporairement indisponible');
+        },
+      });
     }
 
   }
@@ -455,10 +459,11 @@ export class EditClientModalComponent implements OnInit {
 
     this.generalService.toggleExoStatus(data).subscribe({
       next: (data) => {
-        setTimeout(() => {
-          this.generalService.successEvent.emit(data);
-        },  500)
-        this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+
+        this.sweetAlertService.toastSuccess('Tag mis a jour avec succès', 5000);
+        this.route.params.subscribe(params => {
+          this.getClientByTel(params['tel']);
+        });
       },
       error: (error: HttpErrorResponse) => {
         this.generalService.failureEvent.emit(error);
@@ -470,8 +475,11 @@ export class EditClientModalComponent implements OnInit {
   deleteTag(data: any) {
     this.generalService.deleteTag(data).subscribe({
       next: (data) => {
-        setTimeout (() => {
+        setTimeout(() => {
           this.generalService.successEvent.emit(data);
+          this.route.params.subscribe(params => {
+            this.getClientByTel(params['tel']);
+          });
         }, 500)
         this.sweetAlertService.toastSuccess('Tag supprimé avec succès', 3000);
       },
@@ -493,9 +501,9 @@ export class EditClientModalComponent implements OnInit {
           }
         }
         // Notifier pour rafraîchir les données ailleurs si nécessaire
-        setTimeout(() => {
-          this.generalService.successEvent.emit({ type: 'accountDeleted', accountNumber });
-        }, 300);
+        this.route.params.subscribe(params => {
+          this.getClientByTel(params['tel']);
+        });
         this.sweetAlertService.toastSuccess('Compte supprimé avec succès', 3000);
       },
       error: (error: HttpErrorResponse) => {
@@ -515,9 +523,9 @@ export class EditClientModalComponent implements OnInit {
             this.client.compte[idx] = { ...this.client.compte[idx], statut: 'disabled' };
           }
         }
-        setTimeout(() => {
-          this.generalService.successEvent.emit({ type: 'accountRestored', accountNumber });
-        }, 300);
+        this.route.params.subscribe(params => {
+          this.getClientByTel(params['tel']);
+        });
         this.sweetAlertService.toastSuccess('Compte restauré avec succès', 3000);
       },
       error: (error: HttpErrorResponse) => {
@@ -529,6 +537,41 @@ export class EditClientModalComponent implements OnInit {
 
   addTag(data: any) {
     this.modalService.openModal(AddTagCompteComponent, data, 'modal-md');
+  }
+
+  markAccountWithComment(compte: any) {
+    Swal.fire({
+      title: 'Marquer le compte',
+      text: `Ajouter un commentaire pour le compte: "${compte.accountNumber}"`,
+      input: 'textarea',
+      inputLabel: 'Commentaire',
+      inputPlaceholder: 'Entrez votre commentaire ici...',
+      inputAttributes: {
+        'aria-label': 'Entrez votre commentaire'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Marquer',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#083489',
+      cancelButtonColor: '#6c757d',
+      ...swalAnimation,
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const comment = result.value;
+        // TODO: Implémenter l'appel API pour sauvegarder le commentaire
+        this.generalService.markAccountWithComment(compte.accountNumber, comment).subscribe({
+          next: () => {
+            this.sweetAlertService.toastSuccess('Compte marqué avec succès', 5000);
+            this.route.params.subscribe(params => {
+              this.getClientByTel(params['tel']);
+            });
+          },
+          error: (error) => {
+            this.sweetAlertService.toastError('Erreur !', 5000, (error.error.message || error.error.error) || 'Le service est temporairement indisponible');
+          }
+        });
+      }
+    });
   }
 
 

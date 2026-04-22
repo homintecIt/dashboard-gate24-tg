@@ -107,8 +107,8 @@ accountNumber:any;
         tagId : this.searchTerm
       }
       this.transactionService
-        .transactionByTag(
-          body,  // Envoyer la page 0-based à l'API
+        .loadTransactions(
+          body.page, body.limit, '', '', undefined, undefined, undefined, undefined, body.tagId, undefined  
         )
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -599,5 +599,48 @@ accountNumber:any;
   goToTransactionPage(data:any){
 
   }
+
+
+
+
+  onExportExcel() {
+
+
+    let filters: any;
+   this.route.queryParams.subscribe(params => {
+  filters = {
+    type: "debit",
+    tagCode: params['tag'],
+  };
+ });
+  
+this.transactionService.exportExcel(filters).subscribe((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'transactions.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+onExportPdf() {
+   let filters: any;
+   this.route.queryParams.subscribe(params => {
+  filters = {
+    type: "debit",
+    tagCode: params['tag'],
+  };
+ });
+this.transactionService.exportPdf(filters).subscribe((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+     a.download = 'transactions.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+
+}
 
 }

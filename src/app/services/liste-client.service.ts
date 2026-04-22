@@ -47,16 +47,19 @@ private dataAccountsLoaded: boolean = false;
   ): Observable<ApiResponse<Client>> {
     this.loadingSubject.next(true);
 
+    // Construire le payload avec le filtre directement dans le body
+    const body: any = { page, limit };
+    if (filters && filters.trim() !== '') {
+      body.filters = filters.trim();
+    }
 
+    console.log('Payload sent to API:', body);
 
     return this.http
-      .post<ApiResponse<Client>>(`${this.apiUrl}/clients/all`, {
-        page,
-        limit,
-        filters // Le payload de filtre sera passé ici
-      })
+      .post<ApiResponse<Client>>(`${this.apiUrl}/clients/all`, body)
       .pipe(
         tap((response) => {
+          console.log('API Response:', response);
           this.clientSubject.next(response.items);
           this.loadingSubject.next(false);
         }),

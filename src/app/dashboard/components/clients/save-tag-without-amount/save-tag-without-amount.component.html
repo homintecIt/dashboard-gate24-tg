@@ -1,87 +1,112 @@
-<div class="modal-content">
+<div class="modal-content modern-modal">
   <form novalidate [formGroup]="tagForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
-    <div class="modal-header">
-      <h1 class="modal-title fs-5 text-center w-100">ENREGISTRER UN TAG</h1>
-      <button *ngIf="!disabledCompteId" type="button" class="btn-close" (click)="resetFormClose()"></button>
+    <div class="modal-header-modern">
+      <div class="d-flex align-items-center">
+        <div class="header-icon me-3">
+          <i class="ri-ticket-line"></i>
+        </div>
+        <div>
+          <h5 class="modal-title-modern mb-0">Enregistrer un Tag</h5>
+          <p class="modal-subtitle-modern mb-0">Formulaire d'enregistrement de tag</p>
+        </div>
+      </div>
+      <button *ngIf="!disabledCompteId" type="button" class="btn-close-modern" (click)="resetFormClose()">
+        <i class="ri-close-line"></i>
+      </button>
     </div>
 
-    <div class="modal-body">
-      <div class="d-flex align-items-center justify-content-around mb-3">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" id="tagCard" value="CARTE" formControlName="typeTag"
-            [checked]="tagForm.get('typeTag')?.value === 'CARTE'" />
-          <label class="form-check-label" for="tagCard">Carte</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" id="tagThumbnall" value="UHF" formControlName="typeTag"
-            [checked]="tagForm.get('typeTag')?.value === 'UHF'" />
-          <label class="form-check-label" for="tagThumbnall">Vignette</label>
+    <div class="modal-body-modern">
+      <!-- Type Tag Selection -->
+      <div class="form-section mb-4">
+        <label class="form-label-modern">Type de Tag</label>
+        <div class="type-tag-options">
+          <div class="type-tag-option" [class.active]="tagForm.get('typeTag')?.value === 'CARTE'">
+            <input type="radio" id="tagCard" value="CARTE" formControlName="typeTag" class="d-none" />
+            <label for="tagCard" class="type-tag-label">
+              <i class="ri-bank-card-line"></i>
+              <span>Carte</span>
+            </label>
+          </div>
+          <div class="type-tag-option" [class.active]="tagForm.get('typeTag')?.value === 'UHF'">
+            <input type="radio" id="tagThumbnall" value="UHF" formControlName="typeTag" class="d-none" />
+            <label for="tagThumbnall" class="type-tag-label">
+              <i class="ri-price-tag-3-line"></i>
+              <span>Vignette</span>
+            </label>
+          </div>
         </div>
       </div>
 
-      <div class="form-check form-switch mb-3">
-        <input class="form-check-input" type="checkbox" id="isExo" formControlName="isExo" (change)="onIsExoChange($event)" />
-        <label class="form-check-label" for="isExo">Exonéré</label>
+      <!-- Exonéré Toggle -->
+      <div class="form-section mb-4">
+        <label class="form-label-modern d-flex align-items-center">
+          <input type="checkbox" id="isExo" formControlName="isExo" (change)="onIsExoChange($event)" class="modern-toggle" />
+          <span class="ms-2">Exonéré</span>
+        </label>
       </div>
 
-      <div class="mb-3">
-        <label for="accountNumber">Numéro de compte</label>
-        <input type="text" id="accountNumber" formControlName="accountNumber" [readonly]="disabledCompteId" (change)="onChangeCompteId($event)" class="form-control"
+      <!-- Account Number -->
+      <div class="form-section mb-3">
+        <label for="accountNumber" class="form-label-modern">Numéro de compte</label>
+        <input type="text" id="accountNumber" formControlName="accountNumber" [readonly]="disabledCompteId" (change)="onChangeCompteId($event)" class="form-control modern-input"
           [ngClass]="{ 'is-invalid': submitted && form['accountNumber'].errors }" placeholder="0000-000-0000"/>
-        <div *ngIf="submitted && form['accountNumber'].errors" class="invalid-feedback">
+        <div *ngIf="submitted && form['accountNumber'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['accountNumber'].errors['required']">Le numéro de compte est obligatoire</div>
           <div *ngIf="form['accountNumber'].errors['minlength']">Doit comporter au moins 10 chiffres</div>
         </div>
       </div>
 
+      <!-- Client Info Alert -->
       <ng-container *ngIf="compteClient">
-        <div class="alert alert-primary" role="alert">
-           {{ compteClient.compte?.client?.prenom | titlecase }} {{ compteClient.compte?.client?.nom | uppercase }}
+        <div class="alert-modern alert-info mb-3">
+          <i class="ri-user-line"></i>
+          <span>{{ compteClient.compte?.client?.prenom | titlecase }} {{ compteClient.compte?.client?.nom | uppercase }}</span>
         </div>
       </ng-container>
 
-      <div class="mb-3">
-        <label for="plaque">Plaque</label>
-        <input type="text" id="plaque" formControlName="plaque" class="form-control"
+      <!-- Plaque -->
+      <div class="form-section mb-3">
+        <label for="plaque" class="form-label-modern">Plaque</label>
+        <input type="text" id="plaque" formControlName="plaque" class="form-control modern-input"
           [ngClass]="{ 'is-invalid': submitted && form['plaque'].errors }" placeholder="AB0123" />
-        <div *ngIf="submitted && form['plaque'].errors" class="invalid-feedback">
+        <div *ngIf="submitted && form['plaque'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['plaque'].errors['required']">La plaque est obligatoire</div>
           <div *ngIf="form['plaque'].errors['minlength']">La plaque doit avoir au moins 4 caractères</div>
         </div>
       </div>
 
-      <div class="mb-3">
-        <label for="tagCode">Code du Tag</label>
-        <input type="text" id="tagCode" formControlName="tagCode" class="form-control"
+      <!-- Tag Code -->
+      <div class="form-section mb-3">
+        <label for="tagCode" class="form-label-modern">Code du Tag</label>
+        <input type="text" id="tagCode" formControlName="tagCode" class="form-control modern-input"
           [ngClass]="{ 'is-invalid': submitted && form['tagCode'].errors }" placeholder="123456" />
-        <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback">
+        <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['tagCode'].errors['required']">Le code du tag est obligatoire</div>
           <div *ngIf="form['tagCode'].errors['minlength']">Le code doit avoir au moins 8 caractères</div>
         </div>
       </div>
 
-
-      <div class="mb-3">
-        <label for="tagId">ID du Tag</label>
-        <input type="text" id="tagId" formControlName="tagId" class="form-control"  (input)="transformInput($event)"
+      <!-- Tag ID -->
+      <div class="form-section mb-3">
+        <label for="tagId" class="form-label-modern">ID du Tag</label>
+        <input type="text" id="tagId" formControlName="tagId" class="form-control modern-input" (input)="transformInput($event)"
           [ngClass]="{ 'is-invalid': submitted && form['tagId'].errors }" placeholder="***********"/>
-        <div *ngIf="submitted && form['tagId'].errors" class="invalid-feedback" >
+        <div *ngIf="submitted && form['tagId'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['tagId'].errors['required']">L'identifiant du tag est obligatoire</div>
           <div *ngIf="form['tagId'].errors['minlength']">L'identifiant doit avoir au moins 8 caractères</div>
         </div>
       </div>
-
-
     </div>
 
-    <div class="modal-footer">
-      <button *ngIf="!disabledCompteId" type="button" class="btn btn-secondary"
-        (click)="resetFormClose()">ANNULER</button>
-      <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'ENREGISTRER' }}
-        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+    <div class="modal-footer-modern">
+      <button *ngIf="!disabledCompteId" type="button" class="btn btn-modern-secondary" (click)="resetFormClose()">
+        <i class="ri-close-line me-2"></i>
+        Annuler
+      </button>
+      <button type="submit" class="btn btn-modern-primary" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Veuillez patienter...' : 'Enregistrer' }}
       </button>
     </div>
-    <!-- <pre>{{ tagForm.value | json }}</pre> -->
   </form>
-
 </div>
