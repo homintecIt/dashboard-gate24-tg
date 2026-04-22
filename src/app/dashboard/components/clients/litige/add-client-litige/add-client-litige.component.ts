@@ -73,8 +73,8 @@ itemsPerPage = 100;
       adresse: ['', [Validators.required, Validators.minLength(5)]],
     });
 
-    // Load clients for account creation
-    this.loadClients();
+    // Don't load clients by default - only load when user types
+    // this.loadClients();
 
        this.searchSubject.pipe(
       debounceTime(300), // Attendre 300ms après la dernière frappe
@@ -411,14 +411,16 @@ onSubmitPassages() {
     console.log('Searching clients...', query);
     this.searchClientQuery = query;
 
-    // Clear selected client when query is cleared
+    // Clear selected client and list when query is cleared
     if (query.length === 0) {
       this.selectedClient = null;
+      this.clientsList = []; // Clear the list when input is empty
+      return;
     }
 
     if (query.length < 2) {
-      this.loadClients();
-      console.log('Loading clients...');
+      // Don't load clients when query is less than 2 characters
+      this.clientsList = [];
       return;
     }
     //this.loadClients(this.currentPage, this.searchClientQuery);

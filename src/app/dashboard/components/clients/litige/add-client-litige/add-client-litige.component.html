@@ -307,7 +307,7 @@
                         (ngModelChange)="searchClients($event)"
                         autocomplete="off"
                       >
-                      <div class="dropdown-menu w-100" [class.show]="clientsList.length > 0 && !selectedClient">
+                      <div class="dropdown-menu w-100" [class.show]="clientsList.length > 0 && !selectedClient && searchClientQuery.length > 0">
                         <div class="p-2">
                           <div *ngIf="loadingClients" class="text-center">
                             <div class="spinner-border spinner-border-sm" role="status">

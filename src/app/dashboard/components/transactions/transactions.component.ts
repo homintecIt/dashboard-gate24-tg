@@ -349,6 +349,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     if (query.length >= 2) {
       this.loadClients(1, query);
     } else if (query.length === 0) {
+      this.showDropdown = false;
       this.loadClients();
     }
   }
