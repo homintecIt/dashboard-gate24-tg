@@ -27,8 +27,6 @@ export class HeaderComponent implements OnInit {
     this.currentUser =  this.authService.user;
 
     this.site = `${site}`
-    console.log("user",this.currentUser);
-
     this.themeService.darkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
     });
