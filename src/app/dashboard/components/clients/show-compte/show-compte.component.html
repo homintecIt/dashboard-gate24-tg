@@ -1,219 +1,279 @@
-<div class="row">
-  <div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0">Infomation client</h4>
-
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">Accueil</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard/listesClients">Liste des clients</a>
-          </li>
-          <li class="breadcrumb-item active">Infomation d'un client</li>
-        </ol>
+<div class="modern-show-compte">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goBack()">
+        <i class="ri-arrow-left-line"></i>
+      </button>
+      <div class="header-title">
+        <h1>Information Client</h1>
+        <nav class="breadcrumb">
+          <a routerLink="/dashboard">Accueil</a>
+          <span class="separator">/</span>
+          <a routerLink="/dashboard/listesClients">Liste des clients</a>
+          <span class="separator">/</span>
+          <span class="active">Information d'un client</span>
+        </nav>
       </div>
     </div>
   </div>
 
-  <div class="col-12">
-    <div class="p-2">
-
-      <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
-        <i class="ri-arrow-left-s-fill"></i>
-        Retour</a>
-      <br>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-   <div class="row justify-content-center">
-
-    <ng-container *ngIf="detail?.compte.client ">
-      <div class="col-lg-6 mb_30">
-        <div class="card">
-          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
-            <h4 class="card-title text-white">Information du client</h4>
-            <button class="btn btn-info btn-sm "
-              *ngIf="permissionService.hasPermission('Gestion clients', 'modifier')"
-            (click)="editClient(detail?.compte.client || detail)"> Modifier </button>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Nom:</strong>
-                <span>{{ detail?.compte?.client?.nom || detail?.nom || detail?.client?.nom }} </span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Prénoms:</strong>
-                <span>{{ detail?.compte?.client?.prenom || detail?.prenom || detail?.client?.prenom }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Email:</strong>
-                <span>{{ detail?.compte?.client?.email || detail?.email || detail?.client?.email }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>CNI:</strong>
-                <span>{{ detail?.compte?.client?.cin || detail?.cin || detail?.client?.cin }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Téléphone: </strong>
-                <span>{{ detail?.compte?.client?.tel || detail?.tel || detail?.client?.tel }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Adresse:</strong>
-                <span>{{ detail?.compte?.client?.adresse || detail?.adresse || detail?.client?.adresse }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Type de Client:</strong>
-                <span *ngIf="detail?.compte?.client?.typeClient">
-                  {{detail?.compte?.client?.typeClient== 'MORALE' ? 'Entreprise' : 'Particulier'}}
-                </span>
-
-                <span *ngIf="detail?.typeClient">
-                  {{detail?.typeClient =='PHYSICAL' ? 'Particulier' : 'Entreprise'}}
-                </span>
-                <span *ngIf="detail?.client?.typeClient">
-                  {{(detail?.client?.typeClient === 'MORALE' ? 'Entreprise' : 'Particulier') }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Date de création:</strong>
-                <span>{{ (detail?.compte?.client?.created_at | date) || (detail?.created_at | date) || (detail?.client?.created_at | date) }}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb_30" *ngIf="detail?.compte?.client">
-        <div class="card">
-          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
-            <h4 class="card-title text-white">Détail Compte</h4>
-            <button class="btn btn-info btn-sm "
-              *ngIf="permissionService.hasPermission('Gestion comptes', 'supprimer')"
-            (click)="createClient(detail?.compte?.client.id)"> Créer un compte
-            </button>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Numéro du compte:</strong>
-                <span>{{ detail?.compte?.accountNumber }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Solde:</strong>
-                <span class="text-primary fw-bold">{{ detail?.compte?.solde | currency : 'XOF' }}</span>
-              </li>
-
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Date de création:</strong>
-                <span>{{ detail?.compte?.created_at | date }}</span>
-              </li>
-              <li class="text-end mt-3">
-                <button class="btn btn-primary me-2"
-                *ngIf="permissionService.hasPermission('Gestion recharges', 'ajouter')"
-                (click)="rechargeAccount(detail?.compte?.accountNumber, 'compte')">
-                  Recharger </button>
-                  <button class="btn btn-info"
-                  *ngIf="permissionService.hasPermission('Gestion abonnement', 'ajouter')"
-                  (click)="addTag(detail?.compte?.id)"> Ajouter un tag </button>
-                <!-- <button class="btn btn-danger " (click)="dialogModalStatus(detail?.compte)"> Désactiver </button> -->
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-
-
-    <ng-container *ngIf="detail?.abonnements">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header bg-primary d-flex justify-content-between align-items-center">
-            <h4 class="card-title text-white">Abonnements</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive m-b-30">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">Plaque</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">N° de compte</th>
-                    <th scope="col">Exonéré</th>
-                    <th scope="col">Date création</th>
-                    <th scope="col">Statut</th>
-                    <th scope="col" class="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of detail?.abonnements, index as i">
-                    <th scope="row"> {{ i + 1 }} </th>
-                    <td> {{ item.tagCode }} </td>
-                    <td> {{ item.plaque }} </td>
-                    <td> {{ item.type_targ | titlecase }} </td>
-                    <td> {{ item.compte.accountNumber }} </td>
-                    <td>
-                      <span class="badge" [ngClass]="[(item.isExo === true) ? 'bg-primary' : 'bg-warning']"> {{ item.isExo === true ?
-                        'Oui' : 'Non' }} </span>
-                    </td>
-                    <td> {{ item.created_at | date: 'dd/MM/yyyy HH:mm' }} </td>
-                    <td>
-                      <span class="badge" *ngIf="item.statutTarg == 'actived'" ngClass="{{ 'bg-success'}}"> {{ 'Activé'}} </span>
-
-                      <span class="badge"  *ngIf="item.statutTarg == 'disabled'" ngClass="{{ 'bg-warning' }}"> {{
-                        'Désactivé' }} </span>
-
-                      <span class="badge" *ngIf="item.statutTarg == 'deleted'" ngClass="{{ 'bg-danger' }}"> {{
-                        'Supprimé' }} </span>
-                    </td>
-                    <td>
-
-
-                      <span *ngIf="item.statutTarg != 'deleted' && permissionService.hasPermission('Gestion abonnement', 'modifier')" class="d-flex gap-2 justify-content-center align-items-center">
-                        <span class="btn btn-outline-primary btn-sm" (click)="dialogModalStatus(item)"
-                          title="{{ item.statutTarg == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
-                          <i ngClass="{{ item.statutTarg == 'actived' ? 'fa fa-lock-open' : 'fa fa-lock' }}"> {{
-                            item.statutTarg == 'actived' ? 'Désactiver' : 'Activer' }} </i>
-                        </span>
-
-                        <span class="btn btn-outline-info btn-sm" (click)="dialogModalChangeModePassage(item)"
-                          *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
-                          title="Passage mode">
-                          <i class="fas fa-walking" > {{ item.isExo ===  true ? 'Non Exonerer': 'Exonerer'}} </i>
-                        </span>
-
-                        <span class="btn btn-outline-danger btn-sm" (click)="dialogModalDelete(item)"
-                          *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
-
-                          title="Supprimer ce tag">
-                          <i class="fa fa-trash"> Retirer </i>
-                        </span>
-
-                         <span class="btn btn-warning btn-sm" (click)="transferClient(item)"
-                          *ngIf="permissionService.hasPermission('Gestion abonnement', 'modifier')"
-
-                          title="Supprimer ce tag">
-                          <i class="fas fa-exchange-alt">Transfert</i>
-                        </span>
-                      </span>
-
-
-                      <span  *ngIf="item.statutTarg == 'deleted' && authService.userRole ==='Admin'" class="d-flex gap-2 justify-content-center align-items-center">
-                        <span class="btn btn-primary-info btn-sm" (click)="dialogModalRestaureStatus(item)"  ngClass="{{ 'bg-warning' }}"> {{
-                        'Restorer' }} </span>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="row g-4">
+      <!-- Client Info Card -->
+      <ng-container *ngIf="detail?.compte.client">
+        <div class="col-lg-6">
+          <div class="info-card modern-card">
+            <div class="card-header-modern">
+              <div class="header-left">
+                <div class="header-icon">
+                  <i class="ri-user-line"></i>
+                </div>
+                <h3>Information du client</h3>
+              </div>
+              <button class="btn-action-modern"
+                *ngIf="permissionService.hasPermission('Gestion clients', 'modifier')"
+                (click)="editClient(detail?.compte.client || detail)">
+                <i class="ri-edit-line"></i>
+                Modifier
+              </button>
+            </div>
+            <div class="card-body-modern">
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-user-line"></i> Nom</span>
+                  <span class="info-value">{{ detail?.compte?.client?.nom || detail?.nom || detail?.client?.nom }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-user-smile-line"></i> Prénoms</span>
+                  <span class="info-value">{{ detail?.compte?.client?.prenom || detail?.prenom || detail?.client?.prenom }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-mail-line"></i> Email</span>
+                  <span class="info-value">{{ detail?.compte?.client?.email || detail?.email || detail?.client?.email }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-id-card-line"></i> CNI</span>
+                  <span class="info-value">{{ detail?.compte?.client?.cin || detail?.cin || detail?.client?.cin }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-phone-line"></i> Téléphone</span>
+                  <span class="info-value">{{ detail?.compte?.client?.tel || detail?.tel || detail?.client?.tel }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-map-pin-line"></i> Adresse</span>
+                  <span class="info-value">{{ detail?.compte?.client?.adresse || detail?.adresse || detail?.client?.adresse }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-briefcase-line"></i> Type de Client</span>
+                  <span class="info-value">
+                    <span *ngIf="detail?.compte?.client?.typeClient">
+                      {{detail?.compte?.client?.typeClient== 'MORALE' ? 'Entreprise' : 'Particulier'}}
+                    </span>
+                    <span *ngIf="detail?.typeClient">
+                      {{detail?.typeClient =='PHYSICAL' ? 'Particulier' : 'Entreprise'}}
+                    </span>
+                    <span *ngIf="detail?.client?.typeClient">
+                      {{(detail?.client?.typeClient === 'MORALE' ? 'Entreprise' : 'Particulier') }}
+                    </span>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-calendar-line"></i> Date de création</span>
+                  <span class="info-value">{{ (detail?.compte?.client?.created_at | date) || (detail?.created_at | date) || (detail?.client?.created_at | date) }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+
+        <!-- Account Info Card -->
+        <div class="col-lg-6" *ngIf="detail?.compte?.client">
+          <div class="info-card modern-card">
+            <div class="card-header-modern">
+              <div class="header-left">
+                <div class="header-icon account-icon">
+                  <i class="ri-bank-card-line"></i>
+                </div>
+                <h3>Détail Compte</h3>
+              </div>
+              <button class="btn-action-modern"
+                *ngIf="permissionService.hasPermission('Gestion comptes', 'supprimer')"
+                (click)="createClient(detail?.compte?.client.id)">
+                <i class="ri-add-line"></i>
+                Créer un compte
+              </button>
+            </div>
+            <div class="card-body-modern">
+              <div class="account-summary">
+                <div class="summary-label">Solde actuel</div>
+                <div class="summary-amount">{{ detail?.compte?.solde | currency : 'XOF' }}</div>
+              </div>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-hashtag"></i> Numéro du compte</span>
+                  <span class="info-value account-number">{{ detail?.compte?.accountNumber }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label"><i class="ri-calendar-line"></i> Date de création</span>
+                  <span class="info-value">{{ detail?.compte?.created_at | date }}</span>
+                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="btn-modern btn-modern-primary"
+                  *ngIf="permissionService.hasPermission('Gestion recharges', 'ajouter')"
+                  (click)="rechargeAccount(detail?.compte?.accountNumber, 'compte')">
+                  <i class="ri-wallet-3-line"></i>
+                  Recharger
+                </button>
+                <button class="btn-modern btn-modern-secondary"
+                  *ngIf="permissionService.hasPermission('Gestion abonnement', 'ajouter')"
+                  (click)="addTag(detail?.compte?.id)">
+                  <i class="ri-price-tag-3-line"></i>
+                  Ajouter un tag
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Subscriptions Table -->
+      <ng-container *ngIf="detail?.abonnements">
+        <div class="col-12">
+          <div class="table-card modern-card">
+            <div class="card-header-modern">
+              <div class="header-left">
+                <div class="header-icon subscription-icon">
+                  <i class="ri-list-check-line"></i>
+                </div>
+                <h3>Abonnements</h3>
+              </div>
+              <div class="header-right">
+                <div class="header-badge">
+                  <span class="badge-count">{{ filteredAbonnements.length || 0 }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body-modern">
+              <!-- Filter Section -->
+              <div class="filter-section">
+                <div class="filter-input-wrapper">
+                  <i class="ri-search-line filter-icon"></i>
+                  <input type="text"
+                         class="filter-input"
+                         placeholder="Filtrer par code tag..."
+                         [(ngModel)]="filterTerm"
+                         (input)="filterAbonnements()"
+                         (keyup.enter)="filterAbonnements()" />
+                  <button *ngIf="filterTerm" class="clear-filter" (click)="filterTerm = ''; filterAbonnements()">
+                    <i class="ri-close-line"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="modern-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Tag Code</th>
+                      <th>Plaque</th>
+                      <th>Type</th>
+                      <th>N° de compte</th>
+                      <th>Exonéré</th>
+                      <th>Date création</th>
+                      <th>Statut</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of paginatedAbonnements, index as i">
+                      <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                      <td><span class="tag-code">{{ item.tagCode }}</span></td>
+                      <td>{{ item.plaque }}</td>
+                      <td>{{ item.type_targ | titlecase }}</td>
+                      <td>{{ item.compte.accountNumber }}</td>
+                      <td>
+                        <span class="status-badge" [class.exo-true]="item.isExo === true" [class.exo-false]="item.isExo === false">
+                          {{ item.isExo === true ? 'Oui' : 'Non' }}
+                        </span>
+                      </td>
+                      <td>{{ item.created_at | date: 'dd/MM/yyyy HH:mm' }}</td>
+                      <td>
+                        <span class="status-badge" [class.status-active]="item.statutTarg == 'actived'"
+                          [class.status-disabled]="item.statutTarg == 'disabled'"
+                          [class.status-deleted]="item.statutTarg == 'deleted'">
+                          {{ item.statutTarg == 'actived' ? 'Activé' : (item.statutTarg == 'disabled' ? 'Désactivé' : 'Supprimé') }}
+                        </span>
+                      </td>
+                      <td class="text-center">
+                        <div class="action-icons">
+                          <span *ngIf="item.statutTarg != 'deleted' && permissionService.hasPermission('Gestion abonnement', 'modifier')"
+                            class="action-icon" (click)="dialogModalStatus(item)"
+                            title="{{ item.statutTarg == 'actived' ? 'Désactiver ce tag' : 'Activer ce tag' }}">
+               
+                      <i [ngClass]="item.statutTarg == 'actived' ? 'ri-lock-unlock-line' : 'ri-lock-line'"></i>
+
+                          </span>
+
+                          <span *ngIf="item.statutTarg != 'deleted' && permissionService.hasPermission('Gestion abonnement', 'modifier')"
+                            class="action-icon" (click)="dialogModalChangeModePassage(item)" title="Passage mode">
+                            <i class="ri-walk-line"></i>
+                          </span>
+
+                          <span *ngIf="item.statutTarg != 'deleted' && permissionService.hasPermission('Gestion abonnement', 'modifier')"
+                            class="action-icon danger" (click)="dialogModalDelete(item)" title="Supprimer ce tag">
+                            <i class="ri-delete-bin-line"></i>
+                          </span>
+
+                          <span *ngIf="item.statutTarg != 'deleted' && permissionService.hasPermission('Gestion abonnement', 'modifier')"
+                            class="action-icon" (click)="transferClient(item)" title="Transfert">
+                            <i class="ri-exchange-line"></i>
+                          </span>
+
+                          <span *ngIf="item.statutTarg == 'deleted' && authService.userRole ==='Admin'"
+                            class="action-icon warning" (click)="dialogModalRestaureStatus(item)" title="Restorer">
+                            <i class="ri-refresh-line"></i>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr *ngIf="paginatedAbonnements.length === 0">
+                      <td colspan="9" class="text-center no-results">
+                        <i class="ri-search-eye-line"></i>
+                        <p>Aucun résultat trouvé</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination -->
+              <div class="pagination-section" *ngIf="totalPages > 1">
+                <div class="pagination-info">
+                  <span>Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ getDisplayRangeEnd() }} sur {{ filteredAbonnements.length }}</span>
+                </div>
+                <div class="pagination-controls">
+                  <button class="pagination-btn" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+                    <i class="ri-arrow-left-s-line"></i>
+                  </button>
+                  <button *ngFor="let page of pages"
+                          class="pagination-btn"
+                          [class.active]="page === currentPage"
+                          (click)="onPageChange(page)">
+                    {{ page }}
+                  </button>
+                  <button class="pagination-btn" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">
+                    <i class="ri-arrow-right-s-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
   </div>
 </div>

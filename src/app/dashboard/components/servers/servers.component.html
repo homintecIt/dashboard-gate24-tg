@@ -1,84 +1,84 @@
-<div class="row">
-  <div class="col-12">
-    <div
-      class="page-title-box d-sm-flex align-items-center justify-content-between"
-    >
-      <h4 class="mb-sm-0">Gestion des serveurs de synchronisation</h4>
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">Accueil</a>
-          </li>
-          <li class="breadcrumb-item active">Gestion des types de serveurs</li>
-        </ol>
+<div class="servers-container">
+  <!-- Header Section -->
+  <div class="page-header-section">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="page-title ">Serveurs de synchronisation</h2>
+        <p class="page-subtitle">Gestion des types de serveurs</p>
       </div>
+      <button class="btn btn-modern-primary" (click)="openAddServeurModal()">
+        <i class="ri-add-line me-2"></i>Créer un serveur
+      </button>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <div class="card-header bg-primary">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title mb-0 text-light">Gestion des types de serveurs</h5>
-          <!-- Base Buttons -->
-          <button class="btn btn-outline-light" (click)="openAddServeurModal()">
-            Créer un serveur
-          </button>
+  <!-- Main Card -->
+  <div class="main-card animate-slide-up">
+    <div class="card-header-modern">
+      <div class="d-flex align-items-center gap-3">
+        <div class="header-icon">
+          <i class="ri-server-line"></i>
+        </div>
+        <div>
+          <h5 class="card-title-modern mb-0">Liste des serveurs</h5>
+          <p class="card-subtitle-modern mb-0">{{ serveurs?.length || 0 }} serveurs configurés</p>
         </div>
       </div>
+    </div>
 
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Site</th>
-                <th scope="col">URL</th>
-                <th scope="col">État</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let server of serveurs">
-                <td>{{ server.id }}</td>
-                <td>{{ server.site }}</td>
-                <td>{{ server.url }}</td>
-                <td>{{ server.etat === "actif" ? "Actif" : "Inactif" }}</td>
-                <td>
-                  <div class="d-flex gap-2">
-                    <div
-                      class="form-check form-switch d-flex gap-3 align-items-center align-self-center"
-                    >
+    <div class="card-body-modern">
+      <div class="table-modern">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Site</th>
+              <th>URL</th>
+              <th>État</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let server of serveurs">
+              <td>{{ server.id }}</td>
+              <td>{{ server.site }}</td>
+              <td>{{ server.url }}</td>
+              <td>
+                <span class="badge badge-modern"
+                      [ngClass]="{
+                        'badge-success': server.etat === 'actif',
+                        'badge-danger': server.etat === 'inactif'
+                      }">
+                  {{ server.etat === "actif" ? "Actif" : "Inactif" }}
+                </span>
+              </td>
+              <td>
+                <div class="d-flex gap-2 align-items-center">
+                  <div class="form-check form-switch">
                     <input
-  class="form-check-input"
-  type="checkbox"
-  role="switch"
-  [checked]="server.etat === 'actif'"
-  (click)="toggleStatus(server, $event)"
-/>
-                      <a
-                        class="dropdown-item"
-                        (click)="openDetailsModal(server)"
-                      >
-                        <i class="ri-edit-line fs-4 text-secondary"></i>
-                      </a>
-                      <!-- <label
-                        class="form-check-label"
-                        [for]="'subscriptionStatusSwitch' + server.site"
-                      >
-                        {{ server.etat === 'actif' ? "Activé" : "Désactivé" }}
-                      </label> -->
-                    </div>
-                    <div></div>
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      [checked]="server.etat === 'actif'"
+                      (click)="toggleStatus(server, $event)"
+                    />
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  <button class="btn btn-icon-modern" (click)="openDetailsModal(server)">
+                    <i class="ri-edit-line"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="!serveurs || serveurs.length === 0">
+              <td colspan="5" class="text-center empty-row">
+                <div class="empty-state-table">
+                  <i class="ri-server-line"></i>
+                  <p>Aucun serveur configuré</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

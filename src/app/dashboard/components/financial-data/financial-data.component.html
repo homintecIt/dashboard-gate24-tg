@@ -1,10 +1,12 @@
-<div class="row">
-  <div class="col-12">
-    <div
-      class="page-title-box d-sm-flex align-items-center justify-content-between"
-    >
-      <h4 class="mb-sm-0">Données Financières: {{ selectedDate }}</h4>
-      <div class="page-title-right">
+<div class="financial-data-container">
+  <!-- Header Section -->
+  <div class="list-header mb-4 animate-fade-in">
+    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+      <div class="header-content">
+        <h2 class="mb-1 fw-bold">Données Financières</h2>
+        <p class="text-muted mb-0">{{ selectedDate }}</p>
+      </div>
+      <div class="header-breadcrumb">
         <ol class="breadcrumb m-0">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">Accueil</a>
@@ -14,71 +16,82 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-12">
-<div class="card">
 
-
-
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <h5 class="card-title mb-0">Détails des Recharges</h5>
-    <div class="d-flex align-items-center gap-3">
-      <!-- <button
-        class="btn btn-outline-primary"
-        (click)="refreshData()"
-        [disabled]="loading"
-      >
-        <i class="fas fa-sync" [class.fa-spin]="loading">Rafraichir</i>
-      </button> -->
-      <input
-        type="text"
-        class="form-control me-2"
-        placeholder="Rechercher..."
-        (input)="onSearch($event)"
-      />
-    </div>
-  </div>
-  <div class="card-body">
-    <!-- Tableau de donnée -->
-    <div class="table-responsive">
-      <table
-        class="table table-striped table-hover"
-        *ngIf="financialData.length > 0; "
-      >
-        <thead class="">
-          <tr>
-            <th>TargCode</th>
-            <th>Solde Initiale</th>
-            <th>Approvisionnement</th>
-            <th>Consommation</th>
-            <th>Solde Final</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of financialData">
-            <td>{{ item.targCode }}</td>
-            <td>{{ item.solde_initiale }}</td>
-            <td>{{ item.approvisition }}</td>
-            <td>{{ item.consommation }}</td>
-            <td>{{ item.solde_fin }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-          <!-- État de chargement -->
-          <div *ngIf="loading" class="text-center p-4" >
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Chargement...</span>
-            </div>
+  <!-- Main Card -->
+  <div class="card financial-card animate-slide-up">
+    <div class="card-header financial-card-header">
+      <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="financial-icon">
+            <i class="ri-funds-line"></i>
           </div>
-        <!-- Message d'erreur -->
-        <div *ngIf="error" class="alert alert-danger">
-          {{ error }}
+          <div>
+            <h5 class="mb-0 text-white">Détails des Recharges</h5>
+            <p class="mb-0 text-white-50">{{ financialData?.length || 0 } recharge(s)</p>
+          </div>
         </div>
+        <div class="search-modern">
+          <input
+            type="text"
+            class="form-control form-control-modern"
+            placeholder="Rechercher..."
+            (input)="onSearch($event)"
+          />
+          <i class="ri-search-line search-icon"></i>
+        </div>
+      </div>
+    </div>
 
-</div>
+    <div class="card-body">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-state">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p>Chargement des données...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="alert-modern-error">
+        <div class="d-flex align-items-center gap-3">
+          <div class="alert-icon-error">
+            <i class="ri-error-warning-line"></i>
+          </div>
+          <p class="mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-modern" *ngIf="!loading && !error && financialData.length > 0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>TargCode</th>
+              <th>Solde Initiale</th>
+              <th>Approvisionnement</th>
+              <th>Consommation</th>
+              <th>Solde Final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of financialData">
+              <td><strong>{{ item.targCode }}</strong></td>
+              <td class="amount-cell">{{ item.solde_initiale }}</td>
+              <td class="amount-credit">{{ item.approvisition }}</td>
+              <td class="amount-debit">{{ item.consommation }}</td>
+              <td class="amount-cell">{{ item.solde_fin }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && !error && financialData.length === 0" class="empty-state">
+        <div class="empty-state-icon">
+          <i class="ri-inbox-line"></i>
+        </div>
+        <p>Aucune donnée disponible</p>
+      </div>
+    </div>
   </div>
 </div>

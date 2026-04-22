@@ -1,30 +1,43 @@
-<div class="modal-header">
-  <h5 class="modal-title"> {{ modalTitle }} </h5>
-  <button type="button" class="btn-close" (click)="closeModal()"></button>
-</div>
-
-<div class="modal-body">
-  <form novalidate [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3 fs-20">
-      <input
-        type="text"
-        class="form-control fs-20"
-        [placeholder]="placeholder"
-        formControlName="searchTerm"
-        (change)="transformInput($event)"
-        autofocus
-         [ngClass]="{ 'is-invalid': submitted && form['searchTerm'].errors }"
-      />
-      <div *ngIf="submitted && form['searchTerm'].errors" class="invalid-feedback">
-        <div *ngIf="form['searchTerm'].errors['required']">Le champ est obligatoire</div>
-        <div *ngIf="form['searchTerm'].errors['minlength']">Taille minimale réquise 4</div>
+<div class="modal-content modern-modal">
+  <div class="modal-header modern-modal-header">
+    <div class="d-flex align-items-center gap-3">
+      <div class="modal-icon">
+        <i class="ri-search-line"></i>
       </div>
+      <h5 class="modal-title">{{ modalTitle }}</h5>
     </div>
-
-    <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'Rechercher' }}
-      <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+    <button type="button" class="btn-close-modern" (click)="closeModal()">
+      <i class="ri-close-line"></i>
     </button>
+  </div>
 
-    <pre>  </pre>
-  </form>
+  <div class="modal-body modern-modal-body">
+    <form novalidate [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <div class="form-group-modern">
+        <label for="searchTerm" class="form-label-modern">
+          <i class="ri-search-2-line me-2"></i>Terme de recherche
+        </label>
+        <input
+          type="text"
+          id="searchTerm"
+          class="form-control form-control-modern"
+          [placeholder]="placeholder"
+          formControlName="searchTerm"
+          (change)="transformInput($event)"
+          autofocus
+          [ngClass]="{ 'is-invalid-modern': submitted && form['searchTerm'].errors }"
+        />
+        <div *ngIf="submitted && form['searchTerm'].errors" class="invalid-feedback-modern">
+          <div *ngIf="form['searchTerm'].errors['required']">Le champ est obligatoire</div>
+          <div *ngIf="form['searchTerm'].errors['minlength']">Taille minimale requise 4</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-modern-submit w-100" [disabled]="loading">
+        <i class="ri-search-line me-2" *ngIf="!loading"></i>
+        <i class="ri-loader-4-line me-2 fa-spin" *ngIf="loading"></i>
+        {{ loading ? 'Veuillez patienter...' : 'Rechercher' }}
+      </button>
+    </form>
+  </div>
 </div>

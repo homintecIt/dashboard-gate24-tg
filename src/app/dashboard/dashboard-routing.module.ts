@@ -29,6 +29,7 @@ import { RolesComponent } from './components/users/roles/roles.component';
 import { PermissionGuard } from '../guards/permission.guard';
 import { AddClientLitigeComponent } from './components/clients/litige/add-client-litige/add-client-litige.component';
 import { ShowCompteLitigeComponent } from './components/clients/litige/show-compte-litige/show-compte-litige.component';
+import { TransfertHistoryComponent } from './components/transfert-history/transfert-history.component';
 const routes: Routes = [
   {
 
@@ -99,6 +100,7 @@ const routes: Routes = [
          canActivate: [PermissionGuard],
           data: { menu: 'Gestion utilisateurs' }
       },
+      { path: 'transfert-history', component: TransfertHistoryComponent },
 
 
 

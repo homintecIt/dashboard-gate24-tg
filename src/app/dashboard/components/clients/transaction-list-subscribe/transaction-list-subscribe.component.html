@@ -1,167 +1,157 @@
-<div class="row">
-  <div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0">Liste des abonnements</h4>
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">Accueil</a>
-          </li>
-          <li class="breadcrumb-item active">Liste des abonnements</li>
-        </ol>
+<div class="transaction-list-container">
+  <!-- Header Section -->
+  <div class="page-header-section">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="page-title text-light">Transactions</h2>
+        <p class="page-subtitle">Historique des transactions par abonnement</p>
       </div>
+      <button class="btn btn-modern-secondary" (click)="goBack()">
+        <i class="ri-arrow-left-line me-2"></i>Retour
+      </button>
     </div>
   </div>
 
-  <div class="col-12">
-      <div class="p-2">
-
-    <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
-<i class="ri-arrow-left-s-fill"></i>
-    Retour</a>
-    <br>
-   </div>
-  </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Liste des transactions</h3>
-          <div class="card-tools">
-            <button class="btn btn-sm btn-outline-primary" (click)="loadTransactions()" [disabled]="loading">
-              <i class="fas fa-sync-alt me-1" [class.fa-spin]="loading"></i>
-              {{ loading ? 'Chargement...' : 'Rafraîchir' }}
-            </button>
+  <!-- Main Card -->
+  <div class="main-card animate-slide-up">
+    <div class="card-header-modern">
+      <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="header-icon">
+            <i class="ri-exchange-dollar-line"></i>
+          </div>
+          <div>
+            <h5 class="card-title-modern mb-0">Liste des transactions</h5>
+            <p class="card-subtitle-modern mb-0">{{ totalItems || 0 }} transactions</p>
           </div>
         </div>
-        <div class="card-body table-responsive p-0">
-          <table class="table table-hover text-nowrap">
-            <thead>
-              <tr>
-                <th>Abonnement</th>
-                <th>Montant</th>
-                <th>Type</th>
-                <th>Compte</th>
-                <th>Solde</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let transaction of transactions">
-                <td>
-                  <span class="badge bg-secondary">
-                    {{ transaction?.tagCode }}
-                  </span>
-                </td>
-                <td [class.text-success]="transaction.type_transaction === 'credit'"
-                    [class.text-danger]="transaction.type_transaction === 'debit'">
-                  {{ transaction.type_transaction === 'credit' ? '+' : '-' }}
-                  {{ transaction.montant_transaction | currency:'XOF':'symbol':'1.2-2' }}
-                </td>
-                <td>
-                  <span class="badge"
-                        [ngClass]="{
-                          'bg-success': transaction.type_transaction === 'credit',
-                          'bg-danger': transaction.type_transaction === 'debit'
-                        }">
-                    {{ getTypeLabel(transaction.type_transaction) }}
-                  </span>
-                </td>
-                 <td>
-                  <span class="badge bg-primary">
-                    {{ transaction.account_number }}
-                  </span>
-                </td>
-                <td>{{ transaction.solde_transaction | currency:'XOF':'symbol':'1.2-2' }}</td>
-                <td>{{ transaction.date_transaction| date:'dd/MM/yyyy HH:mm' }}</td>
+       
+        
+           <div class="d-flex gap-2">
+          <button class="btn btn-modern-primary btn-sm" (click)="loadTransactions()" [disabled]="loading">
+            <i class="ri-refresh-line me-2" [class.fa-spin]="loading"></i>
+            {{ loading ? 'Chargement...' : 'Rafraîchir' }}
+          </button>
+          <button class="btn btn-modern-secondary btn-sm" (click)="onExportExcel()">
+            <i class="ri-file-excel-line me-2"></i>Excel
+          </button>
+          <button class="btn btn-modern-secondary btn-sm" (click)="onExportPdf()">
+            <i class="ri-file-pdf-line me-2"></i>PDF
+          </button>
+        </div>
+      </div>
+    </div>
 
-              </tr>
-              <tr *ngIf="transactions.length === 0 && !loading">
-                <td colspan="7" class="text-center">Aucune transaction trouvée</td>
-              </tr>
-              <tr *ngIf="loading">
-                <td colspan="7" class="text-center py-4">
+    <div class="card-body-modern">
+      <!-- Table -->
+      <div class="table-modern">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Abonnement</th>
+              <th>Montant</th>
+              <th>Type</th>
+              <th>Compte</th>
+              <th>Solde</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of transactions">
+              <td>
+                <span class="badge badge-modern badge-info">{{ transaction?.tagCode }}</span>
+              </td>
+              <td [class.amount-credit]="transaction.type_transaction === 'crédit'"
+                  [class.amount-debit]="transaction.type_transaction === 'débit'">
+                {{ transaction.type_transaction === 'crédit' ? '+' : '-' }}
+                {{ transaction.montant_transaction | currency:'XOF':'symbol':'1.2-2' }}
+              </td>
+              <td>
+                <span class="badge badge-modern"
+                      [ngClass]="{
+                        'badge-success': transaction.type_transaction === 'crédit',
+                        'badge-danger': transaction.type_transaction === 'débit'
+                      }">
+                  {{ getTypeLabel(transaction.type_transaction) }}
+                </span>
+              </td>
+              <td>
+                <span class="badge badge-modern badge-primary">{{ transaction.account_number }}</span>
+              </td>
+              <td class="amount-cell">{{ transaction.solde_transaction | currency:'XOF':'symbol':'1.2-2' }}</td>
+              <td>{{ transaction.date_transaction| date:'dd/MM/yyyy HH:mm' }}</td>
+            </tr>
+            <tr *ngIf="transactions.length === 0 && !loading">
+              <td colspan="7" class="text-center empty-row">
+                <div class="empty-state-table">
+                  <i class="ri-inbox-line"></i>
+                  <p>Aucune transaction trouvée</p>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="loading">
+              <td colspan="7" class="text-center">
+                <div class="loading-state-table">
                   <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Chargement...</span>
                   </div>
                   <p class="mt-2 mb-0">Chargement des transactions...</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-container" *ngIf="totalPages > 1">
+        <div class="pagination-info">
+          Affichage de <b>{{ (currentPage - 1) * itemsPerPage + 1 }}</b> à
+          <b>{{ Math.min(currentPage * itemsPerPage, totalItems) }}</b> sur
+          <b>{{ totalItems }}</b> transactions
         </div>
 
+        <ul class="pagination pagination-modern mb-0">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" href="javascript:void(0)" (click)="currentPage > 1 && onPageChange(currentPage - 1)">
+              <i class="ri-arrow-left-s-line"></i>
+            </a>
+          </li>
 
-        <!-- Pagination -->
-        <div class="card-footer clearfix" *ngIf="totalPages > 1">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="text-muted">
-              Affichage de <b>{{ (currentPage - 1) * itemsPerPage + 1 }}</b> à
-              <b>{{ Math.min(currentPage * itemsPerPage, totalItems) }}</b> sur
-              <b>{{ totalItems }}</b> transactions
-            </div>
+          <li class="page-item" [class.active]="currentPage === 1">
+            <a class="page-link" href="javascript:void(0)" (click)="onPageChange(1)">1</a>
+          </li>
 
-            <div class="pagination-container">
-              <ul class="pagination pagination-sm mb-0">
-                <!-- Bouton Précédent -->
-                <li class="page-item" [class.disabled]="currentPage === 1">
-                  <a class="page-link"
-                     href="javascript:void(0)"
-                     (click)="currentPage > 1 && onPageChange(currentPage - 1)"
-                     [class.disabled]="currentPage === 1">
-                    Précédent
-                  </a>
-                </li>
+          <li class="page-item disabled" *ngIf="currentPage > 3">
+            <span class="page-link">...</span>
+          </li>
 
-                <!-- Première page -->
-                <li class="page-item" [class.active]="currentPage === 1">
-                  <a class="page-link" href="javascript:void(0)" (click)="onPageChange(1)">1</a>
-                </li>
+          <ng-container *ngIf="totalPages > 2">
+            <ng-container *ngFor="let page of getPagesAroundCurrent()">
+              <li class="page-item" [class.active]="page === currentPage">
+                <a class="page-link" href="javascript:void(0)" (click)="onPageChange(page)">{{ page }}</a>
+              </li>
+            </ng-container>
+          </ng-container>
 
-                <!-- Points de suspension après la première page si nécessaire -->
-                <li class="page-item disabled" *ngIf="currentPage > 3">
-                  <span class="page-link">...</span>
-                </li>
+          <li class="page-item disabled" *ngIf="currentPage < totalPages - 2">
+            <span class="page-link">...</span>
+          </li>
 
-                <!-- Pages autour de la page courante -->
-                <ng-container *ngIf="totalPages > 2">
-                  <ng-container *ngFor="let page of getPagesAroundCurrent()">
-                    <li class="page-item" [class.active]="page === currentPage">
-                      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(page)">{{ page }}</a>
-                    </li>
-                  </ng-container>
-                </ng-container>
+          <li class="page-item" [class.active]="currentPage === totalPages" *ngIf="totalPages > 1">
+            <a class="page-link" href="javascript:void(0)" (click)="onPageChange(totalPages)">
+              {{ totalPages }}
+            </a>
+          </li>
 
-                <!-- Points de suspension avant la dernière page si nécessaire -->
-                <li class="page-item disabled" *ngIf="currentPage < totalPages - 2">
-                  <span class="page-link">...</span>
-                </li>
-
-                <!-- Dernière page -->
-                <li class="page-item"
-                    [class.active]="currentPage === totalPages"
-                    *ngIf="totalPages > 1">
-                  <a class="page-link" href="javascript:void(0)" (click)="onPageChange(totalPages)">
-                    {{ totalPages }}
-                  </a>
-                </li>
-
-                <!-- Bouton Suivant -->
-                <li class="page-item" [class.disabled]="currentPage === totalPages">
-                  <a class="page-link"
-                     href="javascript:void(0)"
-                     (click)="currentPage < totalPages && onPageChange(currentPage + 1)"
-                     [class.disabled]="currentPage === totalPages">
-                    Suivant
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" href="javascript:void(0)" (click)="currentPage < totalPages && onPageChange(currentPage + 1)">
+              <i class="ri-arrow-right-s-line"></i>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
+</div>
 

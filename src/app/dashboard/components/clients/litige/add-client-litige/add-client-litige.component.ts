@@ -10,6 +10,9 @@ import { SaveTagComponent } from '../../save-tag/save-tag.component';
 import { ListesClientService } from 'src/app/services/liste-client.service';
 import { site } from 'src/app/misc/api-endpoints.misc';
 import { da } from 'date-fns/locale';
+import Swal from 'sweetalert2';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-add-client-litige',
@@ -32,6 +35,20 @@ sitePassage: any;
 
 voie: any;
 datePassage: any;
+
+// Account creation variables
+clientsList: any[] = [];
+selectedClient: any = null;
+searchClientQuery: string = '';
+loadingClients = false;
+private destroy$ = new Subject<void>();
+createdAccount: any = null;
+showAccountInfo = false;
+
+private searchSubject = new Subject<string>();
+currentPage = 1;
+itemsPerPage = 100;
+
   constructor(
     private formBuilder: FormBuilder,
     private dateService: DateService,
@@ -54,6 +71,21 @@ datePassage: any;
       type: ['', [Validators.required]],
       cin: ['', [Validators.required, Validators.minLength(10)]],
       adresse: ['', [Validators.required, Validators.minLength(5)]],
+    });
+
+    // Don't load clients by default - only load when user types
+    // this.loadClients();
+
+       this.searchSubject.pipe(
+      debounceTime(300), // Attendre 300ms après la dernière frappe
+      distinctUntilChanged(), // Ignorer si la valeur est identique à la précédente
+      takeUntil(this.destroy$)
+    ).subscribe(searchTerm => {
+      // Réinitialiser à la page 1 lors d'une nouvelle recherche
+      this.currentPage = 1;
+
+      // Charger les abonnements avec le terme de recherche
+      this.loadClients(this.currentPage, searchTerm);
     });
   }
 
@@ -294,18 +326,6 @@ onSubmitPassages() {
       return;
     }
 
-
-  if (this.site =='DIRECTION') {
-
-        this.sweetAlertService.toastError(
-      'Erreur !',
-      5000,
-          "Vous ne pouvez pas effectuer cette transaction de passage depuis le site de la Direction. Connectez-vous au site du passage concerné."
-      );
-    return; // stop si champ manquant
-
-  }
-  
     this.loading = true;
 
     this.generalService.saveClientOther(this.clientForm.value).subscribe({
@@ -360,4 +380,138 @@ onSubmitPassages() {
     window.history.back();
   }
 
+  // Account creation methods
+   loadClients(page: number = 1, filter?: string | undefined): void {
+    this.loadingClients = true;
+    this.clientService
+      .loadClients(page, this.itemsPerPage, filter)
+      .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data) => {
+        // Ensure data is an array
+        this.clientsList = Array.isArray(data) ? data : (data?.items || []);
+        this.loadingClients = false;
+
+        console.log('Clients loaded:', this.clientsList);
+      },
+      error: (error) => {
+        this.loadingClients = false;
+        this.clientsList = [];
+        console.error('Error loading clients:', error);
+        this.sweetAlertService.toastError('Erreur !', 5000, 'Impossible de charger la liste des clients');
+      }
+    });
+  }
+
+
+ 
+
+  searchClients(query: string) {
+
+    console.log('Searching clients...', query);
+    this.searchClientQuery = query;
+
+    // Clear selected client and list when query is cleared
+    if (query.length === 0) {
+      this.selectedClient = null;
+      this.clientsList = []; // Clear the list when input is empty
+      return;
+    }
+
+    if (query.length < 2) {
+      // Don't load clients when query is less than 2 characters
+      this.clientsList = [];
+      return;
+    }
+    //this.loadClients(this.currentPage, this.searchClientQuery);
+    this.searchSubject.next(this.searchClientQuery);
+  }
+
+
+
+      // Nouvelle configuration pour la recherche dynamique
+     
+
+    onSearch(event: any): void {
+    const searchTerm = event.target.value;
+    this.searchSubject.next(searchTerm);
+  }
+
+
+
+  selectClient(client: any) {
+    this.selectedClient = client;
+    this.searchClientQuery = `${client.nom} ${client.prenom} - ${client.tel}`;
+  }
+
+  createAccount() {
+    if (!this.selectedClient) {
+      this.sweetAlertService.toastError('Erreur !', 5000, 'Veuillez sélectionner un client');
+      return;
+    }
+
+    if (this.site !== 'DIRECTION') {
+      this.sweetAlertService.toastError(
+        'Erreur !',
+        5000,
+        "Vous ne pouvez pas effectuer cette transaction depuis ce site. Connectez-vous à la plateforme de la direction."
+      );
+      return;
+    }
+
+    // Confirmation alert
+    Swal.fire({
+      title: 'Confirmer la création',
+      text: `Voulez-vous vraiment créer un compte pour le client ${this.selectedClient.nom} ${this.selectedClient.prenom} ?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#083489',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, créer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.performAccountCreation();
+      }
+    });
+  }
+
+  performAccountCreation() {
+    this.loading = true;
+    const accountData = {
+      client_id: this.selectedClient.id || this.selectedClient.uuid,
+      solde: 0
+    };
+
+    this.generalService.createClientCompte(accountData).subscribe({
+      next: (response) => {
+        this.loading = false;
+        this.createdAccount = response;
+        this.showAccountInfo = true;
+        this.sweetAlertService.toastSuccess('Compte créé avec succès !', 5000);
+        // Reset form
+        this.selectedClient = null;
+        this.searchClientQuery = '';
+        //this.loadClients();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.sweetAlertService.toastError(
+          'Erreur !',
+          5000,
+          error.error.message || 'Erreur lors de la création du compte'
+        );
+      }
+    });
+  }
+
+  hideAccountInfo() {
+    this.showAccountInfo = false;
+    this.createdAccount = null;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

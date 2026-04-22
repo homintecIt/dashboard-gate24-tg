@@ -1,28 +1,19 @@
-<header id="page-topbar ">
+<header id="page-topbar" class="modern-header">
   <div class="layout-width">
-    <div class="navbar-header bg-primary">
-      <div class="d-flex">
+    <div class="navbar-header">
+      <div class="d-flex align-items-center">
         <div class="navbar-brand-box horizontal-logo">
-          <a href="index.html" class="logo logo-dark">
+          <a routerLink="/dashboard" class="logo logo-light">
             <span class="logo-sm">
-              <img src="assets/logo/icon-96x96.png" alt="" height="22">
+              <img src="assets/logo/icon-96x96.png" alt="Gate24" height="28">
             </span>
             <span class="logo-lg">
-              <img src="assets/logo/icon-152x152.png" alt="" height="17">
-            </span>
-          </a>
-
-          <a href="index.html" class="logo logo-light">
-            <span class="logo-sm">
-              <img src="assets/logo/icon-96x96.png" alt="" height="22">
-            </span>
-            <span class="logo-lg">
-              <img src="assets/logo/icon-152x152.png" alt="" height="17">
+              <img src="assets/logo/icon-152x152.png" alt="Gate24" height="22">
             </span>
           </a>
         </div>
 
-        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+        <button type="button" class="btn btn-modern-hamburger header-item vertical-menu-btn"
           id="topnav-hamburger-icon">
           <span class="hamburger-icon">
             <span></span>
@@ -32,27 +23,41 @@
         </button>
       </div>
 
-      <div class="d-flex align-items-center">
-        <span class="text-light btn btn-info">{{site}}</span>
-        <div class="dropdown ms-sm-3 header-item topbar-user bg-primary">
-          <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+      <div class="d-flex align-items-center gap-3">
+        <div class="site-badge">
+          <i class="ri-building-line me-2"></i>
+          <span>{{ site }}</span>
+        </div>
+
+        <button type="button" class="btn btn-modern-theme" (click)="toggleTheme()" title="Basculer le thème">
+          <i class="ri-moon-line" *ngIf="!isDarkMode"></i>
+          <i class="ri-sun-line" *ngIf="isDarkMode"></i>
+        </button>
+
+        <div class="dropdown header-item topbar-user">
+          <button type="button" class="btn-modern-user" id="page-header-user-dropdown" data-bs-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <span class="d-flex align-items-center">
-              <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg"
-                alt="Header Avatar">
+              <div class="user-avatar">
+                <i class="ri-user-line"></i>
+              </div>
               <span class="text-start ms-xl-2">
-                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text text-light">{{ currentUser?.username }}</span>
-                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text text-light">{{ currentUser?.role }}</span>
+                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ currentUser?.username }}</span>
+                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ currentUser?.role }}</span>
               </span>
+              <i class="ri-arrow-down-s-line ms-2 d-none d-xl-block"></i>
             </span>
           </button>
 
-          <div class="dropdown-menu dropdown-menu-end">
-            <h6 class="dropdown-header">Bienvenue sur Gate24 🙂️</h6>
-            <a class="dropdown-item" (click)="onLogout()" href="javascript:void(0);"><i
-                class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
-                <span class="align-middle"
-                data-key="t-logout">Déconnexion</span></a>
+          <div class="dropdown-menu dropdown-menu-end modern-dropdown">
+            <h6 class="dropdown-header">
+              <i class="ri-wink-line me-2"></i>
+              Bienvenue sur Gate24
+            </h6>
+            <a class="dropdown-item" (click)="onLogout()" href="javascript:void(0);">
+              <i class="ri-logout-box-line text-muted fs-16 align-middle me-2"></i>
+              <span class="align-middle">Déconnexion</span>
+            </a>
           </div>
         </div>
       </div>

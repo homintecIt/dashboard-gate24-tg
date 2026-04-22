@@ -1,0 +1,42 @@
+/* Modern Footer */
+.footer {
+  background: linear-gradient(180deg, #083489 0%, #052663 100%);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+.footer .col-sm-6 {
+  display: flex;
+  align-items: center;
+}
+
+.footer .text-sm-end {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.footer .text-sm-end span {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .footer .col-sm-6 {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .footer .text-sm-end {
+    text-align: center;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background: linear-gradient(180deg, #083489 0%, #052663 100%);
+  }
+}

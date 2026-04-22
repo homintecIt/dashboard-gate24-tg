@@ -33,6 +33,7 @@ export class TransactionService {
     siteTransaction?: string,
      client ?:string,
     tagCode ?:string,
+    excludeClients?:string[]
   ): Observable<TransactionResponse> {
     this.loadingSubject.next(true);
 
@@ -69,6 +70,9 @@ export class TransactionService {
       payload.tagCode = tagCode
     }
 
+    if (excludeClients && excludeClients.length > 0) {
+      payload.excludeClients = excludeClients.join(',')
+    }
 
     return this.http.post<TransactionResponse>(`${this.apiUrl}/transactions/get/paginate/view`, payload).pipe(
       tap(response => {
@@ -95,8 +99,9 @@ export class TransactionService {
     siteTransaction?:string,
     client ?:string,
     tagCode ?:string,
+    excludeClients?:string[]
   ): Observable<TransactionResponse> {
-    return this.loadTransactions(page, limit, accountNumber, type,dateStart,dateEnd,siteTransaction,client,tagCode);
+    return this.loadTransactions(page, limit, accountNumber, type,dateStart,dateEnd,siteTransaction,client,tagCode,excludeClients);
   }
 
   // Méthode de rafraîchissement

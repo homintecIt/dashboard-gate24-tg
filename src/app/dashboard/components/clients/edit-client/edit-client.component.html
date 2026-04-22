@@ -1,98 +1,140 @@
-<div class="modal-content">
+<div class="modal-content modern-modal">
   <form novalidate [formGroup]="clientForm" (ngSubmit)="onSubmit()">
-    <div class="modal-header">
-      <h1 class="modal-title fs-5 text-center w-100">MODIFIER UN CLIENT</h1>
-      <button type="button" class="btn-close" (click)="resetFormClose()"></button>
+    <div class="modal-header modern-modal-header">
+      <div class="d-flex align-items-center gap-3">
+        <div class="modal-icon">
+          <i class="ri-edit-line"></i>
+        </div>
+        <h1 class="modal-title fs-5">Modifier un client</h1>
+      </div>
+      <button type="button" class="btn-close-modern" (click)="resetFormClose()">
+        <i class="ri-close-line"></i>
+      </button>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body modern-modal-body">
       <div class="row">
         <div class="col-md-6">
-          <label for="nom" class="form-label">Nom</label>
-          <input type="text" class="form-control" id="nom" formControlName="nom"
-            [ngClass]="{ 'is-invalid': submitted && form['nom'].errors }">
-          <div *ngIf="submitted && form['nom'].errors" class="invalid-feedback">
-            <div *ngIf="form['nom'].errors['required']">Le nom est obligatoire</div>
-            <div *ngIf="form['nom'].errors['minlength']">Le nom doit comporter au moins 2 caractères</div>
+          <div class="form-group-modern">
+            <label for="nom" class="form-label-modern">
+              <i class="ri-user-line me-2"></i>Nom
+            </label>
+            <input type="text" class="form-control form-control-modern" id="nom" formControlName="nom"
+              [ngClass]="{ 'is-invalid-modern': submitted && form['nom'].errors }"
+              placeholder="Entrez le nom">
+            <div *ngIf="submitted && form['nom'].errors" class="invalid-feedback-modern">
+              <div *ngIf="form['nom'].errors['required']">Le nom est obligatoire</div>
+              <div *ngIf="form['nom'].errors['minlength']">Le nom doit comporter au moins 2 caractères</div>
+            </div>
           </div>
         </div>
 
         <div class="col-md-6">
-          <label for="prenom" class="form-label">Prénoms</label>
-          <input type="text" class="form-control" id="prenom" formControlName="prenom"
-            [ngClass]="{ 'is-invalid': submitted && form['prenom'].errors }">
-          <div *ngIf="submitted && form['prenom'].errors" class="invalid-feedback">
-            <div *ngIf="form['prenom'].errors['required']">Les prénoms sont obligatoires</div>
-            <div *ngIf="form['prenom'].errors['minlength']">Les prénoms doivent comporter au moins 2 caractères
+          <div class="form-group-modern">
+            <label for="prenom" class="form-label-modern">
+              <i class="ri-user-smile-line me-2"></i>Prénoms
+            </label>
+            <input type="text" class="form-control form-control-modern" id="prenom" formControlName="prenom"
+              [ngClass]="{ 'is-invalid-modern': submitted && form['prenom'].errors }"
+              placeholder="Entrez les prénoms">
+            <div *ngIf="submitted && form['prenom'].errors" class="invalid-feedback-modern">
+              <div *ngIf="form['prenom'].errors['required']">Les prénoms sont obligatoires</div>
+              <div *ngIf="form['prenom'].errors['minlength']">Les prénoms doivent comporter au moins 2 caractères</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="row mb-3">
+      <div class="row">
         <div class="col-md-6">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" formControlName="email"
-            [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
-          <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
-            <div *ngIf="form['email'].errors['required']">L'email est obligatoire</div>
-            <div *ngIf="form['email'].errors['email']">L'email n'est pas valide</div>
+          <div class="form-group-modern">
+            <label for="email" class="form-label-modern">
+              <i class="ri-mail-line me-2"></i>Email
+            </label>
+            <input type="email" class="form-control form-control-modern" id="email" formControlName="email"
+              [ngClass]="{ 'is-invalid-modern': submitted && form['email'].errors }"
+              placeholder="Entrez l'email">
+            <div *ngIf="submitted && form['email'].errors" class="invalid-feedback-modern">
+              <div *ngIf="form['email'].errors['required']">L'email est obligatoire</div>
+              <div *ngIf="form['email'].errors['email']">L'email n'est pas valide</div>
+            </div>
           </div>
         </div>
 
         <div class="col-md-6">
-          <label for="tel" class="form-label">Téléphone</label>
-          <input type="text" class="form-control" id="tel" formControlName="tel"
-            [ngClass]="{ 'is-invalid': submitted && form['tel'].errors }">
-          <div *ngIf="submitted && form['tel'].errors" class="invalid-feedback">
-            <div *ngIf="form['tel'].errors['required']">Le téléphone est obligatoire</div>
-            <div *ngIf="form['tel'].errors['pattern']">Le numéro de téléphone est invalide</div>
+          <div class="form-group-modern">
+            <label for="tel" class="form-label-modern">
+              <i class="ri-phone-line me-2"></i>Téléphone
+            </label>
+            <input type="text" class="form-control form-control-modern" id="tel" formControlName="tel"
+              [ngClass]="{ 'is-invalid-modern': submitted && form['tel'].errors }"
+              placeholder="Entrez le numéro de téléphone">
+            <div *ngIf="submitted && form['tel'].errors" class="invalid-feedback-modern">
+              <div *ngIf="form['tel'].errors['required']">Le téléphone est obligatoire</div>
+              <div *ngIf="form['tel'].errors['pattern']">Le numéro de téléphone est invalide</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="row mb-3">
+      <div class="row">
         <div class="col-md-6">
-          <label class="form-label" for="type">Type de client</label>
-          <select class="form-control" id="type" formControlName="type"
-            [ngClass]="{ 'is-invalid': submitted && form['type'].errors }">
-            <option value="PHYSICAL" selected>Particulier</option>
-            <option value="MORALE">Entreprise</option>
-          </select>
-          <div *ngIf="submitted && form['type'].errors" class="invalid-feedback">
-            <small *ngIf="form['type'].errors['required']">Le type de client est obligatoire.</small>
+          <div class="form-group-modern">
+            <label for="type" class="form-label-modern">
+              <i class="ri-vip-crown-line me-2"></i>Type de client
+            </label>
+            <select class="form-select form-select-modern" id="type" formControlName="type"
+              [ngClass]="{ 'is-invalid-modern': submitted && form['type'].errors }">
+              <option value="PHYSICAL" selected>Particulier</option>
+              <option value="MORALE">Entreprise</option>
+            </select>
+            <div *ngIf="submitted && form['type'].errors" class="invalid-feedback-modern">
+              <small *ngIf="form['type'].errors['required']">Le type de client est obligatoire.</small>
+            </div>
           </div>
         </div>
 
         <div class="col-md-6">
-          <label class="form-label" for="cin">CNI</label>
-          <input type="text" class="form-control" id="cin" formControlName="cin" placeholder="455896223547"
-            [ngClass]="{ 'is-invalid': submitted && form['cin'].errors }">
-          <div *ngIf="submitted && form['cin'].errors" class="text-danger">
-            <small *ngIf="form['cin'].errors['required']">Le CNI est obligatoire.</small>
-            <small *ngIf="form['cin'].errors['minlength']">Le CIN doit avoir au moins 8 caractères.</small>
+          <div class="form-group-modern">
+            <label for="cin" class="form-label-modern">
+              <i class="ri-id-card-line me-2"></i>CNI
+            </label>
+            <input type="text" class="form-control form-control-modern" id="cin" formControlName="cin" placeholder="455896223547"
+              [ngClass]="{ 'is-invalid-modern': submitted && form['cin'].errors }">
+            <div *ngIf="submitted && form['cin'].errors" class="invalid-feedback-modern">
+              <small *ngIf="form['cin'].errors['required']">Le CNI est obligatoire.</small>
+              <small *ngIf="form['cin'].errors['minlength']">Le CNI doit avoir au moins 8 caractères.</small>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="mb-3">
-        <label for="adresse" class="form-label">Adresse</label>
-        <input type="text" class="form-control" id="adresse" formControlName="adresse"
-          [ngClass]="{ 'is-invalid': submitted && form['adresse'].errors }">
-        <div *ngIf="submitted && form['adresse'].errors" class="invalid-feedback">
-          <div *ngIf="form['adresse'].errors['required']">L'adresse est obligatoire</div>
+        <div class="form-group-modern">
+          <label for="adresse" class="form-label-modern">
+            <i class="ri-map-pin-line me-2"></i>Adresse
+          </label>
+          <input type="text" class="form-control form-control-modern" id="adresse" formControlName="adresse"
+            [ngClass]="{ 'is-invalid-modern': submitted && form['adresse'].errors }"
+            placeholder="Entrez l'adresse">
+          <div *ngIf="submitted && form['adresse'].errors" class="invalid-feedback-modern">
+            <div *ngIf="form['adresse'].errors['required']">L'adresse est obligatoire</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary"
-        (click)="resetFormClose()">ANNULER</button>
-      <button type="submit" class="btn btn-primary">{{ loading ? 'Veuillez patienter...' : 'MODIFIER' }}
-        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+    <div class="modal-footer modern-modal-footer">
+      <button type="button" class="btn btn-modern-cancel"
+        (click)="resetFormClose()">
+        <i class="ri-close-circle-line me-2"></i>
+        Annuler
+      </button>
+      <button type="submit" class="btn btn-modern-submit" [disabled]="loading">
+        <i class="ri-save-line me-2" *ngIf="!loading"></i>
+        <i class="ri-loader-4-line me-2 fa-spin" *ngIf="loading"></i>
+        {{ loading ? 'Veuillez patienter...' : 'Modifier' }}
       </button>
     </div>
-    <!-- <pre>{{ clientForm.value | json }}</pre> -->
   </form>
-
 </div>
