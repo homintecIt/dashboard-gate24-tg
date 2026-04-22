@@ -21,5 +21,6 @@ export class Account {
   uuid?: string;
   accountNumber?: string;
   solde?: number;
+  comment?: string;
   client?: Client;
 }

@@ -1,48 +1,39 @@
-<div class="row">
-  <div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0">Statuts de synchronisation</h4>
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">Accueil</a>
-          </li>
-          <li class="breadcrumb-item active">Statuts de synchronisation</li>
-        </ol>
+<div class="sync-status-container">
+  <!-- Header Section -->
+  <div class="page-header-section">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="page-title">Statuts de synchronisation</h2>
+        <p class="page-subtitle">Historique des synchronisations</p>
       </div>
+      <button class="btn btn-modern-primary" (click)="refreshData()" [disabled]="loading">
+        <i class="ri-refresh-line me-2" [class.fa-spin]="loading"></i>
+        {{ loading ? 'Chargement...' : 'Rafraîchir' }}
+      </button>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <div class="card-header bg-primary">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title text-light mb-0">Historique des synchronisations</h5>
-          <div class="d-flex gap-3">
-            <button
-              class="btn btn-outline-light"
-              (click)="refreshData()"
-              [disabled]="loading"
-            >
-              <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
-              Rafraîchir
-            </button>
-          </div>
+  <!-- Main Card -->
+  <div class="main-card animate-slide-up">
+    <div class="card-header-modern">
+      <div class="d-flex align-items-center gap-3">
+        <div class="header-icon">
+          <i class="ri-sync-line"></i>
+        </div>
+        <div>
+          <h5 class="card-title-modern mb-0">Historique des synchronisations</h5>
+          <p class="card-subtitle-modern mb-0">{{ totalItems || 0 }} entrées</p>
         </div>
       </div>
+    </div>
 
-      <div class="card-body">
-        <!-- Filtres -->
-        <div class="row mb-3">
+    <div class="card-body-modern">
+      <!-- Filters -->
+      <div class="filters-section">
+        <div class="row g-3">
           <div class="col-md-3">
-            <label class="form-label">Entité</label>
-            <select
-              class="form-select"
-              [(ngModel)]="selectedEntity"
-              (change)="onFilterChange()"
-            >
+            <label for="selectedEntity" class="form-label-modern">Entité</label>
+            <select id="selectedEntity" class="form-select modern-select" [(ngModel)]="selectedEntity" (change)="onFilterChange()">
               <option [value]="''">Toutes les entités</option>
               <option *ngFor="let option of entityOptions" [value]="option.value">
                 {{ option.label }}
@@ -50,12 +41,8 @@
             </select>
           </div>
           <div class="col-md-2">
-            <label class="form-label">Statut</label>
-            <select
-              class="form-select"
-              [(ngModel)]="selectedStatus"
-              (change)="onFilterChange()"
-            >
+            <label for="selectedStatus" class="form-label-modern">Statut</label>
+            <select id="selectedStatus" class="form-select modern-select" [(ngModel)]="selectedStatus" (change)="onFilterChange()">
               <option [value]="''">Tous les statuts</option>
               <option *ngFor="let option of statusOptions" [value]="option.value">
                 {{ option.label }}
@@ -63,12 +50,8 @@
             </select>
           </div>
           <div class="col-md-2">
-            <label class="form-label">Serveur cible</label>
-            <select
-              class="form-select"
-              [(ngModel)]="selectedServer"
-              (change)="onFilterChange()"
-            >
+            <label for="selectedServer" class="form-label-modern">Serveur cible</label>
+            <select id="selectedServer" class="form-select modern-select" [(ngModel)]="selectedServer" (change)="onFilterChange()">
               <option [value]="''">Tous les serveurs</option>
               <option *ngFor="let option of serverOptions" [value]="option.value">
                 {{ option.label }}
@@ -76,187 +59,131 @@
             </select>
           </div>
           <div class="col-md-2">
-            <label class="form-label">Recherche</label>
+            <label for="searchTerm" class="form-label-modern">Recherche</label>
             <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Rechercher..."
-                [(ngModel)]="searchTerm"
-                (keyup.enter)="onSearch($event)"
-                (input)="onSearchInput($event)"
-              />
-              <button
-                *ngIf="searchTerm"
-                class="btn btn-outline-secondary"
-                type="button"
-                (click)="clearSearch()"
-                [disabled]="loading"
-              >
-                <i class="fas fa-times"></i>
+              <input type="text" id="searchTerm" class="form-control modern-input" placeholder="Rechercher..."
+                [(ngModel)]="searchTerm" (keyup.enter)="onSearch($event)" (input)="onSearchInput($event)" />
+              <button *ngIf="searchTerm" class="btn btn-outline-secondary" type="button" (click)="clearSearch()" [disabled]="loading">
+                <i class="ri-close-line"></i>
               </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                (click)="onSearch($event)"
-                [disabled]="loading"
-              >
-                <i class="fas fa-search"></i>
+              <button class="btn btn-modern-primary" type="button" (click)="onSearch($event)" [disabled]="loading">
+                <i class="ri-search-line"></i>
               </button>
             </div>
-            <small class="form-text text-muted">
-              Recherche par description, ID ou serveur
-            </small>
+            <small class="form-text text-muted">Recherche par description, ID ou serveur</small>
           </div>
-          <div class="col-md-2 align-items-center">
-            <label class="form-label">Action</label>
-            <div class="d-flex gap-2">
-            <button
-              class="btn btn-outline-secondary w-100"
-              (click)="resetFilters()"
-              [disabled]="!selectedEntity && !selectedStatus && !selectedServer && !searchTerm"
-            >
-              Réinitialiser
+          <div class="col-md-3 d-flex align-items-end gap-2">
+            <button class="btn btn-modern-secondary" (click)="resetFilters()" [disabled]="!selectedEntity && !selectedStatus && !selectedServer && !searchTerm">
+              <i class="ri-filter-off-line me-2"></i>Réinitialiser
             </button>
-            <button
-              class="btn btn-outline-primary w-100"
-              (click)="retryFailedSync()"
-              [disabled]="isSyncing"
-            >
+            <button class="btn btn-modern-primary" (click)="retryFailedSync()" [disabled]="isSyncing">
               <span *ngIf="!isSyncing">
-                <i class="fas fa-sync-alt me-1"></i> Synchro
+                <i class="ri-sync-line me-2"></i>Synchro
               </span>
               <span *ngIf="isSyncing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
-            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Message d'erreur -->
-        <div *ngIf="error" class="alert alert-danger">
-          {{ error }}
+      <!-- Error Message -->
+      <div *ngIf="error" class="alert alert-danger mt-3">
+        {{ error }}
+      </div>
+
+      <!-- Table -->
+      <div class="table-modern" *ngIf="!loading && !error">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Entité</th>
+              <th>Action</th>
+              <th>ID Entité</th>
+              <th>Serveur cible</th>
+              <th>Statut</th>
+              <th>Date de synchronisation</th>
+              <th>Erreur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let status of filteredStatuses; let i = index">
+              <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td>
+                <span class="badge badge-modern badge-primary">
+                  {{ getEntityLabel(status.entity) }}
+                </span>
+              </td>
+              <td>{{ status.description }}</td>
+              <td>{{ status.entityId }}</td>
+              <td>{{ status.targetServer }}</td>
+              <td>
+                <span class="badge badge-modern"
+                      [ngClass]="{
+                        'badge-success': status.status === 'success',
+                        'badge-danger': status.status === 'failed',
+                        'badge-warning': status.status === 'pending'
+                      }">
+                  {{ getStatusLabel(status.status) }}
+                </span>
+              </td>
+              <td>{{ status.syncedAt | date: 'medium' }}</td>
+              <td>
+                <span class="text-danger" *ngIf="status.lastError">
+                  {{ status.lastError }}
+                </span>
+                <span class="text-muted" *ngIf="!status.lastError">-</span>
+              </td>
+            </tr>
+            <tr *ngIf="filteredStatuses.length === 0">
+              <td colspan="8" class="text-center empty-row">
+                <div class="empty-state-table">
+                  <i class="ri-inbox-line"></i>
+                  <p>Aucun résultat trouvé</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="loading" class="loading-state-table">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
         </div>
+        <p class="mt-2 mb-0">Chargement des données...</p>
+      </div>
 
-        <!-- Tableau des données -->
-        <div class="table-responsive" *ngIf="!loading && !error">
-          <table class="table table-striped table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th>#</th>
-                <th>Entité</th>
-                <th>Action</th>
-                <th>ID Entité</th>
-                <th>Serveur cible</th>
-                <th>Statut</th>
-                <th>Date de synchronisation</th>
-                <th>Erreur</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let status of filteredStatuses; let i = index">
-                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                <td>
-                  <span class="badge bg-primary">
-                    {{ getEntityLabel(status.entity) }}
-                  </span>
-                </td>
-                <td>{{ status.description }}</td>
-                <td>{{ status.entityId }}</td>
-                <td>{{ status.targetServer }}</td>
-                <td>
-                  <span
-                    class="badge"
-                    [ngClass]="{
-                      'bg-success': status.status === 'success',
-                      'bg-danger': status.status === 'failed',
-                      'bg-warning': status.status === 'pending'
-                    }"
-                  >
-                    {{ getStatusLabel(status.status) }}
-                  </span>
-                </td>
-                <td>{{ status.syncedAt | date: 'medium' }}</td>
-                <td>
-                  <span class="text-danger" *ngIf="status.lastError">
-                    {{ status.lastError }}
-                  </span>
-                  <span class="text-muted" *ngIf="!status.lastError">-</span>
-                </td>
-              </tr>
-              <tr *ngIf="filteredStatuses.length === 0">
-                <td colspan="8" class="text-center py-4">
-                  <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
-                  <p class="mb-0">Aucun résultat trouvé</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Pagination -->
+      <div class="pagination-container" *ngIf="totalPages > 1">
+        <div class="pagination-info">
+          Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
+          {{ currentPage * itemsPerPage > totalItems ? totalItems : currentPage * itemsPerPage }}
+          sur {{ totalItems }} entrées
         </div>
-
-        <!-- Chargement -->
-        <div *ngIf="loading" class="text-center py-4">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Chargement...</span>
-          </div>
-          <p class="mt-2 mb-0">Chargement des données...</p>
-        </div>
-
-        <!-- Pagination -->
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>
-            Affichage {{ (currentPage - 1) * itemsPerPage + 1 }} à
-            {{
-              currentPage * itemsPerPage > totalItems
-                ? totalItems
-                : currentPage * itemsPerPage
-            }}
-            sur {{ totalItems }} entrées
-          </div>
-          <nav *ngIf="totalPages > 1" aria-label="Navigation des pages">
-            <ul class="pagination justify-content-center">
-              <!-- Bouton précédent -->
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage - 1)"
-                  role="button"
-                >
-                  Précédent
-                </a>
-              </li>
-
-              <!-- Pages -->
-              <ng-container *ngFor="let page of getPagesArray()">
-                <li *ngIf="page === -1" class="page-item disabled">
-                  <span class="page-link">...</span>
-                </li>
-                <li
-                  *ngIf="page !== -1"
-                  class="page-item"
-                  [class.active]="page === currentPage"
-                >
-                  <a class="page-link" (click)="goToPage(page)" role="button">
-                    {{ page }}
-                  </a>
-                </li>
-              </ng-container>
-
-              <!-- Bouton suivant -->
-              <li
-                class="page-item"
-                [class.disabled]="currentPage === totalPages"
-              >
-                <a
-                  class="page-link"
-                  (click)="goToPage(currentPage + 1)"
-                  role="button"
-                >
-                  Suivant
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <ul class="pagination pagination-modern mb-0">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="goToPage(currentPage - 1)" role="button">
+              <i class="ri-arrow-left-s-line"></i>
+            </a>
+          </li>
+          <ng-container *ngFor="let page of getPagesArray()">
+            <li *ngIf="page === -1" class="page-item disabled">
+              <span class="page-link">...</span>
+            </li>
+            <li *ngIf="page !== -1" class="page-item" [class.active]="page === currentPage">
+              <a class="page-link" (click)="goToPage(page)" role="button">
+                {{ page }}
+              </a>
+            </li>
+          </ng-container>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="goToPage(currentPage + 1)" role="button">
+              <i class="ri-arrow-right-s-line"></i>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

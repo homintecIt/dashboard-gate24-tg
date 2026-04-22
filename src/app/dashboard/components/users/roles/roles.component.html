@@ -1,96 +1,85 @@
-<!-- users.component.html -->
-<div class="row">
-  <div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0">Liste des Roles et Permissions</h4>
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item"><a routerLink="/dashboard">Accueil</a></li>
-          <li class="breadcrumb-item active">Roles et Permissions</li>
-        </ol>
+<div class="roles-container">
+  <!-- Header Section -->
+  <div class="page-header-section">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="page-title">Rôles et Permissions</h2>
+        <p class="page-subtitle">Gestion des rôles et permissions</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-modern-primary" data-bs-toggle="modal" data-bs-target="#addSiteModal">
+          <i class="ri-add-line me-2"></i>Ajouter
+        </button>
+        <button class="btn btn-modern-primary" routerLink="/dashboard/menus">
+          <i class="ri-settings-line me-2"></i>Menus
+        </button>
       </div>
     </div>
   </div>
-</div>
-<div class="col-12">
-  <div class="p-2">
 
-    <a href="javascript:avoid(0);" (click)="goBack()" class="btn btn-primary">
-      <i class="ri-arrow-left-s-fill"></i>
-      Retour</a>
-    <br>
-  </div>
-</div>
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <div class="card-header bg-primary">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title text-light mb-0">Liste des Roles et Permissions</h5>
-          <div class="d-flex gap-3">
-            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#addSiteModal">
-
-              <i class="ri-add-line"></i>
-
-              Ajouter</button>
-
-
-
-          </div>
+  <!-- Main Card -->
+  <div class="main-card animate-slide-up">
+    <div class="card-header-modern">
+      <div class="d-flex align-items-center gap-3">
+        <div class="header-icon">
+          <i class="ri-shield-key-line"></i>
+        </div>
+        <div>
+          <h5 class="card-title-modern mb-0">Liste des rôles</h5>
+          <p class="card-subtitle-modern mb-0">{{ roles?.length || 0 }} rôles configurés</p>
         </div>
       </div>
+    </div>
 
-      <div class="card-body">
-        <!-- État de chargement -->
-
-        <div class="card-body">
-          <table class="table table-bordered table-striped border-blue">
-            <thead class="table-blue">
-              <tr>
-                <th>#</th>
-                <th>Nom </th>
-                <th>Menus </th>
-                <th>Action</th>
+    <div class="card-body-modern">
+      <div class="table-modern">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Menus</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="roles != null; then isDataExist; else isDataEmpty"></ng-container>
+            <ng-template #isDataExist>
+              <tr *ngFor="let role of roles, let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ role.name }}</td>
+                <td>
+                  <div class="permissions-table">
+                    <div class="permission-item" *ngFor="let perm of role.permissions">
+                      <span class="permission-menu">{{ perm.menu.name }}</span>
+                      <div class="permission-actions">
+                        <span *ngFor="let action of perm.actions" class="badge badge-modern badge-primary me-1">
+                          {{ action.name }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-icon-modern" data-bs-toggle="modal"
+                    data-bs-target="#updateSiteModal" (click)="openUpdateModal(role)">
+                    <i class="ri-edit-line"></i>
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngIf="roles != null; then isDataExist; else isDataEmpty">
-              </ng-container>
-              <ng-template #isDataExist>
-                <tr *ngFor="let role of roles, let i = index">
-                  <td> {{i+1}} </td>
-                  <td> {{role.name}} </td>
-                    <td>
-        <table class="table table-sm">
-          <tr *ngFor="let perm of role.permissions">
-            <td>{{ perm.menu.name }}</td>
-            <td>
-              <span *ngFor="let action of perm.actions" class="badge bg-primary me-1 text-light fs-6">
-                {{ action.name }}
-              </span>
-            </td>
-          </tr>
+            </ng-template>
+            <ng-template #isDataEmpty>
+              <tr>
+                <td colspan="4" class="text-center empty-row">
+                  <div class="empty-state-table">
+                    <i class="ri-shield-key-line"></i>
+                    <p>Aucun rôle configuré</p>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
         </table>
-      </td>
-                  <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                      data-bs-target="#updateSiteModal" (click)="openUpdateModal(role)">
-                      <i class="ri-edit-line"></i>
-
-
-                    </button>
-                  </td>
-                </tr>
-              </ng-template>
-
-              <ng-template #isDataEmpty>
-                <tr>
-                  <td colspan="4" class="text-center">Aucune donnée disponible</td>
-                </tr>
-              </ng-template>
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
   </div>
@@ -100,18 +89,18 @@
 <div class="modal fade" id="addSiteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="addSiteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+    <div class="modal-content modal-modern">
       <form [formGroup]="rolesForm" (ngSubmit)="submitRolesMenusAction()">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="addSiteModalLabel">Enregistrement d’un role</h1>
+          <h1 class="modal-title fs-5" id="addSiteModalLabel">Enregistrement d'un rôle</h1>
           <button type="button" id="closeAddModal" class="btn-close" data-bs-dismiss="modal" (click)="closeModal()"
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="mb-3">
-              <label for="name" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="name" style="text-transform: uppercase;" placeholder=""
+              <label for="name" class="form-label-modern">Nom</label>
+              <input type="text" class="form-control modern-input" id="name" style="text-transform: uppercase;" placeholder=""
                 formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
               <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
                 <div *ngIf="f['name'].errors['required']">Le nom est obligatoire</div>
@@ -119,7 +108,7 @@
             </div>
 
             <div class="col-12">
-              <label for="menu" class="form-label">Menu autorisé</label>
+              <label for="menu" class="form-label-modern">Menu autorisé</label>
 
               <div class="row">
                 <div class="mb-3 col-6" *ngFor="let menu of menus; let i = index">
@@ -147,14 +136,11 @@
 
             </div>
           </div>
-
-
-
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Annuler</button>
-          <button type="submit" class="btn btn-primary">
-            {{loading? 'Veuillez patienter ' : 'Enregister' }}
+          <button type="button" class="btn btn-modern-secondary" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-modern-primary">
+            {{loading? 'Veuillez patienter ' : 'Enregistrer' }}
             <span class="{{ loading? 'spinner-border spinner-border-sm ms-2' : '' }}" role="status"> </span>
           </button>
         </div>
@@ -163,32 +149,30 @@
   </div>
 </div>
 
-
 <!-- Modal updateSiteModal -->
 <div class="modal fade" id="updateSiteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="updateSiteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+    <div class="modal-content modal-modern">
       <form [formGroup]="rolesForm" (ngSubmit)="updateRole()">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="updateSiteModalLabel">Modification d’un role et permission</h1>
+          <h1 class="modal-title fs-5" id="updateSiteModalLabel">Modification d'un rôle et permission</h1>
           <button type="button" id="closeUpdateModal" class="btn-close" data-bs-dismiss="modal"
             (click)="closeUpdateModal()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="mb-3">
-              <label for="nom" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="name" placeholder="" formControlName="name"
+              <label for="nom" class="form-label-modern">Nom</label>
+              <input type="text" class="form-control modern-input" id="name" placeholder="" formControlName="name"
                 [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
               <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                <div *ngIf="f['name'].errors['required']">Le nom est
-                  obligatoire</div>
+                <div *ngIf="f['name'].errors['required']">Le nom est obligatoire</div>
               </div>
             </div>
 
             <div class="col-12">
-              <label for="menu" class="form-label">Menu autorisé</label>
+              <label for="menu" class="form-label-modern">Menu autorisé</label>
 
               <div class="row">
                 <div class="mb-3 col-6" *ngFor="let menu of menus; let i = index">
@@ -219,9 +203,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+          <button type="button" class="btn btn-modern-secondary" data-bs-dismiss="modal"
             (click)="closeModal()">Annuler</button>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-modern-primary">
             {{loading? 'Veuillez patienter ' : 'Modifier' }}
             <span class="{{ loading? 'spinner-border spinner-border-sm ms-2' : '' }}" role="status"> </span>
           </button>

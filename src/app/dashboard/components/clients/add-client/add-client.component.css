@@ -1,0 +1,273 @@
+/* Add Client Container */
+.add-client-container {
+  padding: 1rem 0;
+}
+
+/* Header Section */
+.client-header {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(8, 52, 137, 0.15);
+}
+
+.header-content h2 {
+  color: #ffffff;
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.header-content p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+}
+
+/* Modern Back Button */
+.btn-modern-back {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 0.625rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-modern-back:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Card */
+.client-form-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.form-card-header {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  padding: 1.5rem 2rem;
+  border-bottom: none;
+}
+
+.form-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+/* Modern Form Groups */
+.form-group-modern {
+  margin-bottom: 1.5rem;
+}
+
+.form-label-modern {
+  display: flex;
+  align-items: center;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.form-label-modern i {
+  color: #083489;
+  font-size: 1rem;
+}
+
+.form-control-modern,
+.form-select-modern {
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.form-control-modern:focus,
+.form-select-modern:focus {
+  border-color: #083489;
+  box-shadow: 0 0 0 4px rgba(8, 52, 137, 0.1);
+  background: #ffffff;
+}
+
+.form-control-modern::placeholder {
+  color: #9ca3af;
+}
+
+.form-control-modern.is-invalid-modern,
+.form-select-modern.is-invalid-modern {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.form-control-modern.is-invalid-modern:focus,
+.form-select-modern.is-invalid-modern:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.invalid-feedback-modern {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.invalid-feedback-modern::before {
+  content: '⚠';
+  font-size: 0.9rem;
+}
+
+/* Modern Submit Button */
+.btn-modern-submit {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  border: none;
+  color: #ffffff;
+  padding: 0.875rem 2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(8, 52, 137, 0.3);
+}
+
+.btn-modern-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #052663 0%, #031a4d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(8, 52, 137, 0.4);
+}
+
+.btn-modern-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .client-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .header-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-card-header {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .client-header {
+    padding: 1rem;
+  }
+
+  .header-content h2 {
+    font-size: 1.25rem;
+  }
+
+  .header-content p {
+    font-size: 0.875rem;
+  }
+
+  .btn-modern-back {
+    width: 100%;
+  }
+
+  .form-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .btn-modern-submit {
+    width: 100%;
+  }
+
+  .client-form-card .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .client-form-card {
+    background: #1e293b;
+  }
+
+  .form-label-modern {
+    color: #e2e8f0;
+  }
+
+  .form-control-modern,
+  .form-select-modern {
+    background: #0f172a;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+  }
+
+  .form-control-modern:focus,
+  .form-select-modern:focus {
+    background: #0f172a;
+    border-color: #083489;
+  }
+
+  .form-control-modern::placeholder {
+    color: #64748b;
+  }
+
+  .form-control-modern.is-invalid-modern,
+  .form-select-modern.is-invalid-modern {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: #ef4444;
+  }
+}

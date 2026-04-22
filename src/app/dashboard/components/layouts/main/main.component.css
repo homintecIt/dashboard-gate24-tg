@@ -1,0 +1,60 @@
+/* Modern Main Layout */
+#layout-wrapper {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+}
+
+.vertical-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.main-content {
+  margin-left: 280px;
+  margin-top: 80px;
+  min-height: calc(100vh - 144px);
+  padding-bottom: 4rem;
+  transition: margin-left 0.3s ease;
+}
+
+.page-content {
+  padding: 1.5rem;
+}
+
+.container-fluid {
+  max-width: 1400px;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .vertical-overlay.show {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-content {
+    padding: 1rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  #layout-wrapper {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+}

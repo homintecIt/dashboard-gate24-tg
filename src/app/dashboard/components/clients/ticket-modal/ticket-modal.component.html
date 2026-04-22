@@ -1,21 +1,49 @@
-<div class="modal-body" id="receiptContent">
-  <div class="d-flex flex-column align-items-center justify-content-between mb-4">
-    <img src="assets/img/logo.png" alt="logo">
-    <h5>Reçu de paiement</h5>
-    <p>Date : {{ data?.date | date: 'dd/MM/yyyy' }}</p>
-  </div>
+<div class="modal-content ticket-modal">
+  <div class="modal-body modern-modal-body" id="receiptContent">
+    <div class="ticket-header">
+      <div class="ticket-logo">
+        <img src="assets/img/logo.png" alt="logo">
+      </div>
+      <div class="ticket-title">
+        <h5>Reçu de paiement</h5>
+        <p class="ticket-date">Date : {{ data?.date | date: 'dd/MM/yyyy' }}</p>
+      </div>
+    </div>
 
-  <div class="mb-3">
-    <p><strong>Client :</strong> {{ data?.clientName }}</p>
-    <p><strong>Numéro de compte :</strong> {{ data?.accountNumber }}</p>
-    <p><strong>Code du Tag :</strong> {{ data?.tagCode }}</p>
-    <p><strong>Montant :</strong> {{ data?.amount | currency: 'XOF' }}</p>
-    <p><strong>Solde total :</strong> {{ data?.amount | currency: 'XOF' }}</p>
-    <p><strong>Type de Tag :</strong> {{ data?.typeTag }}</p>
-  </div>
+    <div class="ticket-divider">
+      <div class="ticket-ripple"></div>
+    </div>
 
-  <div class="text-end">
-    <p>Merci pour votre paiement!</p>
-    <p><em>Safer</em></p>
+    <div class="ticket-details">
+      <div class="ticket-row">
+        <span class="ticket-label">Client :</span>
+        <span class="ticket-value">{{ data?.clientName }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Numéro de compte :</span>
+        <span class="ticket-value">{{ data?.accountNumber }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Code du Tag :</span>
+        <span class="ticket-value">{{ data?.tagCode }}</span>
+      </div>
+      <div class="ticket-row highlight">
+        <span class="ticket-label">Montant :</span>
+        <span class="ticket-value">{{ data?.amount | currency: 'XOF' }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Solde total :</span>
+        <span class="ticket-value">{{ data?.amount | currency: 'XOF' }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Type de Tag :</span>
+        <span class="ticket-value">{{ data?.typeTag }}</span>
+      </div>
+    </div>
+
+    <div class="ticket-footer">
+      <p class="ticket-thank">Merci pour votre paiement!</p>
+      <p class="ticket-brand"><em>Safer</em></p>
+    </div>
   </div>
 </div>

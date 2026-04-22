@@ -42,7 +42,8 @@ const apiEndpoints = {
   rolesUrl: `${apiUrlBase}/roles`,
   actionUrl: `${apiUrlBase}/actions`,
   exportTransaction : `${apiUrlBase}/transactions/export`,
-  passageUrl: `${apiUrlBase}/passage`
+  passageUrl: `${apiUrlBase}/passage`,
+  markAccountCommentUrl: `${apiUrlBase}/comptes/mark-with-comment`
 
 
 }

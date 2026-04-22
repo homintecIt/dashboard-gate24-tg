@@ -1,11 +1,11 @@
 import { ToastrModule } from 'ngx-toastr';
 import { ListesClientService } from 'src/app/services/liste-client.service';
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
 import { Transaction, TransactionResponse, VTransaction } from '../../interfaces/transaction';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { BootstrapModalService } from 'src/app/services/bootstrap-modal.service';
 
@@ -18,6 +18,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   transactions: VTransaction[] = [];
   loading = false;
+  loadingClients = false;
   error: string | null = null;
   searchTerm = '';
   selectedType = '';
@@ -26,8 +27,14 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   siteTransaction="";
   tagCode ='';
   client ='';
+  excludeClients: string[] = [];
+  clientsList: any[] = [];
+  filteredClientsList: any[] = [];
+  showDropdown = false;
+  @ViewChild('searchInput') searchInput!: ElementRef;
 
-
+  searchClientQuery: string = '';
+  selectedClient: any = null;
 
   // Pagination
   currentPage = 1;
@@ -51,6 +58,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   isDetailsModalOpen = false;
   isStatusChanging = false;
  distinctClients: any[] = [];
+ private searchSubject = new Subject<string>();
+
   constructor(
     @Inject(TransactionService) private transactionService: TransactionService,
     private modalService: BootstrapModalService,
@@ -68,7 +77,19 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       this.loadTransactions();
     });
 
+   this.loadClients();
 
+       this.searchSubject.pipe(
+      debounceTime(300), // Attendre 300ms après la dernière frappe
+      distinctUntilChanged(), // Ignorer si la valeur est identique à la précédente
+      takeUntil(this.destroy$)
+    ).subscribe(searchTerm => {
+      // Réinitialiser à la page 1 lors d'une nouvelle recherche
+      this.currentPage = 1;
+
+      // Charger les abonnements avec le terme de recherche
+      this.loadClients(this.currentPage, searchTerm);
+    });
   }
 
   ngOnDestroy(): void {
@@ -98,7 +119,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this.dateEnd,
         this.siteTransaction,
         this.client,
-        this.tagCode
+        this.tagCode,
+        this.excludeClients
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -110,6 +132,9 @@ export class TransactionsComponent implements OnInit, OnDestroy {
           this.totalAmount = response.meta.totalAmount;
           this.totalItems = response.meta?.totalItems || 0;
           this.totalPages = response.meta?.totalPages || 1;
+
+          // Extraire les clients distincts
+          this.extractDistinctClients();
 
           // Mettre à jour currentPage en fonction de la réponse du serveur (0-based)
           const serverPage = response.meta?.currentPage ?? 0;
@@ -151,6 +176,10 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.currentPage = 1;
     this.dateEnd ="";
     this.dateStart ="";
+    this.siteTransaction ="";
+    this.tagCode ="";
+    this.client ="";
+    this.excludeClients = [];
     this.loadTransactions();
   }
 
@@ -237,6 +266,122 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     return typeMap[type] || type;
   }
 
+  extractDistinctClients(): void {
+    const clientMap = new Map<string, any>();
+    this.transactions.forEach(transaction => {
+      if (transaction.nom_client && !clientMap.has(transaction.nom_client)) {
+        clientMap.set(transaction.nom_client, { nom_client: transaction.nom_client });
+      }
+    });
+    this.distinctClients = Array.from(clientMap.values()).sort((a, b) => 
+      a.nom_client.localeCompare(b.nom_client)
+    );
+  }
+
+
+  loadClients(page: number = 1, filter?: string | undefined): void {
+    console.log('loadClients called with filter:', filter);
+    this.loadingClients = true;
+    this.listesClientService
+      .loadClients(page, 10, filter)
+      .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response) => {
+        // Extract items from the API response and add nom_client field
+        this.clientsList = (response?.items || []).map(client => ({
+          ...client,
+          nom_client: `${client.nom || ''} ${client.prenom || ''}`.trim()
+        }));
+        this.filterClientsList();
+        this.loadingClients = false;
+
+        console.log('Clients loaded:', this.clientsList);
+      },
+      error: (error) => {
+        this.loadingClients = false;
+        this.clientsList = [];
+        this.filteredClientsList = [];
+        console.error('Error loading clients:', error);
+      }
+    });
+  }
+
+  searchClients(event: { term: string; items: any[] }) {
+    const query = event.term;
+
+    console.log('Searching clients...', query);
+    this.searchClientQuery = query;
+
+    // Clear selected client when query is cleared
+    if (query.length === 0) {
+      this.selectedClient = null;
+    }
+
+    if (query.length < 2) {
+      this.loadClients();
+      console.log('Loading clients...');
+      return;
+    }
+    this.searchSubject.next(this.searchClientQuery);
+  }
+
+  // Custom multi-select methods
+  focusSearchInput() {
+    if (this.searchInput) {
+      this.searchInput.nativeElement.focus();
+    }
+  }
+
+  removeClient(client: string, event: Event) {
+    event.stopPropagation();
+    const index = this.excludeClients.indexOf(client);
+    if (index > -1) {
+      this.excludeClients.splice(index, 1);
+    }
+    this.filterClientsList();
+  }
+
+  onSearchInput(event: Event) {
+    const query = (event.target as HTMLInputElement).value;
+    this.searchClientQuery = query;
+    this.filterClientsList();
+
+    if (query.length >= 2) {
+      this.loadClients(1, query);
+    } else if (query.length === 0) {
+      this.showDropdown = false;
+      this.loadClients();
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Backspace' && this.searchClientQuery.length === 0 && this.excludeClients.length > 0) {
+      this.excludeClients.pop();
+      this.filterClientsList();
+    } else if (event.key === 'Escape') {
+      this.showDropdown = false;
+    }
+  }
+
+  selectClient(client: any) {
+    if (!this.excludeClients.includes(client.nom_client)) {
+      this.excludeClients.push(client.nom_client);
+    }
+    this.searchClientQuery = '';
+    if (this.searchInput) {
+      this.searchInput.nativeElement.value = '';
+    }
+    this.filterClientsList();
+    this.showDropdown = false;
+  }
+
+  filterClientsList() {
+    this.filteredClientsList = this.clientsList.filter(client =>
+      !this.excludeClients.includes(client.nom_client) &&
+      (!this.searchClientQuery || client.nom_client.toLowerCase().includes(this.searchClientQuery.toLowerCase()))
+    );
+  }
+
   goBack(): void {
     window.history.back();
   }
@@ -251,7 +396,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     siteTransaction: this.siteTransaction,
     tagCode: this.tagCode,
     dateStart: this.dateStart,
-    dateEnd : this.dateEnd
+    dateEnd : this.dateEnd,
+    excludeClients: this.excludeClients.join(',')
   };
 this.transactionService.exportExcel(filters).subscribe((blob) => {
       const url = window.URL.createObjectURL(blob);
@@ -271,7 +417,8 @@ onExportPdf() {
     siteTransaction: this.siteTransaction,
     tagCode: this.tagCode,
     dateStart: this.dateStart,
-    dateEnd : this.dateEnd
+    dateEnd : this.dateEnd,
+    excludeClients: this.excludeClients.join(',')
   };
 this.transactionService.exportPdf(filters).subscribe((blob) => {
       const url = window.URL.createObjectURL(blob);

@@ -1,132 +1,92 @@
-<div class="row">
-  <div class="col">
+<div class="enroulement-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-2">Chargement...</p>
+  </div>
 
-    <div class="h-100">
-      <!-- État de chargement -->
-      <div *ngIf="loading" class="text-center p-4">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Chargement...</span>
-        </div>
+  <!-- Error State -->
+  <div *ngIf="error" class="alert-modern-error">
+    <div class="d-flex align-items-center gap-3">
+      <div class="alert-icon-error">
+        <i class="ri-error-warning-line"></i>
       </div>
-      <!-- Message d'erreur -->
-      <div *ngIf="error" class="alert alert-danger">
-        {{ error }}
-      </div>
+      <p class="mb-0">{{ error }}</p>
+    </div>
+  </div>
 
-      <div class="row" *ngIf="!loading && !error">
-
-        <div class="col-xl-4 col-md-6">
-          <div class="card card-animate bg-primary">
-            <div class="card-body">
-                <a  routerLink="/dashboard/add-client">
-
-  <div class="d-flex align-items-end justify-content-between mt-4" >
-                <div>
-                  <h4 class="fs-22 fw-semibold text-light mb-4">
-                    <i class="bx bx-user text-danger"></i>
-                    NOUVEAU CLIENT
-
-                  </h4>
-
-                </div>
-
-              </div>
-                </a>
-
-            </div>
-          </div>
+  <!-- Cards Grid -->
+  <div class="cards-grid" *ngIf="!loading && !error">
+    <!-- Nouveau Client Card -->
+    <div class="action-card animate-fade-in" style="animation-delay: 0.1s;">
+      <a routerLink="/dashboard/add-client">
+        <div class="card-icon card-icon-red">
+          <i class="ri-user-add-line"></i>
         </div>
-
-        <div class="col-xl-4 col-md-6">
-          <div class="card card-animate bg-primary">
-            <a  type="button" (click)="searchChoice()">
-  <div class="card-body" >
-              <div class="d-flex align-items-end justify-content-between mt-4">
-                <div>
-                  <h4 class="fs-22 fw-semibold text-light mb-4">
-                    <i class="bx bx-card text-warning"></i>
-
-                    NOUVEAU ABONNNEMT
-                  </h4>
-                </div>
-
-              </div>
-            </div>
-            </a>
-
-          </div>
+        <h4 class="card-title">Nouveau Client</h4>
+        <p class="card-text">Créer un nouveau compte client</p>
+        <div class="card-arrow">
+          <i class="ri-arrow-right-line"></i>
         </div>
-
-        <div class="col-xl-4 col-md-6">
-          <div class="card card-animate bg-primary" >
-            <a  type="button" (click)="showCompte()">
-            <div class="card-body">
-              <div class="d-flex align-items-end justify-content-between mt-4">
-                <div>
-                  <h4 class="fs-22 fw-semibold text-light mb-4">
-                    <i class="bx bx-dollar-circle text-danger"></i>
-
-                    CONSULTER UN COMPTE
-                  </h4>
-                </div>
-
-              </div>
-            </div>
-            </a>
-
-          </div>
-        </div>
-
-
-        <div class="col-xl-4 col-md-6">
-          <div class="card card-animate bg-primary">
-            <a type="button" (click)="showTag()">
-
- <div class="card-body">
-              <div class="d-flex align-items-end justify-content-between mt-4">
-                <div>
-                  <h4 class="fs-22 fw-semibold text-light mb-4">
-                    <i class="bx bx-card text-info"></i>
-
-                    CONSULTER UN ABONNEMENT
-                  </h4>
-
-                </div>
-
-              </div>
-            </div>
-            </a>
-
-          </div>
-        </div>
-
-        <div class="col-xl-4 col-md-6">
-          <div class="card card-animate bg-primary">
-
-            <a type="button" (click)="rechargeCompte()">
- <div class="card-body">
-              <div class="d-flex align-items-end justify-content-between mt-4">
-                <div>
-                  <h4 class="fs-22 fw-semibold text-light mb-4">
-                    <i class="bx bx-dollar-circle text-warning"></i>
-
-                    RECHARGE DE COMPTE
-                  </h4>
-
-                </div>
-
-              </div>
-            </div>
-
-            </a>
-
-          </div>
-        </div>
-
-
-      </div>
-
+      </a>
     </div>
 
+    <!-- Nouveau Abonnement Card -->
+    <div class="action-card animate-fade-in" style="animation-delay: 0.2s;">
+      <a type="button" (click)="searchChoice()">
+        <div class="card-icon card-icon-yellow">
+          <i class="ri-price-tag-3-line"></i>
+        </div>
+        <h4 class="card-title">Nouveau Abonnement</h4>
+        <p class="card-text">Ajouter un tag à un compte</p>
+        <div class="card-arrow">
+          <i class="ri-arrow-right-line"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Consulter un Compte Card -->
+    <div class="action-card animate-fade-in" style="animation-delay: 0.3s;">
+      <a type="button" (click)="showCompte()">
+        <div class="card-icon card-icon-purple">
+          <i class="ri-bank-card-line"></i>
+        </div>
+        <h4 class="card-title">Consulter un Compte</h4>
+        <p class="card-text">Voir les détails d'un compte</p>
+        <div class="card-arrow">
+          <i class="ri-arrow-right-line"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Consulter un Abonnement Card -->
+    <div class="action-card animate-fade-in" style="animation-delay: 0.4s;">
+      <a type="button" (click)="showTag()">
+        <div class="card-icon card-icon-blue">
+          <i class="ri-id-card-line"></i>
+        </div>
+        <h4 class="card-title">Consulter un Abonnement</h4>
+        <p class="card-text">Voir les détails d'un abonnement</p>
+        <div class="card-arrow">
+          <i class="ri-arrow-right-line"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Recharge de Compte Card -->
+    <div class="action-card animate-fade-in" style="animation-delay: 0.5s;">
+      <a type="button" (click)="rechargeCompte()">
+        <div class="card-icon card-icon-green">
+          <i class="ri-wallet-3-line"></i>
+        </div>
+        <h4 class="card-title">Recharge de Compte</h4>
+        <p class="card-text">Ajouter du crédit à un compte</p>
+        <div class="card-arrow">
+          <i class="ri-arrow-right-line"></i>
+        </div>
+      </a>
+    </div>
   </div>
 </div>

@@ -1,41 +1,471 @@
+/* Roles Container */
+.roles-container {
+  padding: 0;
+}
+
+/* Page Header Section */
+.page-header-section {
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  color: #ffffff;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Main Card */
+.main-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.card-header-modern {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-title-modern {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.card-subtitle-modern {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.card-body-modern {
+  padding: 1.5rem;
+}
+
+/* Modern Button */
+.btn-modern-primary {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 0.5rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-modern-primary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-modern-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-modern-secondary {
+  background: #ffffff;
+  color: #083489;
+  border: 2px solid #083489;
+  padding: 0.5rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-modern-secondary:hover {
+  background: #083489;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(8, 52, 137, 0.2);
+}
+
+.btn-icon-modern {
+  background: rgba(8, 52, 137, 0.1);
+  color: #083489;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-modern:hover {
+  background: #083489;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+/* Modern Table */
+.table-modern {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table-modern .table {
+  margin-bottom: 0;
+}
+
+.table-modern thead {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+}
+
+.table-modern thead th {
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  padding: 1rem;
+  border: none;
+}
+
+.table-modern tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-modern tbody tr:hover {
+  background: rgba(8, 52, 137, 0.05);
+  transform: scale(1.01);
+}
+
+.table-modern tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+/* Permissions Table */
+.permissions-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.permission-item {
+  background: #f8fafc;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border-left: 3px solid #083489;
+}
+
+.permission-menu {
+  font-weight: 600;
+  color: #083489;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.permission-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.badge-modern {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.badge-primary {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #083489;
+}
+
+/* Empty State */
+.empty-state-table {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.empty-state-table i {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-table p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Modal Modern */
+.modal-modern {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal-modern .modal-header {
+  background: linear-gradient(135deg, #083489 0%, #052663 100%);
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+}
+
+.modal-modern .modal-title {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.modal-modern .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+.modal-modern .modal-body {
+  padding: 1.5rem;
+}
+
+.modal-modern .modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Modern Labels */
+.form-label-modern {
+  color: #374151;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Modern Inputs */
+.modern-input {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.modern-input:focus {
+  outline: none;
+  border-color: #083489;
+  box-shadow: 0 0 0 3px rgba(8, 52, 137, 0.1);
+}
+
+/* Custom Checkbox */
 input[type="checkbox"] {
-    transform: scale(1.5); /* Adjust the number to make the radio button larger or smaller */
-    margin-right: 10px; /* Optional: Add some space between the radio button and label */
+  transform: scale(1.2);
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding-left: 24px;
+  margin-bottom: 0.5rem;
+}
+
+.custom-checkbox input:checked + .checkbox-checkmark {
+  background-color: #083489;
+  border-color: #083489;
+}
+
+.checkbox-checkmark {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid #d1d5db;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.custom-checkbox input:checked + .checkbox-checkmark::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
- 
-  .custom-checkbox {
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .custom-checkbox input:checked + .checkbox-checkmark {
-    background-color: #007bff;
-    border-color: #007bff;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  
-  .checkbox-checkmark {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 20px; /* Adjust width for size */
-    height: 20px; /* Adjust height for size */
-    border-radius: 3px; /* Rounded corners for checkbox */
-    border: 2px solid #ccc;
-    background-color: #fff;
-    transition: all 0.3s ease;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .custom-checkbox input:checked + .checkbox-checkmark::after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    width: 10px;
-    height: 10px;
-    background-color: #fff;
-    border-radius: 50%;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .card-header-modern {
+    padding: 1rem 1.25rem;
   }
-  
+
+  .card-body-modern {
+    padding: 1.25rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .card-header-modern {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .card-body-modern {
+    padding: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .table-modern {
+    overflow-x: auto;
+  }
+
+  .table-modern .table {
+    min-width: 700px;
+  }
+}
+
+/* Dark Mode Support */
+body.dark-mode .page-title {
+  color: #f1f5f9;
+}
+
+body.dark-mode .page-subtitle {
+  color: #94a3b8;
+}
+
+body.dark-mode .main-card {
+  background: #1e293b;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .btn-icon-modern {
+  background: rgba(8, 52, 137, 0.2);
+  color: #e2e8f0;
+}
+
+body.dark-mode .btn-icon-modern:hover {
+  background: #083489;
+  color: #ffffff;
+}
+
+body.dark-mode .table-modern tbody td {
+  color: #e2e8f0;
+}
+
+body.dark-mode .table-modern tbody tr {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .table-modern tbody tr:hover {
+  background: rgba(8, 52, 137, 0.2);
+}
+
+body.dark-mode .permission-item {
+  background: #334155;
+}
+
+body.dark-mode .permission-menu {
+  color: #60a5fa;
+}
+
+body.dark-mode .form-label-modern {
+  color: #e2e8f0;
+}
+
+body.dark-mode .modern-input {
+  background: #334155;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
+body.dark-mode .modern-input:focus {
+  border-color: rgba(8, 52, 137, 0.5);
+  box-shadow: 0 0 0 3px rgba(8, 52, 137, 0.2);
+}
+
+body.dark-mode .checkbox-checkmark {
+  background-color: #334155;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .empty-state-table {
+  color: #64748b;
+}
+
+body.dark-mode .modal-modern .modal-footer {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}

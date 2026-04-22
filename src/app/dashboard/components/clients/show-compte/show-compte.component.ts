@@ -32,6 +32,14 @@ export class ShowCompteComponent implements OnInit {
   client!: any;
 
   detail :any;
+
+  // Filter and pagination properties
+  filterTerm: string = '';
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  filteredAbonnements: any[] = [];
+  paginatedAbonnements: any[] = [];
+
   constructor(
     public authService:AuthService,
     private generalService: GeneralService,
@@ -59,6 +67,52 @@ export class ShowCompteComponent implements OnInit {
     this.loadData()
   }
 
+  // Filter and pagination methods
+  filterAbonnements() {
+    if (!this.detail?.abonnements) {
+      this.filteredAbonnements = [];
+      return;
+    }
+
+    if (!this.filterTerm || this.filterTerm.trim() === '') {
+      this.filteredAbonnements = [...this.detail.abonnements];
+    } else {
+      const searchTerm = this.filterTerm.toLowerCase().trim();
+      this.filteredAbonnements = this.detail.abonnements.filter((item: any) =>
+        item.tagCode?.toLowerCase().includes(searchTerm)
+      );
+    }
+    this.currentPage = 1;
+    this.updatePaginatedAbonnements();
+  }
+
+  updatePaginatedAbonnements() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedAbonnements = this.filteredAbonnements.slice(startIndex, endIndex);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.updatePaginatedAbonnements();
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredAbonnements.length / this.itemsPerPage);
+  }
+
+  get pages(): number[] {
+    const pages = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  getDisplayRangeEnd(): number {
+    return Math.min(this.currentPage * this.itemsPerPage, this.filteredAbonnements.length);
+  }
+
     goBack() {
     window.history.back();
   }
@@ -79,6 +133,7 @@ export class ShowCompteComponent implements OnInit {
       this.generalService.getCompteClient(data.value).subscribe({
         next: (resp) => {
           this.detail = resp;
+          this.filterAbonnements();
         },
         error: (error: HttpErrorResponse) => console.log(error),
       });
@@ -120,7 +175,7 @@ export class ShowCompteComponent implements OnInit {
          this.generalService.getCompteClient(data).subscribe({
         next: (resp) => {
           this.detail = resp;
-
+          this.filterAbonnements();
           console.log("datas",resp);
 
         },

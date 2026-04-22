@@ -1,159 +1,131 @@
-<!-- users.component.html -->
-<div class="row">
-  <div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0">Liste des Utilisateurs</h4>
-      <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item"><a routerLink="/dashboard">Accueil</a></li>
-          <li class="breadcrumb-item active">Utilisateurs</li>
-        </ol>
+<div class="users-container">
+  <!-- Header Section -->
+  <div class="page-header-section">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="page-title">Utilisateurs</h2>
+        <p class="page-subtitle">Gestion des utilisateurs</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="button" (click)="onRoles()" class="btn btn-modern-secondary" 
+          *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'consulter') || authService.userRole ==='Admin'">
+          <i class="ri-shield-key-line me-2"></i>Rôles et Permissions
+        </button>
+        <button class="btn btn-modern-primary" (click)="openCreateUserModal()"
+          *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'ajouter')">
+          <i class="ri-user-add-line me-2"></i>Créer Utilisateur
+        </button>
+        <button class="btn btn-modern-secondary" (click)="loadUsers()" [disabled]="loading">
+          <i class="ri-refresh-line me-2" [class.fa-spin]="loading"></i>
+          Rafraîchir
+        </button>
       </div>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <div class="card-header bg-primary">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title text-light mb-0">Liste des Utilisateurs</h5>
-          <div class="d-flex gap-3">
-
-          <!--        <button type="button"   class="btn btn-outline-light" data-bs-toggle="modal"
-              (click)="onMenu()">Menus utilisateur</button> -->
-              <button type="button" (click)="onRoles()" class="btn btn-secondary" data-bs-toggle="modal" *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'consulter') || authService.userRole ==='Admin'"
-            >Roles et Permissions</button>
-            <button
-              class="btn btn-outline-light"
-
-              (click)="openCreateUserModal()"
-              *ngIf="permissionService.hasPermission('Gestion utilisateurs', 'ajouter')"
-            >
-              <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
-              Créer Utilisateur
-            </button>
-
-            <button
-              class="btn btn-outline-light"
-              (click)="loadUsers()"
-              [disabled]="loading"
-            >
-              <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
-              Rafraîchir
-            </button>
-
-            <div class="search-box">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Rechercher..."
-                (input)="onSearch($event)"
-              >
-            </div>
+  <!-- Main Card -->
+  <div class="main-card animate-slide-up">
+    <div class="card-header-modern">
+      <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="header-icon">
+            <i class="ri-user-line"></i>
           </div>
+          <div>
+            <h5 class="card-title-modern mb-0">Liste des Utilisateurs</h5>
+            <p class="card-subtitle-modern mb-0">{{ users?.length || 0 }} utilisateurs</p>
+          </div>
+        </div>
+        <div class="search-box-modern">
+          <input type="text" class="form-control modern-input" placeholder="Rechercher..." (input)="onSearch($event)">
         </div>
       </div>
+    </div>
 
-      <div class="card-body">
-        <!-- État de chargement -->
-        <div *ngIf="loading" class="text-center p-4">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Chargement...</span>
-          </div>
+    <div class="card-body-modern">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-state-table">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
         </div>
+        <p class="mt-2 mb-0">Chargement des utilisateurs...</p>
+      </div>
 
-        <!-- Message d'erreur -->
-        <div *ngIf="error" class="alert alert-danger">
-          {{ error }}
-        </div>
+      <!-- Error Message -->
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
 
-        <!-- Tableau des données -->
-        <div class="table-responsive" *ngIf="!loading && !error">
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Email</th>
-                <th scope="col">Rôle</th>
-                <th scope="col">Date de création</th>
-                <th scope="col">Statut</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of users; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                  <span class="badge bg-success-subtle text-success text-uppercase"
-                   >
-                    {{ user.role?.name }}
+      <!-- Table -->
+      <div class="table-modern" *ngIf="!loading && !error">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Rôle</th>
+              <th>Date de création</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="badge badge-modern badge-primary">
+                  {{ user.role?.name }}
+                </span>
+              </td>
+              <td>{{ user.created_at | date:'short' }}</td>
+              <td>
+                <div class="d-flex gap-2 align-items-center">
+                  <input class="form-check-input" type="checkbox" role="switch"
+                    [checked]="user.is_active" (change)="onStatusToggle(user)">
+                  <span class="status-text" [class.text-success]="user.is_active" [class.text-muted]="!user.is_active">
+                    {{ user.is_active ? "Activé" : "Désactivé" }}
                   </span>
-                </td>
-                <td>{{ user.created_at | date:'short' }}</td>
-                <td>
-                  <div class="d-flex gap-2 form-switch">
-                    <input
-                      class="form-check-input cursor-pointer"
-                      type="checkbox"
-                      role="switch"
-                      [checked]="user.is_active"
-                      (change)="onStatusToggle(user)"
-                    >
-                    <span>{{ user.is_active ? "Activé" : "Desactivé" }}</span>
-                  </div>
-                </td>
-                <td>
-                  <div class="cursor-pointer dropdown">
-                    <i class=" ri-arrow-down-s-line" data-bs-toggle="dropdown">
-
-                    </i>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="openEditModal(user)">
-                          <i class="ri-edit-line me-1"></i> Modifier
-                        </a>
-                      </li>
-
-                       <li>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="onReinstal(user)">
-                          <i class="ri-refresh-line me-1"></i> Réinitialiser mot de passe
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item text-danger" href="javascript:void(0);" (click)="openDeleteConfirmModal(user)">
-                          <i class="ri-delete-bin-line me-1"></i> Supprimer
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                </div>
+              </td>
+              <td>
+                <div class="dropdown">
+                  <button class="btn btn-icon-modern" data-bs-toggle="dropdown">
+                    <i class="ri-more-2-fill"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0);" (click)="openEditModal(user)">
+                        <i class="ri-edit-line me-2"></i>Modifier
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0);" (click)="onReinstal(user)">
+                        <i class="ri-refresh-line me-2"></i>Réinitialiser mot de passe
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item text-danger" href="javascript:void(0);" (click)="openDeleteConfirmModal(user)">
+                        <i class="ri-delete-bin-line me-2"></i>Supprimer
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="!users || users.length === 0">
+              <td colspan="7" class="text-center empty-row">
+                <div class="empty-state-table">
+                  <i class="ri-user-line"></i>
+                  <p>Aucun utilisateur trouvé</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Modal d'édition -->
-<!-- <app-user-edit-modal
-  [isOpen]="isEditModalOpen"
-  [user]="selectedUser"
-  (closeModal)="closeModals()"
-  (saveChanges)="onSaveChanges($event)"
-></app-user-edit-modal> -->
-
-<!-- Modal de confirmation de suppression -->
-<!-- <app-confirm-delete-modal
-  [isOpen]="isConfirmDeleteModalOpen"
-  [itemName]="selectedUser?.name"
-  (confirm)="confirmDelete()"
-  (cancel)="closeModals()"
-></app-confirm-delete-modal> -->

@@ -1,69 +1,91 @@
-<div class="modal-content">
-  <form novalidate [formGroup]="rechargeForm" (keydown.enter)="$event.preventDefault()"  (ngSubmit)="onSubmit()">
-    <div class="modal-header">
-      <h1 class="modal-title fs-5 text-center w-100" id="deleteModalLabel">
-        FORMULAIRE DE RECHARGE
-      </h1>
-      <button type="button" class="btn-close" (click)="resetFormClose()"></button>
+<div class="modal-content modern-modal">
+  <form novalidate [formGroup]="rechargeForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
+    <div class="modal-header modern-modal-header">
+      <div class="d-flex align-items-center gap-3">
+        <div class="modal-icon">
+          <i class="ri-wallet-3-line"></i>
+        </div>
+        <h1 class="modal-title fs-5">Formulaire de recharge</h1>
+      </div>
+      <button type="button" class="btn-close-modern" (click)="resetFormClose()">
+        <i class="ri-close-line"></i>
+      </button>
     </div>
 
-    <div class="modal-body">
-      <div class="d-flex align-items-center justify-content-around mb-3">
-        <div class="form-check">
+    <div class="modal-body modern-modal-body">
+      <!-- Recharge Type Selection -->
+      <div class="recharge-type-selector mb-4">
+        <div class="form-check form-check-modern">
           <input class="form-check-input" type="radio" name="rechargeType" id="rechargeCompte" value="compte"
                  (change)="onRechargeTypeChange('compte')" [checked]="rechargeType === 'compte'" [disabled]="rechargeType === 'tag' && deactivated">
-          <label class="form-check-label" for="rechargeCompte">Recharger un compte</label>
+          <label class="form-check-label" for="rechargeCompte">
+            <i class="ri-bank-card-line me-2"></i>Recharger un compte
+          </label>
         </div>
-        <div class="form-check">
+        <div class="form-check form-check-modern">
           <input class="form-check-input" type="radio" name="rechargeType" id="rechargeTag" value="tag"
                  (change)="onRechargeTypeChange('tag')" [checked]="rechargeType === 'tag'" [disabled]="rechargeType === 'compte' && deactivated">
-          <label class="form-check-label" for="rechargeTag">Recharger un tag</label>
+          <label class="form-check-label" for="rechargeTag">
+            <i class="ri-price-tag-3-line me-2"></i>Recharger un tag
+          </label>
         </div>
       </div>
 
-      <div *ngIf="rechargeType === 'compte'" class="mb-3">
-        <label for="accountNumber" class="form-label">Numéro de compte</label>
-        <input type="text" class="form-control" id="accountNumber" placeholder="12345678901234" formControlName="accountNumber"
-               [ngClass]="{ 'is-invalid': submitted && form['accountNumber'].errors }" [readonly]="deactivated" >
-        <div *ngIf="submitted && form['accountNumber'].errors" class="invalid-feedback">
+      <!-- Account Number Field -->
+      <div *ngIf="rechargeType === 'compte'" class="form-group-modern">
+        <label for="accountNumber" class="form-label-modern">
+          <i class="ri-bank-card-line me-2"></i>Numéro de compte
+        </label>
+        <input type="text" class="form-control form-control-modern" id="accountNumber" placeholder="12345678901234" formControlName="accountNumber"
+               [ngClass]="{ 'is-invalid-modern': submitted && form['accountNumber'].errors }" [readonly]="deactivated">
+        <div *ngIf="submitted && form['accountNumber'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['accountNumber'].errors['required']">Le numéro de compte est obligatoire</div>
           <div *ngIf="form['accountNumber'].errors['minlength']">Le numéro de compte doit avoir au moins 14 caractères</div>
         </div>
       </div>
 
-      <div *ngIf="rechargeType === 'tag'" class="mb-3">
-        <label for="tagCode" class="form-label">Code de tag</label>
-        <input type="text" class="form-control" id="tagCode" placeholder="12345678" formControlName="tagCode"
-               [ngClass]="{ 'is-invalid': submitted && form['tagCode'].errors }" [readonly]="deactivated">
-        <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback">
+      <!-- Tag Code Field -->
+      <div *ngIf="rechargeType === 'tag'" class="form-group-modern">
+        <label for="tagCode" class="form-label-modern">
+          <i class="ri-price-tag-3-line me-2"></i>Code de tag
+        </label>
+        <input type="text" class="form-control form-control-modern" id="tagCode" placeholder="12345678" formControlName="tagCode"
+               [ngClass]="{ 'is-invalid-modern': submitted && form['tagCode'].errors }" [readonly]="deactivated">
+        <div *ngIf="submitted && form['tagCode'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['tagCode'].errors['required']">Le code tag est obligatoire</div>
           <div *ngIf="form['tagCode'].errors['minlength']">Le code tag doit avoir au moins 8 caractères</div>
         </div>
       </div>
 
-      <div class="mb-3">
-        <label for="montant" class="form-label">Montant</label>
-        <input type="number" class="form-control" id="montant" placeholder="2000" formControlName="montant"
-               [ngClass]="{ 'is-invalid': submitted && form['montant'].errors }">
-        <div *ngIf="submitted && form['montant'].errors" class="invalid-feedback">
+      <!-- Amount Field -->
+      <div class="form-group-modern">
+        <label for="montant" class="form-label-modern">
+          <i class="ri-money-dollar-circle-line me-2"></i>Montant (F CFA)
+        </label>
+        <input type="number" class="form-control form-control-modern" id="montant" placeholder="2000" formControlName="montant"
+               [ngClass]="{ 'is-invalid-modern': submitted && form['montant'].errors }">
+        <div *ngIf="submitted && form['montant'].errors" class="invalid-feedback-modern">
           <div *ngIf="form['montant'].errors['required']">Le montant est obligatoire</div>
           <div *ngIf="form['montant'].errors['min']">Le montant doit être supérieur à 99</div>
         </div>
       </div>
     </div>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="resetFormClose()">ANNULER</button>
-      <button type="submit" class="btn btn-primary">
-        {{loading ? 'Veuillez patienter ' : 'RECHARGER'}}
-        <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+    <div class="modal-footer modern-modal-footer">
+      <button type="button" class="btn btn-modern-cancel" (click)="resetFormClose()">
+        <i class="ri-close-circle-line me-2"></i>
+        Annuler
+      </button>
+      <button type="submit" class="btn btn-modern-submit" [disabled]="loading">
+        <i class="ri-wallet-3-line me-2" *ngIf="!loading"></i>
+        <i class="ri-loader-4-line me-2 fa-spin" *ngIf="loading"></i>
+        {{ loading ? 'Veuillez patienter...' : 'Recharger' }}
       </button>
     </div>
-    <!-- <pre>{{ rechargeForm.value | json }}</pre> -->
   </form>
 </div>
 
-<div id="receiptContent" hidden >
+<div id="receiptContent" hidden>
   <div class="d-flex flex-column align-items-center justify-content-between mb-4">
     <img src="assets/img/logo.png" alt="logo">
     <h5>Reçu de paiement</h5>
