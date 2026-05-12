@@ -454,8 +454,8 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
               }
 
               @page {
-                margin: 0;
-                size: 80mm auto;
+                margin: 10;
+                size: 56mm auto;
               }
             }
           </style>
