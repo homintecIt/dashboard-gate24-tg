@@ -443,8 +443,8 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
             @media print {
               html, body {
                 background: white;
-                padding: 0;
-                margin: 0;
+                padding: 10px;
+                margin: 10px;
               }
 
               .receipt {
