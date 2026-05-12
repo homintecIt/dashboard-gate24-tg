@@ -404,18 +404,20 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
             }
 
             .amount-section {
-              background: #222;
-              color: white;
               padding: 4px 3px;
               border-radius: 2px;
               margin: 5px 0;
               text-align: center;
+              font-weight: 700;
+
             }
 
             .amount-label {
               font-size: 6pt;
               opacity: 0.85;
               margin-bottom: 1px;
+              font-weight: 700;
+
             }
 
             .amount-value {

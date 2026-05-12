@@ -176,7 +176,7 @@ export class SaveTagComponent {
             }
 
             .receipt {
-              
+              background: white;
               width: 80mm;
               padding: 5px;
               font-weight: bold;
@@ -236,27 +236,28 @@ export class SaveTagComponent {
             }
 
             .amount-section {
-              padding: 8px;
-              border-radius: 4px;
-              font-weight:900;
-              margin: 10px 0;
+              padding: 4px 3px;
+              border-radius: 2px;
+              margin: 5px 0;
               text-align: center;
-              font-weight: bold;
+              font-weight: 700;
 
             }
 
             .amount-label {
-              font-size: 8px;
-              opacity: 0.9;
-              margin-bottom: 2px;
-              font-weight: bold;
+              font-size: 6pt;
+              opacity: 0.85;
+              margin-bottom: 1px;
+              font-weight: 700;
 
             }
 
             .amount-value {
-              font-size: 14px;
+              font-size: 9pt;
               font-weight: bold;
+              letter-spacing: 0.3px;
             }
+
 
             .divider {
               border-top: 2px dashed #e0e0e0;
