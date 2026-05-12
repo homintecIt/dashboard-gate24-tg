@@ -191,7 +191,7 @@ userRole:any;
             html, body {
               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
               background: white;
-              padding: 0;
+              padding: 10;
               margin: 0;
             }
 
@@ -233,8 +233,8 @@ userRole:any;
             .info-row {
               display: flex;
               justify-content: space-between;
-              margin-bottom: 6px;
-              font-size: 9px;
+              margin-bottom: 4px;
+              font-size: 10px;
             }
 
             .info-label {
@@ -304,8 +304,8 @@ userRole:any;
             @media print {
               html, body {
                 background: white;
-                padding: 0;
-                margin: 0;
+                padding: 10px;
+                margin: 10px;
               }
 
               .receipt {
@@ -315,8 +315,8 @@ userRole:any;
               }
 
               @page {
-                margin: 0;
-                size: 80mm auto;
+                margin: 10;
+                size: 58mm auto;
               }
             }
           </style>
