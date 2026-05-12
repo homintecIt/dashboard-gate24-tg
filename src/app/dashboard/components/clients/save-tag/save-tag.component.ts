@@ -176,9 +176,11 @@ export class SaveTagComponent {
             }
 
             .receipt {
-              background: white;
+              
               width: 80mm;
               padding: 5px;
+              font-weight: bold;
+
             }
 
             .header {
@@ -207,7 +209,7 @@ export class SaveTagComponent {
             }
 
             .header p {
-              color: #666;
+              font-weight: bold;
               font-size: 8px;
             }
 
@@ -216,34 +218,39 @@ export class SaveTagComponent {
               justify-content: space-between;
               margin-bottom: 6px;
               font-size: 9px;
+              font-weight: bold;
+
             }
 
             .info-label {
               color: black;
-              font-weight: 500;
+              font-weight: bold;
             }
 
             .info-value {
               color: black;
-              font-weight: 600;
+              font-weight: bold;
               text-align: right;
               word-break: break-word;
               max-width: 60%;
             }
 
             .amount-section {
-              color: black;
               padding: 8px;
               border-radius: 4px;
               font-weight:900;
               margin: 10px 0;
               text-align: center;
+              font-weight: bold;
+
             }
 
             .amount-label {
               font-size: 8px;
               opacity: 0.9;
               margin-bottom: 2px;
+              font-weight: bold;
+
             }
 
             .amount-value {
@@ -259,16 +266,17 @@ export class SaveTagComponent {
             .footer {
               text-align: center;
               margin-top: 10px;
+              font-weight: bold;
             }
 
             .footer p {
-              color: #666;
+              font-weight: bold;
               font-size: 8px;
               margin-bottom: 2px;
             }
 
             .footer .thank-you {
-              font-weight: 600;
+              font-weight: bold;
               font-size: 9px;
               margin-bottom: 5px;
             }

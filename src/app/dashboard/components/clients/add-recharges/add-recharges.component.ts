@@ -238,7 +238,7 @@ userRole:any;
             }
 
             .info-label {
-              font-weight: 500;
+              font-weight: bold;
             }
 
             .info-value {
@@ -246,10 +246,12 @@ userRole:any;
               text-align: right;
               word-break: break-word;
               max-width: 60%;
+              font-weight: bold;
+
             }
 
             .amount-section {
-              color: black;
+              font-weight: bold;
               padding: 8px;
               border-radius: 4px;
               margin: 10px 0;
@@ -260,11 +262,14 @@ userRole:any;
               font-size: 8px;
               opacity: 0.9;
               margin-bottom: 2px;
+              font-weight: bold;
+
             }
 
             .amount-value {
               font-size: 14px;
               font-weight: bold;
+
             }
 
             .divider {
@@ -280,10 +285,12 @@ userRole:any;
             .footer p {
               font-size: 8px;
               margin-bottom: 2px;
+              font-weight: 900;
+
             }
 
             .footer .thank-you {
-              font-weight: 600;
+              font-weight: 900;
               font-size: 9px;
               margin-bottom: 5px;
             }
@@ -291,6 +298,7 @@ userRole:any;
             .footer .company {
               font-size: 10px;
               font-weight: bold;
+              
             }
 
             @media print {

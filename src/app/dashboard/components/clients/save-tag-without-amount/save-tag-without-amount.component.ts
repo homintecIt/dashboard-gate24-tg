@@ -158,6 +158,8 @@ export class SaveTagWithouAmountComponent {
             body {
               font-family: Arial, sans-serif;
               margin: 5px;
+              font-weight: bold;
+
             }
             .text-center {
               text-align: center;
