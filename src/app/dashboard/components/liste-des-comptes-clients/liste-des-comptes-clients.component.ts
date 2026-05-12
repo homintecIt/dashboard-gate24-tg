@@ -370,14 +370,12 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
             }
 
             .header h2 {
-              color: #083489;
               font-size: 12px;
               margin-bottom: 3px;
-              font-weight: 600;
+              font-weight: 900;
             }
 
             .header p {
-              color: #666;
               font-size: 8px;
             }
 
@@ -386,24 +384,22 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
               justify-content: space-between;
               margin-bottom: 6px;
               font-size: 9px;
+              font-weight: 900;
+
             }
 
             .info-label {
-              color: #888;
-              font-weight: 500;
+              font-weight: 900;
             }
 
             .info-value {
-              color: #333;
-              font-weight: 600;
+              font-weight: 900;
               text-align: right;
               word-break: break-word;
               max-width: 60%;
             }
 
             .amount-section {
-              background: linear-gradient(135deg, #083489 0%, #052663 100%);
-              color: white;
               padding: 8px;
               border-radius: 4px;
               margin: 10px 0;
@@ -414,6 +410,8 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
               font-size: 8px;
               opacity: 0.9;
               margin-bottom: 2px;
+              font-weight: 900;
+
             }
 
             .amount-value {
@@ -432,14 +430,12 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
             }
 
             .footer p {
-              color: #666;
               font-size: 8px;
               margin-bottom: 2px;
             }
 
             .footer .thank-you {
-              color: #083489;
-              font-weight: 600;
+              font-weight: 900;
               font-size: 9px;
               margin-bottom: 5px;
             }
