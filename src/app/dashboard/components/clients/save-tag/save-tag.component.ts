@@ -201,10 +201,9 @@ export class SaveTagComponent {
             }
 
             .header h2 {
-              color: #083489;
               font-size: 12px;
               margin-bottom: 3px;
-              font-weight: 600;
+              font-weight: 900;
             }
 
             .header p {
@@ -220,12 +219,12 @@ export class SaveTagComponent {
             }
 
             .info-label {
-              color: #888;
+              color: black;
               font-weight: 500;
             }
 
             .info-value {
-              color: #333;
+              color: black;
               font-weight: 600;
               text-align: right;
               word-break: break-word;
@@ -233,10 +232,10 @@ export class SaveTagComponent {
             }
 
             .amount-section {
-              background: linear-gradient(135deg, #083489 0%, #052663 100%);
-              color: white;
+              color: black;
               padding: 8px;
               border-radius: 4px;
+              font-weight:900;
               margin: 10px 0;
               text-align: center;
             }
@@ -269,7 +268,6 @@ export class SaveTagComponent {
             }
 
             .footer .thank-you {
-              color: #083489;
               font-weight: 600;
               font-size: 9px;
               margin-bottom: 5px;

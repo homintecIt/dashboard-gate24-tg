@@ -221,14 +221,12 @@ userRole:any;
             }
 
             .header h2 {
-              color: #083489;
               font-size: 12px;
               margin-bottom: 3px;
               font-weight: 600;
             }
 
             .header p {
-              color: #666;
               font-size: 8px;
             }
 
@@ -240,12 +238,10 @@ userRole:any;
             }
 
             .info-label {
-              color: #888;
               font-weight: 500;
             }
 
             .info-value {
-              color: #333;
               font-weight: 600;
               text-align: right;
               word-break: break-word;
@@ -253,8 +249,7 @@ userRole:any;
             }
 
             .amount-section {
-              background: linear-gradient(135deg, #083489 0%, #052663 100%);
-              color: white;
+              color: black;
               padding: 8px;
               border-radius: 4px;
               margin: 10px 0;
@@ -283,13 +278,11 @@ userRole:any;
             }
 
             .footer p {
-              color: #666;
               font-size: 8px;
               margin-bottom: 2px;
             }
 
             .footer .thank-you {
-              color: #083489;
               font-weight: 600;
               font-size: 9px;
               margin-bottom: 5px;
@@ -298,7 +291,6 @@ userRole:any;
             .footer .company {
               font-size: 10px;
               font-weight: bold;
-              color: #333;
             }
 
             @media print {
