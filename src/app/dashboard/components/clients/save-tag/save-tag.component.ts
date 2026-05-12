@@ -161,7 +161,7 @@ export class SaveTagComponent {
       <html>
         <head>
           <title>Reçu de Paiement</title>
-          <style>
+               <style>
             * {
               margin: 0;
               padding: 0;
@@ -169,31 +169,30 @@ export class SaveTagComponent {
             }
 
             html, body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              font-family: 'Courier New', Courier, monospace;
               background: white;
               padding: 0;
               margin: 0;
+              width: 50mm;
             }
 
             .receipt {
               background: white;
-              width: 80mm;
-              padding: 5px;
-              font-weight: bold;
-
+              width: 50mm;
+              padding: 2mm 2mm;
             }
 
             .header {
               text-align: center;
-              margin-bottom: 10px;
-              padding-bottom: 10px;
-              border-bottom: 2px dashed #e0e0e0;
+              margin-bottom: 4px;
+              padding-bottom: 4px;
+              border-bottom: 1px dashed #555;
             }
 
             .logo {
-              width: 40px;
-              height: 40px;
-              margin: 0 auto 8px;
+              width: 22px;
+              height: 22px;
+              margin: 0 auto 4px;
             }
 
             .logo img {
@@ -203,36 +202,36 @@ export class SaveTagComponent {
             }
 
             .header h2 {
-              font-size: 12px;
-              margin-bottom: 3px;
+              font-size: 7.5pt;
+              margin-bottom: 2px;
               font-weight: 900;
+              letter-spacing: 0.5px;
             }
 
             .header p {
-              font-weight: bold;
-              font-size: 8px;
+              font-size: 6pt;
             }
 
             .info-row {
               display: flex;
               justify-content: space-between;
-              margin-bottom: 6px;
-              font-size: 9px;
-              font-weight: bold;
-
+              margin-bottom: 3px;
+              font-size: 6.5pt;
+              font-weight: 700;
+              line-height: 1.2;
             }
 
             .info-label {
-              color: black;
-              font-weight: bold;
+              font-weight: 900;
+              flex-shrink: 0;
+              margin-right: 4px;
             }
 
             .info-value {
-              color: black;
-              font-weight: bold;
+              font-weight: 700;
               text-align: right;
-              word-break: break-word;
-              max-width: 60%;
+              word-break: break-all;
+              max-width: 65%;
             }
 
             .amount-section {
@@ -246,7 +245,6 @@ export class SaveTagComponent {
 
             .amount-label {
               font-size: 6pt;
-              opacity: 0.85;
               margin-bottom: 1px;
               font-weight: 700;
 
@@ -257,29 +255,25 @@ export class SaveTagComponent {
               font-weight: bold;
               letter-spacing: 0.3px;
             }
-
-
             .divider {
-              border-top: 2px dashed #e0e0e0;
-              margin: 10px 0;
+              border-top: 1px dashed #555;
+              margin: 5px 0;
             }
 
             .footer {
               text-align: center;
-              margin-top: 10px;
-              font-weight: bold;
+              margin-top: 4px;
             }
 
             .footer p {
-              font-weight: bold;
-              font-size: 8px;
-              margin-bottom: 2px;
+              font-size: 6pt;
+              margin-bottom: 1px;
             }
 
             .footer .thank-you {
-              font-weight: bold;
-              font-size: 9px;
-              margin-bottom: 5px;
+              font-weight: 900;
+              font-size: 6.5pt;
+              margin-bottom: 3px;
             }
 
             @media print {
@@ -287,17 +281,18 @@ export class SaveTagComponent {
                 background: white;
                 padding: 0;
                 margin: 0;
+                width: 50mm;
               }
 
               .receipt {
                 box-shadow: none;
                 border: none;
-                width: 80mm;
+                width: 50mm;
               }
 
               @page {
                 margin: 0;
-                size: 80mm auto;
+                size: 50mm auto;
               }
             }
           </style>

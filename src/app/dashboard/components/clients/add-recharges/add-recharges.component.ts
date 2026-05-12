@@ -265,7 +265,6 @@ userRole:any;
 
             .amount-label {
               font-size: 6pt;
-              opacity: 0.85;
               margin-bottom: 1px;
               font-weight: 700;
 

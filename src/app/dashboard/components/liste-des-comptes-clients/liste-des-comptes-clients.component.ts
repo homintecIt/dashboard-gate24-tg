@@ -330,7 +330,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
       <html>
         <head>
           <title>Reçu de Recharge</title>
-          <style>
+           <style>
             * {
               margin: 0;
               padding: 0;
@@ -414,7 +414,6 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
 
             .amount-label {
               font-size: 6pt;
-              opacity: 0.85;
               margin-bottom: 1px;
               font-weight: 700;
 
@@ -425,7 +424,6 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
               font-weight: bold;
               letter-spacing: 0.3px;
             }
-
             .divider {
               border-top: 1px dashed #555;
               margin: 5px 0;
@@ -478,7 +476,6 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
               <p>${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
             </div>
 
-            <div class="divider"></div>
 
             <div class="info-row">
               <span class="info-label">Client</span>
