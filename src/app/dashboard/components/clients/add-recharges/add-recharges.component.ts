@@ -178,7 +178,7 @@ userRole:any;
       : '-';
 
     const receiptHtml = `
-      <html>
+        <html>
         <head>
           <title>Reçu de Recharge</title>
           <style>
@@ -189,29 +189,30 @@ userRole:any;
             }
 
             html, body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              font-family: 'Courier New', Courier, monospace;
               background: white;
-              padding: 10;
+              padding: 0;
               margin: 0;
+              width: 50mm;
             }
 
             .receipt {
               background: white;
-              width: 80mm;
-              padding: 5px;
+              width: 50mm;
+              padding: 2mm 2mm;
             }
 
             .header {
               text-align: center;
-              margin-bottom: 10px;
-              padding-bottom: 10px;
-              border-bottom: 2px dashed #e0e0e0;
+              margin-bottom: 4px;
+              padding-bottom: 4px;
+              border-bottom: 1px dashed #555;
             }
 
             .logo {
-              width: 40px;
-              height: 40px;
-              margin: 0 auto 8px;
+              width: 22px;
+              height: 22px;
+              margin: 0 auto 4px;
             }
 
             .logo img {
@@ -221,102 +222,97 @@ userRole:any;
             }
 
             .header h2 {
-              font-size: 12px;
-              margin-bottom: 3px;
-              font-weight: 600;
+              font-size: 7.5pt;
+              margin-bottom: 2px;
+              font-weight: 900;
+              letter-spacing: 0.5px;
             }
 
             .header p {
-              font-size: 8px;
+              font-size: 6pt;
             }
 
             .info-row {
               display: flex;
               justify-content: space-between;
-              margin-bottom: 4px;
-              font-size: 10px;
+              margin-bottom: 3px;
+              font-size: 6.5pt;
+              font-weight: 700;
+              line-height: 1.2;
             }
 
             .info-label {
-              font-weight: bold;
+              font-weight: 900;
+              flex-shrink: 0;
+              margin-right: 4px;
             }
 
             .info-value {
-              font-weight: 600;
+              font-weight: 700;
               text-align: right;
-              word-break: break-word;
-              max-width: 60%;
-              font-weight: bold;
-
+              word-break: break-all;
+              max-width: 65%;
             }
 
             .amount-section {
-              font-weight: bold;
-              padding: 8px;
-              border-radius: 4px;
-              margin: 10px 0;
+              background: #222;
+              color: white;
+              padding: 4px 3px;
+              border-radius: 2px;
+              margin: 5px 0;
               text-align: center;
             }
 
             .amount-label {
-              font-size: 8px;
-              opacity: 0.9;
-              margin-bottom: 2px;
-              font-weight: bold;
-
+              font-size: 6pt;
+              opacity: 0.85;
+              margin-bottom: 1px;
             }
 
             .amount-value {
-              font-size: 14px;
+              font-size: 9pt;
               font-weight: bold;
-
+              letter-spacing: 0.3px;
             }
 
             .divider {
-              border-top: 2px dashed #e0e0e0;
-              margin: 10px 0;
+              border-top: 1px dashed #555;
+              margin: 5px 0;
             }
 
             .footer {
               text-align: center;
-              margin-top: 10px;
+              margin-top: 4px;
             }
 
             .footer p {
-              font-size: 8px;
-              margin-bottom: 2px;
-              font-weight: 900;
-
+              font-size: 6pt;
+              margin-bottom: 1px;
             }
 
             .footer .thank-you {
               font-weight: 900;
-              font-size: 9px;
-              margin-bottom: 5px;
-            }
-
-            .footer .company {
-              font-size: 10px;
-              font-weight: bold;
-              
+              font-size: 6.5pt;
+              margin-bottom: 3px;
             }
 
             @media print {
               html, body {
                 background: white;
-                padding: 10px;
-                margin: 10px;
+                padding: 0;
+                margin: 0;
+                width: 50mm;
               }
 
               .receipt {
                 box-shadow: none;
                 border: none;
-                width: 80mm;
+                width: 50mm;
               }
 
               @page {
-                margin: 10;
-                size: 58mm auto;
+                margin: 0;
+                size: 50mm auto;
               }
             }
           </style>

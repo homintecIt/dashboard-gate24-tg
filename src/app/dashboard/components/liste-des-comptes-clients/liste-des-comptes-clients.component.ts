@@ -338,29 +338,30 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
             }
 
             html, body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              font-family: 'Courier New', Courier, monospace;
               background: white;
               padding: 0;
               margin: 0;
+              width: 50mm;
             }
 
             .receipt {
               background: white;
-              width: 80mm;
-              padding: 5px;
+              width: 50mm;
+              padding: 2mm 2mm;
             }
 
             .header {
               text-align: center;
-              margin-bottom: 10px;
-              padding-bottom: 10px;
-              border-bottom: 2px dashed #e0e0e0;
+              margin-bottom: 4px;
+              padding-bottom: 4px;
+              border-bottom: 1px dashed #555;
             }
 
             .logo {
-              width: 40px;
-              height: 40px;
-              margin: 0 auto 8px;
+              width: 22px;
+              height: 22px;
+              margin: 0 auto 4px;
             }
 
             .logo img {
@@ -370,92 +371,97 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
             }
 
             .header h2 {
-              font-size: 12px;
-              margin-bottom: 3px;
+              font-size: 7.5pt;
+              margin-bottom: 2px;
               font-weight: 900;
+              letter-spacing: 0.5px;
             }
 
             .header p {
-              font-size: 8px;
+              font-size: 6pt;
             }
 
             .info-row {
               display: flex;
               justify-content: space-between;
-              margin-bottom: 6px;
-              font-size: 9px;
-              font-weight: 900;
-
+              margin-bottom: 3px;
+              font-size: 6.5pt;
+              font-weight: 700;
+              line-height: 1.2;
             }
 
             .info-label {
               font-weight: 900;
+              flex-shrink: 0;
+              margin-right: 4px;
             }
 
             .info-value {
-              font-weight: 900;
+              font-weight: 700;
               text-align: right;
-              word-break: break-word;
-              max-width: 60%;
+              word-break: break-all;
+              max-width: 65%;
             }
 
             .amount-section {
-              padding: 8px;
-              border-radius: 4px;
-              margin: 10px 0;
+              background: #222;
+              color: white;
+              padding: 4px 3px;
+              border-radius: 2px;
+              margin: 5px 0;
               text-align: center;
             }
 
             .amount-label {
-              font-size: 8px;
-              opacity: 0.9;
-              margin-bottom: 2px;
-              font-weight: 900;
-
+              font-size: 6pt;
+              opacity: 0.85;
+              margin-bottom: 1px;
             }
 
             .amount-value {
-              font-size: 14px;
+              font-size: 9pt;
               font-weight: bold;
+              letter-spacing: 0.3px;
             }
 
             .divider {
-              border-top: 2px dashed #e0e0e0;
-              margin: 10px 0;
+              border-top: 1px dashed #555;
+              margin: 5px 0;
             }
 
             .footer {
               text-align: center;
-              margin-top: 10px;
+              margin-top: 4px;
             }
 
             .footer p {
-              font-size: 8px;
-              margin-bottom: 2px;
+              font-size: 6pt;
+              margin-bottom: 1px;
             }
 
             .footer .thank-you {
               font-weight: 900;
-              font-size: 9px;
-              margin-bottom: 5px;
+              font-size: 6.5pt;
+              margin-bottom: 3px;
             }
 
             @media print {
               html, body {
                 background: white;
-                padding: 10px;
-                margin: 10px;
+                padding: 0;
+                margin: 0;
+                width: 50mm;
               }
 
               .receipt {
                 box-shadow: none;
                 border: none;
-                width: 80mm;
+                width: 50mm;
               }
 
               @page {
-                margin: 10;
-                size: 56mm auto;
+                margin: 0;
+                size: 50mm auto;
               }
             }
           </style>
@@ -464,11 +470,13 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
           <div class="receipt">
             <div class="header">
               <div class="logo">
-                <img src="/assets/img/logo.png" alt="SAFER Logo" onerror="this.style.display='none'">
+                <img src="/assets/img/logo.png" alt="Logo" onerror="this.style.display='none'">
               </div>
               <h2>REÇU DE RECHARGE</h2>
-              <p>${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+              <p>${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
             </div>
+
+            <div class="divider"></div>
 
             <div class="info-row">
               <span class="info-label">Client</span>
@@ -481,7 +489,7 @@ export class ListeDesComptesClientsComponent implements OnInit , OnDestroy{
             </div>
 
             <div class="amount-section">
-              <div class="amount-label">Montant Rechargé</div>
+              <div class="amount-label">MONTANT RECHARGÉ</div>
               <div class="amount-value">${montant}</div>
             </div>
 
